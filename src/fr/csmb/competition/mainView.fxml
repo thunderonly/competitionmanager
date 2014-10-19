@@ -1,0 +1,38 @@
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<BorderPane fx:controller="fr.csmb.competition.Controller"
+            xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="400.0" prefWidth="600.0" >
+
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Compétition">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Créer" onAction="#handleCreate"/>
+                        <MenuItem mnemonicParsing="false" text="Ouvrir" onAction="#handleManage"/>
+                        <Menu mnemonicParsing="false" text="Gérer">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Import Inscription" onAction="#handleLoadInscription"/>
+                                <MenuItem mnemonicParsing="false" text="Categories" onAction="#handleManageCategories"/>
+                            </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" text="Sauvegarder" onAction="#handleSave"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Générer">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Fichier Organisation" onAction="#generateOrganisation" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>
