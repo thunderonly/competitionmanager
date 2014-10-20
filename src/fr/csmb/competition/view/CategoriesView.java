@@ -1,9 +1,13 @@
 package fr.csmb.competition.view;
 
-import fr.csmb.competition.Main;
+import fr.csmb.competition.component.grid.GridComponent;
+import fr.csmb.competition.component.grid.bean.*;
+import fr.csmb.competition.component.grid.fight.GridComponentFight;
+import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.controller.DetailClubController;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.xml.model.*;
+import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,12 +35,15 @@ public class CategoriesView {
 
     private ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
     private Competition competition;
+    private StackPane stackPane = new StackPane();
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
         SplitPane splitPane = new SplitPane();
+        splitPane.setDividerPosition(0, 0.2);
         createTreeView(splitPane, competition);
-        createTableView(splitPane);
+        createTableView(stackPane);
+        splitPane.getItems().add(stackPane);
         Stage stage = new Stage();
         stage.setTitle("Détail compétition : " + competition.getNom());
         stage.initModality(Modality.WINDOW_MODAL);
@@ -101,7 +108,71 @@ public class CategoriesView {
 
     }
 
-    private void createTableView(SplitPane splitPane) {
+    private void createComponentGrid(String typeEpreuve, final String categorie, final String epreuve) {
+        stackPane.getChildren().clear();
+        BorderPane borderPane = new BorderPane();
+        GridComponent gridComponent = null;
+        if (typeEpreuve.equals("Combat")) {
+            List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
+            for (EleveBean eleveBean : eleveBeans) {
+                participants.add(new ParticipantBean(eleveBean.getNom()));
+            }
+            for (int i = participants.size() + 1; i <= 8; i++) {
+                participants.add(new ParticipantBean("Joueur " + i));
+            }
+            gridComponent = new GridComponentFight(participants);
+        } else if (typeEpreuve.equals("Technique")) {
+            List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
+            for (EleveBean eleveBean : eleveBeans) {
+                participants.add(new ParticipantBean(eleveBean.getNom()));
+            }
+            for (int i = participants.size() + 1; i <= 8; i++) {
+                participants.add(new ParticipantBean("Joueur " + i));
+            }
+            gridComponent = new GridComponentTechnical(participants);
+        }
+        borderPane.setCenter(gridComponent);
+
+        final GridComponent gridComponent2  = gridComponent;
+        Button button = new Button("Valider");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                List<ParticipantBean> resutlats = gridComponent2.getResultatsList();
+                System.out.println("1er : " + resutlats.get(0).getNom());
+                System.out.println("2eme : " + resutlats.get(1).getNom());
+                System.out.println("3eme : " + resutlats.get(2).getNom());
+                System.out.println("4eme : " + resutlats.get(3).getNom());
+                for (Categorie categorie1 : competition.getCategories()) {
+                    if (categorie1.getNomCategorie().equals(categorie)) {
+                        for (Epreuve epreuve1 : categorie1.getEpreuves()) {
+                            if (epreuve1.getNomEpreuve().equals(epreuve)) {
+                                for (Participant participant : epreuve1.getParticipants()) {
+                                    for (ParticipantBean participantBean : resutlats) {
+                                        if (participantBean.getNom().equals(participant.getNomParticipant())) {
+                                            participant.setNote1(String.valueOf(participantBean.getNote1()));
+                                            participant.setNote2(String.valueOf(participantBean.getNote2()));
+                                            participant.setNote3(String.valueOf(participantBean.getNote3()));
+                                            participant.setNote4(String.valueOf(participantBean.getNote4()));
+                                            participant.setNote5(String.valueOf(participantBean.getNote5()));
+                                            participant.setClassementAuto(String.valueOf(participantBean.getClassementAuto()));
+                                            participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
+                                            participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
+                                        }
+                                    }
+                                }
+                                epreuve1.setEtatEpreuve("Termine");
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        borderPane.setBottom(button);
+        stackPane.getChildren().add(borderPane);
+    }
+
+    private void createTableView(StackPane stackPane) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("clubDetailView.fxml"));
@@ -109,7 +180,7 @@ public class CategoriesView {
             DetailClubController detailClubController = loader.getController();
             eleveBeans = detailClubController.getTableEleve().getItems();
 
-            splitPane.getItems().add(borderPane);
+            stackPane.getChildren().add(borderPane);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -184,12 +255,13 @@ public class CategoriesView {
 
                 }
             });
-            MenuItem startMenuItem = new MenuItem("Démarrer");
-            addMenu.getItems().add(startMenuItem);
-            startMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            MenuItem runMenuItem = new MenuItem("Démarrer");
+            addMenu.getItems().add(runMenuItem);
+            runMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-
+                    createComponentGrid(getTreeItem().getParent().getValue(), getTreeItem().getParent().getParent().getValue(), getItem());
                 }
             });
             MenuItem validMenuItem = new MenuItem("Valider");
@@ -238,6 +310,8 @@ public class CategoriesView {
                                     if (epreuve1.getNomEpreuve().equals(getItem())) {
                                         if ("Valide".equals(epreuve1.getEtatEpreuve())) {
                                             setTextFill(Color.GREEN);
+                                        } else if ("Termine".equals(epreuve1.getEtatEpreuve())) {
+                                            setTextFill(Color.RED);
                                         }
                                     }
                                 }
