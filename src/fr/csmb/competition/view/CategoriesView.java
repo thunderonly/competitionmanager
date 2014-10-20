@@ -224,7 +224,7 @@ public class CategoriesView {
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                             System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " + participantBean.getClassementFinal());
                         }
-                        epreuveBean.setType("Termine");
+                        epreuveBean.setEtat("Termine");
                     }
                 }
             }
