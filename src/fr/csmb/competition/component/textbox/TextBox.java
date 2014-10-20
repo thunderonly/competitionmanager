@@ -32,7 +32,7 @@ public class TextBox extends Group {
     public StringProperty textProperty() { return text.textProperty(); }
 
     public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle, final TextBox resultatBoxP) {
-        this.text = new Text(participant.getNom());
+        this.text = new Text(participant.toString());
         this.resultatBox = resultatBoxP;
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFill(Color.BLACK);

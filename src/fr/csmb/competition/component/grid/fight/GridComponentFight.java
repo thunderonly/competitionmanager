@@ -27,7 +27,7 @@ public class GridComponentFight extends GridComponent {
 
     int spaceBetweenJoueur = 20;
     int spaceBetweenMatch = 50;
-    int widthRectangle = 100;
+    int widthRectangle = 150;
     int heightRectangle = 20;
 
     private List<ParticipantBean> joueurs;
@@ -64,21 +64,21 @@ public class GridComponentFight extends GridComponent {
             nbTourBeforeDemi = 1;
             if (nbJoueur < 8) {
                 for (int i = nbJoueur; i < 8; i++) {
-                    joueurs.add(new ParticipantBean(""));
+                    joueurs.add(new ParticipantBean("", ""));
                 }
             }
         } else if (nbJoueur > 8 && nbJoueur <= 16) {
             nbTourBeforeDemi = 2;
             if (nbJoueur < 16) {
                 for (int i = nbJoueur; i < 16; i++) {
-                    joueurs.add(new ParticipantBean(""));
+                    joueurs.add(new ParticipantBean("", ""));
                 }
             }
         } else if (nbJoueur > 16 && nbJoueur <= 32) {
             nbTourBeforeDemi = 3;
             if (nbJoueur < 32) {
                 for (int i = nbJoueur; i < 32; i++) {
-                    joueurs.add(new ParticipantBean(""));
+                    joueurs.add(new ParticipantBean("", ""));
                 }
             }
         }
@@ -163,8 +163,8 @@ public class GridComponentFight extends GridComponent {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
         if (phase.ordinal() == Phase.FINALE.ordinal() || phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
-            resultat = new TextBox(new ParticipantBean(""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5), null);
-            resultatFail = new TextBox(new ParticipantBean(""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5), null);
+            resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5), null);
+            resultatFail = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5), null);
 
             //Create a TextBoxListner to prepare resultat
             TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, resultat, resultatFail, phase);
@@ -195,7 +195,7 @@ public class GridComponentFight extends GridComponent {
 
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
             resultat = drawMatch(boxBlue, boxRed, group, level);
-            resultatFail = new TextBox(new ParticipantBean(""), widthRectangle, heightRectangle, colorResultat, null);
+            resultatFail = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
 
             //Create a TextBoxListner to prepare resultat
             TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, resultat, resultatFail);
@@ -257,7 +257,7 @@ public class GridComponentFight extends GridComponent {
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox resultat = new TextBox(new ParticipantBean(""), widthRectangle, heightRectangle, colorResultat, null);
+        TextBox resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
         //Set the resultat textBox to prepare click event on red and blue box
         boxBlue.setResultatBox(resultat);
         boxRed.setResultatBox(resultat);
@@ -308,7 +308,7 @@ public class GridComponentFight extends GridComponent {
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox resultat = new TextBox(new ParticipantBean(""), widthRectangle, heightRectangle, colorResultat, null);
+        TextBox resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
 
         TextBox blue = new TextBox(match.getJoueur1(), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5), resultat);
         blue.setLayoutX(beginXBlue);

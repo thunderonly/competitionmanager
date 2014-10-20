@@ -18,6 +18,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty classementManuel;
     private SimpleIntegerProperty classementFinal;
     private SimpleStringProperty nom;
+    private SimpleStringProperty prenom;
     private SimpleIntegerProperty note1;
     private SimpleIntegerProperty note2;
     private SimpleIntegerProperty note3;
@@ -25,11 +26,12 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty note5;
     private SimpleIntegerProperty noteTotal;
 
-    public ParticipantBean(String nom) {
+    public ParticipantBean(String nom, String prenom) {
         classementAuto = new SimpleIntegerProperty();
         classementManuel = new SimpleIntegerProperty();
         classementFinal = new SimpleIntegerProperty();
         this.nom = new SimpleStringProperty(nom);
+        this.prenom = new SimpleStringProperty(prenom);
         note1 = new SimpleIntegerProperty();
         note2 = new SimpleIntegerProperty();
         note3 = new SimpleIntegerProperty();
@@ -52,6 +54,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public String getNom() {
         return this.nom.get();
+    }
+
+    public String getPrenom() {
+        return this.prenom.get();
     }
 
     public Integer getNote1() {
@@ -92,6 +98,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public void setNom(String nom) {
         this.nom.set(nom);
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom.set(prenom);
     }
 
     public void setNote1(Integer note1) {
@@ -137,6 +147,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public SimpleStringProperty nomProperty() {
         return nom;
+    }
+
+    public SimpleStringProperty prenomProperty() {
+        return prenom;
     }
 
     public SimpleIntegerProperty note1Property() {
@@ -185,12 +199,20 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         ParticipantBean that = (ParticipantBean) o;
 
         if (!nom.get().equals(that.nom.get())) return false;
+        if (!prenom.get().equals(that.prenom.get())) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return nom.get().hashCode();
+        int result = nom.get().hashCode();
+        result = 31 * result + prenom.get().hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return nom.get().toUpperCase() + " " + prenom.get();
     }
 }

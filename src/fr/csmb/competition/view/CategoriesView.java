@@ -75,7 +75,7 @@ public class CategoriesView {
                     for (Eleve eleve : club.getEleves()) {
                         if (categorie.getNomCategorie().equals(eleve.getCategorieEleve())) {
                             if (eleve.getEpreuvesEleves().contains(epreuve.getNomEpreuve())) {
-                                ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve());
+                                ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve(), eleve.getPrenomEleve());
                                 participantBeans.add(participantBean);
                             }
                         }
@@ -187,7 +187,7 @@ public class CategoriesView {
             }
 
             for (int i = participants.size() + 1; i <= 8; i++) {
-                participants.add(new ParticipantBean("Joueur " + i));
+                participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
             }
             gridComponent = new GridComponentFight(participants);
         } else if (typeEpreuve.equals("Technique")) {
@@ -201,14 +201,14 @@ public class CategoriesView {
                 }
             }
             for (int i = participants.size() + 1; i <= 8; i++) {
-                participants.add(new ParticipantBean("Joueur " + i));
+                participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
             }
             gridComponent = new GridComponentTechnical(participants);
         }
         borderPane.setCenter(gridComponent);
 
         final GridComponent gridComponent2  = gridComponent;
-        Button button = new Button("Valider");
+        Button button = new Button("Terminer");
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
