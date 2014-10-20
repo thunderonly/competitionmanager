@@ -4,6 +4,7 @@ import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.view.CategoriesView;
+import fr.csmb.competition.view.ResultatsView;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Eleve;
@@ -206,5 +207,10 @@ public class Main extends Application {
     public void showCompetitionView() {
         CategoriesView categoriesView = new CategoriesView();
         categoriesView.showView(mainStage, this.competitionData.get(0));
+    }
+
+    public void showResultatsView() {
+        ResultatsView resultatsView = new ResultatsView();
+        resultatsView.showView(mainStage, this.competitionData.get(0));
     }
 }

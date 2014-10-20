@@ -17,6 +17,7 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Import Inscription" onAction="#handleLoadInscription"/>
                                 <MenuItem mnemonicParsing="false" text="Categories" onAction="#handleManageCategories"/>
+                                <MenuItem mnemonicParsing="false" text="Résultats" onAction="#handleShowResultats"/>
                             </items>
                         </Menu>
                         <MenuItem mnemonicParsing="false" text="Sauvegarder" onAction="#handleSave"/>

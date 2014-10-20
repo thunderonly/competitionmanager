@@ -126,4 +126,9 @@ public class Controller {
     private void handleManageCategories() {
         main.showCompetitionView();
     }
+
+    @FXML
+    private void handleShowResultats() {
+        main.showResultatsView();
+    }
 }
