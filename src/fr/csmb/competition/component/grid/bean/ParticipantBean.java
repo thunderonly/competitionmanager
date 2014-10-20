@@ -184,13 +184,13 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
         ParticipantBean that = (ParticipantBean) o;
 
-        if (!nom.equals(that.nom)) return false;
+        if (!nom.get().equals(that.nom.get())) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return nom.hashCode();
+        return nom.get().hashCode();
     }
 }

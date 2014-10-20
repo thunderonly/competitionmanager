@@ -72,4 +72,21 @@ public class ClubBean {
     public ListProperty<EleveBean> elevesProperty() {
         return eleves;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClubBean)) return false;
+
+        ClubBean clubBean = (ClubBean) o;
+
+        if (!identifiant.get().equals(clubBean.identifiant.get())) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return identifiant.get().hashCode();
+    }
 }

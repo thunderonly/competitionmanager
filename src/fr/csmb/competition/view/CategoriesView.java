@@ -5,7 +5,10 @@ import fr.csmb.competition.component.grid.bean.*;
 import fr.csmb.competition.component.grid.fight.GridComponentFight;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.controller.DetailClubController;
+import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
+import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.*;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.value.ChangeListener;
@@ -36,9 +39,11 @@ public class CategoriesView {
     private ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
     private Competition competition;
     private StackPane stackPane = new StackPane();
+    private CompetitionBean competitionBean;
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
+        loadCompetitionBean(competition);
         SplitPane splitPane = new SplitPane();
         splitPane.setDividerPosition(0, 0.2);
         createTreeView(splitPane, competition);
@@ -51,6 +56,64 @@ public class CategoriesView {
         Scene scene = new Scene(splitPane);
         stage.setScene(scene);
         stage.showAndWait();
+        saveWork();
+
+    }
+
+    private void loadCompetitionBean(Competition competition) {
+        competitionBean = new CompetitionBean(competition.getNom());
+        ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
+        for (Categorie categorie : competition.getCategories()) {
+            CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
+            ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+            for (Epreuve epreuve : categorie.getEpreuves()) {
+                EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
+                epreuveBean.setEtat(epreuve.getEtatEpreuve());
+                epreuveBean.setType(epreuve.getTypeEpreuve());
+                ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+                for (Club club : competition.getClubs()) {
+                    for (Eleve eleve : club.getEleves()) {
+                        if (categorie.getNomCategorie().equals(eleve.getCategorieEleve())) {
+                            if (eleve.getEpreuvesEleves().contains(epreuve.getNomEpreuve())) {
+                                ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve());
+                                participantBeans.add(participantBean);
+                            }
+                        }
+                    }
+                }
+                epreuveBean.setParticipants(participantBeans);
+                epreuveBeans.add(epreuveBean);
+            }
+            categorieBean.setEpreuves(epreuveBeans);
+            categorieBeans.add(categorieBean);
+        }
+        competitionBean.setCategories(categorieBeans);
+    }
+
+    private void saveWork() {
+        for (Categorie categorie : competition.getCategories()) {
+            CategorieBean categorieBean = competitionBean.getCategorieByName(categorie.getNomCategorie());
+            for (Epreuve epreuve : categorie.getEpreuves()) {
+                EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve.getNomEpreuve());
+                List<Participant> participants = new ArrayList<Participant>();
+                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    Participant participant = new Participant();
+                    participant.setNomParticipant(participantBean.getNom());
+                    participant.setNote1(String.valueOf(participantBean.getNote1()));
+                    participant.setNote2(String.valueOf(participantBean.getNote2()));
+                    participant.setNote3(String.valueOf(participantBean.getNote3()));
+                    participant.setNote4(String.valueOf(participantBean.getNote4()));
+                    participant.setNote5(String.valueOf(participantBean.getNote5()));
+                    participant.setClassementAuto(String.valueOf(participantBean
+                            .getClassementAuto()));
+                    participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
+                    participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
+                    participants.add(participant);
+                }
+                epreuve.setEtatEpreuve(epreuveBean.getEtat());
+                epreuve.setParticipants(participants);
+            }
+        }
     }
 
     private void createTreeView(final SplitPane splitPane, final Competition competition) {
@@ -114,17 +177,28 @@ public class CategoriesView {
         GridComponent gridComponent = null;
         if (typeEpreuve.equals("Combat")) {
             List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            for (EleveBean eleveBean : eleveBeans) {
-                participants.add(new ParticipantBean(eleveBean.getNom()));
+            CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+            if (categorieBean != null) {
+                EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                if (epreuveBean != null) {
+                    for (ParticipantBean participantBean : epreuveBean.getParticipants())
+                    participants.add(participantBean);
+                }
             }
+
             for (int i = participants.size() + 1; i <= 8; i++) {
                 participants.add(new ParticipantBean("Joueur " + i));
             }
             gridComponent = new GridComponentFight(participants);
         } else if (typeEpreuve.equals("Technique")) {
             List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            for (EleveBean eleveBean : eleveBeans) {
-                participants.add(new ParticipantBean(eleveBean.getNom()));
+            CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+            if (categorieBean != null) {
+                EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                if (epreuveBean != null) {
+                    for (ParticipantBean participantBean : epreuveBean.getParticipants())
+                        participants.add(participantBean);
+                }
             }
             for (int i = participants.size() + 1; i <= 8; i++) {
                 participants.add(new ParticipantBean("Joueur " + i));
@@ -143,27 +217,14 @@ public class CategoriesView {
                 System.out.println("2eme : " + resutlats.get(1).getNom());
                 System.out.println("3eme : " + resutlats.get(2).getNom());
                 System.out.println("4eme : " + resutlats.get(3).getNom());
-                for (Categorie categorie1 : competition.getCategories()) {
-                    if (categorie1.getNomCategorie().equals(categorie)) {
-                        for (Epreuve epreuve1 : categorie1.getEpreuves()) {
-                            if (epreuve1.getNomEpreuve().equals(epreuve)) {
-                                for (Participant participant : epreuve1.getParticipants()) {
-                                    for (ParticipantBean participantBean : resutlats) {
-                                        if (participantBean.getNom().equals(participant.getNomParticipant())) {
-                                            participant.setNote1(String.valueOf(participantBean.getNote1()));
-                                            participant.setNote2(String.valueOf(participantBean.getNote2()));
-                                            participant.setNote3(String.valueOf(participantBean.getNote3()));
-                                            participant.setNote4(String.valueOf(participantBean.getNote4()));
-                                            participant.setNote5(String.valueOf(participantBean.getNote5()));
-                                            participant.setClassementAuto(String.valueOf(participantBean.getClassementAuto()));
-                                            participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
-                                            participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
-                                        }
-                                    }
-                                }
-                                epreuve1.setEtatEpreuve("Termine");
-                            }
+                CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+                if (categorieBean != null) {
+                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                    if (epreuveBean != null) {
+                        for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                            System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " + participantBean.getClassementFinal());
                         }
+                        epreuveBean.setType("Termine");
                     }
                 }
             }
@@ -220,27 +281,13 @@ public class CategoriesView {
     }
 
     public void validateEpreuve(String categorie, String epreuve) {
-        for (Categorie categorie1 : competition.getCategories()) {
-            if (categorie1.getNomCategorie().equals(categorie)) {
-                for (Epreuve epreuve1 : categorie1.getEpreuves()) {
-                    if (epreuve1.getNomEpreuve().equals(epreuve)) {
-                        ObservableList<EleveBean> validateEleveBeans = FXCollections.observableArrayList();
-                        validateEleveBeans.addAll(extractEpreuves(competition, categorie, epreuve));
-                        List<Participant> participants = new ArrayList<Participant>();
-                        for (EleveBean eleveBean : validateEleveBeans) {
-                            Participant participant = new Participant();
-                            participant.setNomParticipant(eleveBean.getNom());
-                            participant.setPrenomParticipant(eleveBean.getPrenom());
-                            participants.add(participant);
-                        }
-                        epreuve1.setEtatEpreuve("Valide");
-                        epreuve1.setParticipants(participants);
-                    }
-                }
+        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            if (epreuveBean != null) {
+                epreuveBean.setType("Valide");
             }
         }
-
-
     }
 
     private class ContextableTreeCell extends TreeCell<String> {
@@ -304,16 +351,14 @@ public class CategoriesView {
                     setGraphic(getTreeItem().getGraphic());
                     if (getTreeItem().isLeaf()){
                         setContextMenu(addMenu);
-                        for (Categorie categorie1 : competition.getCategories()) {
-                            if (categorie1.getNomCategorie().equals(getTreeItem().getParent().getParent().getValue())) {
-                                for (Epreuve epreuve1 : categorie1.getEpreuves()) {
-                                    if (epreuve1.getNomEpreuve().equals(getItem())) {
-                                        if ("Valide".equals(epreuve1.getEtatEpreuve())) {
-                                            setTextFill(Color.GREEN);
-                                        } else if ("Termine".equals(epreuve1.getEtatEpreuve())) {
-                                            setTextFill(Color.RED);
-                                        }
-                                    }
+                        CategorieBean categorieBean = competitionBean.getCategorieByName(getTreeItem().getParent().getParent().getValue());
+                        if (categorieBean != null) {
+                            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(getItem());
+                            if (epreuveBean != null) {
+                                if ("Valide".equals(epreuveBean.getEtat())) {
+                                    setTextFill(Color.GREEN);
+                                } else if ("Termine".equals(epreuveBean.getEtat())) {
+                                    setTextFill(Color.RED);
                                 }
                             }
                         }
