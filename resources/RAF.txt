@@ -1,0 +1,21 @@
+Gestion des catégories
+1 - Empêcher le démarrage de catégories "Terminées"
+2 - Pouvoir démarrer un catégories que si elle est "validée"
+3 - Permettre la création de catégorie
+4 - La validation d'une catégorie entraine la création des participants
+5 - La fusion de catégorie entraine la validation de celle-ci
+6 - Classer les catégories par sexe
+	Type Catégorie (sexe)
+		Catégorie
+			Type epreuve
+				Epreuve
+
+Classement des clubs
+1 - Mettre en place le classement des clubs
+
+Diffusion LAN
+1 - Diffuser les catégories après changement d'état
+
+Création de Compétition
+1 - Nom de la compétition
+2 - Les catégories présentes
