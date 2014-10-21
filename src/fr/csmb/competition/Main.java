@@ -15,8 +15,10 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
@@ -38,14 +40,13 @@ public class Main extends Application {
 
     private ObservableList<Competition> competitionData = FXCollections.observableArrayList();
     private ObservableList<ClubBean> clubs = FXCollections.observableArrayList();
+    private NotificationView notificationView;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Competition stMax = initializeCompetition();
-        competitionData.add(stMax);
-
         mainStage = primaryStage;
+        notificationView = new NotificationView(mainStage);
         primaryStage.setTitle("Competition Manager");
 
         FXMLLoader loader = new FXMLLoader();
@@ -53,8 +54,13 @@ public class Main extends Application {
         borderPane = (BorderPane) loader.load();
         ((Controller) loader.getController()).setMain(this);
 
-
         Scene scene = new Scene(borderPane);
+//        Screen screen = Screen.getPrimary();
+//        Rectangle2D bounds = screen.getVisualBounds();
+//        primaryStage.setX(bounds.getMinX());
+//        primaryStage.setY(bounds.getMinY());
+//        primaryStage.setWidth(bounds.getWidth());
+//        primaryStage.setHeight(bounds.getHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -76,9 +82,11 @@ public class Main extends Application {
 
 
             marshaller.marshal(competitionData.get(0), file);
+            notificationView.notify(NotificationView.Level.SUCCESS, "Sauvegarde", "Compétition sauvegardée avec succès");
 
         } catch (JAXBException e) {
             e.printStackTrace();
+            notificationView.notify(NotificationView.Level.SUCCESS, "Erreur", "Erreur lors de la sauvegarde de la compétition");
         }
 
     }
@@ -121,14 +129,17 @@ public class Main extends Application {
             controller.setMainStage(mainStage);
             controller.getTableClub().setItems(clubs);
             borderPane.setCenter(tableView);
-            NotificationView notificationView = new NotificationView(mainStage);
             notificationView.notify(NotificationView.Level.SUCCESS, "Chargement compétition",
-                    "La compétition " + competition.getNom() + " a été correctement chargée");
+                    "La compétition " + competition.getNom() + " a été chargée avec succès");
 
         } catch (JAXBException e) {
             e.printStackTrace();
+            notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
+                    "Erreur lors du chargement de la compétition");
         } catch (IOException e) {
             e.printStackTrace();
+            notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
+                    "Erreur lors du chargement de la compétition");
         }
     }
 
@@ -158,6 +169,8 @@ public class Main extends Application {
             }
             clubBean.setEleves(eleves);
             clubs.add(clubBean);
+            notificationView.notify(NotificationView.Level.SUCCESS, "Import",
+                    "Inscription pour le club " + club.getNomClub() + " chargée avec succès");
         }
     }
 
@@ -211,12 +224,24 @@ public class Main extends Application {
     }
 
     public void showCompetitionView() {
-        CategoriesView categoriesView = new CategoriesView();
-        categoriesView.showView(mainStage, this.competitionData.get(0));
+        if (competitionData == null || competitionData.size() == 0) {
+            NotificationView notificationView = new NotificationView(mainStage);
+            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                    "Aucune compétition chargée. Vous devez ouvrir une compétition.");
+        } else {
+            CategoriesView categoriesView = new CategoriesView();
+            categoriesView.showView(mainStage, this.competitionData.get(0));
+        }
     }
 
     public void showResultatsView() {
-        ResultatsView resultatsView = new ResultatsView();
-        resultatsView.showView(mainStage, this.competitionData.get(0));
+        if (competitionData == null || competitionData.size() == 0) {
+            NotificationView notificationView = new NotificationView(mainStage);
+            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                    "Aucune compétition chargée. Vous devez ouvrir une compétition.");
+        } else {
+            ResultatsView resultatsView = new ResultatsView();
+            resultatsView.showView(mainStage, this.competitionData.get(0));
+        }
     }
 }
