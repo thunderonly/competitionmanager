@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -311,14 +312,17 @@ public class CategoriesView {
         stage.initOwner(mainStage);
 
         BorderPane borderPane = new BorderPane();
+        GridPane gridPane = new GridPane();
+        Label participantsDispo = new Label("Participants disponibles");
+        participantsDispo.getStyleClass().add("biglabel");
 
+        gridPane.add(participantsDispo, 0, 0);
+        borderPane.setCenter(gridPane);
 
         Button validBtn = new Button("Valider");
         validBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                NotificationView notificationView = new NotificationView(mainStage);
-                notificationView.notify(NotificationView.Level.SUCCESS, "Titre", "Message");
             }
         });
         Button cancelBtn = new Button("Annuler");
@@ -327,6 +331,7 @@ public class CategoriesView {
         hBox.getChildren().addAll(validBtn, cancelBtn);
         borderPane.setBottom(hBox);
         Scene scene = new Scene(borderPane);
+        scene.getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
         stage.setScene(scene);
         stage.showAndWait();
     }

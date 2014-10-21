@@ -1,0 +1,4 @@
+.biglabel {
+    -fx-font-size  : 3em;
+    -fx-font-weight: bold;
+}
