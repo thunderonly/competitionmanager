@@ -14,6 +14,7 @@ import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -152,6 +153,17 @@ public class CategoriesView {
             @Override
             public TreeCell<String> call(TreeView<String> stringTreeView) {
                 return new ContextableTreeCell();
+            }
+        });
+
+        treeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        treeView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<TreeItem<String>>() {
+            @Override
+            public void onChanged(Change<? extends TreeItem<String>> change) {
+                if (change.getList().size() >= 2) {
+                    System.out.println(change.getList().get(0).getValue());
+                    System.out.println(change.getList().get(1).getValue());
+                }
             }
         });
 
@@ -365,6 +377,19 @@ public class CategoriesView {
                     validateEpreuve(getTreeItem().getParent().getParent().getValue(), getItem());
                 }
             });
+
+            if (getTreeView() != null && getTreeView().getSelectionModel() != null && getTreeView().getSelectionModel().getSelectedItems() != null) {
+                if (getTreeView().getSelectionModel().getSelectedItems().size() >= 2) {
+                    MenuItem fusionMenuItem = new MenuItem("Fusionner");
+                    addMenu.getItems().add(fusionMenuItem);
+                    fusionMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+
+                        }
+                    });
+                }
+            }
         }
 
         @Override
