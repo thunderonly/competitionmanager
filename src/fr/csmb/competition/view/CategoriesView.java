@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -40,6 +41,7 @@ public class CategoriesView {
     private Competition competition;
     private StackPane stackPane = new StackPane();
     private CompetitionBean competitionBean;
+    private Stage mainStage;
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
@@ -55,6 +57,7 @@ public class CategoriesView {
         stage.initOwner(mainStage);
         Scene scene = new Scene(splitPane);
         stage.setScene(scene);
+        mainStage = stage;
         stage.showAndWait();
         saveWork();
 
@@ -99,6 +102,7 @@ public class CategoriesView {
                 for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                     Participant participant = new Participant();
                     participant.setNomParticipant(participantBean.getNom());
+                    participant.setPrenomParticipant(participantBean.getPrenom());
                     participant.setNote1(String.valueOf(participantBean.getNote1()));
                     participant.setNote2(String.valueOf(participantBean.getNote2()));
                     participant.setNote3(String.valueOf(participantBean.getNote3()));
@@ -236,7 +240,7 @@ public class CategoriesView {
     private void createTableView(StackPane stackPane) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("clubDetailView.fxml"));
+            loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
             DetailClubController detailClubController = loader.getController();
             eleveBeans = detailClubController.getTableEleve().getItems();
@@ -290,6 +294,43 @@ public class CategoriesView {
         }
     }
 
+    public void editEpreuve(String categorie, String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            if (epreuveBean != null) {
+                createEditEpreuveView(categorieBean, epreuveBean);
+            }
+        }
+    }
+
+    private void createEditEpreuveView(CategorieBean categorieBean, EpreuveBean epreuveBean) {
+        Stage stage = new Stage();
+        stage.setTitle("Edition épreuve : " + categorieBean.getNom() + " - " + epreuveBean.getNom());
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+
+        BorderPane borderPane = new BorderPane();
+
+
+        Button validBtn = new Button("Valider");
+        validBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                NotificationView notificationView = new NotificationView(mainStage);
+                notificationView.notify(NotificationView.Level.SUCCESS, "Titre", "Message");
+            }
+        });
+        Button cancelBtn = new Button("Annuler");
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(validBtn, cancelBtn);
+        borderPane.setBottom(hBox);
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
     private class ContextableTreeCell extends TreeCell<String> {
         private ContextMenu addMenu = new ContextMenu();
 
@@ -299,7 +340,7 @@ public class CategoriesView {
             addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-
+                    editEpreuve(getTreeItem().getParent().getParent().getValue(), getItem());
                 }
             });
 

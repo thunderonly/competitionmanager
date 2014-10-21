@@ -19,7 +19,7 @@ public class ListEleveDialog {
     public void showClubDetailDialog(Stage mainStage, ClubBean clubBean) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("clubDetailView.fxml"));
+            loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
 
             Stage stage = new Stage();

@@ -1,5 +1,6 @@
-package fr.csmb.competition;
+package fr.csmb.competition.controller;
 
+import fr.csmb.competition.Main;
 import fr.csmb.competition.view.CategoriesView;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;

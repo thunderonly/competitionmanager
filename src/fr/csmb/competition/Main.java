@@ -1,9 +1,12 @@
 package fr.csmb.competition;
 
+import fr.csmb.competition.controller.ClubController;
+import fr.csmb.competition.controller.Controller;
 import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.view.CategoriesView;
+import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.view.ResultatsView;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
@@ -46,7 +49,7 @@ public class Main extends Application {
         primaryStage.setTitle("Competition Manager");
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainView.fxml"));
+        loader.setLocation(getClass().getResource("fxml/mainView.fxml"));
         borderPane = (BorderPane) loader.load();
         ((Controller) loader.getController()).setMain(this);
 
@@ -112,12 +115,15 @@ public class Main extends Application {
             }
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("competitionView.fxml"));
+            loader.setLocation(getClass().getResource("fxml/competitionView.fxml"));
             BorderPane tableView = (BorderPane) loader.load();
             ClubController controller = (ClubController) loader.getController();
             controller.setMainStage(mainStage);
             controller.getTableClub().setItems(clubs);
             borderPane.setCenter(tableView);
+            NotificationView notificationView = new NotificationView(mainStage);
+            notificationView.notify(NotificationView.Level.SUCCESS, "Chargement compétition",
+                    "La compétition " + competition.getNom() + " a été correctement chargée");
 
         } catch (JAXBException e) {
             e.printStackTrace();

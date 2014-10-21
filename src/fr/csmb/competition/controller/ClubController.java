@@ -1,4 +1,4 @@
-package fr.csmb.competition;
+package fr.csmb.competition.controller;
 
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.view.ListEleveDialog;
