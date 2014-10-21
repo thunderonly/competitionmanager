@@ -1,6 +1,9 @@
 package fr.csmb.competition.view;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.sun.javafx.collections.transformation.SortedList;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
@@ -57,15 +60,16 @@ public class ResultatsView {
             int i = 0;
             for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
                 if ("Termine".equals(epreuveBean.getEtat())) {
-                    SortedList<ParticipantBean> sortedList = new SortedList<ParticipantBean>(epreuveBean.getParticipants());
-                    sortedList.sort();
+
                     try {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));
                         BorderPane borderPane = (BorderPane) loader.load();
                         ResultatsController controller = (ResultatsController) loader.getController();
                         controller.getTitleCategorie().setText(categorieBean.getNom() + " - " + epreuveBean.getNom());
-                        controller.getTableResultats().setItems(sortedList);
+                        controller.getTableResultats().setItems(epreuveBean.getParticipants());
+                        controller.getPlace().setSortable(false);
+                        controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller.getPlace()));
                         gridPane.add(borderPane, 0, i);
                         i++;
                     } catch (IOException e) {
@@ -103,4 +107,5 @@ public class ResultatsView {
         }
         competitionBean.setCategories(categorieBeans);
     }
+
 }

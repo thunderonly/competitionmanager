@@ -34,4 +34,13 @@ public class Categorie {
     public void setEpreuves(List<Epreuve> epreuves) {
         this.epreuves = epreuves;
     }
+
+    public Epreuve getEpreuveByName(String name) {
+        for (Epreuve epreuve : epreuves) {
+            if (epreuve.getNomEpreuve().equals(name)) {
+                return epreuve;
+            }
+        }
+        return null;
+    }
 }

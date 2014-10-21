@@ -54,4 +54,13 @@ public class Competition {
     public void setClubs(List<Club> clubs) {
         this.clubs = clubs;
     }
+
+    public Categorie getCategorieByName(String name) {
+        for (Categorie categorie : categories) {
+            if (categorie.getNomCategorie().equals(name)) {
+                return categorie;
+            }
+        }
+        return null;
+    }
 }

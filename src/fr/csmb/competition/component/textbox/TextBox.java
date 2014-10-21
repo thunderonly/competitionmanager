@@ -37,7 +37,7 @@ public class TextBox extends Group {
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFill(Color.BLACK);
         text.setTextOrigin(VPos.CENTER);
-        text.setFont(Font.font("Comic Sans MS", 16));
+        text.setFont(Font.font("Calibri", 11));
         text.setFontSmoothingType(FontSmoothingType.LCD);
         text.setOnMouseClicked(new TextBoxEventHandler(this));
 
