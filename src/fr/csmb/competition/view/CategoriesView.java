@@ -340,14 +340,14 @@ public class CategoriesView {
     }
 
     public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {
-        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
-                if (epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue())) {
+                if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                     notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                             "Impossible de valider une épreuve terminée");
-                } else if (epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue())) {
+                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                     notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                             "Impossible de valider une épreuve fusionnée");
                 } else {

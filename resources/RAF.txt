@@ -1,7 +1,7 @@
 Gestion des cat�gories
-1 - Emp�cher le d�marrage de cat�gories "Termin�es"
-2 - Pouvoir d�marrer un cat�gories que si elle est "valid�e"
-3 - Permettre la cr�ation de cat�gorie
+1 - Emp�cher le d�marrage de cat�gories "Termin�es" [OK]
+2 - Pouvoir d�marrer un cat�gories que si elle est "valid�e" [OK]
+3 - Permettre la cr�ation de cat�gorie [OK]
 4 - La validation d'une cat�gorie entraine la cr�ation des participants
 5 - La fusion de cat�gorie entraine la validation de celle-ci
 6 - Classer les cat�gories par sexe [OK]
@@ -19,5 +19,5 @@ Diffusion LAN
 1 - Diffuser les cat�gories apr�s changement d'�tat
 
 Cr�ation de Comp�tition
-1 - Nom de la comp�tition
-2 - Les cat�gories pr�sentes
+1 - Nom de la comp�tition [OK]
+2 - Les cat�gories pr�sentes [OK]
