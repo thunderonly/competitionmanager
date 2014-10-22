@@ -1,21 +1,23 @@
-Gestion des catégories
-1 - Empêcher le démarrage de catégories "Terminées"
-2 - Pouvoir démarrer un catégories que si elle est "validée"
-3 - Permettre la création de catégorie
-4 - La validation d'une catégorie entraine la création des participants
-5 - La fusion de catégorie entraine la validation de celle-ci
-6 - Classer les catégories par sexe
-	Type Catégorie (sexe)
-		Catégorie
+Gestion des catï¿½gories
+1 - Empï¿½cher le dï¿½marrage de catï¿½gories "Terminï¿½es"
+2 - Pouvoir dï¿½marrer un catï¿½gories que si elle est "validï¿½e"
+3 - Permettre la crï¿½ation de catï¿½gorie
+4 - La validation d'une catï¿½gorie entraine la crï¿½ation des participants
+5 - La fusion de catï¿½gorie entraine la validation de celle-ci
+6 - Classer les catï¿½gories par sexe [OK]
+	Type Catï¿½gorie (sexe)
+		Catï¿½gorie
 			Type epreuve
 				Epreuve
+7 - Ajouter le cartouche dans les tableaux de catÃ©gorie
 
 Classement des clubs
-1 - Mettre en place le classement des clubs
+1 - Mettre en place le classement des clubs [OK]
+2 - Exporter le classement au format Excel
 
 Diffusion LAN
-1 - Diffuser les catégories après changement d'état
+1 - Diffuser les catï¿½gories aprï¿½s changement d'ï¿½tat
 
-Création de Compétition
-1 - Nom de la compétition
-2 - Les catégories présentes
+Crï¿½ation de Compï¿½tition
+1 - Nom de la compï¿½tition
+2 - Les catï¿½gories prï¿½sentes
