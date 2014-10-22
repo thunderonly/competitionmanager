@@ -1,6 +1,8 @@
 package fr.csmb.competition.model;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,12 +18,18 @@ public class ClubBean {
     private StringProperty identifiant;
     private StringProperty nom;
     private StringProperty responsable;
+    private IntegerProperty totalTechnique;
+    private IntegerProperty totalCombat;
+    private IntegerProperty totalGeneral;
     private ListProperty<EleveBean> eleves;
 
     public ClubBean() {
         this.identifiant = new SimpleStringProperty();
         this.nom = new SimpleStringProperty();
         this.responsable = new SimpleStringProperty();
+        this.totalCombat = new SimpleIntegerProperty();
+        this.totalGeneral = new SimpleIntegerProperty();
+        this.totalTechnique = new SimpleIntegerProperty();
         this.eleves = new SimpleListProperty<EleveBean>();
     }
 
@@ -49,6 +57,39 @@ public class ClubBean {
         this.nom.set(nom);
     }
 
+    public Integer getTotalTechnique() {
+        return this.totalTechnique.get();
+    }
+
+    public void setTotalTechnique(Integer totalTechnique) {
+        this.totalTechnique.set(totalTechnique);
+    }
+
+    public Integer getTotalCombat() {
+        return this.totalCombat.get();
+    }
+
+    public void setTotalCombat(Integer totalCombat) {
+        this.totalCombat.set(totalCombat);
+    }
+
+    public Integer getTotalGeneral() {
+        return this.totalGeneral.get();
+    }
+
+    public void setTotalGeneral(Integer totalGeneral) {
+        this.totalGeneral.set(totalGeneral);
+    }
+
+    public ObservableList<EleveBean> getEleves() {
+        return this.eleves.get();
+    }
+
+    public void setEleves(ObservableList<EleveBean> eleves) {
+        this.eleves.set(eleves);
+    }
+
+
     public StringProperty identifiantProperty() {
         return identifiant;
     }
@@ -61,12 +102,16 @@ public class ClubBean {
         return responsable;
     }
 
-    public ObservableList<EleveBean> getEleves() {
-        return this.eleves.get();
+    public IntegerProperty totalTechniqueProperty() {
+        return totalTechnique;
     }
 
-    public void setEleves(ObservableList<EleveBean> eleves) {
-        this.eleves.set(eleves);
+    public IntegerProperty totalCombatProperty() {
+        return totalCombat;
+    }
+
+    public IntegerProperty totalGeneralProperty() {
+        return totalGeneral;
     }
 
     public ListProperty<EleveBean> elevesProperty() {

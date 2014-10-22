@@ -7,9 +7,12 @@ import java.util.Comparator;
 
 import com.sun.javafx.collections.transformation.SortedList;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.controller.ClassementClubController;
 import fr.csmb.competition.controller.ResultatsController;
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.*;
 import javafx.collections.FXCollections;
@@ -33,6 +36,10 @@ import javafx.stage.Stage;
  */
 public class ResultatsView {
 
+    private int pointForFirstPlace = 4;
+    private int pointForSecondPlace = 3;
+    private int pointForThirdPlace = 2;
+    private int pointForFourthPlace = 1;
 
     private CompetitionBean competitionBean;
 
@@ -69,7 +76,8 @@ public class ResultatsView {
                         controller.getTitleCategorie().setText(categorieBean.getNom() + " - " + epreuveBean.getNom());
                         controller.getTableResultats().setItems(epreuveBean.getParticipants());
                         controller.getPlace().setSortable(false);
-                        controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller.getPlace()));
+                        controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller
+                                .getPlace()));
                         gridPane.add(borderPane, 0, i);
                         i++;
                     } catch (IOException e) {
@@ -80,6 +88,21 @@ public class ResultatsView {
             categorieTab.setContent(gridPane);
             tabPane.getTabs().add(categorieTab);
         }
+
+        Tab classementClub = new Tab("Classement Club");
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("fxml/classementClubView.fxml"));
+            BorderPane borderPane = (BorderPane) loader.load();
+            ClassementClubController controller = (ClassementClubController) loader.getController();
+            computeClassementClub();
+            controller.getTableClassementClub().setItems(competitionBean.clubsProperty());
+            classementClub.setContent(borderPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        tabPane.getTabs().add(classementClub);
         stackPane.setCenter(tabPane);
     }
 
@@ -106,6 +129,70 @@ public class ResultatsView {
             categorieBeans.add(categorieBean);
         }
         competitionBean.setCategories(categorieBeans);
+        ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
+        for (Club club : competition.getClubs()) {
+            ClubBean clubBean = new ClubBean();
+            clubBean.setNom(club.getNomClub());
+            clubBean.setIdentifiant(club.getIdentifiant());
+            clubBean.setResponsable(club.getResponsable());
+            ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
+            for (Eleve eleve : club.getEleves()) {
+                EleveBean eleveBean = new EleveBean();
+                eleveBean.setNom(eleve.getNomEleve());
+                eleveBean.setPrenom(eleve.getPrenomEleve());
+                eleveBean.setLicence(eleve.getLicenceEleve());
+                eleveBeans.add(eleveBean);
+            }
+            clubBean.setEleves(eleveBeans);
+            clubBeans.add(clubBean);
+        }
+        competitionBean.setClubs(clubBeans);
+    }
+
+    private void computeClassementClub() {
+        for (ClubBean clubBean : competitionBean.getClubs()) {
+            int pointTechnique = 0;
+            int pointCombat = 0;
+            for (EleveBean eleveBean : clubBean.getEleves()) {
+                pointCombat+=getPointsForEleve(eleveBean, "Combat");
+                pointTechnique+=getPointsForEleve(eleveBean, "Technique");
+            }
+            clubBean.setTotalCombat(pointCombat);
+            clubBean.setTotalTechnique(pointTechnique);
+            clubBean.setTotalGeneral(pointCombat + pointTechnique);
+        }
+    }
+
+    private int getPointsForEleve(EleveBean eleveBean, String epreuveType) {
+        Integer points = 0;
+
+        for (CategorieBean categorieBean : competitionBean.getCategories()) {
+            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
+                if (epreuveBean.getType().equalsIgnoreCase(epreuveType)) {
+                    for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                        if (eleveBean.getPrenom().equalsIgnoreCase(participantBean.getPrenom()) && eleveBean.getNom().equalsIgnoreCase(participantBean.getNom())) {
+                            switch (participantBean.getClassementFinal()) {
+                                case 1:
+                                    points+=pointForFirstPlace;
+                                    break;
+                                case 2:
+                                    points+=pointForSecondPlace;
+                                    break;
+                                case 3:
+                                    points+=pointForThirdPlace;
+                                    break;
+                                case 4:
+                                    points+=pointForFourthPlace;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return points;
     }
 
 }
