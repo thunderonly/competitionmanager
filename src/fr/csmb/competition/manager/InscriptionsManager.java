@@ -1,5 +1,6 @@
 package fr.csmb.competition.manager;
 
+import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -101,7 +102,7 @@ public class InscriptionsManager {
                         eleve.setAgeEleve(getCellValue(row, 6));
 
                         eleve.setCategorieEleve(convertCategorie(getCellValue(row, 7)));
-                        eleve.setSexeEleve(getCellValue(row, 8));
+                        eleve.setSexeEleve(getCellValue(row, 8).toLowerCase());
                         eleve.setPoidsEleve(getCellValue(row, 9));
                         List<String> epreuves = new ArrayList<String>();
                         String epreuve = getCellValue(row, 10);
@@ -193,7 +194,7 @@ public class InscriptionsManager {
         List<Epreuve> epreuvesCombat = new ArrayList<Epreuve>();
         for (Categorie categorie : competition.getCategories()) {
             for (Epreuve epreuve : categorie.getEpreuves()) {
-                if ("Combat".equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
                     String nomEpreuve = epreuve.getNomEpreuve();
                     String newNomEpreuve = nomEpreuve.trim();
                     String minPoids = newNomEpreuve.substring(0, newNomEpreuve.indexOf("-"));

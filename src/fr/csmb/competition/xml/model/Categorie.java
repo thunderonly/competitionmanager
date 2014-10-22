@@ -15,6 +15,8 @@ public class Categorie {
 
     @XmlElement(name="nomCategorie")
     private String nomCategorie;
+    @XmlElement(name="typeCategorie")
+    private String typeCategorie;
     @XmlElementWrapper(name="epreuves")
     @XmlElement(name="epreuve")
     private List<Epreuve> epreuves;
@@ -25,6 +27,14 @@ public class Categorie {
 
     public void setNomCategorie(String nomCategorie) {
         this.nomCategorie = nomCategorie;
+    }
+
+    public String getTypeCategorie() {
+        return typeCategorie;
+    }
+
+    public void setTypeCategorie(String typeCategorie) {
+        this.typeCategorie = typeCategorie;
     }
 
     public List<Epreuve> getEpreuves() {

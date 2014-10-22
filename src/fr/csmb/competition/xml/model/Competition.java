@@ -63,4 +63,13 @@ public class Competition {
         }
         return null;
     }
+
+    public Categorie getCategorie(String name, String type) {
+        for (Categorie categorie : categories) {
+            if (categorie.getNomCategorie().equals(name) && categorie.getTypeCategorie().equals(type)) {
+                return categorie;
+            }
+        }
+        return null;
+    }
 }

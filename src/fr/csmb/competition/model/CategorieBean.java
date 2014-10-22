@@ -16,10 +16,12 @@ import javafx.collections.ObservableList;
 public class CategorieBean {
 
     private SimpleStringProperty nom;
+    private SimpleStringProperty type;
     private SimpleListProperty<EpreuveBean> epreuves;
 
     public CategorieBean(String nom) {
         this.nom = new SimpleStringProperty(nom);
+        this.type = new SimpleStringProperty();
         this.epreuves = new SimpleListProperty<EpreuveBean>();
     }
 
@@ -29,6 +31,14 @@ public class CategorieBean {
 
     public void setNom(String nom) {
         this.nom.set(nom);
+    }
+
+    public String getType() {
+        return this.type.get();
+    }
+
+    public void setType(String type) {
+        this.type.set(type);
     }
 
     public ObservableList<EpreuveBean> getEpreuves() {
@@ -43,6 +53,10 @@ public class CategorieBean {
         return nom;
     }
 
+    public SimpleStringProperty typeProperty() {
+        return type;
+    }
+
     public SimpleListProperty<EpreuveBean> epreuvesProperty() {
         return epreuves;
     }
@@ -55,6 +69,7 @@ public class CategorieBean {
         CategorieBean that = (CategorieBean) o;
 
         if (!nom.get().equals(that.nom.get())) return false;
+        if (!type.get().equals(that.type.get())) return false;
 
         return true;
     }

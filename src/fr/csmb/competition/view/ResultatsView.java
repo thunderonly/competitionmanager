@@ -14,6 +14,8 @@ import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,28 +64,32 @@ public class ResultatsView {
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            Tab categorieTab = new Tab(categorieBean.getNom());
+            Tab categorieTab = new Tab(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
             GridPane gridPane = new GridPane();
-            int i = 0;
-            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                if ("Termine".equals(epreuveBean.getEtat())) {
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));
-                        BorderPane borderPane = (BorderPane) loader.load();
-                        ResultatsController controller = (ResultatsController) loader.getController();
-                        controller.getTitleCategorie().setText(categorieBean.getNom() + " - " + epreuveBean.getNom());
-                        controller.getTableResultats().setItems(epreuveBean.getParticipants());
-                        controller.getPlace().setSortable(false);
-                        controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller
-                                .getPlace()));
-                        gridPane.add(borderPane, 0, i);
-                        i++;
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            int row = 0;
+            int col = 0;
+            String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
+            for (String typeEpreuve : typeEpreuves) {
+                for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
+                    if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));
+                            BorderPane borderPane = (BorderPane) loader.load();
+                            ResultatsController controller = (ResultatsController) loader.getController();
+                            controller.getTitleCategorie().setText(categorieBean.getNom().concat(" - ").concat(epreuveBean.getNom()));
+                            controller.getTableResultats().setItems(epreuveBean.getParticipants());
+                            controller.getPlace().setSortable(false);
+                            controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller
+                                    .getPlace()));
+                            gridPane.add(borderPane, col, row);
+                            row++;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                col++;
             }
             categorieTab.setContent(gridPane);
             tabPane.getTabs().add(categorieTab);
@@ -111,6 +117,7 @@ public class ResultatsView {
         ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
         for (Categorie categorie : competition.getCategories()) {
             CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
+            categorieBean.setType(categorie.getTypeCategorie());
             ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
             for (Epreuve epreuve : categorie.getEpreuves()) {
                 EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
@@ -154,8 +161,8 @@ public class ResultatsView {
             int pointTechnique = 0;
             int pointCombat = 0;
             for (EleveBean eleveBean : clubBean.getEleves()) {
-                pointCombat+=getPointsForEleve(eleveBean, "Combat");
-                pointTechnique+=getPointsForEleve(eleveBean, "Technique");
+                pointCombat+=getPointsForEleve(eleveBean, TypeEpreuve.COMBAT.getValue());
+                pointTechnique+=getPointsForEleve(eleveBean, TypeEpreuve.TECHNIQUE.getValue());
             }
             clubBean.setTotalCombat(pointCombat);
             clubBean.setTotalTechnique(pointTechnique);

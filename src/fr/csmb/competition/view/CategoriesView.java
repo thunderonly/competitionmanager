@@ -9,6 +9,9 @@ import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.type.TypeCategorie;
+import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.value.ChangeListener;
@@ -69,6 +72,7 @@ public class CategoriesView {
         ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
         for (Categorie categorie : competition.getCategories()) {
             CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
+            categorieBean.setType(categorie.getTypeCategorie());
             ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
             for (Epreuve epreuve : categorie.getEpreuves()) {
                 EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
@@ -81,7 +85,7 @@ public class CategoriesView {
                 }
                 for (Club club : competition.getClubs()) {
                     for (Eleve eleve : club.getEleves()) {
-                        if (categorie.getNomCategorie().equals(eleve.getCategorieEleve())) {
+                        if (categorie.getNomCategorie().equals(eleve.getCategorieEleve()) && categorie.getTypeCategorie().equals(eleve.getSexeEleve())) {
                             if (eleve.getEpreuvesEleves().contains(epreuve.getNomEpreuve())) {
                                 ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve(), eleve.getPrenomEleve());
                                 if (!participantBeans.contains(participantBean)) {
@@ -103,10 +107,11 @@ public class CategoriesView {
     private void saveWork() {
 
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            Categorie categorie = competition.getCategorieByName(categorieBean.getNom());
+            Categorie categorie = competition.getCategorie(categorieBean.getNom(), categorieBean.getType());
             if (categorie == null) {
                 categorie = new Categorie();
                 categorie.setNomCategorie(categorieBean.getNom());
+                categorie.setTypeCategorie(categorieBean.getType());
                 categorie.setEpreuves(new ArrayList<Epreuve>());
                 competition.getCategories().add(categorie);
             }
@@ -147,27 +152,58 @@ public class CategoriesView {
         TreeItem<String>  treeItem = new TreeItem<String>(competition.getNom());
         treeItem.setExpanded(true);
 
+        TreeItem<String> itemTypeCategorieFeminin = new TreeItem<String>(TypeCategorie.FEMININ.getValue());
         for (Categorie categorie : competition.getCategories()) {
-            TreeItem<String> item = new TreeItem<String>(categorie.getNomCategorie());
-            TreeItem<String> itemEpreuveTypeTechnique = new TreeItem<String>("Technique");
-            item.getChildren().add(itemEpreuveTypeTechnique);
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                if ("Technique".equalsIgnoreCase(epreuve.getTypeEpreuve())) {
-                    TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
-                    itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
+            if (categorie.getTypeCategorie().equals(TypeCategorie.FEMININ.getValue())) {
+                TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNomCategorie());
+                TreeItem<String> itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
+                itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
+                for (Epreuve epreuve : categorie.getEpreuves()) {
+                    if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                        TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
+                        itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
+                    }
                 }
-            }
-            TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>("Combat");
-            item.getChildren().add(itemEpreuveTypeCombat);
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                if ("Combat".equalsIgnoreCase(epreuve.getTypeEpreuve())) {
-                    TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
-                    itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
+                TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
+                itemCategorie.getChildren().add(itemEpreuveTypeCombat);
+                for (Epreuve epreuve : categorie.getEpreuves()) {
+                    if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                        TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
+                        itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
+                    }
                 }
-            }
 
-            treeItem.getChildren().add(item);
+                itemTypeCategorieFeminin.getChildren().add(itemCategorie);
+            }
         }
+        treeItem.getChildren().add(itemTypeCategorieFeminin);
+
+        TreeItem<String> itemTypeCategorieMasculin = new TreeItem<String>(TypeCategorie.MASCULIN.getValue());
+        for (Categorie categorie : competition.getCategories()) {
+            if (categorie.getTypeCategorie().equals(TypeCategorie.MASCULIN.getValue())) {
+                TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNomCategorie());
+                TreeItem<String> itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
+                itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
+                for (Epreuve epreuve : categorie.getEpreuves()) {
+                    if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                        TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
+                        itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
+                    }
+                }
+                TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
+                itemCategorie.getChildren().add(itemEpreuveTypeCombat);
+                for (Epreuve epreuve : categorie.getEpreuves()) {
+                    if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                        TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
+                        itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
+                    }
+                }
+
+                itemTypeCategorieMasculin.getChildren().add(itemCategorie);
+            }
+        }
+        treeItem.getChildren().add(itemTypeCategorieMasculin);
+
         TreeView<String> treeView = new TreeView<String>(treeItem);
         treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
@@ -185,8 +221,10 @@ public class CategoriesView {
                     TreeItem<String> old_val, TreeItem<String> new_val) {
                 TreeItem<String> selectedItem = new_val;
                 if (selectedItem.getChildren().size() == 0) {
-
-                    updateList(competition, new_val.getParent().getParent().getValue(), new_val.getValue());
+                    String typeCategorie = new_val.getParent().getParent().getParent().getValue();
+                    String categorie = new_val.getParent().getParent().getValue();
+                    String epreuve = new_val.getValue();
+                    updateList(competition, typeCategorie, categorie, epreuve);
                 }
             }
 
@@ -198,13 +236,13 @@ public class CategoriesView {
 
     }
 
-    private void createComponentGrid(String typeEpreuve, final String categorie, final String epreuve) {
+    private void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
         stackPane.getChildren().clear();
         BorderPane borderPane = new BorderPane();
         GridComponent gridComponent = null;
-        if (typeEpreuve.equals("Combat")) {
+        if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
             List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+            CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
             if (categorieBean != null) {
                 EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
                 if (epreuveBean != null) {
@@ -217,9 +255,9 @@ public class CategoriesView {
                 participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
             }
             gridComponent = new GridComponentFight(participants);
-        } else if (typeEpreuve.equals("Technique")) {
+        } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
             List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+            CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
             if (categorieBean != null) {
                 EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
                 if (epreuveBean != null) {
@@ -244,14 +282,14 @@ public class CategoriesView {
                 System.out.println("2eme : " + resutlats.get(1).getNom());
                 System.out.println("3eme : " + resutlats.get(2).getNom());
                 System.out.println("4eme : " + resutlats.get(3).getNom());
-                CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+                CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
                 if (categorieBean != null) {
                     EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
                     if (epreuveBean != null) {
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                             System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " + participantBean.getClassementFinal());
                         }
-                        epreuveBean.setEtat("Termine");
+                        epreuveBean.setEtat(EtatEpreuve.TERMINE.getValue());
                     }
                 }
             }
@@ -275,14 +313,14 @@ public class CategoriesView {
 
     }
 
-    private void updateList(Competition competition, String categorie, String epreuve) {
+    private void updateList(Competition competition, String typeCategorie, String categorie, String epreuve) {
         participantBeans.clear();
-        participantBeans.addAll(extractEpreuves(competition, categorie, epreuve));
+        participantBeans.addAll(extractEpreuves(competition, typeCategorie, categorie, epreuve));
     }
 
-    private ObservableList<ParticipantBean> extractEpreuves(Competition competition,String categorie, String epreuve) {
+    private ObservableList<ParticipantBean> extractEpreuves(Competition competition, String typeCategorie, String categorie, String epreuve) {
         ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
@@ -292,18 +330,18 @@ public class CategoriesView {
         return participantBeans1;
     }
 
-    public void validateEpreuve(String categorie, String epreuve) {
+    public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {
         CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
-                epreuveBean.setEtat("Valide");
+                epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
             }
         }
     }
 
-    public void editEpreuve(String categorie, String epreuve) {
-        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+    public void editEpreuve(String typeCategorie, String categorie, String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
@@ -347,7 +385,10 @@ public class CategoriesView {
             addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    editEpreuve(getTreeItem().getParent().getParent().getValue(), getItem());
+                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                    String categorie = getTreeItem().getParent().getParent().getValue();
+                    String epreuve = getItem();
+                    editEpreuve(typeCategorie, categorie, epreuve);
                 }
             });
 
@@ -356,7 +397,12 @@ public class CategoriesView {
             runMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    createComponentGrid(getTreeItem().getParent().getValue(), getTreeItem().getParent().getParent().getValue(), getItem());
+
+                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                    String categorie = getTreeItem().getParent().getParent().getValue();
+                    String typeEpreuve = getTreeItem().getParent().getValue();
+                    String epreuve = getItem();
+                    createComponentGrid(typeCategorie, typeEpreuve, categorie, epreuve);
                 }
             });
             MenuItem validMenuItem = new MenuItem("Valider");
@@ -364,7 +410,10 @@ public class CategoriesView {
             validMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    validateEpreuve(getTreeItem().getParent().getParent().getValue(), getItem());
+                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                    String categorie = getTreeItem().getParent().getParent().getValue();
+                    String epreuve = getItem();
+                    validateEpreuve(typeCategorie, categorie, epreuve);
                 }
             });
 
@@ -376,12 +425,12 @@ public class CategoriesView {
                 public void handle(ActionEvent actionEvent) {
                     if (getTreeView().getSelectionModel().getSelectedItems().size() >= 2) {
                         TreeItem<String> item1 = getTreeView().getSelectionModel().getSelectedItems().get(0);
+                        String typeCategorie1 = item1.getParent().getParent().getParent().getValue();
                         String categorie1 = item1.getParent().getParent().getValue();
 
-
                         TreeItem<String> item2 = getTreeView().getSelectionModel().getSelectedItems().get(1);
+                        String typeCategorie2 = item2.getParent().getParent().getParent().getValue();
                         String categorie2 = item2.getParent().getParent().getValue();
-
 
                         String newCategorie = categorie1.concat(" - ").concat(categorie2);
                         CategorieBean categorieBean = new CategorieBean(newCategorie);
@@ -391,17 +440,17 @@ public class CategoriesView {
                         epreuveBean.setType(item1.getParent().getValue());
 
                         ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-                        EpreuveBean epreuveBean1 = getEpreuveBean(categorie1, item1.getValue());
+                        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, categorie1, item1.getValue());
                         if (epreuveBean1 != null) {
-                            epreuveBean1.setEtat("Fusionne");
+                            epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
                         }
                         for (ParticipantBean participantBean : epreuveBean1.getParticipants()) {
                             participantBeans.add(participantBean);
                         }
 
-                        EpreuveBean epreuveBean2 = getEpreuveBean(categorie2, item2.getValue());
+                        EpreuveBean epreuveBean2 = getEpreuveBean(typeCategorie2, categorie2, item2.getValue());
                         if (epreuveBean2 != null) {
-                            epreuveBean2.setEtat("Fusionne");
+                            epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
                         }
                         for (ParticipantBean participantBean : epreuveBean2.getParticipants()) {
                             participantBeans.add(participantBean);
@@ -476,15 +525,18 @@ public class CategoriesView {
                     setGraphic(getTreeItem().getGraphic());
                     if (getTreeItem().isLeaf()){
                         setContextMenu(addMenu);
-                        CategorieBean categorieBean = competitionBean.getCategorieByName(getTreeItem().getParent().getParent().getValue());
+
+                        String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                        String categorie = getTreeItem().getParent().getParent().getValue();
+                        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
                         if (categorieBean != null) {
                             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(getItem());
                             if (epreuveBean != null) {
-                                if ("Valide".equals(epreuveBean.getEtat())) {
+                                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.GREEN);
-                                } else if ("Termine".equals(epreuveBean.getEtat())) {
+                                } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.RED);
-                                } else if ("Fusionne".equals(epreuveBean.getEtat())) {
+                                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.DARKORANGE);
                                 }
                             }
@@ -499,9 +551,9 @@ public class CategoriesView {
         }
     }
 
-    private EpreuveBean getEpreuveBean(String categorie, String epreuve) {
+    private EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
         EpreuveBean epreuveBean = null;
-        CategorieBean categorieBean = competitionBean.getCategorieByName(categorie);
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
             epreuveBean = categorieBean.getEpreuveByName(epreuve);
         }

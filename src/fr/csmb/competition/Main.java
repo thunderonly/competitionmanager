@@ -174,50 +174,6 @@ public class Main extends Application {
         }
     }
 
-    private Competition initializeCompetition() {
-        Competition stMax = new Competition("St Maximin");
-        List<String> categories = new ArrayList<String>();
-        categories.add("Benjamin");
-        categories.add("Minime");
-        categories.add("Cadet");
-//        stMax.setCategories(categories);
-
-        List<String> epreuves = new ArrayList<String>();
-        epreuves.add("Mains Nues");
-        epreuves.add("Armes");
-        epreuves.add("Doi Luyen");
-//        stMax.setEpreuves(epreuves);
-
-        Club club = new Club();
-        club.setIdentifiant("13001");
-        club.setNomClub("club 13001");
-        club.setResponsable("responsable 13001");
-        List<Eleve> elevesClub1 = new ArrayList<Eleve>();
-        Eleve eleve1Club1 = new Eleve("Nom Eleve 1", "Prenom Eleve 1");
-        Eleve eleve2Club1 = new Eleve("Nom Eleve 2", "Prenom Eleve 2");
-        elevesClub1.add(eleve1Club1);
-        elevesClub1.add(eleve2Club1);
-        club.setEleves(elevesClub1);
-
-        Club club2 = new Club();
-        club2.setIdentifiant("13002");
-        club2.setNomClub("club 13002");
-        club2.setResponsable("responsable 13002");
-        List<Eleve> elevesClub2 = new ArrayList<Eleve>();
-        Eleve eleve3Club2 = new Eleve("Nom Eleve 3", "Prenom Eleve 3");
-        Eleve eleve4Club2 = new Eleve("Nom Eleve 4", "Prenom Eleve 4");
-        elevesClub2.add(eleve3Club2);
-        elevesClub2.add(eleve4Club2);
-        club2.setEleves(elevesClub2);
-
-        List<Club> clubs = new ArrayList<Club>();
-        clubs.add(club);
-        clubs.add(club2);
-        stMax.setClubs(clubs);
-
-        return stMax;
-    }
-
     public void generateOrganisationFile(File file) {
         InscriptionsManager inscriptionsManager = new InscriptionsManager();
         inscriptionsManager.saveInscription(file, this.competitionData.get(0));

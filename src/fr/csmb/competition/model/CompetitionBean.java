@@ -72,4 +72,13 @@ public class CompetitionBean {
         }
         return null;
     }
+
+    public CategorieBean getCategorie(String type, String name) {
+        for (CategorieBean categorieBean : getCategories()) {
+            if (name.equals(categorieBean.getNom()) && type.equals(categorieBean.getType())) {
+                return categorieBean;
+            }
+        }
+        return null;
+    }
 }
