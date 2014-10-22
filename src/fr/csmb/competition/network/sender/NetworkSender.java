@@ -144,4 +144,26 @@ public class NetworkSender {
         }
         return null;
     }
+
+
+
+    /**
+     * Check if there is lan connection
+     *
+     * @return true if lan is connected otherwise false.
+     */
+    protected boolean isLanConnected() {
+        try {
+            final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                final NetworkInterface interf = interfaces.nextElement();
+                if (interf.isUp() && !interf.isLoopback()) {
+                    return true;
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
