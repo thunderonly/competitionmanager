@@ -6,6 +6,7 @@ import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.view.CategoriesView;
+import fr.csmb.competition.view.CreateCompetitionView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.view.ResultatsView;
 import fr.csmb.competition.xml.model.Club;
@@ -41,6 +42,7 @@ public class Main extends Application {
     private ObservableList<Competition> competitionData = FXCollections.observableArrayList();
     private ObservableList<ClubBean> clubs = FXCollections.observableArrayList();
     private NotificationView notificationView;
+    private Controller controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -52,15 +54,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("fxml/mainView.fxml"));
         borderPane = (BorderPane) loader.load();
-        ((Controller) loader.getController()).setMain(this);
+        controller =((Controller) loader.getController());
+        controller.setMain(this);
+        controller.getCreateCategorie().setDisable(true);
+        controller.getCreateEpreuve().setDisable(true);
 
         Scene scene = new Scene(borderPane);
-//        Screen screen = Screen.getPrimary();
-//        Rectangle2D bounds = screen.getVisualBounds();
-//        primaryStage.setX(bounds.getMinX());
-//        primaryStage.setY(bounds.getMinY());
-//        primaryStage.setWidth(bounds.getWidth());
-//        primaryStage.setHeight(bounds.getHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -199,5 +198,26 @@ public class Main extends Application {
             ResultatsView resultatsView = new ResultatsView();
             resultatsView.showView(mainStage, this.competitionData.get(0));
         }
+    }
+
+    public void showCreationCompetitionView() {
+        CreateCompetitionView createCompetitionView = new CreateCompetitionView();
+        createCompetitionView.showCreateCompetitionView(mainStage, competitionData);
+        if (competitionData.size() > 0) {
+            controller.getCreateCategorie().setDisable(false);
+        }
+    }
+
+    public void showCreationCategorieView() {
+        CreateCompetitionView createCompetitionView = new CreateCompetitionView();
+        createCompetitionView.showCreateCategorieView(mainStage, competitionData.get(0));
+        if (competitionData.get(0).getCategories().size() > 0) {
+            controller.getCreateEpreuve().setDisable(false);
+        }
+    }
+
+    public void showCreationEpreuveView() {
+        CreateCompetitionView createCompetitionView = new CreateCompetitionView();
+        createCompetitionView.showCreateEpreuveView(mainStage, competitionData.get(0));
     }
 }

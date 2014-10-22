@@ -3,6 +3,7 @@ package fr.csmb.competition.controller;
 import fr.csmb.competition.Main;
 import fr.csmb.competition.view.CategoriesView;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -14,29 +15,30 @@ public class Controller {
 
     private Main main;
 
+    @FXML
+    private MenuItem createCompetition;
+    @FXML
+    private MenuItem createCategorie;
+    @FXML
+    private MenuItem createEpreuve;
+
     public void setMain(Main main) {
         this.main = main;
     }
 
     @FXML
-    private void handleCreate() {
-        FileChooser fileChooser = new FileChooser();
+    private void handleCreateCompetition() {
+        main.showCreationCompetitionView();
+    }
 
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
+    @FXML
+    private void handleCreateCategorie() {
+        main.showCreationCategorieView();
+    }
 
-        // Show save file dialog
-        File file = fileChooser.showSaveDialog(main.getMainStage());
-
-        if (file != null) {
-            // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xml")) {
-                file = new File(file.getPath() + ".xml");
-            }
-            main.saveCompetitionToXmlFile(file);
-        }
+    @FXML
+    private void handleCreateEpreuve() {
+        main.showCreationEpreuveView();
     }
 
     @FXML
@@ -131,5 +133,17 @@ public class Controller {
     @FXML
     private void handleShowResultats() {
         main.showResultatsView();
+    }
+
+    public MenuItem getCreateCompetition() {
+        return createCompetition;
+    }
+
+    public MenuItem getCreateCategorie() {
+        return createCategorie;
+    }
+
+    public MenuItem getCreateEpreuve() {
+        return createEpreuve;
     }
 }

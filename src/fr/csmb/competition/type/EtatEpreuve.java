@@ -10,10 +10,10 @@ package fr.csmb.competition.type;
  * @author Bull SAS
  */
 public enum EtatEpreuve {
-    UNKNONW ("inconnu"),
-    VALIDE ("valide"),
-    FUSION ("fusion"),
-    TERMINE ("termine");
+    UNKNONW ("Inconnu"),
+    VALIDE ("Valide"),
+    FUSION ("Fusion"),
+    TERMINE ("Termine");
 
     private String value;
 

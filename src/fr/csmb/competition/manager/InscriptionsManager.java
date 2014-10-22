@@ -102,7 +102,7 @@ public class InscriptionsManager {
                         eleve.setAgeEleve(getCellValue(row, 6));
 
                         eleve.setCategorieEleve(convertCategorie(getCellValue(row, 7)));
-                        eleve.setSexeEleve(getCellValue(row, 8).toLowerCase());
+                        eleve.setSexeEleve(getCellValue(row, 8));
                         eleve.setPoidsEleve(getCellValue(row, 9));
                         List<String> epreuves = new ArrayList<String>();
                         String epreuve = getCellValue(row, 10);

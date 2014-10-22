@@ -10,8 +10,8 @@ package fr.csmb.competition.type;
  * @author Bull SAS
  */
 public enum TypeEpreuve {
-    TECHNIQUE ("technique"),
-    COMBAT ("combat");
+    TECHNIQUE ("Technique"),
+    COMBAT ("Combat");
 
     private String value;
 

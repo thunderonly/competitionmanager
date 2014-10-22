@@ -7,7 +7,6 @@ import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
-import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
@@ -45,7 +44,8 @@ public class CategoriesView {
     private Competition competition;
     private StackPane stackPane = new StackPane();
     private CompetitionBean competitionBean;
-    private Stage mainStage;
+    private Stage currentStage;
+    private NotificationView notificationView;
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
@@ -61,7 +61,8 @@ public class CategoriesView {
         stage.initOwner(mainStage);
         Scene scene = new Scene(splitPane);
         stage.setScene(scene);
-        mainStage = stage;
+        currentStage = stage;
+        notificationView = new NotificationView(currentStage);
         stage.showAndWait();
         saveWork();
 
@@ -237,37 +238,43 @@ public class CategoriesView {
     }
 
     private void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
-        stackPane.getChildren().clear();
+
         BorderPane borderPane = new BorderPane();
         GridComponent gridComponent = null;
-        if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-            List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-            if (categorieBean != null) {
-                EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-                if (epreuveBean != null) {
-                    for (ParticipantBean participantBean : epreuveBean.getParticipants())
-                    participants.add(participantBean);
-                }
+
+        List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+
+            if (epreuveBean.getEtat() == null || "".equals(epreuveBean.getEtat())) {
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de démarrer une épreuve non validée");
+                return;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue())) {
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de démarrer une épreuve terminée");
+                return;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue())) {
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de démarrer une épreuve fusionnée");
+                return;
             }
 
-            for (int i = participants.size() + 1; i <= 8; i++) {
-                participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
+
+            if (epreuveBean != null) {
+                for (ParticipantBean participantBean : epreuveBean.getParticipants())
+                    participants.add(participantBean);
             }
+        }
+
+        for (int i = participants.size() + 1; i <= 8; i++) {
+            participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
+        }
+
+        if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
             gridComponent = new GridComponentFight(participants);
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
-            List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
-            CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-            if (categorieBean != null) {
-                EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-                if (epreuveBean != null) {
-                    for (ParticipantBean participantBean : epreuveBean.getParticipants())
-                        participants.add(participantBean);
-                }
-            }
-            for (int i = participants.size() + 1; i <= 8; i++) {
-                participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
-            }
             gridComponent = new GridComponentTechnical(participants);
         }
         borderPane.setCenter(gridComponent);
@@ -287,7 +294,8 @@ public class CategoriesView {
                     EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
                     if (epreuveBean != null) {
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                            System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " + participantBean.getClassementFinal());
+                            System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " +
+                                    participantBean.getClassementFinal());
                         }
                         epreuveBean.setEtat(EtatEpreuve.TERMINE.getValue());
                     }
@@ -295,6 +303,7 @@ public class CategoriesView {
             }
         });
         borderPane.setBottom(button);
+        stackPane.getChildren().clear();
         stackPane.getChildren().add(borderPane);
     }
 
@@ -335,7 +344,15 @@ public class CategoriesView {
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
-                epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                if (epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue())) {
+                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                            "Impossible de valider une épreuve terminée");
+                } else if (epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue())) {
+                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                            "Impossible de valider une épreuve fusionnée");
+                } else {
+                    epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                }
             }
         }
     }
@@ -354,7 +371,7 @@ public class CategoriesView {
         Stage stage = new Stage();
         stage.setTitle("Edition épreuve : " + categorieBean.getNom() + " - " + epreuveBean.getNom());
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
+        stage.initOwner(currentStage);
 
         BorderPane borderPane = new BorderPane();
         GridPane gridPane = new GridPane();
@@ -427,48 +444,62 @@ public class CategoriesView {
                         TreeItem<String> item1 = getTreeView().getSelectionModel().getSelectedItems().get(0);
                         String typeCategorie1 = item1.getParent().getParent().getParent().getValue();
                         String categorie1 = item1.getParent().getParent().getValue();
+                        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, categorie1, item1.getValue());
 
                         TreeItem<String> item2 = getTreeView().getSelectionModel().getSelectedItems().get(1);
                         String typeCategorie2 = item2.getParent().getParent().getParent().getValue();
                         String categorie2 = item2.getParent().getParent().getValue();
-
-                        String newCategorie = categorie1.concat(" - ").concat(categorie2);
-                        CategorieBean categorieBean = new CategorieBean(newCategorie);
-
-                        String newEpreuve = item1.getValue().concat("-").concat(item2.getValue());
-                        EpreuveBean epreuveBean = new EpreuveBean(newEpreuve);
-                        epreuveBean.setType(item1.getParent().getValue());
-
-                        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-                        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, categorie1, item1.getValue());
-                        if (epreuveBean1 != null) {
-                            epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
-                        }
-                        for (ParticipantBean participantBean : epreuveBean1.getParticipants()) {
-                            participantBeans.add(participantBean);
-                        }
-
                         EpreuveBean epreuveBean2 = getEpreuveBean(typeCategorie2, categorie2, item2.getValue());
-                        if (epreuveBean2 != null) {
-                            epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
+
+                        if (EtatEpreuve.FUSION.getValue().equals(epreuveBean1.getEtat()) ||
+                                EtatEpreuve.FUSION.getValue().equals(epreuveBean2.getEtat())) {
+                            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                                    "Impossible de fusionner une épreuve fusionnée");
+                        } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean1.getEtat()) ||
+                                EtatEpreuve.TERMINE.getValue().equals(epreuveBean2.getEtat())) {
+                            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                                    "Impossible de fusionner une épreuve terminée");
+                        } else if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean1.getEtat()) ||
+                                EtatEpreuve.VALIDE.getValue().equals(epreuveBean2.getEtat())) {
+                            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                                    "Impossible de fusionner une épreuve validée");
+                        } else {
+                            String newCategorie = categorie1.concat(" - ").concat(categorie2);
+                            CategorieBean categorieBean = new CategorieBean(newCategorie);
+
+                            String newEpreuve = item1.getValue().concat("-").concat(item2.getValue());
+                            EpreuveBean epreuveBean = new EpreuveBean(newEpreuve);
+                            epreuveBean.setType(item1.getParent().getValue());
+
+                            ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+                            if (epreuveBean1 != null) {
+                                epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
+                            }
+                            for (ParticipantBean participantBean : epreuveBean1.getParticipants()) {
+                                participantBeans.add(participantBean);
+                            }
+
+                            if (epreuveBean2 != null) {
+                                epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
+                            }
+                            for (ParticipantBean participantBean : epreuveBean2.getParticipants()) {
+                                participantBeans.add(participantBean);
+                            }
+
+                            epreuveBean.setParticipants(participantBeans);
+                            ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+                            epreuveBeans.add(epreuveBean);
+                            categorieBean.setEpreuves(epreuveBeans);
+
+                            competitionBean.getCategories().add(categorieBean);
+
+                            TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
+                            TreeItem<String> treeItemTypeCategorie = new TreeItem(item1.getParent().getValue());
+                            TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
+                            treeItemCategorie.getChildren().add(treeItemTypeCategorie);
+                            treeItemTypeCategorie.getChildren().add(treeItemEpreuve);
+                            getTreeView().getRoot().getChildren().add(treeItemCategorie);
                         }
-                        for (ParticipantBean participantBean : epreuveBean2.getParticipants()) {
-                            participantBeans.add(participantBean);
-                        }
-
-                        epreuveBean.setParticipants(participantBeans);
-                        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
-                        epreuveBeans.add(epreuveBean);
-                        categorieBean.setEpreuves(epreuveBeans);
-
-                        competitionBean.getCategories().add(categorieBean);
-
-                        TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
-                        TreeItem<String> treeItemTypeCategorie = new TreeItem(item1.getParent().getValue());
-                        TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
-                        treeItemCategorie.getChildren().add(treeItemTypeCategorie);
-                        treeItemTypeCategorie.getChildren().add(treeItemEpreuve);
-                        getTreeView().getRoot().getChildren().add(treeItemCategorie);
                     }
                 }
             });

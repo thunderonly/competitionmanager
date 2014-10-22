@@ -10,8 +10,8 @@ package fr.csmb.competition.type;
  * @author Bull SAS
  */
 public enum TypeCategorie {
-    MASCULIN ("masculin"),
-    FEMININ ("féminin");
+    MASCULIN ("Masculin"),
+    FEMININ ("Féminin");
 
     private String value;
 

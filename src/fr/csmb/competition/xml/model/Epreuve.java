@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,16 @@ public class Epreuve {
     @XmlElementWrapper(name="participants")
     @XmlElement(name="participant")
     private List<Participant> participants;
+
+    public Epreuve(String nom, String type) {
+        this.nomEpreuve = nom;
+        this.typeEpreuve = type;
+        this.participants = new ArrayList<Participant>();
+    }
+
+    public Epreuve() {
+        this(null, null);
+    }
 
     public String getTypeEpreuve() {
         return typeEpreuve;
@@ -53,5 +64,10 @@ public class Epreuve {
 
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
+    }
+
+    @Override
+    public String toString() {
+        return typeEpreuve.concat(" - ").concat(nomEpreuve);
     }
 }

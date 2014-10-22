@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categorie {
+public class Categorie implements Cloneable {
 
     @XmlElement(name="nomCategorie")
     private String nomCategorie;
@@ -20,6 +21,16 @@ public class Categorie {
     @XmlElementWrapper(name="epreuves")
     @XmlElement(name="epreuve")
     private List<Epreuve> epreuves;
+
+    public Categorie() {
+        this("", "");
+    }
+
+    public Categorie(String nom, String type) {
+        this.nomCategorie = nom;
+        this.typeCategorie = type;
+        this.epreuves = new ArrayList<Epreuve>();
+    }
 
     public String getNomCategorie() {
         return nomCategorie;
@@ -52,5 +63,41 @@ public class Categorie {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Categorie)) return false;
+
+        Categorie that = (Categorie) o;
+
+        if (!nomCategorie.equals(that.nomCategorie)) return false;
+        if (!typeCategorie.equals(that.typeCategorie)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nomCategorie.hashCode();
+        result = 31 * result + typeCategorie.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return typeCategorie.concat(" - ").concat(nomCategorie);
+    }
+
+    @Override
+    public Categorie clone() {
+        Categorie categorie = null;
+        try {
+            categorie = (Categorie) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return categorie;
     }
 }
