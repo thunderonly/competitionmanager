@@ -65,6 +65,7 @@ public class EditingCell extends TableCell<ParticipantBean, Integer> {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             } else {
                 setText(getString());
+                getStyleClass().add("labelTableViewGridComponent");
                 setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
 

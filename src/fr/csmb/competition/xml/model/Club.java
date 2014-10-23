@@ -1,9 +1,6 @@
 package fr.csmb.competition.xml.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -13,11 +10,11 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Club {
 
-    @XmlElement(name="nomClub")
+    @XmlAttribute(name="nomClub")
     private String nomClub;
-    @XmlElement(name="identifiant")
+    @XmlAttribute(name="identifiant")
     private String identifiant;
-    @XmlElement(name="responsable")
+    @XmlAttribute(name="responsable")
     private String responsable;
     @XmlElementWrapper(name="eleves")
     @XmlElement(name="eleve")

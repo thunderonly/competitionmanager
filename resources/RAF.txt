@@ -9,7 +9,9 @@ Gestion des categories
 		Categorie
 			Type epreuve
 				Epreuve
-7 - Ajouter le cartouche dans les tableaux de catégorie
+7 - Ajouter le cartouche dans les tableaux de catégorie [OK]
+8 - Gestion des équipes Doi Luyen
+9 - Gestion fusion féminin/masculin
 
 Classement des clubs
 1 - Mettre en place le classement des clubs [OK]

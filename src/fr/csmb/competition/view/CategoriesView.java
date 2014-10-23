@@ -4,6 +4,7 @@ import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.bean.*;
 import fr.csmb.competition.component.grid.fight.GridComponentFight;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
+import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -20,13 +21,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -47,6 +48,18 @@ public class CategoriesView {
     private Stage currentStage;
     private NotificationView notificationView;
 
+    private TextField adminTf = new TextField();
+    private TextField chronoTf = new TextField();
+    private TextField firstJugeTf = new TextField();
+    private TextField secondJugeTf = new TextField();
+    private TextField thirdJugeTf = new TextField();
+    private TextField fourthJugeTf = new TextField();
+    private TextField fifthJugeTf = new TextField();
+    private TextField tapisTf = new TextField();
+    private TextField heureDebutTf = new TextField();
+    private TextField heureFinTf = new TextField();
+    private TextField dureeTf = new TextField();
+
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
         loadCompetitionBean(competition);
@@ -60,6 +73,7 @@ public class CategoriesView {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainStage);
         Scene scene = new Scene(splitPane);
+        scene.getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
         stage.setScene(scene);
         currentStage = stage;
         notificationView = new NotificationView(currentStage);
@@ -131,6 +145,17 @@ public class CategoriesView {
                     participants.add(participant);
                 }
                 epreuve.setEtatEpreuve(epreuveBean.getEtat());
+                epreuve.setAdministrateur(epreuveBean.getAdministrateur());
+                epreuve.setChronometreur(epreuveBean.getChronometreur());
+                epreuve.setJuge1(epreuveBean.getJuge1());
+                epreuve.setJuge2(epreuveBean.getJuge2());
+                epreuve.setJuge3(epreuveBean.getJuge3());
+                epreuve.setJuge4(epreuveBean.getJuge4());
+                epreuve.setJuge5(epreuveBean.getJuge5());
+                epreuve.setTapis(epreuveBean.getTapis());
+                epreuve.setHeureDebut(epreuveBean.getHeureDebut());
+                epreuve.setHeureFin(epreuveBean.getHeureFin());
+                epreuve.setDuree(epreuveBean.getDuree());
                 epreuve.setParticipants(participants);
             }
         }
@@ -206,8 +231,9 @@ public class CategoriesView {
 
         List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        EpreuveBean epreuveBean = null;
         if (categorieBean != null) {
-            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            epreuveBean = categorieBean.getEpreuveByName(epreuve);
 
             if (epreuveBean.getEtat() == null || "".equals(epreuveBean.getEtat())) {
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
@@ -239,6 +265,8 @@ public class CategoriesView {
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
             gridComponent = new GridComponentTechnical(participants);
         }
+
+        createCartoucheForGridComponent(borderPane, categorieBean, epreuveBean);
         borderPane.setCenter(gridComponent);
 
         final GridComponent gridComponent2  = gridComponent;
@@ -260,6 +288,17 @@ public class CategoriesView {
                                     participantBean.getClassementFinal());
                         }
                         epreuveBean.setEtat(EtatEpreuve.TERMINE.getValue());
+                        epreuveBean.setAdministrateur(adminTf.getText());
+                        epreuveBean.setChronometreur(chronoTf.getText());
+                        epreuveBean.setJuge1(firstJugeTf.getText());
+                        epreuveBean.setJuge2(secondJugeTf.getText());
+                        epreuveBean.setJuge3(thirdJugeTf.getText());
+                        epreuveBean.setJuge4(fourthJugeTf.getText());
+                        epreuveBean.setJuge5(fifthJugeTf.getText());
+                        epreuveBean.setTapis(tapisTf.getText());
+                        epreuveBean.setHeureDebut(heureDebutTf.getText());
+                        epreuveBean.setHeureFin(heureFinTf.getText());
+                        epreuveBean.setDuree(dureeTf.getText());
                     }
                 }
             }
@@ -267,6 +306,148 @@ public class CategoriesView {
         borderPane.setBottom(button);
         stackPane.getChildren().clear();
         stackPane.getChildren().add(borderPane);
+    }
+
+    private void createCartoucheForGridComponent(BorderPane borderPane, CategorieBean categorieBean, EpreuveBean epreuveBean) {
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(5);
+        gridPane.setHgap(20);
+        Text titleFiche = new Text("Fiche Administrateur");
+        titleFiche.getStyleClass().add("biglabelGridPane");
+        gridPane.add(titleFiche, 0, 0, 2, 1);
+
+        Label categorieLabel = new Label("Catégorie");
+        categorieLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(categorieLabel, 0, 1);
+        Label categorieTf = new Label(categorieBean.getNom().concat(" ").concat(categorieBean.getType()));
+        categorieTf.getStyleClass().add("labelGridPane");
+        gridPane.add(categorieTf, 1, 1);
+
+        Label epreuveLabel = new Label("Epreuve");
+        epreuveLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(epreuveLabel, 0, 2);
+        Label epreuveTf = new Label(epreuveBean.getNom());
+        epreuveTf.getStyleClass().add("labelGridPane");
+        gridPane.add(epreuveTf, 1, 2);
+
+        Label adminLabel = new Label("Administrateur");
+        adminLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(adminLabel, 0, 3);
+        adminTf.setPromptText("Nom administrateur");
+        gridPane.add(adminTf, 1, 3);
+
+        Label chronoLabel = new Label("Chronométreur");
+        chronoLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(chronoLabel, 0, 4);
+        chronoTf.setPromptText("Nom chronométreur");
+        gridPane.add(chronoTf, 1, 4);
+
+
+        Text titleClassement = new Text("Classement");
+        titleClassement.getStyleClass().add("biglabelGridPane");
+        gridPane.add(titleClassement, 2, 0, 2, 1);
+
+        Label firstPlaceLabel = new Label("1ere Place");
+        firstPlaceLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(firstPlaceLabel, 2, 1);
+        TextField firstPlaceTf = new TextField();
+        firstPlaceTf.setPromptText("1ere Place");
+        gridPane.add(firstPlaceTf, 3, 1);
+
+        Label secondPlaceLabel = new Label("2eme Place");
+        secondPlaceLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(secondPlaceLabel, 2, 2);
+        TextField secondPlaceTf = new TextField();
+        secondPlaceTf.setPromptText("2eme Place");
+        gridPane.add(secondPlaceTf, 3, 2);
+
+        Label thirdPlaceLabel = new Label("3eme Place");
+        thirdPlaceLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(thirdPlaceLabel, 2, 3);
+        TextField thirdPlaceTf = new TextField();
+        thirdPlaceTf.setPromptText("3eme Place");
+        gridPane.add(thirdPlaceTf, 3, 3);
+
+        Label fourthPlaceLabel = new Label("4eme Place");
+        fourthPlaceLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(fourthPlaceLabel, 2, 4);
+        TextField fourthPlaceTf = new TextField();
+        fourthPlaceTf.setPromptText("4eme Place");
+        gridPane.add(fourthPlaceTf, 3, 4);
+
+
+        Text titleJuge = new Text("Juges");
+        titleJuge.getStyleClass().add("biglabelGridPane");
+        gridPane.add(titleJuge, 0, 5, 2, 1);
+
+        Label firstJugeLabel = new Label("Juge 1");
+        firstJugeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(firstJugeLabel, 0, 6);
+        firstJugeTf.setPromptText("Juge 1");
+        gridPane.add(firstJugeTf, 1, 6);
+
+        Label secondJugeLabel = new Label("Juge 2");
+        secondJugeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(secondJugeLabel, 0, 7);
+        secondJugeTf.setPromptText("Juge 2");
+        gridPane.add(secondJugeTf, 1, 7);
+
+        Label thirdJugeLabel = new Label("Juge 3");
+        thirdJugeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(thirdJugeLabel, 0, 8);
+        thirdJugeTf.setPromptText("Juge 3");
+        gridPane.add(thirdJugeTf, 1, 8);
+
+        Label fourthJugeLabel = new Label("Juge 4");
+        fourthJugeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(fourthJugeLabel, 0, 9);
+        fourthJugeTf.setPromptText("Juge 4");
+        gridPane.add(fourthJugeTf, 1, 9);
+
+        Label fifthJugeLabel = new Label("Juge 5");
+        fifthJugeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(fifthJugeLabel, 0, 10);
+        fifthJugeTf.setPromptText("Juge 5");
+        gridPane.add(fifthJugeTf, 1, 10);
+
+
+        Text titleEpreuve = new Text("Epreuve");
+        titleEpreuve.getStyleClass().add("biglabelGridPane");
+        gridPane.add(titleEpreuve, 2, 5, 2, 1);
+
+        Label tapisLabel = new Label("Tapis");
+        tapisLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(tapisLabel, 2, 6);
+        tapisTf.setPromptText("Tapis");
+        gridPane.add(tapisTf, 3, 6);
+
+        Label heureDebutLabel = new Label("Début");
+        heureDebutLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(heureDebutLabel, 2, 7);
+        heureDebutTf.setPromptText("Début");
+        gridPane.add(heureDebutTf, 3, 7);
+
+        Label heureFinLabel = new Label("Fin");
+        heureFinLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(heureFinLabel, 2, 8);
+        heureFinTf.setPromptText("Fin");
+        gridPane.add(heureFinTf, 3, 8);
+
+        Label dureeLabel = new Label("Durée");
+        dureeLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(dureeLabel, 2, 9);
+        dureeTf.setPromptText("Durée");
+        gridPane.add(dureeTf, 3, 9);
+
+        Label nbParticipantsLabel = new Label("Juge 5");
+        nbParticipantsLabel.getStyleClass().add("titleGridPane");
+        gridPane.add(nbParticipantsLabel, 2, 10);
+        Label nbParticipantsTf = new Label(String.valueOf(epreuveBean.getParticipants().size()));
+        gridPane.add(nbParticipantsTf, 3, 10);
+        nbParticipantsLabel.getStyleClass().add("titleGridPane");
+
+        borderPane.setTop(gridPane);
     }
 
     private void createTableView(StackPane stackPane) {
@@ -315,7 +496,7 @@ public class CategoriesView {
         return participantBeans1;
     }
 
-    public void validateEpreuve(TreeView treeView, TreeItem<String> treeItem, String typeCategorie, String categorie, String epreuve) {
+    public void validateEpreuve(TreeItem<String> treeItem, String typeCategorie, String categorie, String epreuve) {
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
@@ -415,7 +596,6 @@ public class CategoriesView {
                     treeItem.getChildren().add(treeItemCategorie);
                 }
             }
-//            treeView.getRoot().getChildren().add(treeItemCategorie);
         }
     }
 
@@ -492,7 +672,7 @@ public class CategoriesView {
                     String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
                     String categorie = getTreeItem().getParent().getParent().getValue();
                     String epreuve = getItem();
-                    validateEpreuve(getTreeView(), getTreeItem(), typeCategorie, categorie, epreuve);
+                    validateEpreuve(getTreeItem(), typeCategorie, categorie, epreuve);
                 }
             });
 

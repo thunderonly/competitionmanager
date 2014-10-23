@@ -11,7 +11,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competition {
 
-    @XmlElement(name="nom")
+    @XmlAttribute(name="nom")
     private String nom;
     @XmlElementWrapper(name="categories")
     @XmlElement(name="categorie")

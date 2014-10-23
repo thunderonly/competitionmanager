@@ -72,6 +72,11 @@ public class GridComponentTechnical extends GridComponent {
         columnJoueurNom.setMinWidth(minWidthColumnJoueur);
         columnInformationsJoueur.getColumns().add(columnJoueurNom);
 
+        TableColumn columnJoueurPrenom = new TableColumn("Prénom");
+        columnJoueurPrenom.setCellValueFactory(new PropertyValueFactory<ParticipantBean, String>("prenom"));
+        columnJoueurPrenom.setMinWidth(minWidthColumnJoueur);
+        columnInformationsJoueur.getColumns().add(columnJoueurPrenom);
+
         TableColumn columnNotesJuge = new TableColumn("Notes Juge");
         TableColumn columnNotesJuge1 = new TableColumn("Juge 1");
         columnNotesJuge1.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note1"));
