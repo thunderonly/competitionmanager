@@ -1,12 +1,12 @@
-Gestion des cat�gories
-1 - Emp�cher le d�marrage de cat�gories "Termin�es" [OK]
-2 - Pouvoir d�marrer un cat�gories que si elle est "valid�e" [OK]
-3 - Permettre la cr�ation de cat�gorie [OK]
-4 - La validation d'une cat�gorie entraine la cr�ation des participants
-5 - La fusion de cat�gorie entraine la validation de celle-ci
-6 - Classer les cat�gories par sexe [OK]
-	Type Cat�gorie (sexe)
-		Cat�gorie
+Gestion des categories
+1 - Empecher le demarrage de categories "Terminees" [OK]
+2 - Pouvoir demarrer un categories que si elle est "validee" [OK]
+3 - Permettre la creation de categorie [OK]
+4 - La validation d'une categorie entraine la creation des participants[OK]
+5 - La fusion de categorie entraine la validation de celle-ci[OK]
+6 - Classer les categories par sexe [OK]
+	Type Categorie (sexe)
+		Categorie
 			Type epreuve
 				Epreuve
 7 - Ajouter le cartouche dans les tableaux de catégorie
@@ -16,8 +16,8 @@ Classement des clubs
 2 - Exporter le classement au format Excel
 
 Diffusion LAN
-1 - Diffuser les cat�gories apr�s changement d'�tat
+1 - Diffuser les categories apres changement d'etat
 
-Cr�ation de Comp�tition
-1 - Nom de la comp�tition [OK]
-2 - Les cat�gories pr�sentes [OK]
+Creation de Competition
+1 - Nom de la competition [OK]
+2 - Les categories presentes [OK]
