@@ -125,7 +125,7 @@ public class GridComponentFight extends GridComponent {
         int i = 1;
         int nbMatch = 0;
         for (Match match : matchs) {
-            TextBox resultatMatch = drawMatch(10, 10, group, match, i);
+            TextBox resultatMatch = drawMatchFirstRound(10, 10, group, match, i);
             matchFirstStep[nbMatch] = resultatMatch;
             nbMatch ++;
             i ++;
@@ -148,6 +148,38 @@ public class GridComponentFight extends GridComponent {
             level ++;
         }
         return matchOtherStep;
+    }
+
+    private TextBox drawMatchFirstRound(int beginX, int beginY, Group group1, Match match, int level) {
+
+        int newBeginX = beginX;
+        int newBeginY = beginY;
+
+        if (level > 1) {
+            int facteur = level - 1;
+            newBeginY = beginY + (heightRectangle * 2) * facteur + (spaceBetweenJoueur * 2) * facteur;
+        }
+
+        //BoxBlue
+        int beginXBlue = newBeginX;
+        int beginYBlue = newBeginY;
+        //BoxRed
+        int beginXRed = newBeginX;
+        int beginYRed = newBeginY + heightRectangle + spaceBetweenJoueur;
+        Color colorBlue = Color.color(1.0, 1.0, 0.0, 0.5);
+        Color colorRed = Color.color(0.0, 1.0, 1.0, 0.5);
+
+
+        Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
+        if (level % 2 == 0) {
+            colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
+        }
+
+        TextBox blue = createTextBox(match.getJoueur1(), beginXBlue, beginYBlue, colorBlue);
+        TextBox red = createTextBox(match.getJoueur2(), beginXRed, beginYRed, colorRed);
+        group1.getChildren().addAll(blue, red);
+        TextBox textBox = drawMatch(blue, red, group1, level);
+        return textBox;
     }
 
     /**
@@ -206,33 +238,47 @@ public class GridComponentFight extends GridComponent {
      */
     private TextBox drawMatch(TextBox boxBlue, TextBox boxRed, Group group, int level) {
 
+        //BoxBlue
         double beginXBlue = boxBlue.getLayoutX();
         double beginYBlue = boxBlue.getLayoutY();
+        //BoxRed
         double beginXRed = boxRed.getLayoutX();
         double beginYRed = boxRed.getLayoutY();
+        //LineBlue Horizontale
+        double beginXLineHBlue = beginXBlue + widthRectangle;
+        double beginYLineHBlue = beginYBlue + heightRectangle;
+        double endXLineHBlue = beginXLineHBlue + spaceBetweenMatch;
+        double endYLineHBlue = beginYBlue + heightRectangle;
+        //LineBlue Verticale
+        double beginXLineVBlue = endXLineHBlue;
+        double beginYLineVBlue = beginYLineHBlue;
+        double endXLineVBlue = endXLineHBlue;
+        double endYLineVBlue = ((beginYRed - endYLineHBlue) / 2) + endYLineHBlue - (heightRectangle / 2);
 
-        double beginXLineBlue = beginXBlue + widthRectangle;
-        double beginYLineBlue = beginYBlue + heightRectangle;
-        double endXLineBlue = beginXLineBlue + spaceBetweenMatch;
-        double endYLineBlue = beginYBlue + heightRectangle;
-        double beginXLineRed = beginXRed + widthRectangle;
-        double beginYLineRed = beginYRed;
-        double endXLineRed = beginXLineRed + spaceBetweenMatch;
-        double endYLineRed = beginYRed;
+        //LineRed Horizontale
+        double beginXLineHRed = beginXRed + widthRectangle;
+        double beginYLineHRed = beginYRed;
+        double endXLineHRed = beginXLineHRed + spaceBetweenMatch;
+        double endYLineHRed = beginYRed;
+        //LineRed Verticale
+        double beginXLineVRed = endXLineHRed;
+        double beginYLineVRed = endYLineHRed;
+        double endXLineVRed = endXLineHRed;
+        double endYLineVRed = endYLineVBlue + heightRectangle;
 
-        double beginXResultat = endXLineBlue;
-        double beginYResultat = ((endYLineRed - endYLineBlue) / 2) + endYLineBlue - (heightRectangle / 2);
+        double beginXResultat = endXLineHBlue;
+        double beginYResultat = endYLineVBlue;
 
         Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
 
-        Line lineBlueH = drawLine(beginXLineBlue, beginYLineBlue , endXLineBlue, endYLineBlue);
-        Line lineBlueV = drawLine(endXLineBlue, endYLineBlue , endXLineBlue, beginYResultat);
+        Line lineBlueH = drawLine(beginXLineHBlue, beginYLineHBlue , endXLineHBlue, endYLineHBlue);
+        Line lineBlueV = drawLine(beginXLineVBlue, beginYLineVBlue , endXLineVBlue, endYLineVBlue);
 
-        Line lineRedH = drawLine(beginXLineRed, beginYLineRed , endXLineRed, endYLineRed);
-        Line lineRedV = drawLine(endXLineRed, endYLineRed , endXLineRed, beginYResultat + heightRectangle);
+        Line lineRedH = drawLine(beginXLineHRed, beginYLineHRed , endXLineHRed, endYLineHRed);
+        Line lineRedV = drawLine(beginXLineVRed, beginYLineVRed , endXLineVRed, endYLineVRed);
 
         TextBox victoryBox = createTextBox(new ParticipantBean("", ""), beginXResultat, beginYResultat, colorResultat);
         TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
@@ -246,63 +292,6 @@ public class GridComponentFight extends GridComponent {
         return victoryBox;
     }
 
-    /**
-     * Draw grid for the 1st round
-     * @param beginX
-     * @param beginY
-     * @param match
-     * @param level
-     * @return
-     */
-    private TextBox drawMatch(int beginX, int beginY, Group group1, Match match, int level) {
-
-        int newBeginX = beginX;
-        int newBeginY = beginY;
-
-        if (level > 1) {
-            int facteur = level - 1;
-            newBeginY = beginY + (heightRectangle * 2) * facteur + (spaceBetweenJoueur * 2) * facteur;
-        }
-
-        int beginXBlue = newBeginX;
-        int beginYBlue = newBeginY;
-        int beginXLineBlue = beginXBlue + widthRectangle;
-        int endXLineBlue = beginXBlue + widthRectangle + spaceBetweenMatch;
-        int beginYLineBlue = beginYBlue + heightRectangle;
-        int endYLineBlue = beginYBlue + heightRectangle;
-
-        int beginXRed = beginXBlue;
-        int beginYRed = beginYBlue + heightRectangle + spaceBetweenJoueur;
-        int beginXLineRed = beginXRed + widthRectangle;
-        int endXLineRed = beginXRed + widthRectangle + spaceBetweenMatch;
-
-        int beginXResultat = endXLineBlue;
-        int beginYResultat = beginYBlue + heightRectangle;
-        Color colorBlue = Color.color(1.0, 1.0, 0.0, 0.5);
-        Color colorRed = Color.color(0.0, 1.0, 1.0, 0.5);
-
-
-        Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
-        if (level % 2 == 0) {
-            colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
-        }
-
-        TextBox blue = createTextBox(match.getJoueur1(), beginXBlue, beginYBlue, colorBlue);
-        Line lineBlue = drawLine(beginXLineBlue, beginYLineBlue , endXLineBlue, endYLineBlue);
-
-        TextBox red = createTextBox(match.getJoueur2(), beginXRed, beginYRed, colorRed);
-        Line lineRed = drawLine(beginXLineRed, beginYRed, endXLineRed, beginYRed);
-
-        TextBox victoryBox = createTextBox(new ParticipantBean("", ""), beginXResultat, beginYResultat, colorResultat);
-        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
-
-        TextBoxListner textBoxListner = new TextBoxListner(blue, red, victoryBox, defaitBox);
-        blue.setListner(textBoxListner);
-        red.setListner(textBoxListner);
-        group1.getChildren().addAll(blue, red, victoryBox, lineBlue, lineRed);
-        match.setResultat(victoryBox);
-        return victoryBox;
-    }
 
     private Line drawLine(double beginX, double beginY, double endX, double endY) {
         Line line = new Line(beginX, beginY, endX, endY);
