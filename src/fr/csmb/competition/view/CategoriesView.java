@@ -1,6 +1,7 @@
 package fr.csmb.competition.view;
 
 import fr.csmb.competition.component.grid.GridComponent;
+import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.*;
 import fr.csmb.competition.component.grid.fight.GridComponentFight;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
@@ -59,6 +60,10 @@ public class CategoriesView {
     private TextField heureDebutTf = new TextField();
     private TextField heureFinTf = new TextField();
     private TextField dureeTf = new TextField();
+    private TextField firstPlaceTf = new TextField();
+    private TextField secondPlaceTf = new TextField();
+    private TextField thirdPlaceTf = new TextField();
+    private TextField fourthPlaceTf = new TextField();
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
@@ -228,7 +233,8 @@ public class CategoriesView {
 
         BorderPane borderPane = new BorderPane();
         GridComponent gridComponent = null;
-
+        ParticipantClassementFinalListener participantClassementFinalListener =
+                new ParticipantClassementFinalListener(firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf);
         List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         EpreuveBean epreuveBean = null;
@@ -265,8 +271,9 @@ public class CategoriesView {
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
             gridComponent = new GridComponentTechnical(participants);
         }
-
         createCartoucheForGridComponent(borderPane, categorieBean, epreuveBean);
+        gridComponent.setParticipantClassementFinalListener(participantClassementFinalListener);
+        gridComponent.drawGrid();
         borderPane.setCenter(gridComponent);
 
         final GridComponent gridComponent2  = gridComponent;
@@ -351,28 +358,24 @@ public class CategoriesView {
         Label firstPlaceLabel = new Label("1ere Place");
         firstPlaceLabel.getStyleClass().add("titleGridPane");
         gridPane.add(firstPlaceLabel, 2, 1);
-        TextField firstPlaceTf = new TextField();
         firstPlaceTf.setPromptText("1ere Place");
         gridPane.add(firstPlaceTf, 3, 1);
 
         Label secondPlaceLabel = new Label("2eme Place");
         secondPlaceLabel.getStyleClass().add("titleGridPane");
         gridPane.add(secondPlaceLabel, 2, 2);
-        TextField secondPlaceTf = new TextField();
         secondPlaceTf.setPromptText("2eme Place");
         gridPane.add(secondPlaceTf, 3, 2);
 
         Label thirdPlaceLabel = new Label("3eme Place");
         thirdPlaceLabel.getStyleClass().add("titleGridPane");
         gridPane.add(thirdPlaceLabel, 2, 3);
-        TextField thirdPlaceTf = new TextField();
         thirdPlaceTf.setPromptText("3eme Place");
         gridPane.add(thirdPlaceTf, 3, 3);
 
         Label fourthPlaceLabel = new Label("4eme Place");
         fourthPlaceLabel.getStyleClass().add("titleGridPane");
         gridPane.add(fourthPlaceLabel, 2, 4);
-        TextField fourthPlaceTf = new TextField();
         fourthPlaceTf.setPromptText("4eme Place");
         gridPane.add(fourthPlaceTf, 3, 4);
 

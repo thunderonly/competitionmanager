@@ -11,10 +11,15 @@ import java.util.List;
 import com.sun.javafx.collections.transformation.SortedList;
 
 import fr.csmb.competition.component.grid.GridComponent;
+import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -33,14 +38,34 @@ public class GridComponentTechnical extends GridComponent {
     private int minWidthColumnJoueur = 80;
     private TableView table = new TableView();
     private ObservableList<ParticipantBean> data = FXCollections.observableArrayList();
+    private ParticipantClassementFinalListener participantClassementFinalListener;
 
     public GridComponentTechnical(List<ParticipantBean> joueurs) {
         resultatsList = new ArrayList<ParticipantBean>();
-        Group group = this;
-        group.getChildren().add(table);
         for (ParticipantBean joueur : joueurs) {
             data.add(joueur);
         }
+
+    }
+
+    public void drawGrid() {
+        Group group = this;
+        createTableView();
+        group.getChildren().add(table);
+    }
+
+    public List<ParticipantBean> getResultatsList() {
+        resultatsList.clear();
+
+        SortedList<ParticipantBean> resultats = new SortedList<ParticipantBean>(data);
+        resultats.sort();
+        for (ParticipantBean participant : resultats) {
+            resultatsList.add(participant);
+        }
+        return resultatsList;
+    }
+
+    private void createTableView() {
         //Create a customer cell factory so that cells can support editing.
         Callback<TableColumn, TableCell> cellFactory = new Callback<TableColumn, TableCell>() {
             @Override
@@ -153,6 +178,14 @@ public class GridComponentTechnical extends GridComponent {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setClassementManuel(cellEditEvent.getNewValue());
                 participant.setClassementFinal(cellEditEvent.getNewValue());
+                participantClassementFinalListener.fireUpdateClassementFinal(participant);
+            }
+        });
+        columnClassementFinal.cellValueFactoryProperty().addListener(new ChangeListener<ParticipantBean>() {
+            @Override
+            public void changed(ObservableValue<? extends ParticipantBean> observableValue, ParticipantBean o,
+                    ParticipantBean o2) {
+                System.out.println("Update data on column final");
             }
         });
 
@@ -160,17 +193,6 @@ public class GridComponentTechnical extends GridComponent {
         table.setItems(data);
         table.getColumns().addAll(columnClassement, columnInformationsJoueur, columnNotesJuge);
         table.setEditable(true);
-    }
-
-    public List<ParticipantBean> getResultatsList() {
-        resultatsList.clear();
-
-        SortedList<ParticipantBean> resultats = new SortedList<ParticipantBean>(data);
-        resultats.sort();
-        for (ParticipantBean participant : resultats) {
-            resultatsList.add(participant);
-        }
-        return resultatsList;
     }
 
     private class ResultatComparator implements Comparator<ParticipantBean> {
@@ -209,7 +231,12 @@ public class GridComponentTechnical extends GridComponent {
                 data.get(data.indexOf(participant)).setClassementAuto(i);
                 data.get(data.indexOf(participant)).setClassementFinal(i);
             }
+            this.participantClassementFinalListener.fireUpdateClassementFinal(participant);
             previousParticipant = participant;
         }
+    }
+
+    public void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener) {
+        this.participantClassementFinalListener = participantClassementFinalListener;
     }
 }

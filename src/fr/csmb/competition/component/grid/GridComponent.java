@@ -20,4 +20,9 @@ public abstract class GridComponent extends Group {
     protected List<ParticipantBean> resultatsList;
 
     public abstract List<ParticipantBean> getResultatsList();
+
+    public abstract void drawGrid();
+
+    public abstract void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener);
+
 }

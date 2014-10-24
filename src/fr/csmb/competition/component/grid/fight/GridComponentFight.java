@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.csmb.competition.component.grid.GridComponent;
+import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.Match;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.bean.Phase;
@@ -32,10 +33,14 @@ public class GridComponentFight extends GridComponent {
 
     private List<ParticipantBean> joueurs;
     private TextBox[] resultats = null;
+    private ParticipantClassementFinalListener participantClassementFinalListener;
 
     public GridComponentFight(List<ParticipantBean> joueurs) {
         this.joueurs = joueurs;
         resultatsList = new ArrayList<ParticipantBean>();
+    }
+
+    public void drawGrid() {
         Group group = this;
         resultats = drawShape(group);
     }
@@ -156,59 +161,38 @@ public class GridComponentFight extends GridComponent {
      * @return
      */
     private TextBox[] drawMatch(TextBox boxBlue, TextBox boxRed, Group group, int level, Phase phase) {
-        TextBox resultat = null;
-        TextBox resultatFail = null;
+        TextBox victoryBox = null;
+        TextBox defaitBox = null;
         Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
         if (phase.ordinal() == Phase.FINALE.ordinal() || phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
-            resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5), null);
-            resultatFail = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5), null);
+            victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
+            defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
 
             //Create a TextBoxListner to prepare resultat
-            TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, resultat, resultatFail, phase);
+            TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox, phase);
             boxBlue.setListner(listner);
             boxRed.setListner(listner);
-
-            if (phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
-                resultat.getText().setText("3eme Place");
-//                resultat.getParticipant().setClassementFinal(3);
-                resultatFail.getText().setText("4eme Place");
-//                resultatFail.getParticipant().setClassementFinal(4);
-                resultat.setLayoutX(boxBlue.getLayoutX() + widthRectangle + spaceBetweenMatch);
-                resultat.setLayoutY(10 + heightRectangle * 2);
-                resultatFail.setLayoutX(boxBlue.getLayoutX() + widthRectangle + spaceBetweenMatch);
-                resultatFail.setLayoutY(10 + heightRectangle * 3);
-            } else {
-                resultat.getText().setText("1ere Place");
-//                resultat.getParticipant().setClassementFinal(1);
-                resultatFail.getText().setText("2eme Place");
-//                resultatFail.getParticipant().setClassementFinal(2);
-                resultat.setLayoutX(boxBlue.getLayoutX() + widthRectangle + spaceBetweenMatch + widthRectangle + spaceBetweenMatch);
-                resultat.setLayoutY(10);
-                resultatFail.setLayoutX(boxBlue.getLayoutX() + widthRectangle + spaceBetweenMatch + widthRectangle + spaceBetweenMatch);
-                resultatFail.setLayoutY(10 + heightRectangle);
-            }
-
-            group.getChildren().addAll(resultat, resultatFail);
+            listner.setParticipantClassementFinalListener(participantClassementFinalListener);
 
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
-            resultat = drawMatch(boxBlue, boxRed, group, level);
-            resultatFail = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
+            victoryBox = drawMatch(boxBlue, boxRed, group, level);
+            defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
             //Create a TextBoxListner to prepare resultat
-            TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, resultat, resultatFail);
+            TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox);
             boxBlue.setListner(listner);
             boxRed.setListner(listner);
-            resultatFail.setLayoutX(resultat.getLayoutX() + widthRectangle + spaceBetweenMatch);
-            resultatFail.setLayoutY(resultat.getLayoutY());
-            group.getChildren().add(resultatFail);
+            defaitBox.setLayoutX(victoryBox.getLayoutX() + widthRectangle + spaceBetweenMatch);
+            defaitBox.setLayoutY(victoryBox.getLayoutY());
+            group.getChildren().add(defaitBox);
         }
 
         TextBox[] resultats = new TextBox[2];
-        resultats[0] = resultat;
-        resultats[1] = resultatFail;
+        resultats[0] = victoryBox;
+        resultats[1] = defaitBox;
         return resultats;
     }
 
@@ -257,18 +241,19 @@ public class GridComponentFight extends GridComponent {
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
+        TextBox victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
         //Set the resultat textBox to prepare click event on red and blue box
-        boxBlue.setResultatBox(resultat);
-        boxRed.setResultatBox(resultat);
 
-        resultat.setLayoutX(beginXResultat);
-        resultat.setLayoutY(beginYResultat);
-        group.getChildren().addAll(resultat, lineBlueH, lineRedH, lineBlueV, lineRedV);
+        victoryBox.setLayoutX(beginXResultat);
+        victoryBox.setLayoutY(beginYResultat);
+        group.getChildren().addAll(victoryBox, lineBlueH, lineRedH, lineBlueV, lineRedV);
 
+        TextBoxListner textBoxListner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox);
+        boxBlue.setListner(textBoxListner);
+        boxRed.setListner(textBoxListner);
 
-
-        return resultat;
+        return victoryBox;
     }
 
     /**
@@ -308,40 +293,35 @@ public class GridComponentFight extends GridComponent {
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox resultat = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat, null);
+        TextBox victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
-        TextBox blue = new TextBox(match.getJoueur1(), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5), resultat);
+        TextBox blue = new TextBox(match.getJoueur1(), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
         blue.setLayoutX(beginXBlue);
         blue.setLayoutY(beginYBlue);
         Line lineBlue = new Line(beginXLineBlue, beginYLineBlue , endXLineBlue, beginYBlue + heightRectangle);
         lineBlue.setStrokeWidth(0.5);
         lineBlue.setStroke(Color.BLACK);
 
-        TextBox red = new TextBox(match.getJoueur2(), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5), resultat);
+        TextBox red = new TextBox(match.getJoueur2(), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
         red.setLayoutX(beginXRed);
         red.setLayoutY(beginYRed);
         Line lineRed = new Line(beginXLineRed, beginYRed, endXLineRed, beginYRed);
         lineRed.setStrokeWidth(0.5);
         lineRed.setStroke(Color.BLACK);
 
-        resultat.setLayoutX(beginXResultat);
-        resultat.setLayoutY(beginYResultat);
+        victoryBox.setLayoutX(beginXResultat);
+        victoryBox.setLayoutY(beginYResultat);
 
-        group1.getChildren().addAll(blue, red, resultat, lineBlue, lineRed);
-        match.setResultat(resultat);
-        return resultat;
+        TextBoxListner textBoxListner = new TextBoxListner(blue, red, victoryBox, defaitBox);
+        blue.setListner(textBoxListner);
+        red.setListner(textBoxListner);
+        group1.getChildren().addAll(blue, red, victoryBox, lineBlue, lineRed);
+        match.setResultat(victoryBox);
+        return victoryBox;
     }
 
-
-    /**
-     * Represent match between 2 participants
-     */
-
-
-    /**
-     * Fire event on 4 TextBox.
-     * Update text of boxVictory with source TextBox and text of boxFail with the other linked box.
-     * This listner is use for Demi Final, Little Final and Final round
-     */
-
+    public void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener) {
+        this.participantClassementFinalListener = participantClassementFinalListener;
+    }
 }

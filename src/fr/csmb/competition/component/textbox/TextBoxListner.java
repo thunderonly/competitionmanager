@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.component.textbox;
 
+import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.Phase;
 
 /**
@@ -18,6 +19,7 @@ public class TextBoxListner {
     private TextBox boxVictory;
     private TextBox boxFail;
     private Phase phase;
+    private ParticipantClassementFinalListener participantClassementFinalListener;
 
     public TextBoxListner(TextBox boxBlue, TextBox boxRed, TextBox boxVictory, TextBox boxFail, Phase phase) {
         this.boxBlue = boxBlue;
@@ -29,6 +31,10 @@ public class TextBoxListner {
 
     public TextBoxListner(TextBox boxBlue, TextBox boxRed, TextBox boxVictory, TextBox boxFail) {
         this(boxBlue, boxRed, boxVictory, boxFail, Phase.UNKNOWN);
+    }
+
+    public void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener) {
+        this.participantClassementFinalListener = participantClassementFinalListener;
     }
 
     public void onFireEvent(TextBox sourceBox) {
@@ -48,6 +54,10 @@ public class TextBoxListner {
                 boxVictory.getParticipant().setClassementFinal(1);
                 boxFail.getParticipant().setClassementFinal(2);
                 break;
+        }
+        if (participantClassementFinalListener != null) {
+            participantClassementFinalListener.fireUpdateClassementFinal(boxVictory.getParticipant());
+            participantClassementFinalListener.fireUpdateClassementFinal(boxFail.getParticipant());
         }
     }
 }

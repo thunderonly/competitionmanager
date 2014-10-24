@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.component.textbox;
 
+import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -26,14 +27,12 @@ public class TextBox extends Group {
     private Text text;
     private Rectangle rectangle;
     private Rectangle clip;
-    private TextBox resultatBox;
     private TextBoxListner listner;
     private ParticipantBean participant;
     public StringProperty textProperty() { return text.textProperty(); }
 
-    public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle, final TextBox resultatBoxP) {
+    public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle) {
         this.text = new Text(participant.toString());
-        this.resultatBox = resultatBoxP;
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFill(Color.BLACK);
         text.setTextOrigin(VPos.CENTER);
@@ -57,14 +56,6 @@ public class TextBox extends Group {
         return this.text;
     }
 
-    public TextBox getResultatBox() {
-        return resultatBox;
-    }
-
-    public void setResultatBox(TextBox resultatBox) {
-        this.resultatBox = resultatBox;
-    }
-
     public TextBoxListner getListner() {
         return listner;
     }
@@ -79,7 +70,7 @@ public class TextBox extends Group {
 
     public void setParticipant(ParticipantBean participant) {
         this.participant = participant;
-        this.text.setText(participant.getNom());
+        this.text.setText(participant.toString());
     }
 
     @Override
@@ -110,10 +101,10 @@ public class TextBox extends Group {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            // If participant source have a resultat box, update text with the source participant
-            if (textBoxSource.getResultatBox() != null) {
-                textBoxSource.getResultatBox().setParticipant(textBoxSource.getParticipant());
-            }
+//            // If participant source have a resultat box, update text with the source participant
+//            if (textBoxSource.getVictoryBox() != null) {
+//                textBoxSource.getVictoryBox().setParticipant(textBoxSource.getParticipant());
+//            }
             //If source participant have a listner, fire the click event
             if (textBoxSource.getListner() != null) {
                 textBoxSource.getListner().onFireEvent(textBoxSource);
