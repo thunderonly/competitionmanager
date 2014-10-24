@@ -223,30 +223,20 @@ public class GridComponentFight extends GridComponent {
         double beginXResultat = endXLineBlue;
         double beginYResultat = ((endYLineRed - endYLineBlue) / 2) + endYLineBlue - (heightRectangle / 2);
 
-        Line lineBlueH = new Line(beginXLineBlue, beginYLineBlue , endXLineBlue, endYLineBlue);
-        lineBlueH.setStrokeWidth(0.5);
-        lineBlueH.setStroke(Color.BLACK);
-        Line lineBlueV = new Line(endXLineBlue, endYLineBlue , endXLineBlue, beginYResultat);
-        lineBlueV.setStrokeWidth(0.5);
-        lineBlueV.setStroke(Color.BLACK);
-
-        Line lineRedH = new Line(beginXLineRed, beginYLineRed , endXLineRed, endYLineRed);
-        lineRedH.setStrokeWidth(0.5);
-        lineRedH.setStroke(Color.BLACK);
-        Line lineRedV = new Line(endXLineRed, endYLineRed , endXLineRed, beginYResultat + heightRectangle);
-        lineRedV.setStrokeWidth(0.5);
-        lineRedV.setStroke(Color.BLACK);
-
         Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
-        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
-        //Set the resultat textBox to prepare click event on red and blue box
 
-        victoryBox.setLayoutX(beginXResultat);
-        victoryBox.setLayoutY(beginYResultat);
+        Line lineBlueH = drawLine(beginXLineBlue, beginYLineBlue , endXLineBlue, endYLineBlue);
+        Line lineBlueV = drawLine(endXLineBlue, endYLineBlue , endXLineBlue, beginYResultat);
+
+        Line lineRedH = drawLine(beginXLineRed, beginYLineRed , endXLineRed, endYLineRed);
+        Line lineRedV = drawLine(endXLineRed, endYLineRed , endXLineRed, beginYResultat + heightRectangle);
+
+        TextBox victoryBox = createTextBox(new ParticipantBean("", ""), beginXResultat, beginYResultat, colorResultat);
+        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+
         group.getChildren().addAll(victoryBox, lineBlueH, lineRedH, lineBlueV, lineRedV);
 
         TextBoxListner textBoxListner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox);
@@ -279,6 +269,7 @@ public class GridComponentFight extends GridComponent {
         int beginXLineBlue = beginXBlue + widthRectangle;
         int endXLineBlue = beginXBlue + widthRectangle + spaceBetweenMatch;
         int beginYLineBlue = beginYBlue + heightRectangle;
+        int endYLineBlue = beginYBlue + heightRectangle;
 
         int beginXRed = beginXBlue;
         int beginYRed = beginYBlue + heightRectangle + spaceBetweenJoueur;
@@ -287,31 +278,23 @@ public class GridComponentFight extends GridComponent {
 
         int beginXResultat = endXLineBlue;
         int beginYResultat = beginYBlue + heightRectangle;
+        Color colorBlue = Color.color(1.0, 1.0, 0.0, 0.5);
+        Color colorRed = Color.color(0.0, 1.0, 1.0, 0.5);
 
 
         Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
         if (level % 2 == 0) {
             colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
         }
-        TextBox victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+
+        TextBox blue = createTextBox(match.getJoueur1(), beginXBlue, beginYBlue, colorBlue);
+        Line lineBlue = drawLine(beginXLineBlue, beginYLineBlue , endXLineBlue, endYLineBlue);
+
+        TextBox red = createTextBox(match.getJoueur2(), beginXRed, beginYRed, colorRed);
+        Line lineRed = drawLine(beginXLineRed, beginYRed, endXLineRed, beginYRed);
+
+        TextBox victoryBox = createTextBox(new ParticipantBean("", ""), beginXResultat, beginYResultat, colorResultat);
         TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
-
-        TextBox blue = new TextBox(match.getJoueur1(), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
-        blue.setLayoutX(beginXBlue);
-        blue.setLayoutY(beginYBlue);
-        Line lineBlue = new Line(beginXLineBlue, beginYLineBlue , endXLineBlue, beginYBlue + heightRectangle);
-        lineBlue.setStrokeWidth(0.5);
-        lineBlue.setStroke(Color.BLACK);
-
-        TextBox red = new TextBox(match.getJoueur2(), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
-        red.setLayoutX(beginXRed);
-        red.setLayoutY(beginYRed);
-        Line lineRed = new Line(beginXLineRed, beginYRed, endXLineRed, beginYRed);
-        lineRed.setStrokeWidth(0.5);
-        lineRed.setStroke(Color.BLACK);
-
-        victoryBox.setLayoutX(beginXResultat);
-        victoryBox.setLayoutY(beginYResultat);
 
         TextBoxListner textBoxListner = new TextBoxListner(blue, red, victoryBox, defaitBox);
         blue.setListner(textBoxListner);
@@ -319,6 +302,21 @@ public class GridComponentFight extends GridComponent {
         group1.getChildren().addAll(blue, red, victoryBox, lineBlue, lineRed);
         match.setResultat(victoryBox);
         return victoryBox;
+    }
+
+    private Line drawLine(double beginX, double beginY, double endX, double endY) {
+        Line line = new Line(beginX, beginY, endX, endY);
+        line.setStrokeWidth(0.5);
+        line.setStroke(Color.BLACK);
+
+        return line;
+    }
+
+    private TextBox createTextBox(ParticipantBean participantBean, double beginX, double beginY, Color color) {
+        TextBox textBox = new TextBox(participantBean, widthRectangle, heightRectangle, color);
+        textBox.setLayoutX(beginX);
+        textBox.setLayoutY(beginY);
+        return textBox;
     }
 
     public void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener) {
