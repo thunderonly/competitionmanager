@@ -175,6 +175,7 @@ public class CategoriesView {
         treeItem.getChildren().add(itemTypeCategorieFeminin);
         TreeItem<String> itemTypeCategorieMasculin = new TreeItem<String>(TypeCategorie.MASCULIN.getValue());
         treeItem.getChildren().add(itemTypeCategorieMasculin);
+        TreeItem<String> itemTypeCategorieMixte = null;
 
         for (Categorie categorie : competition.getCategories()) {
             TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNomCategorie());
@@ -194,6 +195,12 @@ public class CategoriesView {
                 itemTypeCategorieFeminin.getChildren().add(itemCategorie);
             } else if (categorie.getTypeCategorie().equals(TypeCategorie.MASCULIN.getValue())) {
                 itemTypeCategorieMasculin.getChildren().add(itemCategorie);
+            } else if (categorie.getTypeCategorie().equals(TypeCategorie.MIXTE.getValue())) {
+                if (itemTypeCategorieMixte == null) {
+                    itemTypeCategorieMixte = new TreeItem<String>(TypeCategorie.MIXTE.getValue());
+                    treeItem.getChildren().add(itemTypeCategorieMixte);
+                }
+                itemTypeCategorieMixte.getChildren().add(itemCategorie);
             }
         }
 
@@ -552,8 +559,17 @@ public class CategoriesView {
                     "Impossible de fusionner une épreuve validée");
         } else {
             String newCategorie = categorie1.concat(" - ").concat(categorie2);
+            if (categorie1.equals(categorie2)) {
+                newCategorie = categorie1;
+            }
+
             CategorieBean categorieBean = new CategorieBean(newCategorie);
-            categorieBean.setType(typeCategorie1);
+            String newTypeCategorie = typeCategorie1.concat(" - ").concat(typeCategorie2);
+
+            if (typeCategorie1.equals(typeCategorie2)) {
+                newTypeCategorie = typeCategorie1;
+            }
+            categorieBean.setType(newTypeCategorie);
 
             String newEpreuve = epreuve1.concat("-").concat(epreuve2);
             if (epreuve1.equals(epreuve2)) {
@@ -590,10 +606,17 @@ public class CategoriesView {
             treeItemTypeEpreuve.getChildren().add(treeItemEpreuve);
 
             //get item correspond to categorie type
+            boolean categorieAdded = false;
             for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
                 if (treeItem.getValue().equals(categorieBean.getType())) {
                     treeItem.getChildren().add(treeItemCategorie);
+                    categorieAdded = true;
                 }
+            }
+
+            //New categorie from fusion
+            if (!categorieAdded) {
+                treeView.getRoot().getChildren().add(treeItemTypeCategorie);
             }
         }
     }

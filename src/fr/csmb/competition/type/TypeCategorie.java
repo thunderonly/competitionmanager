@@ -11,7 +11,8 @@ package fr.csmb.competition.type;
  */
 public enum TypeCategorie {
     MASCULIN ("Masculin"),
-    FEMININ ("Féminin");
+    FEMININ ("Féminin"),
+    MIXTE ("Mixte");
 
     private String value;
 
