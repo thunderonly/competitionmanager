@@ -262,7 +262,7 @@ public class CategoriesView {
             }
         }
 
-        for (int i = participants.size() + 1; i <= 8; i++) {
+        for (int i = participants.size() + 1; i <= 3; i++) {
             participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
         }
 
@@ -282,10 +282,6 @@ public class CategoriesView {
             @Override
             public void handle(ActionEvent actionEvent) {
                 List<ParticipantBean> resutlats = gridComponent2.getResultatsList();
-                System.out.println("1er : " + resutlats.get(0).getNom());
-                System.out.println("2eme : " + resutlats.get(1).getNom());
-                System.out.println("3eme : " + resutlats.get(2).getNom());
-                System.out.println("4eme : " + resutlats.get(3).getNom());
                 CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
                 if (categorieBean != null) {
                     EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
