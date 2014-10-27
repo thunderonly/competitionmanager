@@ -101,6 +101,15 @@ public class CategoriesView {
                 ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
                 for (Participant participant : epreuve.getParticipants()) {
                     ParticipantBean participantBean = new ParticipantBean(participant.getNomParticipant(), participant.getPrenomParticipant());
+                    participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
+                    participantBean.setClassementManuel(Integer.parseInt(participant.getClassementManuel()));
+                    participantBean.setClassementAuto(Integer.parseInt(participant.getClassementAuto()));
+                    participantBean.setNote1(Integer.parseInt(participant.getNote1()));
+                    participantBean.setNote2(Integer.parseInt(participant.getNote2()));
+                    participantBean.setNote3(Integer.parseInt(participant.getNote3()));
+                    participantBean.setNote4(Integer.parseInt(participant.getNote4()));
+                    participantBean.setNote5(Integer.parseInt(participant.getNote5()));
+//                    participantBean.setNoteTotal(Integer.parseInt(participant.getNoteTotal()));
                     participantBeans.add(participantBean);
                 }
                 epreuveBean.setParticipants(participantBeans);

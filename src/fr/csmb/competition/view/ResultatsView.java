@@ -71,7 +71,7 @@ public class ResultatsView {
             String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
             for (String typeEpreuve : typeEpreuves) {
                 for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                    if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                    if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         try {
                             FXMLLoader loader = new FXMLLoader();
                             loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));

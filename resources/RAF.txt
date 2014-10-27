@@ -10,7 +10,7 @@ Gestion des categories
 			Type epreuve
 				Epreuve
 7 - Ajouter le cartouche dans les tableaux de catégorie [OK]
-8 - Gestion des équipes Doi Luyen
+8 - Gestion des équipes Doi Luyen [OK]
 9 - Gestion fusion féminin/masculin [OK]
 10 - Combat : Gestion des categories de 4 et 3 participants [OK]
 

@@ -11,8 +11,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -93,6 +95,7 @@ public class InscriptionsManager {
                         "Renseignements".equals(cellB.getStringCellValue())) {
                     rowIterator.next();
                     List<Eleve> eleves = new ArrayList<Eleve>();
+                    Map<String, List<Eleve>> teamDoiLuyen = new HashMap<String, List<Eleve>>();
                     while(rowIterator.hasNext()) {
                         Eleve eleve = new Eleve();
                         row = rowIterator.next();
@@ -114,8 +117,11 @@ public class InscriptionsManager {
                             epreuves.add("Arme");
                         }
                         epreuve = getCellValue(row, 12);
-                        if ("Oui".equalsIgnoreCase(epreuve)) {
-                            epreuves.add("Doi Luyen");
+                        if (epreuve.contains("Équipe")) {
+                            if (teamDoiLuyen.get(epreuve) == null) {
+                                teamDoiLuyen.put(epreuve, new ArrayList<Eleve>());
+                            }
+                            teamDoiLuyen.get(epreuve).add(eleve);
                         }
                         epreuve = getCellValue(row, 13);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
@@ -129,6 +135,9 @@ public class InscriptionsManager {
                         }
                     }
                     club.setEleves(eleves);
+                    for (List<Eleve> eleveList : teamDoiLuyen.values()) {
+                        club.getEleves().add(extractEleveFromTeam(eleveList));
+                    }
 
                     if (competition.getClubs().contains(club)) {
                         competition.getClubs().remove(club);
@@ -142,6 +151,59 @@ public class InscriptionsManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Eleve extractEleveFromTeam(List<Eleve> eleves) {
+        Eleve newEleve = new Eleve();
+        for (Eleve eleve : eleves) {
+            newEleve.setEpreuvesEleves(new ArrayList<String>());
+            newEleve.getEpreuvesEleves().add("Doi Luyen");
+            //Nom
+            if (newEleve.getNomEleve() == null) {
+                newEleve.setNomEleve(eleve.getNomEleve());
+            } else {
+                newEleve.setNomEleve(newEleve.getNomEleve().concat("/").concat(eleve.getNomEleve()));
+            }
+            //Prénom
+            if (newEleve.getPrenomEleve() == null) {
+                newEleve.setPrenomEleve(eleve.getPrenomEleve());
+            } else {
+                newEleve.setPrenomEleve(newEleve.getPrenomEleve().concat("/").concat(eleve.getPrenomEleve()));
+            }
+            //Age
+            if (newEleve.getAgeEleve() == null) {
+                newEleve.setAgeEleve(eleve.getAgeEleve());
+            } else {
+                if (Integer.parseInt(newEleve.getAgeEleve()) < Integer.parseInt(eleve.getAgeEleve())) {
+                    newEleve.setAgeEleve(eleve.getAgeEleve());
+                }
+            }
+            //Sexe
+            if (newEleve.getSexeEleve() == null) {
+                newEleve.setSexeEleve(eleve.getSexeEleve());
+            } else {
+                if (eleve.getSexeEleve().equals("Masculin")) {
+                    newEleve.setSexeEleve(eleve.getSexeEleve());
+                } else if (eleve.getSexeEleve().equals("Féminin") && newEleve.getSexeEleve().equals("Féminin")) {
+                    newEleve.setSexeEleve(eleve.getSexeEleve());
+                }
+            }
+            //Categorie
+            String currentCategorie;
+            if (eleve.getCategorieEleve().equals("Benjamin") || eleve.getCategorieEleve().equals("Minime") || eleve.getCategorieEleve().equals("Cadet")) {
+                currentCategorie = "Cadet";
+            } else {
+                currentCategorie = "Senior";
+            }
+            if (newEleve.getCategorieEleve() == null) {
+               newEleve.setCategorieEleve(currentCategorie);
+            } else {
+                if (newEleve.getCategorieEleve().equals("Cadet") && currentCategorie.equals("Senior")) {
+                    newEleve.setCategorieEleve(currentCategorie);
+                }
+            }
+        }
+        return newEleve;
     }
 
     private String convertCategorie(String categorie) {
