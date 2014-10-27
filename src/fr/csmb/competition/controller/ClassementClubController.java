@@ -31,6 +31,12 @@ public class ClassementClubController {
     private TableColumn<ClubBean, String> totalCombat;
     @FXML
     private TableColumn<ClubBean, String> totalGeneral;
+    @FXML
+    private TableColumn<ClubBean, String> classementTechnique;
+    @FXML
+    private TableColumn<ClubBean, String> classementCombat;
+    @FXML
+    private TableColumn<ClubBean, String> classementGeneral;
 
     @FXML
     private void initialize() {
@@ -62,6 +68,24 @@ public class ClassementClubController {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
                 return clubBeanStringCellDataFeatures.getValue().totalGeneralProperty().asString();
+            }
+        });
+        classementTechnique.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
+                return clubBeanStringCellDataFeatures.getValue().classementTechniqueProperty().asString();
+            }
+        });
+        classementCombat.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
+                return clubBeanStringCellDataFeatures.getValue().classementCombatProperty().asString();
+            }
+        });
+        classementGeneral.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
+                return clubBeanStringCellDataFeatures.getValue().classementGeneralProperty().asString();
             }
         });
 

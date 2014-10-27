@@ -178,6 +178,11 @@ public class Main extends Application {
         inscriptionsManager.saveInscription(file, this.competitionData.get(0));
     }
 
+    public void generateResutlatFile(File file) {
+        InscriptionsManager inscriptionsManager = new InscriptionsManager();
+        inscriptionsManager.saveInscription(file, this.competitionData.get(0));
+    }
+
     public void showCompetitionView() {
         if (competitionData == null || competitionData.size() == 0) {
             NotificationView notificationView = new NotificationView(mainStage);

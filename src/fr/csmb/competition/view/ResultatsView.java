@@ -1,26 +1,34 @@
 package fr.csmb.competition.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.sun.javafx.collections.SortableList;
 import com.sun.javafx.collections.transformation.SortedList;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.controller.ClassementClubController;
 import fr.csmb.competition.controller.ResultatsController;
+import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
+import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -30,6 +38,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -44,6 +53,7 @@ public class ResultatsView {
     private int pointForFourthPlace = 1;
 
     private CompetitionBean competitionBean;
+    private Stage mainStage;
 
     public void showView(Stage mainStage, Competition competition) {
         loadCompetitionBean(competition);
@@ -53,6 +63,7 @@ public class ResultatsView {
         stage.setTitle("Résultats compétition : " + competition.getNom());
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainStage);
+        this.mainStage = stage;
 //        stage.setMinWidth(500);
         Scene scene = new Scene(stackPane);
         stage.setScene(scene);
@@ -110,6 +121,32 @@ public class ResultatsView {
 
         tabPane.getTabs().add(classementClub);
         stackPane.setCenter(tabPane);
+
+        Button generateResultat = new Button("Générer");
+        generateResultat.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FileChooser fileChooser = new FileChooser();
+
+                // Set extension filter
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                        "XML files (*.xlsx)", "*.xlsx");
+                fileChooser.getExtensionFilters().add(extFilter);
+
+                // Show save file dialog
+                File file = fileChooser.showSaveDialog(mainStage);
+
+                if (file != null) {
+                    // Make sure it has the correct extension
+                    if (!file.getPath().endsWith(".xlsx")) {
+                        file = new File(file.getPath() + ".xlsx");
+                    }
+                    InscriptionsManager inscriptionsManager = new InscriptionsManager();
+                    inscriptionsManager.saveResultatFile(file, competitionBean);
+                }
+            }
+        });
+        stackPane.setBottom(generateResultat);
     }
 
     private void loadCompetitionBean(Competition competition) {
@@ -167,6 +204,77 @@ public class ResultatsView {
             clubBean.setTotalCombat(pointCombat);
             clubBean.setTotalTechnique(pointTechnique);
             clubBean.setTotalGeneral(pointCombat + pointTechnique);
+        }
+        computeClassementTechnique();
+        computeClassementCombat();
+        computeClassementGeneral();
+    }
+
+    private void computeClassementGeneral() {
+        SortedList<ClubBean> sortableList = new SortedList<ClubBean>(competitionBean.getClubs());
+        sortableList.sort();
+        int i = 0;
+        ClubBean previousClub = null;
+        for (ClubBean club : sortableList) {
+            if (previousClub != null) {
+                if (previousClub.getTotalGeneral() == club.getTotalGeneral()) {
+                    club.setClassementGeneral(previousClub.getClassementGeneral());
+                    i++;
+                } else {
+                    i++;
+                    club.setClassementGeneral(i);
+                }
+            } else {
+                i++;
+                club.setClassementGeneral(i);
+            }
+            previousClub = club;
+        }
+    }
+
+    private void computeClassementTechnique() {
+        SortedList<ClubBean> sortableList = new SortedList<ClubBean>(competitionBean.getClubs());
+        sortableList.setComparator(new ComparatorClubTotalTechnique());
+        sortableList.sort();
+        int i = 0;
+        ClubBean previousClub = null;
+        for (ClubBean club : sortableList) {
+            if (previousClub != null) {
+                if (previousClub.getTotalTechnique() == club.getTotalTechnique()) {
+                    club.setClassementTechnique(previousClub.getClassementTechnique());
+                    i++;
+                } else {
+                    i++;
+                    club.setClassementTechnique(i);
+                }
+            } else {
+                i++;
+                club.setClassementTechnique(i);
+            }
+            previousClub = club;
+        }
+    }
+
+    private void computeClassementCombat() {
+        SortedList<ClubBean> sortableList = new SortedList<ClubBean>(competitionBean.getClubs());
+        sortableList.setComparator(new ComparatorClubTotalCombat());
+        sortableList.sort();
+        int i = 0;
+        ClubBean previousClub = null;
+        for (ClubBean club : sortableList) {
+            if (previousClub != null) {
+                if (previousClub.getTotalCombat() == club.getTotalCombat()) {
+                    club.setClassementCombat(previousClub.getClassementCombat());
+                    i++;
+                } else {
+                    i++;
+                    club.setClassementCombat(i);
+                }
+            } else {
+                i++;
+                club.setClassementCombat(i);
+            }
+            previousClub = club;
         }
     }
 

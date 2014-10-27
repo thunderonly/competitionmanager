@@ -15,6 +15,9 @@
                 <TableColumn fx:id="totalTechnique" text="Total Technique"/>
                 <TableColumn fx:id="totalCombat" text="Total Combat"/>
                 <TableColumn fx:id="totalGeneral" text="Total General"/>
+                <TableColumn fx:id="classementTechnique" text="Classement Technique"/>
+                <TableColumn fx:id="classementCombat" text="Classement Combat"/>
+                <TableColumn fx:id="classementGeneral" text="Classement General"/>
 
             </columns>
             <columnResizePolicy>

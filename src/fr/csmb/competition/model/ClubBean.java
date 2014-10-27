@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Administrateur on 13/10/14.
  */
-public class ClubBean {
+public class ClubBean implements Comparable<ClubBean> {
 
     private StringProperty identifiant;
     private StringProperty nom;
@@ -21,6 +21,9 @@ public class ClubBean {
     private IntegerProperty totalTechnique;
     private IntegerProperty totalCombat;
     private IntegerProperty totalGeneral;
+    private IntegerProperty classementTechnique;
+    private IntegerProperty classementCombat;
+    private IntegerProperty classementGeneral;
     private ListProperty<EleveBean> eleves;
 
     public ClubBean() {
@@ -30,6 +33,9 @@ public class ClubBean {
         this.totalCombat = new SimpleIntegerProperty();
         this.totalGeneral = new SimpleIntegerProperty();
         this.totalTechnique = new SimpleIntegerProperty();
+        this.classementTechnique = new SimpleIntegerProperty();
+        this.classementCombat = new SimpleIntegerProperty();
+        this.classementGeneral = new SimpleIntegerProperty();
         this.eleves = new SimpleListProperty<EleveBean>();
     }
 
@@ -81,6 +87,30 @@ public class ClubBean {
         this.totalGeneral.set(totalGeneral);
     }
 
+    public Integer getClassementTechnique() {
+        return this.classementTechnique.get();
+    }
+
+    public void setClassementTechnique(Integer classementTechnique) {
+        this.classementTechnique.set(classementTechnique);
+    }
+
+    public Integer getClassementCombat() {
+        return this.classementCombat.get();
+    }
+
+    public void setClassementCombat(Integer classementCombat) {
+        this.classementCombat.set(classementCombat);
+    }
+
+    public Integer getClassementGeneral() {
+        return this.classementGeneral.get();
+    }
+
+    public void setClassementGeneral(Integer classementGeneral) {
+        this.classementGeneral.set(classementGeneral);
+    }
+
     public ObservableList<EleveBean> getEleves() {
         return this.eleves.get();
     }
@@ -114,6 +144,18 @@ public class ClubBean {
         return totalGeneral;
     }
 
+    public IntegerProperty classementTechniqueProperty() {
+        return classementTechnique;
+    }
+
+    public IntegerProperty classementCombatProperty() {
+        return classementCombat;
+    }
+
+    public IntegerProperty classementGeneralProperty() {
+        return classementGeneral;
+    }
+
     public ListProperty<EleveBean> elevesProperty() {
         return eleves;
     }
@@ -133,5 +175,15 @@ public class ClubBean {
     @Override
     public int hashCode() {
         return identifiant.get().hashCode();
+    }
+
+    @Override
+    public int compareTo(ClubBean clubBean) {
+        if (this.getTotalGeneral() > clubBean.getTotalGeneral()) {
+            return -1;
+        } else if (this.getTotalGeneral() < clubBean.getTotalGeneral()) {
+            return 1;
+        }
+        return 0;
     }
 }

@@ -1,5 +1,13 @@
 package fr.csmb.competition.manager;
 
+import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ClubBean;
+import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
+import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
+import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
@@ -15,6 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.sun.javafx.collections.transformation.SortedList;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -273,6 +283,176 @@ public class InscriptionsManager {
             }
         }
         return "";
+    }
+
+    public void saveResultatFile(File file, CompetitionBean competition) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFCellStyle styleTitle = workbook.createCellStyle();
+        styleTitle.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+        styleTitle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        styleTitle.setAlignment(CellStyle.ALIGN_CENTER);
+        styleTitle.setBorderBottom(CellStyle.BORDER_MEDIUM);
+        styleTitle.setBorderLeft(CellStyle.BORDER_MEDIUM);
+        styleTitle.setBorderRight(CellStyle.BORDER_MEDIUM);
+        styleTitle.setBorderTop(CellStyle.BORDER_MEDIUM);
+
+        XSSFCellStyle styleData = workbook.createCellStyle();
+        styleData.setAlignment(CellStyle.ALIGN_CENTER);
+        styleData.setBorderBottom(CellStyle.BORDER_THIN);
+        styleData.setBorderLeft(CellStyle.BORDER_THIN);
+        styleData.setBorderRight(CellStyle.BORDER_THIN);
+        styleData.setBorderTop(CellStyle.BORDER_THIN);
+
+        for (CategorieBean categorieBean : competition.getCategories()) {
+            boolean isSheetCreated = false;
+            int rowCount = 0;
+            int colCount = 0;
+            String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
+            for (String typeEpreuve : typeEpreuves) {
+                if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
+                    colCount = 0;
+                } else {
+                    colCount = 4;
+                }
+                for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
+                    if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                        XSSFSheet sheet = null;
+                        if (!isSheetCreated) {
+                            sheet = workbook.createSheet(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
+                            Row rowTitle = sheet.createRow(rowCount++);
+                            Cell cell1 = rowTitle.createCell(colCount + 1);
+                            cell1.setCellValue("Place");
+                            cell1.setCellStyle(styleTitle);
+                            Cell cell2 = rowTitle.createCell(colCount + 2);
+                            cell2.setCellValue("Nom");
+                            cell2.setCellStyle(styleTitle);
+                            Cell cell3 = rowTitle.createCell(colCount + 3);
+                            cell3.setCellValue("Prénom");
+                            cell3.setCellStyle(styleTitle);
+                            isSheetCreated = true;
+                        }
+
+                        Row rowEpreuve = sheet.createRow(rowCount++);
+                        Cell cellEpreuve = rowEpreuve.createCell(colCount + 1);
+                        cellEpreuve.setCellStyle(styleTitle);
+                        cellEpreuve.setCellValue(epreuveBean.getNom());
+                        sheet.addMergedRegion(new CellRangeAddress(1, 1, colCount + 1, colCount + 3));
+                        for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                            Row rowParticipant = sheet.createRow(rowCount++);
+                            Cell cell1 = rowParticipant.createCell(colCount + 1);
+                            cell1.setCellStyle(styleData);
+                            cell1.setCellValue(participantBean.getClassementFinal());
+                            Cell cell2 = rowParticipant.createCell(colCount + 2);
+                            cell2.setCellStyle(styleData);
+                            cell2.setCellValue(participantBean.getNom());
+                            Cell cell3 = rowParticipant.createCell(colCount + 3);
+                            cell3.setCellStyle(styleData);
+                            cell3.setCellValue(participantBean.getPrenom());
+                        }
+                        for (int columnPosition = 0; columnPosition < 4; columnPosition++) {
+                            sheet.autoSizeColumn(columnPosition);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Classement des clubs
+        XSSFSheet sheet = workbook.createSheet("Classement des clubs");
+        int rowCount = 0;
+        int colCount = 0;
+
+        Row rowTitle = sheet.createRow(rowCount++);
+        Cell cell1 = rowTitle.createCell(colCount + 1);
+        cell1.setCellValue("Place ");
+        cell1.setCellStyle(styleTitle);
+        Cell cell2 = rowTitle.createCell(colCount + 2);
+        cell2.setCellValue("Identifiant Club");
+        cell2.setCellStyle(styleTitle);
+        Cell cell3 = rowTitle.createCell(colCount + 3);
+        cell3.setCellValue("Nom Club");
+        cell3.setCellStyle(styleTitle);
+        Cell cell4 = rowTitle.createCell(colCount + 4);
+        cell4.setCellValue("Total Technique");
+        cell4.setCellStyle(styleTitle);
+        Cell cell5 = rowTitle.createCell(colCount + 5);
+        cell5.setCellValue("Total Combat");
+        cell5.setCellStyle(styleTitle);
+        Cell cell6 = rowTitle.createCell(colCount + 6);
+        cell6.setCellValue("Total Général");
+        cell6.setCellStyle(styleTitle);
+
+        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
+        Row rowClassementTech = sheet.createRow(rowCount++);
+        Cell cellClassementTech = rowClassementTech.createCell(colCount + 1);
+        cellClassementTech.setCellStyle(styleTitle);
+        cellClassementTech.setCellValue("Classement Technique");
+
+        SortedList<ClubBean> sortableList = new SortedList<ClubBean>(competition.getClubs());
+        sortableList.setComparator(new ComparatorClubTotalTechnique());
+        sortableList.sort();
+        for (ClubBean clubBean : sortableList) {
+            Row rowClub = sheet.createRow(rowCount++);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+        }
+
+        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
+        Row rowClassementComb = sheet.createRow(rowCount++);
+        Cell cellClassementComb = rowClassementComb.createCell(colCount + 1);
+        cellClassementComb.setCellStyle(styleTitle);
+        cellClassementComb.setCellValue("Classement Combat");
+        sortableList = new SortedList<ClubBean>(competition.getClubs());
+        sortableList.setComparator(new ComparatorClubTotalCombat());
+        sortableList.sort();
+        for (ClubBean clubBean : sortableList) {
+            Row rowClub = sheet.createRow(rowCount++);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+        }
+
+        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
+        Row rowClassementGene = sheet.createRow(rowCount++);
+        Cell cellClassementGene = rowClassementGene.createCell(colCount + 1);
+        cellClassementGene.setCellStyle(styleTitle);
+        cellClassementGene.setCellValue("Classement General");
+        sortableList = new SortedList<ClubBean>(competition.getClubs());
+        sortableList.sort();
+        for (ClubBean clubBean : competition.getClubs()) {
+            Row rowClub = sheet.createRow(rowCount++);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+        }
+
+        for (int columnPosition = 0; columnPosition < 7; columnPosition++) {
+            sheet.autoSizeColumn(columnPosition);
+        }
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createClassementClubTable(ClubBean clubBean, Row rowClub, int colCount, XSSFCellStyle styleData) {
+        Cell cell1 = rowClub.createCell(colCount + 1);
+        cell1.setCellValue(clubBean.getClassementTechnique());
+        cell1.setCellStyle(styleData);
+        Cell cell2 = rowClub.createCell(colCount + 2);
+        cell2.setCellValue(clubBean.getIdentifiant());
+        cell2.setCellStyle(styleData);
+        Cell cell3 = rowClub.createCell(colCount + 3);
+        cell3.setCellValue(clubBean.getNom());
+        cell3.setCellStyle(styleData);
+        Cell cell4 = rowClub.createCell(colCount + 4);
+        cell4.setCellValue(clubBean.getTotalTechnique());
+        cell4.setCellStyle(styleData);
+        Cell cell5 = rowClub.createCell(colCount + 5);
+        cell5.setCellValue(clubBean.getTotalCombat());
+        cell5.setCellStyle(styleData);
+        Cell cell6 = rowClub.createCell(colCount + 6);
+        cell6.setCellValue(clubBean.getTotalGeneral());
+        cell6.setCellStyle(styleData);
     }
 
     public void saveInscription(File file, Competition competition) {

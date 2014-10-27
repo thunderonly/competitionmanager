@@ -195,19 +195,6 @@ public class GridComponentTechnical extends GridComponent {
         table.setEditable(true);
     }
 
-    private class ResultatComparator implements Comparator<ParticipantBean> {
-
-        @Override
-        public int compare(ParticipantBean p1, ParticipantBean p2) {
-            if (p1.getClassementFinal() > p2.getClassementFinal()) {
-                return 1;
-            } else if (p1.getClassementFinal() < p2.getClassementFinal()) {
-                return -1;
-            }
-            return 0;
-        }
-    }
-
     private void computeClassementAuto() {
         SortedList<ParticipantBean> parts = new SortedList<ParticipantBean>(data);
         parts.sort();
