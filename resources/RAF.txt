@@ -19,7 +19,7 @@ Classement des clubs
 2 - Exporter le classement au format Excel
 
 Diffusion LAN
-1 - Diffuser les categories apres changement d'etat
+1 - Diffuser les categories apres changement d etat
 
 Creation de Competition
 1 - Nom de la competition [OK]

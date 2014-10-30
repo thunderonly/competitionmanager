@@ -10,6 +10,7 @@ import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
@@ -64,6 +65,8 @@ public class CategoriesView {
     private TextField secondPlaceTf = new TextField();
     private TextField thirdPlaceTf = new TextField();
     private TextField fourthPlaceTf = new TextField();
+
+    private NetworkSender sender = new NetworkSender("", 9878);
 
     public void showView(Stage mainStage, Competition competition) {
         this.competition = competition;
@@ -529,6 +532,8 @@ public class CategoriesView {
                     int index = parent.getChildren().indexOf(treeItem);
                     parent.getChildren().remove(treeItem);
                     parent.getChildren().add(index, treeItem);
+
+                    sender.send(competitionBean, categorieBean, epreuveBean);
                 }
             }
         }

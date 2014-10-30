@@ -4,14 +4,20 @@
  */
 package fr.csmb.competition.network.sender;
 
+import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.xml.model.Categorie;
+import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Epreuve;
+import fr.csmb.competition.xml.model.Participant;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.MulticastSocket;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.ObjectOutputStream;
+import java.net.*;
 import java.util.Enumeration;
 
 /**
@@ -66,7 +72,7 @@ public class NetworkSender {
 
     }
 
-    public void send(String nmeaSentence) {
+    public void send(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean) {
 
         if (createDatagramSocket()) {
 
@@ -74,11 +80,32 @@ public class NetworkSender {
                 if (address == null || address.equals("")) {
                     address = getMulticastIp();
                 }
-                final byte[] nmeaPacket = buildPacket(nmeaSentence);
-                final DatagramPacket sendPacket = new DatagramPacket(nmeaPacket, nmeaPacket.length,
-                        new InetSocketAddress(address,port));
 
-                ds.send(sendPacket);
+                Competition competition = new Competition(competitionBean.getNom());
+                Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
+                competition.getCategories().add(categorie);
+                Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
+                categorie.getEpreuves().add(epreuve);
+
+                Socket socket = new Socket("localhost", port);
+                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    Participant participant = new Participant();
+                    participant.setNomParticipant(participantBean.getNom());
+                    participant.setPrenomParticipant(participantBean.getPrenom());
+                    epreuve.getParticipants().add(participant);
+                }
+
+
+                ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
+                ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+                os.flush();
+                os.writeObject(competition);
+                os.flush();
+                //retrieves byte array
+                byte[] sendBuf = byteStream.toByteArray();
+                DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address,port));
+                int byteCount = packet.getLength();
+                ds.send(packet);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {

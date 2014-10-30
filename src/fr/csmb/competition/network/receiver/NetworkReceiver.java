@@ -4,12 +4,15 @@
  */
 package fr.csmb.competition.network.receiver;
 
+import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Participant;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.NetworkInterface;
-import java.net.SocketException;
+import java.io.ObjectInputStream;
+import java.net.*;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -59,7 +62,7 @@ public class NetworkReceiver extends Thread {
             if (address == null || address.equals("")) {
                 address = getMulticastIp();
             }
-            byte[] data = new byte[256];
+            byte[] data = new byte[5000];
             ds = new MulticastSocket(port);
             dp = new DatagramPacket(data, data.length);
             ds.joinGroup(InetAddress.getByName(address));
@@ -68,14 +71,19 @@ public class NetworkReceiver extends Thread {
 
                 try {
                     ds.receive(dp);
+                    ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+                    ObjectInputStream is = new
+                            ObjectInputStream(new BufferedInputStream(byteStream));
+                    Competition competition = (Competition)is.readObject();
+                    is.close();
+
+                    if (!isOwnPacket(dp.getAddress())) {
+                        fireReceive(competition);
+                    }
                 } catch (SocketException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                if (!isOwnPacket(dp.getAddress())) {
-                    fireReceive(rebuildNmeaSentence(dp.getData()));
-                } else {
                 }
 
             }
@@ -102,23 +110,6 @@ public class NetworkReceiver extends Thread {
             ownPacket = false;
         }
         return ownPacket;
-    }
-
-    /**
-     * Extract NmeaSentence in received data.
-     * <p/>
-     * *
-     */
-    protected String rebuildNmeaSentence(byte[] data) {
-        final StringBuilder nmeaBuffer = new StringBuilder();
-        for (final byte c : data) {
-            if (c == NMEA_SEP) {
-                break;
-            } else {
-                nmeaBuffer.append((char) c);
-            }
-        }
-        return nmeaBuffer.toString();
     }
 
     public void stopSocket() {
@@ -158,9 +149,9 @@ public class NetworkReceiver extends Thread {
     /**
      * Fire all listener
      */
-    private void fireReceive(String msg) {
+    private void fireReceive(Competition competition) {
         for (final DatagramListener datagramListener : listDatagramListener) {
-            datagramListener.receive(msg);
+            datagramListener.receive(competition);
         }
     }
 

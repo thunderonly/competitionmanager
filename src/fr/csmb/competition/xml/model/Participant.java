@@ -4,13 +4,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
 
 /**
  * Created by Administrateur on 19/10/14.
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Participant {
+public class Participant implements Serializable {
+    private static final long serialVersionUID = 5950169519310163575L;
+
     @XmlAttribute(name="nomParticipant")
     private String nomParticipant;
     @XmlAttribute(name="prenomParticipant")

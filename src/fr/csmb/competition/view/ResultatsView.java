@@ -75,6 +75,7 @@ public class ResultatsView {
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
+            boolean isTabCreated = false;
             Tab categorieTab = new Tab(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
             GridPane gridPane = new GridPane();
             int row = 0;
@@ -84,6 +85,8 @@ public class ResultatsView {
                 for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
                     if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         try {
+                            isTabCreated = true;
+
                             FXMLLoader loader = new FXMLLoader();
                             loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));
                             BorderPane borderPane = (BorderPane) loader.load();
@@ -102,8 +105,10 @@ public class ResultatsView {
                 }
                 col++;
             }
-            categorieTab.setContent(gridPane);
-            tabPane.getTabs().add(categorieTab);
+            if (isTabCreated) {
+                categorieTab.setContent(gridPane);
+                tabPane.getTabs().add(categorieTab);
+            }
         }
 
         Tab classementClub = new Tab("Classement Club");
@@ -142,7 +147,16 @@ public class ResultatsView {
                         file = new File(file.getPath() + ".xlsx");
                     }
                     InscriptionsManager inscriptionsManager = new InscriptionsManager();
-                    inscriptionsManager.saveResultatFile(file, competitionBean);
+                    boolean isSaved = inscriptionsManager.saveResultatFile(file, competitionBean);
+                    if (isSaved) {
+                        NotificationView notificationView = new NotificationView(mainStage);
+                        notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                                "Le fichier de résultat : " + file.getAbsolutePath() + " a été correctement généré.");
+                    } else {
+                        NotificationView notificationView = new NotificationView(mainStage);
+                        notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                                "Erreur lors de la génération du fichier de résultat : " + file.getAbsolutePath() + ".");
+                    }
                 }
             }
         });

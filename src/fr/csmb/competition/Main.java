@@ -5,6 +5,7 @@ import fr.csmb.competition.controller.Controller;
 import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.EleveBean;
+import fr.csmb.competition.network.receiver.NetworkReceiver;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.CreateCompetitionView;
 import fr.csmb.competition.view.NotificationView;
@@ -30,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -58,6 +61,9 @@ public class Main extends Application {
         controller.setMain(this);
         controller.getCreateCategorie().setDisable(true);
         controller.getCreateEpreuve().setDisable(true);
+
+        NetworkReceiver receiver = new NetworkReceiver("", 9878);
+        receiver.start();
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);

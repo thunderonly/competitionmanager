@@ -4,6 +4,8 @@
  */
 package fr.csmb.competition.network.receiver;
 
+import fr.csmb.competition.xml.model.Competition;
+
 /**
  * DatagramListener.
  *
@@ -12,5 +14,5 @@ package fr.csmb.competition.network.receiver;
  */
 public interface DatagramListener {
 
-    public void receive(String nmeaSentence);
+    public void receive(Competition competition);
 }

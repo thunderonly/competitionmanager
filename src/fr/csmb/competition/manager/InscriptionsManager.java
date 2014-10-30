@@ -12,11 +12,10 @@ import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
+import java.awt.*;
+import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -285,10 +284,33 @@ public class InscriptionsManager {
         return "";
     }
 
-    public void saveResultatFile(File file, CompetitionBean competition) {
+    public boolean saveResultatFile(File file, CompetitionBean competition) {
         XSSFWorkbook workbook = new XSSFWorkbook();
+
+        XSSFFont fontTitle= workbook.createFont();
+        fontTitle.setFontHeightInPoints((short)12);
+        fontTitle.setFontName("Arial");
+        fontTitle.setColor(IndexedColors.BLACK.getIndex());
+        fontTitle.setBold(true);
+        fontTitle.setItalic(false);
+
+        XSSFFont fontTitle2= workbook.createFont();
+        fontTitle2.setFontHeightInPoints((short)10);
+        fontTitle2.setFontName("Arial");
+        fontTitle2.setColor(IndexedColors.BLACK.getIndex());
+        fontTitle2.setBold(true);
+        fontTitle2.setItalic(false);
+
+        XSSFFont fontData= workbook.createFont();
+        fontData.setFontHeightInPoints((short)10);
+        fontData.setFontName("Arial");
+        fontData.setColor(IndexedColors.BLACK.getIndex());
+        fontData.setBold(false);
+        fontData.setItalic(false);
+
         XSSFCellStyle styleTitle = workbook.createCellStyle();
-        styleTitle.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+        styleTitle.setFont(fontTitle);
+        styleTitle.setFillForegroundColor(new XSSFColor(new Color(244, 176, 132)));
         styleTitle.setFillPattern(CellStyle.SOLID_FOREGROUND);
         styleTitle.setAlignment(CellStyle.ALIGN_CENTER);
         styleTitle.setBorderBottom(CellStyle.BORDER_MEDIUM);
@@ -296,7 +318,18 @@ public class InscriptionsManager {
         styleTitle.setBorderRight(CellStyle.BORDER_MEDIUM);
         styleTitle.setBorderTop(CellStyle.BORDER_MEDIUM);
 
+        XSSFCellStyle styleTitle2 = workbook.createCellStyle();
+        styleTitle2.setFont(fontTitle2);
+        styleTitle2.setFillForegroundColor(new XSSFColor(new Color(244, 176, 132)));
+        styleTitle2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        styleTitle2.setAlignment(CellStyle.ALIGN_CENTER);
+        styleTitle2.setBorderBottom(CellStyle.BORDER_MEDIUM);
+        styleTitle2.setBorderLeft(CellStyle.BORDER_MEDIUM);
+        styleTitle2.setBorderRight(CellStyle.BORDER_MEDIUM);
+        styleTitle2.setBorderTop(CellStyle.BORDER_MEDIUM);
+
         XSSFCellStyle styleData = workbook.createCellStyle();
+        styleData.setFont(fontData);
         styleData.setAlignment(CellStyle.ALIGN_CENTER);
         styleData.setBorderBottom(CellStyle.BORDER_THIN);
         styleData.setBorderLeft(CellStyle.BORDER_THIN);
@@ -334,8 +367,12 @@ public class InscriptionsManager {
 
                         Row rowEpreuve = sheet.createRow(rowCount++);
                         Cell cellEpreuve = rowEpreuve.createCell(colCount + 1);
-                        cellEpreuve.setCellStyle(styleTitle);
+                        cellEpreuve.setCellStyle(styleTitle2);
                         cellEpreuve.setCellValue(epreuveBean.getNom());
+                        for (int i = colCount + 2; i <= colCount + 3; i++) {
+                            Cell tempCellClassementGene = rowEpreuve.createCell(i);
+                            tempCellClassementGene.setCellStyle(styleTitle2);
+                        }
                         sheet.addMergedRegion(new CellRangeAddress(1, 1, colCount + 1, colCount + 3));
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                             Row rowParticipant = sheet.createRow(rowCount++);
@@ -359,7 +396,7 @@ public class InscriptionsManager {
 
         //Classement des clubs
         XSSFSheet sheet = workbook.createSheet("Classement des clubs");
-        int rowCount = 0;
+        int rowCount = 1;
         int colCount = 0;
 
         Row rowTitle = sheet.createRow(rowCount++);
@@ -382,11 +419,15 @@ public class InscriptionsManager {
         cell6.setCellValue("Total Général");
         cell6.setCellStyle(styleTitle);
 
-        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
         Row rowClassementTech = sheet.createRow(rowCount++);
         Cell cellClassementTech = rowClassementTech.createCell(colCount + 1);
-        cellClassementTech.setCellStyle(styleTitle);
+        cellClassementTech.setCellStyle(styleTitle2);
         cellClassementTech.setCellValue("Classement Technique");
+        for (int i = colCount + 2; i <= colCount + 6; i++) {
+            Cell tempCellClassementGene = rowClassementTech.createCell(i);
+            tempCellClassementGene.setCellStyle(styleTitle2);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(rowCount - 1, rowCount - 1, colCount + 1, colCount + 6));
 
         SortedList<ClubBean> sortableList = new SortedList<ClubBean>(competition.getClubs());
         sortableList.setComparator(new ComparatorClubTotalTechnique());
@@ -396,11 +437,15 @@ public class InscriptionsManager {
             createClassementClubTable(clubBean, rowClub, colCount, styleData);
         }
 
-        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
         Row rowClassementComb = sheet.createRow(rowCount++);
         Cell cellClassementComb = rowClassementComb.createCell(colCount + 1);
-        cellClassementComb.setCellStyle(styleTitle);
+        cellClassementComb.setCellStyle(styleTitle2);
         cellClassementComb.setCellValue("Classement Combat");
+        for (int i = colCount + 2; i <= colCount + 6; i++) {
+            Cell tempCellClassementGene = rowClassementComb.createCell(i);
+            tempCellClassementGene.setCellStyle(styleTitle2);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(rowCount - 1, rowCount - 1, colCount + 1, colCount + 6));
         sortableList = new SortedList<ClubBean>(competition.getClubs());
         sortableList.setComparator(new ComparatorClubTotalCombat());
         sortableList.sort();
@@ -409,11 +454,16 @@ public class InscriptionsManager {
             createClassementClubTable(clubBean, rowClub, colCount, styleData);
         }
 
-        sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount, colCount + 1, colCount + 6));
         Row rowClassementGene = sheet.createRow(rowCount++);
         Cell cellClassementGene = rowClassementGene.createCell(colCount + 1);
-        cellClassementGene.setCellStyle(styleTitle);
+        cellClassementGene.setCellStyle(styleTitle2);
         cellClassementGene.setCellValue("Classement General");
+        for (int i = colCount + 2; i <= colCount + 6; i++) {
+            Cell tempCellClassementGene = rowClassementGene.createCell(i);
+            tempCellClassementGene.setCellStyle(styleTitle2);
+        }
+
+        sheet.addMergedRegion(new CellRangeAddress(rowCount - 1, rowCount - 1, colCount + 1, colCount + 6));
         sortableList = new SortedList<ClubBean>(competition.getClubs());
         sortableList.sort();
         for (ClubBean clubBean : competition.getClubs()) {
@@ -429,8 +479,10 @@ public class InscriptionsManager {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             workbook.write(fileOutputStream);
             fileOutputStream.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

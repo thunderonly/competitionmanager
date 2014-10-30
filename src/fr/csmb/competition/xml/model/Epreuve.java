@@ -1,6 +1,7 @@
 package fr.csmb.competition.xml.model;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Epreuve {
+public class Epreuve implements Serializable {
 
     @XmlAttribute(name="typeEpreuve")
     private String typeEpreuve;
