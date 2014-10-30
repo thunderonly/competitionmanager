@@ -28,6 +28,8 @@ public class Eleve {
     private String sexeEleve;
     @XmlElement(name="poidsEleve")
     private String poidsEleve;
+    @XmlElement(name="presenceEleve")
+    private Boolean presenceEleve;
     @XmlElementWrapper(name="epreuvesEleve")
     @XmlElement(name="epreuveEleve")
     private List<String> epreuvesEleves;
@@ -36,6 +38,7 @@ public class Eleve {
     public Eleve(String nomEleve, String prenomEleve) {
         this.nomEleve = nomEleve;
         this.prenomEleve = prenomEleve;
+        this.presenceEleve = false;
         this.epreuvesEleves = new ArrayList<String>();
     }
 
@@ -97,6 +100,14 @@ public class Eleve {
 
     public void setPoidsEleve(String poidsEleve) {
         this.poidsEleve = poidsEleve;
+    }
+
+    public Boolean getPresenceEleve() {
+        return presenceEleve;
+    }
+
+    public void setPresenceEleve(Boolean presenceEleve) {
+        this.presenceEleve = presenceEleve;
     }
 
     public List<String> getEpreuvesEleves() {

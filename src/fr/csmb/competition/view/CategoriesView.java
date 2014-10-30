@@ -233,6 +233,7 @@ public class CategoriesView {
                         epreuveBean.setHeureDebut(heureDebutTf.getText());
                         epreuveBean.setHeureFin(heureFinTf.getText());
                         epreuveBean.setDuree(dureeTf.getText());
+                        sender.send(competitionBean, categorieBean, epreuveBean);
                     }
                 }
             }
@@ -411,7 +412,7 @@ public class CategoriesView {
                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
                     for (ClubBean club : competitionBean.getClubs()) {
                         for (EleveBean eleve : club.getEleves()) {
-                            if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe())) {
+                            if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe()) && eleve.getPresence()) {
                                 if (eleve.getEpreuves().contains(epreuve)) {
                                     ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
                                     participantBeans1.add(participantBean);
@@ -508,11 +509,16 @@ public class CategoriesView {
             ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
             if (epreuveBean1 != null) {
                 epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
+                CategorieBean categorieBean1 = competitionBean.getCategorie(typeCategorie1, categorie1);
+                sender.send(competitionBean, categorieBean1, epreuveBean1);
+
                 participantBeans.addAll(extractParticipants(typeCategorie1, categorie1, epreuve1));
             }
 
             if (epreuveBean2 != null) {
                 epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
+                CategorieBean categorieBean2 = competitionBean.getCategorie(typeCategorie2, categorie2);
+                sender.send(competitionBean, categorieBean2, epreuveBean2);
                 participantBeans.addAll(extractParticipants(typeCategorie2, categorie2, epreuve2));
             }
 
@@ -522,6 +528,7 @@ public class CategoriesView {
             categorieBean.setEpreuves(epreuveBeans);
 
             competitionBean.getCategories().add(categorieBean);
+            sender.send(competitionBean, categorieBean, epreuveBean);
 
             TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
             TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);

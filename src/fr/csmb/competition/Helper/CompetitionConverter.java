@@ -79,6 +79,7 @@ public class CompetitionConverter {
                 eleveBean.setCategorie(eleve.getCategorieEleve());
                 eleveBean.setPoids(eleve.getPoidsEleve());
                 eleveBean.setSexe(eleve.getSexeEleve());
+                eleveBean.setPresence(eleve.getPresenceEleve());
                 eleveBean.setEpreuves(FXCollections.observableArrayList(eleve.getEpreuvesEleves()));
                 eleveBeans.add(eleveBean);
             }
@@ -135,6 +136,7 @@ public class CompetitionConverter {
                 eleve.setAgeEleve(eleveBean.getAge());
                 eleve.setLicenceEleve(eleveBean.getLicence());
                 eleve.setPoidsEleve(eleveBean.getPoids());
+                eleve.setPresenceEleve(eleveBean.getPresence());
                 for (String epreuve : eleveBean.getEpreuves()) {
                     eleve.getEpreuvesEleves().add(epreuve);
                 }

@@ -2,7 +2,9 @@ package fr.csmb.competition.model;
 
 import java.util.List;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -21,6 +23,7 @@ public class EleveBean {
     private StringProperty categorie;
     private StringProperty sexe;
     private StringProperty poids;
+    private BooleanProperty presence;
     private ListProperty<String> epreuves;
 
     public EleveBean() {
@@ -31,6 +34,7 @@ public class EleveBean {
         this.categorie = new SimpleStringProperty();
         this.sexe = new SimpleStringProperty();
         this.poids = new SimpleStringProperty();
+        this.presence = new SimpleBooleanProperty(false);
         this.epreuves = new SimpleListProperty<String>();
         ObservableList<String> strings = FXCollections.observableArrayList();
         this.epreuves.set(strings);
@@ -92,6 +96,14 @@ public class EleveBean {
         this.poids.set(poids);
     }
 
+    public Boolean getPresence() {
+        return this.presence.get();
+    }
+
+    public void setPresence(Boolean presence) {
+        this.presence.set(presence);
+    }
+
     public ObservableList<String> getEpreuves() {
         return this.epreuves.get();
     }
@@ -126,6 +138,10 @@ public class EleveBean {
 
     public StringProperty poidsProperty() {
         return poids;
+    }
+
+    public BooleanProperty presenceProperty() {
+        return presence;
     }
 
     public ListProperty<String> epreuvesProperty() {

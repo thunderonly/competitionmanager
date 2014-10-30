@@ -43,7 +43,7 @@ public class NotificationView {
     private static final double ICON_WIDTH = 24;
     private static final double ICON_HEIGHT = 24;
     private double width = 300;
-    private double height = 80;
+    private double height = 100;
     private double offsetX = 5;
     private double offsetY = 50;
     private double spacingY = 5;
