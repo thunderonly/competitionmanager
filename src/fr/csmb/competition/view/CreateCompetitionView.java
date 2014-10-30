@@ -1,6 +1,9 @@
 package fr.csmb.competition.view;
 
 import fr.csmb.competition.component.pane.BorderedTitledPane;
+import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.Categorie;
@@ -41,25 +44,20 @@ import java.awt.*;
  */
 public class CreateCompetitionView {
 
-    private Competition competition;
-    private Categorie categorie;
-
     private TextField textFieldNomCompetition = new TextField();
     private TextField nomCategorieTF = new TextField();
     private TextField nomEpreuveTF = new TextField();
-    private ListView<Categorie> categorieListDispo = new ListView<Categorie>();
-    private ListView<Categorie> categorieListChoix = new ListView<Categorie>();
+    private ListView<CategorieBean> categorieListDispo = new ListView<CategorieBean>();
+    private ListView<CategorieBean> categorieListChoix = new ListView<CategorieBean>();
     private ListView<String> epreuveListChoix = new ListView<String>();
     private CheckBox masculin = new CheckBox("Masculin");
     private CheckBox feminin = new CheckBox("Féminin");
     private RadioButton technique = new RadioButton("Technique");
     private RadioButton combat = new RadioButton("Combat");
-    private ObservableList<Competition> competitions;
     private NotificationView notificationView;
     private Stage stage;
 
-    public void showCreateCompetitionView(Stage mainStage, final ObservableList<Competition> competitions) {
-        this.competitions = competitions;
+    public void showCreateCompetitionView(Stage mainStage, final CompetitionBean competitionBean) {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
@@ -84,8 +82,7 @@ public class CreateCompetitionView {
         createBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Competition competition1 = new Competition(textFieldNomCompetition.getText());
-                competitions.add(competition1);
+                competitionBean.setNom(textFieldNomCompetition.getText());
                 stage.close();
             }
         });
@@ -101,8 +98,7 @@ public class CreateCompetitionView {
         stage.showAndWait();
     }
 
-    public void showCreateCategorieView(Stage mainStage, final Competition competition) {
-        this.competition = competition;
+    public void showCreateCategorieView(Stage mainStage, final CompetitionBean competition) {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
@@ -134,16 +130,14 @@ public class CreateCompetitionView {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (masculin.isSelected()) {
-                    Categorie categorie = new Categorie();
-                    categorie.setNomCategorie(nomCategorieTF.getText());
-                    categorie.setTypeCategorie(TypeCategorie.MASCULIN.getValue());
+                    CategorieBean categorie = new CategorieBean(nomCategorieTF.getText());
+                    categorie.setType(TypeCategorie.MASCULIN.getValue());
                     categorieListDispo.getItems().add(categorie);
                 }
 
                 if (feminin.isSelected()) {
-                    Categorie categorie = new Categorie();
-                    categorie.setNomCategorie(nomCategorieTF.getText());
-                    categorie.setTypeCategorie(TypeCategorie.FEMININ.getValue());
+                    CategorieBean categorie = new CategorieBean(nomCategorieTF.getText());
+                    categorie.setType(TypeCategorie.FEMININ.getValue());
                     categorieListDispo.getItems().add(categorie);
                 }
             }
@@ -178,8 +172,7 @@ public class CreateCompetitionView {
 
 
 
-    public void showCreateEpreuveView(Stage mainStage, final Competition competition) {
-        this.competition = competition;
+    public void showCreateEpreuveView(Stage mainStage, final CompetitionBean competition) {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
@@ -217,10 +210,10 @@ public class CreateCompetitionView {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() >= 2) {
-                    Categorie categorie1 = categorieListDispo.getSelectionModel().getSelectedItem();
-                    Categorie newCategorie = categorie1.clone();
-                    categorieListChoix.getItems().add(newCategorie);
-                    categorieListDispo.getItems().remove(categorie1);
+                    CategorieBean categorie = categorieListDispo.getSelectionModel().getSelectedItem();
+//                    CategorieBean newCategorie = categorie.clone();
+                    categorieListChoix.getItems().add(categorie);
+                    categorieListDispo.getItems().remove(categorie);
                 }
             }
         });
@@ -230,9 +223,9 @@ public class CreateCompetitionView {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() >= 2) {
-                    Categorie categorie1 = categorieListChoix.getSelectionModel().getSelectedItem();
-                    categorieListDispo.getItems().add(categorie1);
-                    categorieListChoix.getItems().remove(categorie1);
+                    CategorieBean categorie = categorieListChoix.getSelectionModel().getSelectedItem();
+                    categorieListDispo.getItems().add(categorie);
+                    categorieListChoix.getItems().remove(categorie);
                 }
             }
         });
@@ -245,16 +238,15 @@ public class CreateCompetitionView {
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                for (Categorie categorie1 : categorieListChoix.getItems()) {
-                    Epreuve epreuve = new Epreuve();
-                    epreuve.setNomEpreuve(nomEpreuveTF.getText());
+                for (CategorieBean categorie : categorieListChoix.getItems()) {
+                    EpreuveBean epreuve = new EpreuveBean(nomEpreuveTF.getText());
                     if (technique.isSelected()) {
-                        epreuve.setTypeEpreuve(TypeEpreuve.TECHNIQUE.getValue());
+                        epreuve.setType(TypeEpreuve.TECHNIQUE.getValue());
                     } else if (combat.isSelected()) {
-                        epreuve.setTypeEpreuve(TypeEpreuve.COMBAT.getValue());
+                        epreuve.setType(TypeEpreuve.COMBAT.getValue());
                     }
-                    categorie1.getEpreuves().add(epreuve);
-                    String textEpreuve = categorie1.toString().concat(" / ").concat(epreuve.toString());
+                    categorie.getEpreuves().add(epreuve);
+                    String textEpreuve = categorie.toString().concat(" / ").concat(epreuve.toString());
                     epreuveListChoix.getItems().add(textEpreuve);
                 }
             }
@@ -270,8 +262,8 @@ public class CreateCompetitionView {
         createBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                for (Categorie categorie1 : categorieListChoix.getItems()) {
-                    Categorie categorieCompetition = competition.getCategories().get(competition.getCategories().indexOf(categorie1));
+                for (CategorieBean categorie1 : categorieListChoix.getItems()) {
+                    CategorieBean categorieCompetition = competition.getCategories().get(competition.getCategories().indexOf(categorie1));
                     if (categorieCompetition != null) {
                         categorieCompetition.setEpreuves(categorie1.getEpreuves());
                     }

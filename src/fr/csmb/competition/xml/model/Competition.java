@@ -24,6 +24,7 @@ public class Competition implements Serializable{
     public Competition(){
         this.nom = "";
         this.categories = new ArrayList<Categorie>();
+        this.clubs = new ArrayList<Club>();
     }
 
     public Competition(String nom) {

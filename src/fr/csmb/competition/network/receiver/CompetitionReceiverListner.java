@@ -1,10 +1,14 @@
 package fr.csmb.competition.network.receiver;
 
+import fr.csmb.competition.Helper.ParticipantConverter;
+import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
 import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Epreuve;
+import fr.csmb.competition.xml.model.Participant;
 
 /**
  * Created by Administrateur on 28/10/14.
@@ -25,6 +29,20 @@ public class CompetitionReceiverListner implements DatagramListener {
         CategorieBean categorieBean = competitionBean.getCategorie(
                 categorie.getTypeCategorie(),
                 categorie.getNomCategorie());
-        EpreuveBean epreuveBean = categorieBean.getEpreuveByName(categorie.getEpreuves().get(0).getNomEpreuve());
+        Epreuve epreuve = categorie.getEpreuves().get(0);
+        EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve.getNomEpreuve());
+        if (epreuveBean == null) {
+            epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
+            categorieBean.getEpreuves().add(epreuveBean);
+        }
+
+        epreuveBean.setEtat(epreuve.getEtatEpreuve());
+        epreuveBean.setType(epreuve.getTypeEpreuve());
+
+        for (Participant participant : epreuve.getParticipants()) {
+            ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+            epreuveBean.getParticipants().add(participantBean);
+        }
+        
     }
 }

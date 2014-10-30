@@ -22,10 +22,18 @@ public class CompetitionBean {
     private SimpleListProperty<CategorieBean> categories;
     private SimpleListProperty<ClubBean> clubs;
 
+    public CompetitionBean() {
+        this("");
+    }
+
     public CompetitionBean(String nom) {
         this.nom = new SimpleStringProperty(nom);
         this.categories = new SimpleListProperty<CategorieBean>();
+        ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
+        this.categories.set(categorieBeans);
+        ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         this.clubs = new SimpleListProperty<ClubBean>();
+        this.clubs.set(clubBeans);
     }
 
     public String getNom() {

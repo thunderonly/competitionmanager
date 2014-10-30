@@ -7,6 +7,7 @@ package fr.csmb.competition.model;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -48,6 +49,8 @@ public class EpreuveBean {
         this.heureFin = new SimpleStringProperty();
         this.duree = new SimpleStringProperty();
         this.participants = new SimpleListProperty<ParticipantBean>();
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        this.participants.set(participantBeans);
     }
 
     public String getNom() {
@@ -246,5 +249,14 @@ public class EpreuveBean {
     @Override
     public int hashCode() {
         return nom.get().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        String toString = "";
+        if (type.get()!= null && nom.get() != null) {
+            toString = type.get().concat(" - ").concat(nom.get());
+        }
+        return toString;
     }
 }

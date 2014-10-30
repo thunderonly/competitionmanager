@@ -105,27 +105,6 @@ public class Controller {
     }
 
     @FXML
-    private void generateOrganisation() {
-        FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xlsx)", "*.xlsx");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        // Show save file dialog
-        File file = fileChooser.showSaveDialog(main.getMainStage());
-
-        if (file != null) {
-            // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xlsx")) {
-                file = new File(file.getPath() + ".xlsx");
-            }
-            main.generateOrganisationFile(file);
-        }
-    }
-
-    @FXML
     private void handleManageCategories() {
         main.showCompetitionView();
     }

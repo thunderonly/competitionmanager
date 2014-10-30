@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class ClubBean implements Comparable<ClubBean> {
         this.classementCombat = new SimpleIntegerProperty();
         this.classementGeneral = new SimpleIntegerProperty();
         this.eleves = new SimpleListProperty<EleveBean>();
+        ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
+        this.eleves.set(eleveBeans);
     }
 
     public String getIdentifiant() {

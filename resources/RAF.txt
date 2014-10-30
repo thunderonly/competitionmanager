@@ -16,7 +16,7 @@ Gestion des categories
 
 Classement des clubs
 1 - Mettre en place le classement des clubs [OK]
-2 - Exporter le classement au format Excel
+2 - Exporter le classement au format Excel [OK]
 
 Diffusion LAN
 1 - Diffuser les categories apres changement d etat
@@ -24,3 +24,7 @@ Diffusion LAN
 Creation de Competition
 1 - Nom de la competition [OK]
 2 - Les categories presentes [OK]
+
+Pointage Competition
+1 - Pointage des participants.
+2 - Gerer la presence des participants

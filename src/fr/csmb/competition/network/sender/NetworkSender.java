@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.network.sender;
 
+import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -85,13 +86,12 @@ public class NetworkSender {
                 Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
                 competition.getCategories().add(categorie);
                 Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
+                epreuve.setEtatEpreuve(epreuveBean.getEtat());
                 categorie.getEpreuves().add(epreuve);
 
-                Socket socket = new Socket("localhost", port);
+                MulticastSocket socket = new MulticastSocket();
                 for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                    Participant participant = new Participant();
-                    participant.setNomParticipant(participantBean.getNom());
-                    participant.setPrenomParticipant(participantBean.getPrenom());
+                    Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
                     epreuve.getParticipants().add(participant);
                 }
 

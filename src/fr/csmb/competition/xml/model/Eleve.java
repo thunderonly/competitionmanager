@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,10 +36,11 @@ public class Eleve {
     public Eleve(String nomEleve, String prenomEleve) {
         this.nomEleve = nomEleve;
         this.prenomEleve = prenomEleve;
+        this.epreuvesEleves = new ArrayList<String>();
     }
 
     public Eleve() {
-
+        this(null, null);
     }
 
     public String getLicenceEleve() {

@@ -29,7 +29,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Générer">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Fichier Organisation" onAction="#generateOrganisation" />
+                        <MenuItem mnemonicParsing="false" text="Fichier Organisation" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

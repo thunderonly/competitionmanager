@@ -2,6 +2,7 @@ package fr.csmb.competition.xml.model;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,16 @@ public class Club implements Serializable {
     @XmlElementWrapper(name="eleves")
     @XmlElement(name="eleve")
     private List<Eleve> eleves;
+
+    public Club() {
+        this("", "");
+    }
+
+    public Club(String identifiant, String nomClub) {
+        this.identifiant = identifiant;
+        this.nomClub = nomClub;
+        this.eleves = new ArrayList<Eleve>();
+    }
 
     public String getNomClub() {
         return nomClub;

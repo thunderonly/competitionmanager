@@ -4,11 +4,13 @@ import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
 import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
+import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -32,7 +34,7 @@ public class InscriptionsManager {
 
     FormulaEvaluator evaluator;
 
-    public void loadInscription(File file, Competition competition) {
+    public String loadInscription(File file, CompetitionBean competition) {
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
@@ -41,174 +43,126 @@ public class InscriptionsManager {
 
             Iterator<Row> rowIterator = sheet.rowIterator();
 
-            Club club = new Club();
+            ClubBean clubBean = new ClubBean();
             while(rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 Cell cellB = row.getCell(1);
 
                 if (cellB!= null && cellB.getCellType() == Cell.CELL_TYPE_STRING &&
                         "N° Club".equals(cellB.getStringCellValue())) {
-                    String identifiant = "";
-                    Cell cellC = row.getCell(2);
-                    if (cellC != null) {
-                        switch (cellC.getCellType()) {
-                            case Cell.CELL_TYPE_STRING:
-                                System.out.println(cellC.getStringCellValue());
-                                identifiant = cellC.getStringCellValue();
-                                break;
-                            case Cell.CELL_TYPE_NUMERIC:
-                                Double aDouble = cellC.getNumericCellValue();
-                                identifiant = String.valueOf(aDouble.intValue());
-                                System.out.println(identifiant);
-                                break;
-                        }
-                    }
-                    club.setIdentifiant(identifiant);
+                    clubBean.setIdentifiant(getCellValue(row, 2));
                 } else if (cellB!= null && cellB.getCellType() == Cell.CELL_TYPE_STRING &&
                         "Nom du Club".equals(cellB.getStringCellValue())) {
-                    String nom = "";
-                    Cell cellC = row.getCell(2);
-                    if (cellC != null) {
-                        switch (cellC.getCellType()) {
-                            case Cell.CELL_TYPE_STRING:
-                                System.out.println(cellC.getStringCellValue());
-                                nom = cellC.getStringCellValue();
-                                break;
-                            case Cell.CELL_TYPE_NUMERIC:
-                                Double aDouble = cellC.getNumericCellValue();
-                                nom = String.valueOf(aDouble.intValue());
-                                System.out.println(nom);
-                                break;
-                        }
-                    }
-                    club.setNomClub(nom);
+                    clubBean.setNom(getCellValue(row, 2));
                 } else if (cellB!= null && cellB.getCellType() == Cell.CELL_TYPE_STRING &&
                         "Responsable".equals(cellB.getStringCellValue())) {
-                    String responsable = "";
-                    Cell cellC = row.getCell(2);
-                    if (cellC != null) {
-                        switch (cellC.getCellType()) {
-                            case Cell.CELL_TYPE_STRING:
-                                System.out.println(cellC.getStringCellValue());
-                                responsable = cellC.getStringCellValue();
-                                break;
-                            case Cell.CELL_TYPE_NUMERIC:
-                                Double aDouble = cellC.getNumericCellValue();
-                                responsable = String.valueOf(aDouble.intValue());
-                                System.out.println(responsable);
-                                break;
-                        }
-                    }
-                    club.setResponsable(responsable);
+                    clubBean.setResponsable(getCellValue(row, 2));
                 } else if (cellB!= null && cellB.getCellType() == Cell.CELL_TYPE_STRING &&
                         "Renseignements".equals(cellB.getStringCellValue())) {
                     rowIterator.next();
-                    List<Eleve> eleves = new ArrayList<Eleve>();
-                    Map<String, List<Eleve>> teamDoiLuyen = new HashMap<String, List<Eleve>>();
+                    Map<String, List<EleveBean>> teamDoiLuyen = new HashMap<String, List<EleveBean>>();
                     while(rowIterator.hasNext()) {
-                        Eleve eleve = new Eleve();
+                        EleveBean eleve = new EleveBean();
                         row = rowIterator.next();
-                        eleve.setLicenceEleve(getCellValue(row, 3));
-                        eleve.setNomEleve(getCellValue(row, 4));
-                        eleve.setPrenomEleve(getCellValue(row, 5));
-                        eleve.setAgeEleve(getCellValue(row, 6));
+                        eleve.setLicence(getCellValue(row, 3));
+                        eleve.setNom(getCellValue(row, 4));
+                        eleve.setPrenom(getCellValue(row, 5));
+                        eleve.setAge(getCellValue(row, 6));
 
-                        eleve.setCategorieEleve(convertCategorie(getCellValue(row, 7)));
-                        eleve.setSexeEleve(getCellValue(row, 8));
-                        eleve.setPoidsEleve(getCellValue(row, 9));
-                        List<String> epreuves = new ArrayList<String>();
+                        eleve.setCategorie(convertCategorie(getCellValue(row, 7)));
+                        eleve.setSexe(getCellValue(row, 8));
+                        eleve.setPoids(getCellValue(row, 9));
                         String epreuve = getCellValue(row, 10);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
-                            epreuves.add("Main Nue");
+                            eleve.getEpreuves().add("Main Nue");
                         }
                         epreuve = getCellValue(row, 11);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
-                            epreuves.add("Arme");
+                            eleve.getEpreuves().add("Arme");
                         }
                         epreuve = getCellValue(row, 12);
                         if (epreuve.contains("Équipe")) {
                             if (teamDoiLuyen.get(epreuve) == null) {
-                                teamDoiLuyen.put(epreuve, new ArrayList<Eleve>());
+                                teamDoiLuyen.put(epreuve, new ArrayList<EleveBean>());
                             }
                             teamDoiLuyen.get(epreuve).add(eleve);
                         }
                         epreuve = getCellValue(row, 13);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
 
-                            epreuves.add(extractCategorieCombat(eleve, competition));
+                            eleve.getEpreuves().add(extractCategorieCombat(eleve, competition));
                         }
-                        eleve.setEpreuvesEleves(epreuves);
 
-                        if (!eleve.getNomEleve().equals("")) {
-                            eleves.add(eleve);
+                        if (!eleve.getNom().equals("")) {
+                            clubBean.getEleves().add(eleve);
                         }
                     }
-                    club.setEleves(eleves);
-                    for (List<Eleve> eleveList : teamDoiLuyen.values()) {
-                        club.getEleves().add(extractEleveFromTeam(eleveList));
+                    for (List<EleveBean> eleveList : teamDoiLuyen.values()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(eleveList));
                     }
 
-                    if (competition.getClubs().contains(club)) {
-                        competition.getClubs().remove(club);
+                    if (competition.getClubs().contains(clubBean)) {
+                        competition.getClubs().remove(clubBean);
                     }
-                    competition.getClubs().add(club);
+                    competition.getClubs().add(clubBean);
                 }
             }
             fileInputStream.close();
+            return clubBean.getNom();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    private Eleve extractEleveFromTeam(List<Eleve> eleves) {
-        Eleve newEleve = new Eleve();
-        for (Eleve eleve : eleves) {
-            newEleve.setEpreuvesEleves(new ArrayList<String>());
-            newEleve.getEpreuvesEleves().add("Doi Luyen");
+    private EleveBean extractEleveFromTeam(List<EleveBean> eleves) {
+        EleveBean newEleve = new EleveBean();
+        for (EleveBean eleve : eleves) {
+            newEleve.getEpreuves().add("Doi Luyen");
             //Nom
-            if (newEleve.getNomEleve() == null) {
-                newEleve.setNomEleve(eleve.getNomEleve());
+            if (newEleve.getNom() == null) {
+                newEleve.setNom(eleve.getNom());
             } else {
-                newEleve.setNomEleve(newEleve.getNomEleve().concat("/").concat(eleve.getNomEleve()));
+                newEleve.setNom(newEleve.getNom().concat("/").concat(eleve.getNom()));
             }
             //Prénom
-            if (newEleve.getPrenomEleve() == null) {
-                newEleve.setPrenomEleve(eleve.getPrenomEleve());
+            if (newEleve.getPrenom() == null) {
+                newEleve.setPrenom(eleve.getPrenom());
             } else {
-                newEleve.setPrenomEleve(newEleve.getPrenomEleve().concat("/").concat(eleve.getPrenomEleve()));
+                newEleve.setPrenom(newEleve.getPrenom().concat("/").concat(eleve.getPrenom()));
             }
             //Age
-            if (newEleve.getAgeEleve() == null) {
-                newEleve.setAgeEleve(eleve.getAgeEleve());
+            if (newEleve.getAge() == null) {
+                newEleve.setAge(eleve.getAge());
             } else {
-                if (Integer.parseInt(newEleve.getAgeEleve()) < Integer.parseInt(eleve.getAgeEleve())) {
-                    newEleve.setAgeEleve(eleve.getAgeEleve());
+                if (Integer.parseInt(newEleve.getAge()) < Integer.parseInt(eleve.getAge())) {
+                    newEleve.setAge(eleve.getAge());
                 }
             }
             //Sexe
-            if (newEleve.getSexeEleve() == null) {
-                newEleve.setSexeEleve(eleve.getSexeEleve());
+            if (newEleve.getSexe() == null) {
+                newEleve.setSexe(eleve.getSexe());
             } else {
-                if (eleve.getSexeEleve().equals("Masculin")) {
-                    newEleve.setSexeEleve(eleve.getSexeEleve());
-                } else if (eleve.getSexeEleve().equals("Féminin") && newEleve.getSexeEleve().equals("Féminin")) {
-                    newEleve.setSexeEleve(eleve.getSexeEleve());
+                if (eleve.getSexe().equals("Masculin")) {
+                    newEleve.setSexe(eleve.getSexe());
+                } else if (eleve.getSexe().equals("Féminin") && newEleve.getSexe().equals("Féminin")) {
+                    newEleve.setSexe(eleve.getSexe());
                 }
             }
             //Categorie
             String currentCategorie;
-            if (eleve.getCategorieEleve().equals("Benjamin") || eleve.getCategorieEleve().equals("Minime") || eleve.getCategorieEleve().equals("Cadet")) {
+            if (eleve.getCategorie().equals("Benjamin") || eleve.getCategorie().equals("Minime") || eleve.getCategorie().equals("Cadet")) {
                 currentCategorie = "Cadet";
             } else {
                 currentCategorie = "Senior";
             }
-            if (newEleve.getCategorieEleve() == null) {
-               newEleve.setCategorieEleve(currentCategorie);
+            if (newEleve.getCategorie() == null) {
+               newEleve.setCategorie(currentCategorie);
             } else {
-                if (newEleve.getCategorieEleve().equals("Cadet") && currentCategorie.equals("Senior")) {
-                    newEleve.setCategorieEleve(currentCategorie);
+                if (newEleve.getCategorie().equals("Cadet") && currentCategorie.equals("Senior")) {
+                    newEleve.setCategorie(currentCategorie);
                 }
             }
         }
@@ -259,21 +213,21 @@ public class InscriptionsManager {
         return value;
     }
 
-    private String extractCategorieCombat(Eleve eleve, Competition competition) {
-        String poids = eleve.getPoidsEleve();
+    private String extractCategorieCombat(EleveBean eleve, CompetitionBean competition) {
+        String poids = eleve.getPoids();
         int poidsEleveInt = Integer.parseInt(poids);
         List<Epreuve> epreuvesCombat = new ArrayList<Epreuve>();
-        for (Categorie categorie : competition.getCategories()) {
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
-                    String nomEpreuve = epreuve.getNomEpreuve();
+        for (CategorieBean categorie : competition.getCategories()) {
+            for (EpreuveBean epreuve : categorie.getEpreuves()) {
+                if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
+                    String nomEpreuve = epreuve.getNom();
                     String newNomEpreuve = nomEpreuve.trim();
                     String minPoids = newNomEpreuve.substring(0, newNomEpreuve.indexOf("-"));
                     String maxPoids = newNomEpreuve.substring(newNomEpreuve.indexOf("-") + 1);
                     int intMinPoids = Integer.parseInt(minPoids);
                     int intMaxPoids = Integer.parseInt(maxPoids);
 
-                    if (categorie.getNomCategorie().equals(eleve.getCategorieEleve())) {
+                    if (categorie.getNom().equals(eleve.getCategorie())) {
                         if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
                             return nomEpreuve;
                         }
@@ -507,71 +461,4 @@ public class InscriptionsManager {
         cell6.setCellStyle(styleData);
     }
 
-    public void saveInscription(File file, Competition competition) {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("export");
-
-        int rowCount = 0;
-        Row row1 = sheet.createRow(rowCount++);
-        Cell cell1 = row1.createCell(1);
-        cell1.setCellValue("Renseignements");
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 4));
-        XSSFCellStyle style1 = workbook.createCellStyle();
-        style1.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
-        style1.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        style1.setAlignment(CellStyle.ALIGN_CENTER);
-        style1.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        style1.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        style1.setBorderRight(CellStyle.BORDER_MEDIUM);
-        style1.setBorderTop(CellStyle.BORDER_MEDIUM);
-        cell1.setCellStyle(style1);
-
-        Row row2 = sheet.createRow(rowCount++);
-        Cell cell21 = row2.createCell(1);
-        cell21.setCellValue("N° Club");
-        cell21.setCellStyle(style1);
-        sheet.autoSizeColumn(1);
-
-        Cell cell22 = row2.createCell(2);
-        cell22.setCellValue("Nom du Club");
-        cell22.setCellStyle(style1);
-        sheet.autoSizeColumn(2);
-
-        Cell cell23 = row2.createCell(3);
-        cell23.setCellValue("Nom Eleve");
-        cell23.setCellStyle(style1);
-        sheet.autoSizeColumn(3);
-
-        Cell cell24 = row2.createCell(4);
-        cell24.setCellValue("Prénom Eleve");
-        cell24.setCellStyle(style1);
-        sheet.autoSizeColumn(4);
-
-        for (Club club : competition.getClubs()) {
-            for(Eleve eleve : club.getEleves()) {
-                Row rowClub = sheet.createRow(rowCount++);
-                Cell cellNumClub = rowClub.createCell(1);
-                Cell cellNomClub = rowClub.createCell(2);
-                Cell cellNomEleve = rowClub.createCell(3);
-                Cell cellPrenomEleve = rowClub.createCell(4);
-
-                cellNomClub.setCellValue(club.getNomClub());
-                cellNumClub.setCellValue(club.getIdentifiant());
-                cellNomEleve.setCellValue(eleve.getNomEleve());
-                cellPrenomEleve.setCellValue(eleve.getPrenomEleve());
-                sheet.autoSizeColumn(1);
-                sheet.autoSizeColumn(2);
-                sheet.autoSizeColumn(3);
-                sheet.autoSizeColumn(4);
-            }
-        }
-
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            workbook.write(fileOutputStream);
-            fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

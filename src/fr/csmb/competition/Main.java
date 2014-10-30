@@ -1,10 +1,13 @@
 package fr.csmb.competition;
 
+import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.controller.ClubController;
 import fr.csmb.competition.controller.Controller;
 import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.ClubBean;
+import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
+import fr.csmb.competition.network.receiver.CompetitionReceiverListner;
 import fr.csmb.competition.network.receiver.NetworkReceiver;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.CreateCompetitionView;
@@ -43,7 +46,8 @@ public class Main extends Application {
     private BorderPane borderPane;
 
     private ObservableList<Competition> competitionData = FXCollections.observableArrayList();
-    private ObservableList<ClubBean> clubs = FXCollections.observableArrayList();
+    private ObservableList<ClubBean> clubs;
+    private CompetitionBean competitionBean;
     private NotificationView notificationView;
     private Controller controller;
 
@@ -61,9 +65,6 @@ public class Main extends Application {
         controller.setMain(this);
         controller.getCreateCategorie().setDisable(true);
         controller.getCreateEpreuve().setDisable(true);
-
-        NetworkReceiver receiver = new NetworkReceiver("", 9878);
-        receiver.start();
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
@@ -85,8 +86,9 @@ public class Main extends Application {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
+            Competition competition = CompetitionConverter.convertCompetitionBeanToCompetition(competitionBean);
 
-            marshaller.marshal(competitionData.get(0), file);
+            marshaller.marshal(competition, file);
             notificationView.notify(NotificationView.Level.SUCCESS, "Sauvegarde", "Compétition sauvegardée avec succès");
 
         } catch (JAXBException e) {
@@ -104,28 +106,13 @@ public class Main extends Application {
             Competition competition = (Competition) unmarshaller.unmarshal(file);
             competitionData.clear();
             competitionData.add(competition);
+            competitionBean = CompetitionConverter.convertCompetitionToCompetitionBean(competition);
+            clubs = competitionBean.getClubs();
 
-
-            for (Club club : competition.getClubs()) {
-                ClubBean clubBean = new ClubBean();
-                clubBean.setIdentifiant(club.getIdentifiant());
-                clubBean.setNom(club.getNomClub());
-                clubBean.setResponsable(club.getResponsable());
-                ObservableList<EleveBean> eleves = FXCollections.observableArrayList();
-                for (Eleve eleve : club.getEleves()) {
-                    EleveBean eleveBean = new EleveBean();
-                    eleveBean.setLicence(eleve.getLicenceEleve());
-                    eleveBean.setNom(eleve.getNomEleve());
-                    eleveBean.setPrenom(eleve.getPrenomEleve());
-                    eleveBean.setAge(eleve.getAgeEleve());
-                    eleveBean.setCategorie(eleve.getCategorieEleve());
-                    eleveBean.setSexe(eleve.getSexeEleve());
-                    eleveBean.setPoids(eleve.getPoidsEleve());
-                    eleves.add(eleveBean);
-                }
-                clubBean.setEleves(eleves);
-                clubs.add(clubBean);
-            }
+            NetworkReceiver receiver = new NetworkReceiver("", 9878);
+            CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean);
+            receiver.addNmeaUdpListener(receiverListner);
+            receiver.start();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/competitionView.fxml"));
@@ -150,85 +137,59 @@ public class Main extends Application {
 
     public void loadInscriptionFile(File file) {
         InscriptionsManager inscriptionsManager = new InscriptionsManager();
-        inscriptionsManager.loadInscription(file, this.competitionData.get(0));
+        String nameClub = inscriptionsManager.loadInscription(file, competitionBean);
 
-        clubs.clear();
-        for (Club club : this.competitionData.get(0).getClubs()) {
-            ClubBean clubBean = new ClubBean();
-            clubBean.setIdentifiant(club.getIdentifiant());
-            clubBean.setNom(club.getNomClub());
-            clubBean.setResponsable(club.getResponsable());
-            ObservableList<EleveBean> eleves = FXCollections.observableArrayList();
-            if (club.getEleves() != null) {
-                for (Eleve eleve : club.getEleves()) {
-                    EleveBean eleveBean = new EleveBean();
-                    eleveBean.setLicence(eleve.getLicenceEleve());
-                    eleveBean.setNom(eleve.getNomEleve());
-                    eleveBean.setPrenom(eleve.getPrenomEleve());
-                    eleveBean.setAge(eleve.getAgeEleve());
-                    eleveBean.setCategorie(eleve.getCategorieEleve());
-                    eleveBean.setSexe(eleve.getSexeEleve());
-                    eleveBean.setPoids(eleve.getPoidsEleve());
-                    eleves.add(eleveBean);
-                }
-            }
-            clubBean.setEleves(eleves);
-            clubs.add(clubBean);
+        if (nameClub != null) {
             notificationView.notify(NotificationView.Level.SUCCESS, "Import",
-                    "Inscription pour le club " + club.getNomClub() + " chargée avec succès");
+                    "Inscription pour le club " + nameClub + " chargée avec succès");
+        } else {
+            notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
+                    "Erreur lors de l'import du fichier d'inscription " + file.getName());
         }
-    }
 
-    public void generateOrganisationFile(File file) {
-        InscriptionsManager inscriptionsManager = new InscriptionsManager();
-        inscriptionsManager.saveInscription(file, this.competitionData.get(0));
-    }
-
-    public void generateResutlatFile(File file) {
-        InscriptionsManager inscriptionsManager = new InscriptionsManager();
-        inscriptionsManager.saveInscription(file, this.competitionData.get(0));
     }
 
     public void showCompetitionView() {
-        if (competitionData == null || competitionData.size() == 0) {
+        if (competitionBean == null) {
             NotificationView notificationView = new NotificationView(mainStage);
             notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                     "Aucune compétition chargée. Vous devez ouvrir une compétition.");
         } else {
             CategoriesView categoriesView = new CategoriesView();
-            categoriesView.showView(mainStage, this.competitionData.get(0));
+            categoriesView.showView(mainStage, this.competitionBean);
         }
     }
 
     public void showResultatsView() {
-        if (competitionData == null || competitionData.size() == 0) {
+        if (competitionBean == null) {
             NotificationView notificationView = new NotificationView(mainStage);
             notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                     "Aucune compétition chargée. Vous devez ouvrir une compétition.");
         } else {
             ResultatsView resultatsView = new ResultatsView();
-            resultatsView.showView(mainStage, this.competitionData.get(0));
+            resultatsView.showView(mainStage, this.competitionBean);
         }
     }
 
     public void showCreationCompetitionView() {
         CreateCompetitionView createCompetitionView = new CreateCompetitionView();
-        createCompetitionView.showCreateCompetitionView(mainStage, competitionData);
-        if (competitionData.size() > 0) {
+        competitionBean = new CompetitionBean();
+        createCompetitionView.showCreateCompetitionView(mainStage, competitionBean);
+        if (!"".equals(competitionBean.getNom())) {
             controller.getCreateCategorie().setDisable(false);
         }
     }
 
     public void showCreationCategorieView() {
         CreateCompetitionView createCompetitionView = new CreateCompetitionView();
-        createCompetitionView.showCreateCategorieView(mainStage, competitionData.get(0));
-        if (competitionData.get(0).getCategories().size() > 0) {
+        createCompetitionView.showCreateCategorieView(mainStage, competitionBean);
+        if (competitionBean.getCategories().size() > 0) {
             controller.getCreateEpreuve().setDisable(false);
         }
     }
 
     public void showCreationEpreuveView() {
         CreateCompetitionView createCompetitionView = new CreateCompetitionView();
-        createCompetitionView.showCreateEpreuveView(mainStage, competitionData.get(0));
+        createCompetitionView.showCreateEpreuveView(mainStage, competitionBean);
     }
 }

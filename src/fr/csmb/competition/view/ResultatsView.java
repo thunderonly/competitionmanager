@@ -8,6 +8,8 @@ import java.util.Comparator;
 
 import com.sun.javafx.collections.SortableList;
 import com.sun.javafx.collections.transformation.SortedList;
+
+import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.controller.ClassementClubController;
 import fr.csmb.competition.controller.ResultatsController;
@@ -55,8 +57,8 @@ public class ResultatsView {
     private CompetitionBean competitionBean;
     private Stage mainStage;
 
-    public void showView(Stage mainStage, Competition competition) {
-        loadCompetitionBean(competition);
+    public void showView(Stage mainStage, CompetitionBean competition) {
+        competitionBean = competition;
         BorderPane stackPane = new BorderPane();
         createTableView(stackPane);
         Stage stage = new Stage();
@@ -151,60 +153,16 @@ public class ResultatsView {
                     if (isSaved) {
                         NotificationView notificationView = new NotificationView(mainStage);
                         notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
-                                "Le fichier de résultat : " + file.getAbsolutePath() + " a été correctement généré.");
+                                "Le fichier de résultat : " + file.getName() + " a été correctement généré.");
                     } else {
                         NotificationView notificationView = new NotificationView(mainStage);
                         notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
-                                "Erreur lors de la génération du fichier de résultat : " + file.getAbsolutePath() + ".");
+                                "Erreur lors de la génération du fichier de résultat : " + file.getName() + ".");
                     }
                 }
             }
         });
         stackPane.setBottom(generateResultat);
-    }
-
-    private void loadCompetitionBean(Competition competition) {
-        competitionBean = new CompetitionBean(competition.getNom());
-        ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
-        for (Categorie categorie : competition.getCategories()) {
-            CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
-            categorieBean.setType(categorie.getTypeCategorie());
-            ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
-                epreuveBean.setEtat(epreuve.getEtatEpreuve());
-                epreuveBean.setType(epreuve.getTypeEpreuve());
-                ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-                for (Participant participant : epreuve.getParticipants()) {
-                    ParticipantBean participantBean = new ParticipantBean(participant.getNomParticipant(), participant.getPrenomParticipant());
-                    participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
-                    participantBeans.add(participantBean);
-                }
-                epreuveBean.setParticipants(participantBeans);
-                epreuveBeans.add(epreuveBean);
-            }
-            categorieBean.setEpreuves(epreuveBeans);
-            categorieBeans.add(categorieBean);
-        }
-        competitionBean.setCategories(categorieBeans);
-        ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
-        for (Club club : competition.getClubs()) {
-            ClubBean clubBean = new ClubBean();
-            clubBean.setNom(club.getNomClub());
-            clubBean.setIdentifiant(club.getIdentifiant());
-            clubBean.setResponsable(club.getResponsable());
-            ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
-            for (Eleve eleve : club.getEleves()) {
-                EleveBean eleveBean = new EleveBean();
-                eleveBean.setNom(eleve.getNomEleve());
-                eleveBean.setPrenom(eleve.getPrenomEleve());
-                eleveBean.setLicence(eleve.getLicenceEleve());
-                eleveBeans.add(eleveBean);
-            }
-            clubBean.setEleves(eleveBeans);
-            clubBeans.add(clubBean);
-        }
-        competitionBean.setClubs(clubBeans);
     }
 
     private void computeClassementClub() {

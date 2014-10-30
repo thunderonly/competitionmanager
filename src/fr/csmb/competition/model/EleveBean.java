@@ -1,7 +1,13 @@
 package fr.csmb.competition.model;
 
+import java.util.List;
+
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -15,6 +21,7 @@ public class EleveBean {
     private StringProperty categorie;
     private StringProperty sexe;
     private StringProperty poids;
+    private ListProperty<String> epreuves;
 
     public EleveBean() {
         this.licence = new SimpleStringProperty();
@@ -24,6 +31,9 @@ public class EleveBean {
         this.categorie = new SimpleStringProperty();
         this.sexe = new SimpleStringProperty();
         this.poids = new SimpleStringProperty();
+        this.epreuves = new SimpleListProperty<String>();
+        ObservableList<String> strings = FXCollections.observableArrayList();
+        this.epreuves.set(strings);
     }
 
     public String getLicence() {
@@ -82,6 +92,14 @@ public class EleveBean {
         this.poids.set(poids);
     }
 
+    public ObservableList<String> getEpreuves() {
+        return this.epreuves.get();
+    }
+
+    public void setEpreuves(ObservableList<String> epreuves) {
+        this.epreuves.set(epreuves);
+    }
+
     public StringProperty licenceProperty() {
         return licence;
     }
@@ -108,5 +126,9 @@ public class EleveBean {
 
     public StringProperty poidsProperty() {
         return poids;
+    }
+
+    public ListProperty<String> epreuvesProperty() {
+        return epreuves;
     }
 }

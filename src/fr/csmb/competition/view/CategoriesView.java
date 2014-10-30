@@ -1,5 +1,6 @@
 package fr.csmb.competition.view;
 
+import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.*;
@@ -8,7 +9,9 @@ import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
@@ -44,7 +47,6 @@ import java.util.List;
 public class CategoriesView {
 
     private ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-    private Competition competition;
     private StackPane stackPane = new StackPane();
     private CompetitionBean competitionBean;
     private Stage currentStage;
@@ -68,12 +70,11 @@ public class CategoriesView {
 
     private NetworkSender sender = new NetworkSender("", 9878);
 
-    public void showView(Stage mainStage, Competition competition) {
-        this.competition = competition;
-        loadCompetitionBean(competition);
+    public void showView(Stage mainStage, CompetitionBean competition) {
+        this.competitionBean = competition;
         SplitPane splitPane = new SplitPane();
         splitPane.setDividerPosition(0, 0.2);
-        createTreeView(splitPane, competition);
+        createTreeView(splitPane);
         createTableView(stackPane);
         splitPane.getItems().add(stackPane);
         Stage stage = new Stage();
@@ -86,101 +87,12 @@ public class CategoriesView {
         currentStage = stage;
         notificationView = new NotificationView(currentStage);
         stage.showAndWait();
-        saveWork();
 
     }
 
-    private void loadCompetitionBean(Competition competition) {
-        competitionBean = new CompetitionBean(competition.getNom());
-        ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
-        for (Categorie categorie : competition.getCategories()) {
-            CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
-            categorieBean.setType(categorie.getTypeCategorie());
-            ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
-                epreuveBean.setEtat(epreuve.getEtatEpreuve());
-                epreuveBean.setType(epreuve.getTypeEpreuve());
-                ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-                for (Participant participant : epreuve.getParticipants()) {
-                    ParticipantBean participantBean = new ParticipantBean(participant.getNomParticipant(), participant.getPrenomParticipant());
-                    participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
-                    participantBean.setClassementManuel(Integer.parseInt(participant.getClassementManuel()));
-                    participantBean.setClassementAuto(Integer.parseInt(participant.getClassementAuto()));
-                    participantBean.setNote1(Integer.parseInt(participant.getNote1()));
-                    participantBean.setNote2(Integer.parseInt(participant.getNote2()));
-                    participantBean.setNote3(Integer.parseInt(participant.getNote3()));
-                    participantBean.setNote4(Integer.parseInt(participant.getNote4()));
-                    participantBean.setNote5(Integer.parseInt(participant.getNote5()));
-//                    participantBean.setNoteTotal(Integer.parseInt(participant.getNoteTotal()));
-                    participantBeans.add(participantBean);
-                }
-                epreuveBean.setParticipants(participantBeans);
-                epreuveBeans.add(epreuveBean);
-            }
-            categorieBean.setEpreuves(epreuveBeans);
-            categorieBeans.add(categorieBean);
-        }
-        competitionBean.setCategories(categorieBeans);
-    }
-
-    private void saveWork() {
-
-        for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            Categorie categorie = competition.getCategorie(categorieBean.getNom(), categorieBean.getType());
-            if (categorie == null) {
-                categorie = new Categorie();
-                categorie.setNomCategorie(categorieBean.getNom());
-                categorie.setTypeCategorie(categorieBean.getType());
-                categorie.setEpreuves(new ArrayList<Epreuve>());
-                competition.getCategories().add(categorie);
-            }
-            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                Epreuve epreuve = categorie.getEpreuveByName(epreuveBean.getNom());
-                if (epreuve == null) {
-                    epreuve = new Epreuve();
-                    epreuve.setNomEpreuve(epreuveBean.getNom());
-                    epreuve.setTypeEpreuve(epreuveBean.getType());
-                    epreuve.setParticipants(new ArrayList<Participant>());
-                    categorie.getEpreuves().add(epreuve);
-                }
-
-                List<Participant> participants = new ArrayList<Participant>();
-                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                    Participant participant = new Participant();
-                    participant.setNomParticipant(participantBean.getNom());
-                    participant.setPrenomParticipant(participantBean.getPrenom());
-                    participant.setNote1(String.valueOf(participantBean.getNote1()));
-                    participant.setNote2(String.valueOf(participantBean.getNote2()));
-                    participant.setNote3(String.valueOf(participantBean.getNote3()));
-                    participant.setNote4(String.valueOf(participantBean.getNote4()));
-                    participant.setNote5(String.valueOf(participantBean.getNote5()));
-                    participant.setClassementAuto(String.valueOf(participantBean
-                            .getClassementAuto()));
-                    participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
-                    participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
-                    participants.add(participant);
-                }
-                epreuve.setEtatEpreuve(epreuveBean.getEtat());
-                epreuve.setAdministrateur(epreuveBean.getAdministrateur());
-                epreuve.setChronometreur(epreuveBean.getChronometreur());
-                epreuve.setJuge1(epreuveBean.getJuge1());
-                epreuve.setJuge2(epreuveBean.getJuge2());
-                epreuve.setJuge3(epreuveBean.getJuge3());
-                epreuve.setJuge4(epreuveBean.getJuge4());
-                epreuve.setJuge5(epreuveBean.getJuge5());
-                epreuve.setTapis(epreuveBean.getTapis());
-                epreuve.setHeureDebut(epreuveBean.getHeureDebut());
-                epreuve.setHeureFin(epreuveBean.getHeureFin());
-                epreuve.setDuree(epreuveBean.getDuree());
-                epreuve.setParticipants(participants);
-            }
-        }
-    }
-
-    private void createTreeView(final SplitPane splitPane, final Competition competition) {
+    private void createTreeView(final SplitPane splitPane) {
         StackPane pane = new StackPane();
-        TreeItem<String>  treeItem = new TreeItem<String>(competition.getNom());
+        TreeItem<String>  treeItem = new TreeItem<String>(competitionBean.getNom());
         treeItem.setExpanded(true);
 
         TreeItem<String> itemTypeCategorieFeminin = new TreeItem<String>(TypeCategorie.FEMININ.getValue());
@@ -189,25 +101,25 @@ public class CategoriesView {
         treeItem.getChildren().add(itemTypeCategorieMasculin);
         TreeItem<String> itemTypeCategorieMixte = null;
 
-        for (Categorie categorie : competition.getCategories()) {
-            TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNomCategorie());
+        for (CategorieBean categorie : competitionBean.getCategories()) {
+            TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNom());
             TreeItem<String> itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
             itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
             TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
             itemCategorie.getChildren().add(itemEpreuveTypeCombat);
-            for (Epreuve epreuve : categorie.getEpreuves()) {
-                TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNomEpreuve());
-                if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+            for (EpreuveBean epreuve : categorie.getEpreuves()) {
+                TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
+                if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getType())) {
                     itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
-                } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getTypeEpreuve())) {
+                } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
                     itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
                 }
             }
-            if (categorie.getTypeCategorie().equals(TypeCategorie.FEMININ.getValue())) {
+            if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
                 itemTypeCategorieFeminin.getChildren().add(itemCategorie);
-            } else if (categorie.getTypeCategorie().equals(TypeCategorie.MASCULIN.getValue())) {
+            } else if (categorie.getType().equals(TypeCategorie.MASCULIN.getValue())) {
                 itemTypeCategorieMasculin.getChildren().add(itemCategorie);
-            } else if (categorie.getTypeCategorie().equals(TypeCategorie.MIXTE.getValue())) {
+            } else if (categorie.getType().equals(TypeCategorie.MIXTE.getValue())) {
                 if (itemTypeCategorieMixte == null) {
                     itemTypeCategorieMixte = new TreeItem<String>(TypeCategorie.MIXTE.getValue());
                     treeItem.getChildren().add(itemTypeCategorieMixte);
@@ -236,7 +148,7 @@ public class CategoriesView {
                     String typeCategorie = new_val.getParent().getParent().getParent().getValue();
                     String categorie = new_val.getParent().getParent().getValue();
                     String epreuve = new_val.getValue();
-                    updateList(competition, typeCategorie, categorie, epreuve);
+                    updateList(typeCategorie, categorie, epreuve);
                 }
             }
 
@@ -483,12 +395,12 @@ public class CategoriesView {
 
     }
 
-    private void updateList(Competition competition, String typeCategorie, String categorie, String epreuve) {
+    private void updateList(String typeCategorie, String categorie, String epreuve) {
         participantBeans.clear();
-        participantBeans.addAll(extractEpreuves(competition, typeCategorie, categorie, epreuve));
+        participantBeans.addAll(extractEpreuves(typeCategorie, categorie, epreuve));
     }
 
-    private ObservableList<ParticipantBean> extractEpreuves(Competition competition, String typeCategorie, String categorie, String epreuve) {
+    private ObservableList<ParticipantBean> extractEpreuves(String typeCategorie, String categorie, String epreuve) {
         ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {
@@ -497,11 +409,11 @@ public class CategoriesView {
                 if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                     participantBeans1.addAll(epreuveBean.getParticipants());
                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
-                    for (Club club : competition.getClubs()) {
-                        for (Eleve eleve : club.getEleves()) {
-                            if (categorie.equals(eleve.getCategorieEleve()) && typeCategorie.equals(eleve.getSexeEleve())) {
-                                if (eleve.getEpreuvesEleves().contains(epreuve)) {
-                                    ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve(), eleve.getPrenomEleve());
+                    for (ClubBean club : competitionBean.getClubs()) {
+                        for (EleveBean eleve : club.getEleves()) {
+                            if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe())) {
+                                if (eleve.getEpreuves().contains(epreuve)) {
+                                    ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
                                     participantBeans1.add(participantBean);
                                 }
                             }
@@ -541,17 +453,17 @@ public class CategoriesView {
 
     private ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
         ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        for (Club club : competition.getClubs()) {
-            for (Eleve eleve : club.getEleves()) {
-                if (categorie.equals(eleve.getCategorieEleve()) && typeCategorie.equals(eleve
-                        .getSexeEleve())) {
-                    if (eleve.getEpreuvesEleves().contains(epreuve)) {
-                        ParticipantBean participantBean = new ParticipantBean(eleve.getNomEleve(), eleve.getPrenomEleve());
+        for (ClubBean clubBean : competitionBean.getClubs()) {
+            for (EleveBean eleveBean : clubBean.getEleves()) {
+                if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
+                    if (eleveBean.getEpreuves().contains(epreuve)) {
+                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
                         participantBeans1.add(participantBean);
                     }
                 }
             }
         }
+
         return participantBeans1;
     }
 

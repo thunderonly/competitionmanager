@@ -6,6 +6,7 @@ package fr.csmb.competition.model;
 
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -13,7 +14,7 @@ import javafx.collections.ObservableList;
  *
  * @author Bull SAS
  */
-public class CategorieBean {
+public class CategorieBean implements Cloneable {
 
     private SimpleStringProperty nom;
     private SimpleStringProperty type;
@@ -23,6 +24,8 @@ public class CategorieBean {
         this.nom = new SimpleStringProperty(nom);
         this.type = new SimpleStringProperty();
         this.epreuves = new SimpleListProperty<EpreuveBean>();
+        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+        this.epreuves.set(epreuveBeans);
     }
 
     public String getNom() {
@@ -86,5 +89,14 @@ public class CategorieBean {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String toString = "";
+        if (type.get()!= null && nom.get() != null) {
+            toString = type.get().concat(" - ").concat(nom.get());
+        }
+        return toString;
     }
 }

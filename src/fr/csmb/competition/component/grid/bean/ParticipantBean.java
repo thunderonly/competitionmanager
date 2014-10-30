@@ -27,17 +27,17 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty noteTotal;
 
     public ParticipantBean(String nom, String prenom) {
-        classementAuto = new SimpleIntegerProperty();
-        classementManuel = new SimpleIntegerProperty();
-        classementFinal = new SimpleIntegerProperty();
+        classementAuto = new SimpleIntegerProperty(0);
+        classementManuel = new SimpleIntegerProperty(0);
+        classementFinal = new SimpleIntegerProperty(0);
         this.nom = new SimpleStringProperty(nom);
         this.prenom = new SimpleStringProperty(prenom);
-        note1 = new SimpleIntegerProperty();
-        note2 = new SimpleIntegerProperty();
-        note3 = new SimpleIntegerProperty();
-        note4 = new SimpleIntegerProperty();
-        note5 = new SimpleIntegerProperty();
-        noteTotal = new SimpleIntegerProperty();
+        note1 = new SimpleIntegerProperty(0);
+        note2 = new SimpleIntegerProperty(0);
+        note3 = new SimpleIntegerProperty(0);
+        note4 = new SimpleIntegerProperty(0);
+        note5 = new SimpleIntegerProperty(0);
+        noteTotal = new SimpleIntegerProperty(0);
     }
 
     public Integer getClassementAuto() {
