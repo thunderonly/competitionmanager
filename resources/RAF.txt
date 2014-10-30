@@ -26,5 +26,5 @@ Creation de Competition
 2 - Les categories presentes [OK]
 
 Pointage Competition
-1 - Pointage des participants.
-2 - Gerer la presence des participants
+1 - Pointage des participants. [OK]
+2 - Gerer la presenceEleve des participants [OK]

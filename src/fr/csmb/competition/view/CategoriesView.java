@@ -490,13 +490,16 @@ public class CategoriesView {
                 newCategorie = categorie1;
             }
 
-            CategorieBean categorieBean = new CategorieBean(newCategorie);
             String newTypeCategorie = typeCategorie1.concat(" - ").concat(typeCategorie2);
-
             if (typeCategorie1.equals(typeCategorie2)) {
                 newTypeCategorie = typeCategorie1;
             }
-            categorieBean.setType(newTypeCategorie);
+            CategorieBean categorieBean = competitionBean.getCategorie(newTypeCategorie, newCategorie);
+            if (categorieBean == null) {
+                categorieBean = new CategorieBean(newCategorie);
+                categorieBean.setType(newTypeCategorie);
+                competitionBean.getCategories().add(categorieBean);
+            }
 
             String newEpreuve = epreuve1.concat("-").concat(epreuve2);
             if (epreuve1.equals(epreuve2)) {
@@ -505,6 +508,7 @@ public class CategoriesView {
             EpreuveBean epreuveBean = new EpreuveBean(newEpreuve);
             epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
             epreuveBean.setType(epreuveBean1.getType());
+            categorieBean.getEpreuves().add(epreuveBean);
 
             ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
             if (epreuveBean1 != null) {
@@ -523,11 +527,7 @@ public class CategoriesView {
             }
 
             epreuveBean.setParticipants(participantBeans);
-            ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
-            epreuveBeans.add(epreuveBean);
-            categorieBean.setEpreuves(epreuveBeans);
 
-            competitionBean.getCategories().add(categorieBean);
             sender.send(competitionBean, categorieBean, epreuveBean);
 
             TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
@@ -542,8 +542,20 @@ public class CategoriesView {
             boolean categorieAdded = false;
             for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
                 if (treeItem.getValue().equals(categorieBean.getType())) {
-                    treeItem.getChildren().add(treeItemCategorie);
-                    categorieAdded = true;
+                    for (TreeItem<String> itemCategorie : treeItem.getChildren()) {
+                        if (itemCategorie.getValue().equals(categorieBean.getNom())) {
+                            for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {
+                                if (itemTypeEpreuve.getValue().equals(epreuveBean.getType())) {
+                                    itemTypeEpreuve.getChildren().add(treeItemEpreuve);
+                                    categorieAdded = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!categorieAdded) {
+                        treeItem.getChildren().add(treeItemCategorie);
+                        categorieAdded = true;
+                    }
                 }
             }
 

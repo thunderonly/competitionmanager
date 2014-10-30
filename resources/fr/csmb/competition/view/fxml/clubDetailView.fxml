@@ -18,6 +18,7 @@
                 <TableColumn fx:id="categorieEleve" text="Catégorie Eleve"/>
                 <TableColumn fx:id="sexeEleve" text="Sexe Eleve"/>
                 <TableColumn fx:id="poidsEleve" text="Poids Eleve"/>
+                <TableColumn fx:id="presenceEleve" text="Présence Eleve"/>
 
             </columns>
             <columnResizePolicy>
