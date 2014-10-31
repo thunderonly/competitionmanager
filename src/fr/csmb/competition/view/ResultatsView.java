@@ -116,6 +116,8 @@ public class ResultatsView {
             ClassementClubController controller = (ClassementClubController) loader.getController();
             computeClassementClub();
             controller.getTableClassementClub().setItems(competitionBean.clubsProperty());
+            controller.getTableClassementClub().getSortOrder().setAll(Collections.singletonList(controller
+                    .getClassementGeneral()));
             classementClub.setContent(borderPane);
         } catch (IOException e) {
             e.printStackTrace();

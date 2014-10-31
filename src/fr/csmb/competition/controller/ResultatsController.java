@@ -28,7 +28,9 @@ public class ResultatsController {
     private void initialize() {
         place.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("classementFinal"));
         nomParticipant.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("nom"));
+        nomParticipant.setSortable(false);
         prenomParticipant.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("prenom"));
+        prenomParticipant.setSortable(false);
     }
 
     public TableView getTableResultats() {

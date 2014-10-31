@@ -8,6 +8,7 @@ import fr.csmb.competition.network.sender.NetworkSender;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -25,17 +26,22 @@ public class ListEleveDialog {
 
     public void showClubDetailDialog(Stage mainStage, final ClubBean clubBean) {
         try {
-            BorderPane root = (BorderPane) mainStage.getScene().getRoot();
+            final BorderPane root = (BorderPane) mainStage.getScene().getRoot();
+            final Node oldCenter = root.getCenter();
+            final Node oldBottom = root.getBottom();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
             root.setCenter(borderPane);
+            root.setBottom(null);
 
             Button validateButton = new Button("Valider");
             validateButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     sender.sendClub(clubBean);
+                    root.setBottom(oldBottom);
+                    root.setCenter(oldCenter);
                 }
             });
 
@@ -43,7 +49,9 @@ public class ListEleveDialog {
 
             DetailClubController detailClubController = loader.getController();
 
-            detailClubController.getTableEleve().setItems(clubBean.getEleves());
+            if (clubBean != null) {
+                detailClubController.getTableEleve().setItems(clubBean.getEleves());
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

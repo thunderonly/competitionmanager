@@ -46,30 +46,35 @@ public class ClassementClubController {
                 return clubBeanStringCellDataFeatures.getValue().nomProperty();
             }
         });
+        nomClub.setSortable(false);
         identifiantClub.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
                 return clubBeanStringCellDataFeatures.getValue().identifiantProperty();
             }
         });
+        identifiantClub.setSortable(false);
         totalTechnique.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
                 return clubBeanStringCellDataFeatures.getValue().totalTechniqueProperty().asString();
             }
         });
+        totalTechnique.setSortable(false);
         totalCombat.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
                 return clubBeanStringCellDataFeatures.getValue().totalCombatProperty().asString();
             }
         });
+        totalCombat.setSortable(false);
         totalGeneral.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
                 return clubBeanStringCellDataFeatures.getValue().totalGeneralProperty().asString();
             }
         });
+        totalGeneral.setSortable(false);
         classementTechnique.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClubBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ClubBean, String> clubBeanStringCellDataFeatures) {
@@ -99,6 +104,18 @@ public class ClassementClubController {
 
     public TableView<ClubBean> getTableClassementClub() {
         return tableClassementClub;
+    }
+
+    public TableColumn<ClubBean, String> getClassementTechnique() {
+        return classementTechnique;
+    }
+
+    public TableColumn<ClubBean, String> getClassementCombat() {
+        return classementCombat;
+    }
+
+    public TableColumn<ClubBean, String> getClassementGeneral() {
+        return classementGeneral;
     }
 
     public void setMainStage(Stage mainStage) {

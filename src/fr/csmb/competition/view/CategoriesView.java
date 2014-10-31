@@ -206,10 +206,6 @@ public class CategoriesView {
             }
         }
 
-        for (int i = participants.size() + 1; i <= 3; i++) {
-            participants.add(new ParticipantBean("Nom " + i, "Prénom " + i));
-        }
-
         if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
             gridComponent = new GridComponentFight(participants);
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
@@ -318,96 +314,47 @@ public class CategoriesView {
         Text titleClassement = new Text("Classement");
         titleClassement.getStyleClass().add("biglabelGridPane");
         gridPane.add(titleClassement, 2, 0, 2, 1);
-
-        Label firstPlaceLabel = new Label("1ere Place");
-        firstPlaceLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(firstPlaceLabel, 2, 1);
-        firstPlaceTf.setPromptText("1ere Place");
-        gridPane.add(firstPlaceTf, 3, 1);
-
-        Label secondPlaceLabel = new Label("2eme Place");
-        secondPlaceLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(secondPlaceLabel, 2, 2);
-        secondPlaceTf.setPromptText("2eme Place");
-        gridPane.add(secondPlaceTf, 3, 2);
-
-        Label thirdPlaceLabel = new Label("3eme Place");
-        thirdPlaceLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(thirdPlaceLabel, 2, 3);
-        thirdPlaceTf.setPromptText("3eme Place");
-        gridPane.add(thirdPlaceTf, 3, 3);
-
-        Label fourthPlaceLabel = new Label("4eme Place");
-        fourthPlaceLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(fourthPlaceLabel, 2, 4);
-        fourthPlaceTf.setPromptText("4eme Place");
-        gridPane.add(fourthPlaceTf, 3, 4);
-
+        TextField[] tfPlaces = new TextField[] {firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf};
+        for (int i = 0; i < 4; i++) {
+            String place = "";
+            if (i == 0) {
+                place = "1ere Place";
+            } else {
+                place = String.valueOf(i + 1).concat("ème Place");
+            }
+            Label firstPlaceLabel = new Label(place);
+            firstPlaceLabel.getStyleClass().add("titleGridPane");
+            gridPane.add(firstPlaceLabel, 2, 1 + i);
+            tfPlaces[i].setPromptText(place);
+            gridPane.add(tfPlaces[i], 3, 1 + i);
+        }
 
         Text titleJuge = new Text("Juges");
         titleJuge.getStyleClass().add("biglabelGridPane");
         gridPane.add(titleJuge, 0, 5, 2, 1);
-
-        Label firstJugeLabel = new Label("Juge 1");
-        firstJugeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(firstJugeLabel, 0, 6);
-        firstJugeTf.setPromptText("Juge 1");
-        gridPane.add(firstJugeTf, 1, 6);
-
-        Label secondJugeLabel = new Label("Juge 2");
-        secondJugeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(secondJugeLabel, 0, 7);
-        secondJugeTf.setPromptText("Juge 2");
-        gridPane.add(secondJugeTf, 1, 7);
-
-        Label thirdJugeLabel = new Label("Juge 3");
-        thirdJugeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(thirdJugeLabel, 0, 8);
-        thirdJugeTf.setPromptText("Juge 3");
-        gridPane.add(thirdJugeTf, 1, 8);
-
-        Label fourthJugeLabel = new Label("Juge 4");
-        fourthJugeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(fourthJugeLabel, 0, 9);
-        fourthJugeTf.setPromptText("Juge 4");
-        gridPane.add(fourthJugeTf, 1, 9);
-
-        Label fifthJugeLabel = new Label("Juge 5");
-        fifthJugeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(fifthJugeLabel, 0, 10);
-        fifthJugeTf.setPromptText("Juge 5");
-        gridPane.add(fifthJugeTf, 1, 10);
-
+        TextField[] tfJuges = new TextField[]{firstJugeTf, secondJugeTf, thirdJugeTf, fourthJugeTf, fifthJugeTf};
+        for (int i = 0; i < 5; i++) {
+            Label firstJugeLabel = new Label("Juge ".concat(String.valueOf(i + 1)));
+            firstJugeLabel.getStyleClass().add("titleGridPane");
+            gridPane.add(firstJugeLabel, 0, 6 + i);
+            tfJuges[i].setPromptText("Juge ".concat(String.valueOf(i + 1)));
+            gridPane.add(tfJuges[i], 1, 6 + i);
+        }
 
         Text titleEpreuve = new Text("Epreuve");
         titleEpreuve.getStyleClass().add("biglabelGridPane");
         gridPane.add(titleEpreuve, 2, 5, 2, 1);
+        TextField[] tfEpreuves = new TextField[] {tapisTf, heureDebutTf, heureFinTf, dureeTf};
+        String[] labelEpreuves = new String[] {"Tapis", "Début", "Fin", "Durée"};
+        for (int i = 0; i < 4; i++) {
+            Label tapisLabel = new Label(labelEpreuves[i]);
+            tapisLabel.getStyleClass().add("titleGridPane");
+            gridPane.add(tapisLabel, 2, 6 + i);
+            tfEpreuves[i].setPromptText(labelEpreuves[i]);
+            gridPane.add(tfEpreuves[i], 3, 6 + i);
+        }
 
-        Label tapisLabel = new Label("Tapis");
-        tapisLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(tapisLabel, 2, 6);
-        tapisTf.setPromptText("Tapis");
-        gridPane.add(tapisTf, 3, 6);
-
-        Label heureDebutLabel = new Label("Début");
-        heureDebutLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(heureDebutLabel, 2, 7);
-        heureDebutTf.setPromptText("Début");
-        gridPane.add(heureDebutTf, 3, 7);
-
-        Label heureFinLabel = new Label("Fin");
-        heureFinLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(heureFinLabel, 2, 8);
-        heureFinTf.setPromptText("Fin");
-        gridPane.add(heureFinTf, 3, 8);
-
-        Label dureeLabel = new Label("Durée");
-        dureeLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(dureeLabel, 2, 9);
-        dureeTf.setPromptText("Durée");
-        gridPane.add(dureeTf, 3, 9);
-
-        Label nbParticipantsLabel = new Label("Juge 5");
+        Label nbParticipantsLabel = new Label("Nb Participants");
         nbParticipantsLabel.getStyleClass().add("titleGridPane");
         gridPane.add(nbParticipantsLabel, 2, 10);
         Label nbParticipantsTf = new Label(String.valueOf(epreuveBean.getParticipants().size()));
