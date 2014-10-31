@@ -89,4 +89,13 @@ public class CompetitionBean {
         }
         return null;
     }
+
+    public ClubBean getClubByIdentifiant(String identifiant) {
+        for (ClubBean clubBean : getClubs()) {
+            if (clubBean.getIdentifiant().equals(identifiant)) {
+                return clubBean;
+            }
+        }
+        return null;
+    }
 }

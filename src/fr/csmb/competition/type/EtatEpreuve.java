@@ -13,6 +13,7 @@ public enum EtatEpreuve {
     UNKNONW ("Inconnu"),
     VALIDE ("Valide"),
     FUSION ("Fusion"),
+    DEMARRE ("Demarre"),
     TERMINE ("Termine");
 
     private String value;

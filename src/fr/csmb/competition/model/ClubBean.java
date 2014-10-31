@@ -189,4 +189,13 @@ public class ClubBean implements Comparable<ClubBean> {
         }
         return 0;
     }
+
+    public EleveBean getEleveByLicence(String licence) {
+        for (EleveBean eleveBean : getEleves()) {
+            if (eleveBean.getLicence().equals(licence)) {
+                return eleveBean;
+            }
+        }
+        return null;
+    }
 }

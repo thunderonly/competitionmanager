@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by Administrateur on 13/10/14.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Eleve {
+public class Eleve implements Serializable {
 
     @XmlElement(name="licenceEleve")
     private String licenceEleve;

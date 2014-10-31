@@ -5,6 +5,7 @@
 package fr.csmb.competition.network.receiver;
 
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Participant;
 
@@ -70,15 +71,21 @@ public class NetworkReceiver extends Thread {
             for (;;) {
 
                 try {
-                    ds.receive(dp);
-                    ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
-                    ObjectInputStream is = new
-                            ObjectInputStream(new BufferedInputStream(byteStream));
-                    Competition competition = (Competition)is.readObject();
-                    is.close();
 
+                    ds.receive(dp);
                     if (!isOwnPacket(dp.getAddress())) {
-                        fireReceive(competition);
+                        ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+                        ObjectInputStream is = new
+                                ObjectInputStream(new BufferedInputStream(byteStream));
+                        Object receivedObj = is.readObject();
+                        is.close();
+                        if (receivedObj instanceof Competition) {
+                            Competition competition = (Competition)receivedObj;
+                            fireReceive(competition);
+                        } else if (receivedObj instanceof Club) {
+                            Club club = (Club) receivedObj;
+                            fireReceive(club);
+                        }
                     }
                 } catch (SocketException e) {
                     e.printStackTrace();
@@ -152,6 +159,15 @@ public class NetworkReceiver extends Thread {
     private void fireReceive(Competition competition) {
         for (final DatagramListener datagramListener : listDatagramListener) {
             datagramListener.receive(competition);
+        }
+    }
+
+    /**
+     * Fire all listener
+     */
+    private void fireReceive(Club club) {
+        for (final DatagramListener datagramListener : listDatagramListener) {
+            datagramListener.receive(club);
         }
     }
 

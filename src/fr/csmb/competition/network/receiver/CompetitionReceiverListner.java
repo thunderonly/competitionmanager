@@ -1,12 +1,17 @@
 package fr.csmb.competition.network.receiver;
 
+import fr.csmb.competition.Helper.EleveConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
+import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
 
@@ -40,9 +45,27 @@ public class CompetitionReceiverListner implements DatagramListener {
         epreuveBean.setType(epreuve.getTypeEpreuve());
 
         for (Participant participant : epreuve.getParticipants()) {
-            ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
-            epreuveBean.getParticipants().add(participantBean);
+            ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());
+            if (participantBean == null) {
+                participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+                epreuveBean.getParticipants().add(participantBean);
+            } else {
+                ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
+            }
+
         }
-        
+    }
+
+    @Override
+    public void receive(Club club) {
+        ClubBean clubBean = competitionBean.getClubByIdentifiant(club.getIdentifiant());
+        for (Eleve eleve : club.getEleves()) {
+            EleveBean eleveBean = clubBean.getEleveByLicence(eleve.getLicenceEleve());
+            if (eleveBean == null) {
+                eleveBean = EleveConverter.converEleveToEleveBean(eleve);
+            } else {
+                eleveBean.setPresence(eleve.getPresenceEleve());
+            }
+        }
     }
 }

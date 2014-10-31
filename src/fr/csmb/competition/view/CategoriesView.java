@@ -87,7 +87,7 @@ public class CategoriesView {
         currentStage = stage;
         notificationView = new NotificationView(currentStage);
         stage.showAndWait();
-
+        sender.close();
     }
 
     private void createTreeView(final SplitPane splitPane) {
@@ -108,12 +108,22 @@ public class CategoriesView {
             TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
             itemCategorie.getChildren().add(itemEpreuveTypeCombat);
             for (EpreuveBean epreuve : categorie.getEpreuves()) {
-                TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
+                final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
                 if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getType())) {
                     itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
                 } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
                     itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
                 }
+
+                epreuve.etatProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+                        TreeItem<String> parent = itemEpreuve.getParent();
+                        int index = parent.getChildren().indexOf(itemEpreuve);
+                        parent.getChildren().remove(itemEpreuve);
+                        parent.getChildren().add(index, itemEpreuve);
+                    }
+                });
             }
             if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
                 itemTypeCategorieFeminin.getChildren().add(itemCategorie);
@@ -184,8 +194,13 @@ public class CategoriesView {
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de démarrer une épreuve fusionnée");
                 return;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue())) {
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de démarrer une épreuve déjà démarrée");
+                return;
             }
-
+            epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
+            sender.send(competitionBean, categorieBean, epreuveBean);
 
             if (epreuveBean != null) {
                 for (ParticipantBean participantBean : epreuveBean.getParticipants())
@@ -234,11 +249,34 @@ public class CategoriesView {
                         epreuveBean.setHeureFin(heureFinTf.getText());
                         epreuveBean.setDuree(dureeTf.getText());
                         sender.send(competitionBean, categorieBean, epreuveBean);
+                        stackPane.getChildren().clear();
+                        createTableView(stackPane);
                     }
                 }
             }
         });
-        borderPane.setBottom(button);
+
+        Button cancelButton = new Button("Annuler");
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+                if (categorieBean != null) {
+                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                    if (epreuveBean != null) {
+                        epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                        sender.send(competitionBean, categorieBean, epreuveBean);
+                    }
+                }
+                stackPane.getChildren().clear();
+                createTableView(stackPane);
+            }
+        });
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(button, cancelButton);
+        hBox.setSpacing(10);
+        borderPane.setBottom(hBox);
         stackPane.getChildren().clear();
         stackPane.getChildren().add(borderPane);
     }
@@ -438,13 +476,16 @@ public class CategoriesView {
                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                     notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                             "Impossible de valider une épreuve fusionnée");
+                } else if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                            "Impossible de valider une épreuve validée");
                 } else {
                     epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                     epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
-                    TreeItem<String> parent = treeItem.getParent();
-                    int index = parent.getChildren().indexOf(treeItem);
-                    parent.getChildren().remove(treeItem);
-                    parent.getChildren().add(index, treeItem);
+//                    TreeItem<String> parent = treeItem.getParent();
+//                    int index = parent.getChildren().indexOf(treeItem);
+//                    parent.getChildren().remove(treeItem);
+//                    parent.getChildren().add(index, treeItem);
 
                     sender.send(competitionBean, categorieBean, epreuveBean);
                 }
@@ -484,6 +525,10 @@ public class CategoriesView {
                 EtatEpreuve.VALIDE.getValue().equals(epreuveBean2.getEtat())) {
             notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                     "Impossible de fusionner une épreuve validée");
+        } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean1.getEtat()) ||
+                EtatEpreuve.DEMARRE.getValue().equals(epreuveBean2.getEtat())) {
+            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                    "Impossible de fusionner une épreuve démarrée");
         } else {
             String newCategorie = categorie1.concat(" - ").concat(categorie2);
             if (categorie1.equals(categorie2)) {
@@ -727,8 +772,11 @@ public class CategoriesView {
                                     setTextFill(Color.GREEN);
                                 } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.RED);
+                                    setUnderline(true);
                                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.DARKORANGE);
+                                } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+                                    setTextFill(Color.DARKRED);
                                 }
                             }
                         }

@@ -32,6 +32,11 @@ public class ParticipantConverter {
 
     public static ParticipantBean convertParticipantToParticipantBean(Participant participant) {
         ParticipantBean participantBean = new ParticipantBean(participant.getNomParticipant(), participant.getPrenomParticipant());
+        convertParticipantToParticipantBean(participant, participantBean);
+        return participantBean;
+    }
+
+    public static void convertParticipantToParticipantBean(Participant participant, ParticipantBean participantBean) {
         participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
         participantBean.setClassementManuel(Integer.parseInt(participant.getClassementManuel()));
         participantBean.setClassementAuto(Integer.parseInt(participant.getClassementAuto()));
@@ -40,6 +45,6 @@ public class ParticipantConverter {
         participantBean.setNote3(Integer.parseInt(participant.getNote3()));
         participantBean.setNote4(Integer.parseInt(participant.getNote4()));
         participantBean.setNote5(Integer.parseInt(participant.getNote5()));
-        return participantBean;
+
     }
 }

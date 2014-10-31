@@ -84,7 +84,7 @@ public class EditingCell extends TableCell<ParticipantBean, Integer> {
                     setStyle("");
                 }
             }
-            if (getTableView().getItems().size() >= getIndex()) {
+            if (getTableView().getItems().size() > getIndex()) {
                 System.out.println(getTableView().getItems().get(getIndex()).getNom());
             }
         }

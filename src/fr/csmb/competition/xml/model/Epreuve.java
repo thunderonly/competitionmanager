@@ -178,4 +178,13 @@ public class Epreuve implements Serializable {
     public String toString() {
         return typeEpreuve.concat(" - ").concat(nomEpreuve);
     }
+
+    public Participant getParticipantByNomPrenom(String nom, String prenom) {
+        for (Participant participant : getParticipants()) {
+            if (participant.getNomParticipant().equals(nom) && participant.getPrenomParticipant().equals(prenom)) {
+                return participant;
+            }
+        }
+        return null;
+    }
 }

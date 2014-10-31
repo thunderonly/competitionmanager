@@ -4,13 +4,18 @@
  */
 package fr.csmb.competition.network.sender;
 
+import fr.csmb.competition.Helper.ClubConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
+import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
 
@@ -73,6 +78,34 @@ public class NetworkSender {
 
     }
 
+    public void sendClub(ClubBean clubBean) {
+        if (createDatagramSocket()) {
+
+            try {
+                if (address == null || address.equals("")) {
+                    address = getMulticastIp();
+                }
+
+                Club club = ClubConverter.convertClubBeanToClub(clubBean);
+
+                ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
+                ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+                os.flush();
+                os.writeObject(club);
+                os.flush();
+                //retrieves byte array
+                byte[] sendBuf = byteStream.toByteArray();
+                DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address,port));
+                int byteCount = packet.getLength();
+                ds.send(packet);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void send(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean) {
 
         if (createDatagramSocket()) {
@@ -89,7 +122,6 @@ public class NetworkSender {
                 epreuve.setEtatEpreuve(epreuveBean.getEtat());
                 categorie.getEpreuves().add(epreuve);
 
-                MulticastSocket socket = new MulticastSocket();
                 for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                     Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
                     epreuve.getParticipants().add(participant);
@@ -111,7 +143,6 @@ public class NetworkSender {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
         }
     }
 

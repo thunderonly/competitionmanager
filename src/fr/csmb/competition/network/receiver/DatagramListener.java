@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.network.receiver;
 
+import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 
 /**
@@ -15,4 +16,6 @@ import fr.csmb.competition.xml.model.Competition;
 public interface DatagramListener {
 
     public void receive(Competition competition);
+
+    public void receive(Club club);
 }

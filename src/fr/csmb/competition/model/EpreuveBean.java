@@ -259,4 +259,13 @@ public class EpreuveBean {
         }
         return toString;
     }
+
+    public ParticipantBean getParticipantByNomPrenom(String nom, String prenom) {
+        for (ParticipantBean participantBean : getParticipants()) {
+            if (participantBean.getNom().equals(nom) && participantBean.getPrenom().equals(prenom)) {
+                return participantBean;
+            }
+        }
+        return null;
+    }
 }

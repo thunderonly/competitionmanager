@@ -97,8 +97,8 @@ public class InscriptionsManager {
                             clubBean.getEleves().add(eleve);
                         }
                     }
-                    for (List<EleveBean> eleveList : teamDoiLuyen.values()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(eleveList));
+                    for (String equipe : teamDoiLuyen.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyen.get(equipe)));
                     }
 
                     if (competition.getClubs().contains(clubBean)) {
@@ -117,10 +117,16 @@ public class InscriptionsManager {
         return null;
     }
 
-    private EleveBean extractEleveFromTeam(List<EleveBean> eleves) {
+    private EleveBean extractEleveFromTeam(String clubId, String equipe, List<EleveBean> eleves) {
         EleveBean newEleve = new EleveBean();
         for (EleveBean eleve : eleves) {
-            newEleve.getEpreuves().add("Doi Luyen");
+            if (newEleve.getLicence() == null) {
+                newEleve.setLicence(clubId.concat("-").concat(equipe));
+            }
+
+            if (newEleve.getEpreuves().size() <= 0) {
+                newEleve.getEpreuves().add("Doi Luyen");
+            }
             //Nom
             if (newEleve.getNom() == null) {
                 newEleve.setNom(eleve.getNom());

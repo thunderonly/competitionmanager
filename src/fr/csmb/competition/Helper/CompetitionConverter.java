@@ -64,26 +64,7 @@ public class CompetitionConverter {
 
         ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         for (Club club : competition.getClubs()) {
-            ClubBean clubBean = new ClubBean();
-            clubBean.setNom(club.getNomClub());
-            clubBean.setIdentifiant(club.getIdentifiant());
-            clubBean.setResponsable(club.getResponsable());
-
-            ObservableList<EleveBean> eleveBeans = FXCollections.observableArrayList();
-            for (Eleve eleve : club.getEleves()) {
-                EleveBean eleveBean = new EleveBean();
-                eleveBean.setNom(eleve.getNomEleve());
-                eleveBean.setPrenom(eleve.getPrenomEleve());
-                eleveBean.setLicence(eleve.getLicenceEleve());
-                eleveBean.setAge(eleve.getAgeEleve());
-                eleveBean.setCategorie(eleve.getCategorieEleve());
-                eleveBean.setPoids(eleve.getPoidsEleve());
-                eleveBean.setSexe(eleve.getSexeEleve());
-                eleveBean.setPresence(eleve.getPresenceEleve());
-                eleveBean.setEpreuves(FXCollections.observableArrayList(eleve.getEpreuvesEleves()));
-                eleveBeans.add(eleveBean);
-            }
-            clubBean.setEleves(eleveBeans);
+            ClubBean clubBean = ClubConverter.convertClubToClubBean(club);
             clubBeans.add(clubBean);
         }
         competitionBean.setClubs(clubBeans);
@@ -124,24 +105,8 @@ public class CompetitionConverter {
         }
 
         for (ClubBean clubBean : competitionBean.getClubs()) {
-            Club club = new Club();
-            club.setIdentifiant(clubBean.getIdentifiant());
-            club.setNomClub(clubBean.getNom());
-            club.setResponsable(clubBean.getResponsable());
+            Club club = ClubConverter.convertClubBeanToClub(clubBean);
             competition.getClubs().add(club);
-            for (EleveBean eleveBean : clubBean.getEleves()) {
-                Eleve eleve = new Eleve(eleveBean.getNom(), eleveBean.getPrenom());
-                eleve.setCategorieEleve(eleveBean.getCategorie());
-                eleve.setSexeEleve(eleveBean.getSexe());
-                eleve.setAgeEleve(eleveBean.getAge());
-                eleve.setLicenceEleve(eleveBean.getLicence());
-                eleve.setPoidsEleve(eleveBean.getPoids());
-                eleve.setPresenceEleve(eleveBean.getPresence());
-                for (String epreuve : eleveBean.getEpreuves()) {
-                    eleve.getEpreuvesEleves().add(epreuve);
-                }
-                club.getEleves().add(eleve);
-            }
         }
         return competition;
     }
