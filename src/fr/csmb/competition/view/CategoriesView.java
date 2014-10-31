@@ -480,7 +480,7 @@ public class CategoriesView {
                 newCategorie = categorie1;
             }
 
-            String newTypeCategorie = typeCategorie1.concat(" - ").concat(typeCategorie2);
+            String newTypeCategorie = TypeCategorie.MIXTE.getValue();
             if (typeCategorie1.equals(typeCategorie2)) {
                 newTypeCategorie = typeCategorie1;
             }
