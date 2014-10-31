@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <BorderPane fx:controller="fr.csmb.competition.controller.Controller"
-            xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="400.0" prefWidth="600.0" >
+            xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="1024.0" prefWidth="1280.0" >
 
     <top>
         <MenuBar BorderPane.alignment="CENTER">
@@ -20,6 +20,7 @@
                         <Menu mnemonicParsing="false" text="Gérer">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Import Inscription" onAction="#handleLoadInscription"/>
+                                <MenuItem mnemonicParsing="false" text="Présence" onAction="#handlePresence"/>
                                 <MenuItem mnemonicParsing="false" text="Categories" onAction="#handleManageCategories"/>
                                 <MenuItem mnemonicParsing="false" text="Résultats" onAction="#handleShowResultats"/>
                             </items>

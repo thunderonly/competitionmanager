@@ -62,6 +62,7 @@ public class Controller {
         }
     }
 
+
     @FXML
     private void handleLoadInscription() {
         FileChooser fileChooser = new FileChooser();
@@ -106,6 +107,11 @@ public class Controller {
 
     @FXML
     private void handleManageCategories() {
+        main.showCategorienView();
+    }
+
+    @FXML
+    private void handlePresence() {
         main.showCompetitionView();
     }
 

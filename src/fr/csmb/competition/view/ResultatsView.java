@@ -59,17 +59,12 @@ public class ResultatsView {
 
     public void showView(Stage mainStage, CompetitionBean competition) {
         competitionBean = competition;
+        BorderPane root = (BorderPane) mainStage.getScene().getRoot();
         BorderPane stackPane = new BorderPane();
-        createTableView(stackPane);
-        Stage stage = new Stage();
-        stage.setTitle("Résultats compétition : " + competition.getNom());
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        this.mainStage = stage;
-//        stage.setMinWidth(500);
-        Scene scene = new Scene(stackPane);
-        stage.setScene(scene);
-        stage.showAndWait();
+        createTableView(root);
+        root.setBottom(null);
+//        stage.setTitle("Résultats compétition : " + competition.getNom());
+        this.mainStage = mainStage;
     }
 
     private void createTableView(BorderPane stackPane) {

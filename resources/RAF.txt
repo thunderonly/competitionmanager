@@ -13,13 +13,14 @@ Gestion des categories
 8 - Gestion des équipes Doi Luyen [OK]
 9 - Gestion fusion féminin/masculin [OK]
 10 - Combat : Gestion des categories de 4 et 3 participants [OK]
+11 - Configuration des combats avec ordre de distribution des participants
 
 Classement des clubs
 1 - Mettre en place le classement des clubs [OK]
 2 - Exporter le classement au format Excel [OK]
 
 Diffusion LAN
-1 - Diffuser les categories apres changement d etat
+1 - Diffuser les categories apres changement d etat [OK]
 
 Creation de Competition
 1 - Nom de la competition [OK]

@@ -25,9 +25,11 @@ public class ListEleveDialog {
 
     public void showClubDetailDialog(Stage mainStage, final ClubBean clubBean) {
         try {
+            BorderPane root = (BorderPane) mainStage.getScene().getRoot();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
+            root.setCenter(borderPane);
 
             Button validateButton = new Button("Valider");
             validateButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -39,18 +41,9 @@ public class ListEleveDialog {
 
             borderPane.setBottom(validateButton);
 
-            Stage stage = new Stage();
-            stage.setTitle("Détail club : " + clubBean.getNom());
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(mainStage);
-            Scene scene = new Scene(borderPane);
-            stage.setScene(scene);
-
             DetailClubController detailClubController = loader.getController();
 
             detailClubController.getTableEleve().setItems(clubBean.getEleves());
-            stage.showAndWait();
-
 
         } catch (IOException e) {
             e.printStackTrace();

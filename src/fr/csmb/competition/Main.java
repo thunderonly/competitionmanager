@@ -114,13 +114,7 @@ public class Main extends Application {
             receiver.addNmeaUdpListener(receiverListner);
             receiver.start();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("fxml/competitionView.fxml"));
-            BorderPane tableView = (BorderPane) loader.load();
-            ClubController controller = (ClubController) loader.getController();
-            controller.setMainStage(mainStage);
-            controller.getTableClub().setItems(clubs);
-            borderPane.setCenter(tableView);
+            showCompetitionView();
             notificationView.notify(NotificationView.Level.SUCCESS, "Chargement compétition",
                     "La compétition " + competition.getNom() + " a été chargée avec succès");
 
@@ -128,6 +122,18 @@ public class Main extends Application {
             e.printStackTrace();
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
                     "Erreur lors du chargement de la compétition");
+        }
+    }
+
+    public void showCompetitionView() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("fxml/competitionView.fxml"));
+            BorderPane tableView = (BorderPane) loader.load();
+            ClubController controller = (ClubController) loader.getController();
+            controller.setMainStage(mainStage);
+            controller.getTableClub().setItems(clubs);
+            borderPane.setCenter(tableView);
         } catch (IOException e) {
             e.printStackTrace();
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
@@ -149,7 +155,7 @@ public class Main extends Application {
 
     }
 
-    public void showCompetitionView() {
+    public void showCategorienView() {
         if (competitionBean == null) {
             NotificationView notificationView = new NotificationView(mainStage);
             notificationView.notify(NotificationView.Level.ERROR, "Erreur",

@@ -27,6 +27,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -72,22 +73,19 @@ public class CategoriesView {
 
     public void showView(Stage mainStage, CompetitionBean competition) {
         this.competitionBean = competition;
+        BorderPane root = (BorderPane)mainStage.getScene().getRoot();
         SplitPane splitPane = new SplitPane();
+        root.setCenter(splitPane);
+        root.setBottom(null);
         splitPane.setDividerPosition(0, 0.2);
         createTreeView(splitPane);
         createTableView(stackPane);
         splitPane.getItems().add(stackPane);
-        Stage stage = new Stage();
-        stage.setTitle("Détail compétition : " + competition.getNom());
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        Scene scene = new Scene(splitPane);
-        scene.getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
-        stage.setScene(scene);
-        currentStage = stage;
-        notificationView = new NotificationView(currentStage);
-        stage.showAndWait();
-        sender.close();
+//        stage.setTitle("Détail compétition : " + competition.getNom());
+        mainStage.getScene().getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
+//        stage.setScene(scene);
+        currentStage = mainStage;
+        notificationView = new NotificationView(mainStage);
     }
 
     private void createTreeView(final SplitPane splitPane) {
