@@ -50,6 +50,7 @@ public class Main extends Application {
     private CompetitionBean competitionBean;
     private NotificationView notificationView;
     private Controller controller;
+    private NetworkReceiver receiver = new NetworkReceiver("", 9878);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -69,6 +70,12 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        receiver.stopSocket();
+        receiver.interrupt();
     }
 
     public static void main(String[] args) {
@@ -109,7 +116,7 @@ public class Main extends Application {
             competitionBean = CompetitionConverter.convertCompetitionToCompetitionBean(competition);
             clubs = competitionBean.getClubs();
 
-            NetworkReceiver receiver = new NetworkReceiver("", 9878);
+
             CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean);
             receiver.addNmeaUdpListener(receiverListner);
             receiver.start();

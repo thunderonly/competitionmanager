@@ -44,6 +44,8 @@ public class NetworkReceiver extends Thread {
 
     private DatagramPacket dp;
 
+    private boolean running = true;
+
     /**
      * Constructor
      *
@@ -68,7 +70,7 @@ public class NetworkReceiver extends Thread {
             dp = new DatagramPacket(data, data.length);
             ds.joinGroup(InetAddress.getByName(address));
 
-            for (;;) {
+            while (running) {
 
                 try {
 
@@ -121,6 +123,7 @@ public class NetworkReceiver extends Thread {
 
     public void stopSocket() {
         if (this.ds != null) {
+            running = false;
             this.ds.close();
         }
     }
