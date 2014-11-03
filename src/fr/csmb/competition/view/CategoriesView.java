@@ -30,6 +30,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
@@ -530,8 +532,17 @@ public class CategoriesView {
 
             sender.send(competitionBean, categorieBean, epreuveBean);
 
+            ImageView imageMixte = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
+            imageMixte.setFitHeight(25);
+            imageMixte.setFitWidth(25);
             TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
             TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
+            ImageView imageTypeEpreve = null;
+            if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/combat.png")));
+            } else {
+                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/technique.png")));
+            }
             TreeItem<String> treeItemTypeEpreuve = new TreeItem(epreuveBean.getType());
             TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
             treeItemTypeCategorie.getChildren().add(treeItemCategorie);
@@ -712,8 +723,24 @@ public class CategoriesView {
                 if (isEditing()) {
                     setText(null);
                 } else {
-                    setText(getString());
-                    setGraphic(getTreeItem().getGraphic());
+                    ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveInconnu.png")));
+                    if (getTreeItem().getValue().equals(TypeCategorie.FEMININ.getValue())) {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/femme.png")));
+                    } else if (getTreeItem().getValue().equals(TypeCategorie.MASCULIN.getValue())) {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/homme.png")));
+                    } else if (getTreeItem().getValue().equals(TypeCategorie.MIXTE.getValue())) {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
+                    } else if (getTreeItem().getValue().equals(TypeEpreuve.COMBAT.getValue())) {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/combat.png")));
+                    } else if (getTreeItem().getValue().equals(TypeEpreuve.TECHNIQUE.getValue())) {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/technique.png")));
+                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.FEMININ.getValue()))  {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieFeminin.png")));
+                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.MASCULIN.getValue()))  {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieMasculin.png")));
+                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.MIXTE.getValue()))  {
+                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieMixte.png")));
+                    }
                     if (getTreeItem().isLeaf()){
                         setContextMenu(addMenu);
 
@@ -725,17 +752,29 @@ public class CategoriesView {
                             if (epreuveBean != null) {
                                 if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.GREEN);
+                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveValide.png")));
                                 } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.RED);
                                     setUnderline(true);
+                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveTermine.png")));
                                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.DARKORANGE);
+                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveFusion.png")));
                                 } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                                     setTextFill(Color.DARKRED);
+                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveDemarre.png")));
+                                } else {
+                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveInconnu.png")));
                                 }
                             }
                         }
                     }
+
+                    setText(getString());
+                    imageView.setFitHeight(25);
+                    imageView.setFitWidth(25);
+                    getTreeItem().setGraphic(imageView);
+                    setGraphic(getTreeItem().getGraphic());
                 }
             }
         }
