@@ -27,6 +27,7 @@ public class ParticipantConverter {
                 .getClassementAuto()));
         participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
         participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
+        participant.setPlaceOnGrid(String.valueOf(participantBean.getPlaceOnGrid()));
         return participant;
     }
 
@@ -45,6 +46,6 @@ public class ParticipantConverter {
         participantBean.setNote3(Integer.parseInt(participant.getNote3()));
         participantBean.setNote4(Integer.parseInt(participant.getNote4()));
         participantBean.setNote5(Integer.parseInt(participant.getNote5()));
-
+        participantBean.setPlaceOnGrid(Integer.parseInt(participant.getPlaceOnGrid()));
     }
 }

@@ -4,13 +4,16 @@
  */
 package fr.csmb.competition.component.textbox;
 
+import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -30,6 +33,7 @@ public class TextBox extends Group {
     private TextBoxListner listner;
     private ParticipantBean participant;
     public StringProperty textProperty() { return text.textProperty(); }
+    private Integer numPlace;
 
     public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle) {
         this.text = new Text(participant.toString());
@@ -50,6 +54,37 @@ public class TextBox extends Group {
         this.participant = participant;
 
         this.getChildren().addAll(rectangle, text);
+        text.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                text.setBlendMode(BlendMode.DIFFERENCE);
+            }
+        });
+        text.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                text.setBlendMode(null);
+            }
+        });
+        text.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
+            }
+        });
+        text.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
+                Participant participant1 = (Participant) dragEvent.getDragboard().getContent(format);
+                ParticipantBean player = ParticipantConverter.convertParticipantToParticipantBean(participant1);
+                player.setPlaceOnGrid(numPlace);
+                setParticipant(player);
+                dragEvent.setDropCompleted(true);
+            }
+        });
     }
 
     public Text getText() {
@@ -71,6 +106,14 @@ public class TextBox extends Group {
     public void setParticipant(ParticipantBean participant) {
         this.participant = participant;
         this.text.setText(participant.toString());
+    }
+
+    public Integer getNumPlace() {
+        return numPlace;
+    }
+
+    public void setNumPlace(Integer numPlace) {
+        this.numPlace = numPlace;
     }
 
     @Override

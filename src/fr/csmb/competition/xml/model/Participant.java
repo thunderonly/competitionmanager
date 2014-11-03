@@ -36,6 +36,8 @@ public class Participant implements Serializable {
     private String note5;
     @XmlElement(name="noteTotal")
     private String noteTotal;
+    @XmlElement(name="placeOnGrid")
+    private String placeOnGrid;
 
     public String getNomParticipant() {
         return nomParticipant;
@@ -123,5 +125,13 @@ public class Participant implements Serializable {
 
     public void setNoteTotal(String noteTotal) {
         this.noteTotal = noteTotal;
+    }
+
+    public String getPlaceOnGrid() {
+        return placeOnGrid;
+    }
+
+    public void setPlaceOnGrid(String placeOnGrid) {
+        this.placeOnGrid = placeOnGrid;
     }
 }

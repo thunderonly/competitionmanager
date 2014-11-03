@@ -25,6 +25,22 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty note4;
     private SimpleIntegerProperty note5;
     private SimpleIntegerProperty noteTotal;
+    private SimpleIntegerProperty placeOnGrid;
+
+    public ParticipantBean() {
+        classementAuto = new SimpleIntegerProperty(0);
+        classementManuel = new SimpleIntegerProperty(0);
+        classementFinal = new SimpleIntegerProperty(0);
+        this.nom = new SimpleStringProperty("");
+        this.prenom = new SimpleStringProperty("");
+        note1 = new SimpleIntegerProperty(0);
+        note2 = new SimpleIntegerProperty(0);
+        note3 = new SimpleIntegerProperty(0);
+        note4 = new SimpleIntegerProperty(0);
+        note5 = new SimpleIntegerProperty(0);
+        noteTotal = new SimpleIntegerProperty(0);
+        placeOnGrid = new SimpleIntegerProperty(0);
+    }
 
     public ParticipantBean(String nom, String prenom) {
         classementAuto = new SimpleIntegerProperty(0);
@@ -38,6 +54,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         note4 = new SimpleIntegerProperty(0);
         note5 = new SimpleIntegerProperty(0);
         noteTotal = new SimpleIntegerProperty(0);
+        placeOnGrid = new SimpleIntegerProperty(0);
     }
 
     public Integer getClassementAuto() {
@@ -82,6 +99,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public Integer getNoteTotal() {
         return this.noteTotal.get();
+    }
+
+    public Integer getPlaceOnGrid() {
+        return this.placeOnGrid.get();
     }
 
     public void setClassementAuto(Integer classementAuto) {
@@ -133,6 +154,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         this.noteTotal.set(noteTotal);
     }
 
+    public void setPlaceOnGrid(Integer placeOnGrid) {
+        this.placeOnGrid.set(placeOnGrid);
+    }
+
     public SimpleIntegerProperty classementAutoProperty() {
         return classementAuto;
     }
@@ -175,6 +200,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public SimpleIntegerProperty noteTotalProperty() {
         return noteTotal;
+    }
+
+    public SimpleIntegerProperty placeOnGridProperty() {
+        return placeOnGrid;
     }
 
     public void computeTotal() {

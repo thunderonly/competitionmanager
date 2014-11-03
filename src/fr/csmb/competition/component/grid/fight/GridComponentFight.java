@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.sun.javafx.collections.transformation.SortedList;
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.Match;
@@ -15,6 +16,7 @@ import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.bean.Phase;
 import fr.csmb.competition.component.textbox.TextBox;
 import fr.csmb.competition.component.textbox.TextBoxListner;
+import fr.csmb.competition.model.comparator.ComparatorParticipantPlaceOnGrid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -31,18 +33,24 @@ public class GridComponentFight extends GridComponent {
     int widthRectangle = 150;
     int heightRectangle = 20;
 
+    private SortedList<ParticipantBean> sortedJoueurs;
     private List<ParticipantBean> joueurs;
+
     private TextBox[] resultats = null;
     private ParticipantClassementFinalListener participantClassementFinalListener;
 
-    public GridComponentFight(List<ParticipantBean> joueurs) {
-        this.joueurs = joueurs;
+    public GridComponentFight(List<ParticipantBean> joueurList) {
+        this.joueurs = joueurList;
         resultatsList = new ArrayList<ParticipantBean>();
     }
 
     public void drawGrid() {
+        drawGrid(false);
+    }
+
+    public void drawGrid(boolean forConfigure) {
         Group group = this;
-        resultats = drawShape(group);
+        resultats = drawShape(group, forConfigure);
     }
 
     public List<ParticipantBean> getResultatsList() {
@@ -59,7 +67,7 @@ public class GridComponentFight extends GridComponent {
      * @param group
      * @return
      */
-    private TextBox[] drawShape(Group group) {
+    private TextBox[] drawShape(Group group, boolean forConfigure) {
 
         List<Match> matchs = new ArrayList<Match>();
 
@@ -72,33 +80,45 @@ public class GridComponentFight extends GridComponent {
             nbTourBeforeDemi = 0;
             if (nbJoueur < 4) {
                 for (int i = nbJoueur; i < 4; i++) {
-                    joueurs.add(new ParticipantBean("", ""));
+                    ParticipantBean participantBean = new ParticipantBean("", "");
+                    participantBean.setPlaceOnGrid(joueurs.size() + 1);
+                    joueurs.add(participantBean);
                 }
             }
         } else if (nbJoueur > 4 && nbJoueur <= 8) {
             nbTourBeforeDemi = 1;
             if (nbJoueur < 8) {
                 for (int i = nbJoueur; i < 8; i++) {
-                    joueurs.add(new ParticipantBean("", ""));
+                    ParticipantBean participantBean = new ParticipantBean("", "");
+                    participantBean.setPlaceOnGrid(joueurs.size() + 1);
+                    joueurs.add(participantBean);
                 }
             }
         } else if (nbJoueur > 8 && nbJoueur <= 16) {
             nbTourBeforeDemi = 2;
             if (nbJoueur < 16) {
                 for (int i = nbJoueur; i < 16; i++) {
-                    joueurs.add(new ParticipantBean("", ""));
+                    ParticipantBean participantBean = new ParticipantBean("", "");
+                    participantBean.setPlaceOnGrid(joueurs.size() + 1);
+                    joueurs.add(participantBean);
                 }
             }
         } else if (nbJoueur > 16 && nbJoueur <= 32) {
             nbTourBeforeDemi = 3;
             if (nbJoueur < 32) {
                 for (int i = nbJoueur; i < 32; i++) {
-                    joueurs.add(new ParticipantBean("", ""));
+                    ParticipantBean participantBean = new ParticipantBean("", "");
+                    participantBean.setPlaceOnGrid(joueurs.size() + 1);
+                    joueurs.add(participantBean);
                 }
             }
         }
-        nbJoueur = joueurs.size();
-        Iterator<ParticipantBean> iterator = joueurs.iterator();
+
+        this.sortedJoueurs = new SortedList(joueurs);
+        this.sortedJoueurs.setComparator(new ComparatorParticipantPlaceOnGrid());
+        this.sortedJoueurs.sort();
+        nbJoueur = sortedJoueurs.size();
+        Iterator<ParticipantBean> iterator = sortedJoueurs.iterator();
         while (iterator.hasNext()) {
             ParticipantBean joueur = iterator.next();
             Match match = new Match();
@@ -115,6 +135,9 @@ public class GridComponentFight extends GridComponent {
         while(nbTourBeforeDemi > 0) {
             if (matchFirstStep == null) {
                 matchFirstStep = computeFirstRound(nbJoueur, matchs, group, false);
+                if (forConfigure) {
+                    return matchFirstStep;
+                }
             } else {
                 matchFirstStep = computeOtherRound(matchFirstStep, group);
             }
@@ -125,6 +148,9 @@ public class GridComponentFight extends GridComponent {
                 //In case of categorie contains less than 4 participant
                 //1st match is the demi final
                 matchFirstStep = computeFirstRound(nbJoueur, matchs, group, true);
+                if (forConfigure) {
+                    return matchFirstStep;
+                }
             }
 
 
@@ -135,6 +161,9 @@ public class GridComponentFight extends GridComponent {
             return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
         } else {
             matchFirstStep = computeFirstRound(nbJoueur, matchs, group, true);
+            if (forConfigure) {
+                return matchFirstStep;
+            }
             TextBox[] resultatsFinale = drawMatch(matchFirstStep[0], matchFirstStep[1], group, 2, Phase.FINALE);
             return new TextBox[]{resultatsFinale[0], resultatsFinale[1]};
         }
@@ -151,17 +180,26 @@ public class GridComponentFight extends GridComponent {
 
         int i = 1;
         int nbMatch = 0;
+        int numPlace = 1;
         for (Match match : matchs) {
             TextBox[] matchFirstRoung = null;
             if (isDemi) {
                 //Create and return 2 TextBox for the current match
                 TextBox[] textBoxes = drawMatchFirstRound(10, 10, group, match, i);
                 matchFirstStep[nbMatch] = textBoxes[0];
+                matchFirstStep[nbMatch].setNumPlace(numPlace);
                 nbMatch++;
+                numPlace++;
                 matchFirstStep[nbMatch] = textBoxes[1];
+                matchFirstStep[nbMatch].setNumPlace(numPlace);
+                numPlace++;
             } else {
                 //Create 2 textBox for the current match and return the resultat TextBox for the next match
                 matchFirstRoung = drawMatchFirstRound(10, 10, group, match, i);
+                matchFirstRoung[0].setNumPlace(numPlace);
+                numPlace++;
+                matchFirstRoung[1].setNumPlace(numPlace);
+                numPlace++;
                 TextBox textBox = drawMatch(matchFirstRoung[0], matchFirstRoung[1], group, i);
                 matchFirstStep[nbMatch] = textBox;
             }

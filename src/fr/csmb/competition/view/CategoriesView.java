@@ -174,7 +174,7 @@ public class CategoriesView {
         GridComponent gridComponent = null;
         ParticipantClassementFinalListener participantClassementFinalListener =
                 new ParticipantClassementFinalListener(firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf);
-        List<ParticipantBean> participants = new ArrayList<ParticipantBean>();
+        ObservableList<ParticipantBean> participants = FXCollections.observableArrayList();
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         EpreuveBean epreuveBean = null;
         if (categorieBean != null) {
@@ -214,7 +214,9 @@ public class CategoriesView {
         createCartoucheForGridComponent(borderPane, categorieBean, epreuveBean);
         gridComponent.setParticipantClassementFinalListener(participantClassementFinalListener);
         gridComponent.drawGrid();
-        borderPane.setCenter(gridComponent);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(gridComponent);
+        borderPane.setCenter(scrollPane);
 
         final GridComponent gridComponent2  = gridComponent;
         Button button = new Button("Terminer");
@@ -425,12 +427,20 @@ public class CategoriesView {
                     notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                             "Impossible de valider une épreuve validée");
                 } else {
-                    epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                     epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
-//                    TreeItem<String> parent = treeItem.getParent();
-//                    int index = parent.getChildren().indexOf(treeItem);
-//                    parent.getChildren().remove(treeItem);
-//                    parent.getChildren().add(index, treeItem);
+                    for (int i = 0; i < 8; i++) {
+                        epreuveBean.getParticipants().add(new ParticipantBean("NewNom " + i, "NewPrénom " + i));
+                    }
+                    if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                        //Configure order of fighter
+                        ConfigureFightView configureFightView = new ConfigureFightView();
+                        configureFightView.showView(currentStage, epreuveBean);
+                        if (!epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue())) {
+                            epreuveBean.getParticipants().clear();
+                        }
+                    } else {
+                        epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                    }
 
                     sender.send(competitionBean, categorieBean, epreuveBean);
                 }
