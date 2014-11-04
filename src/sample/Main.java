@@ -1,5 +1,10 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,20 +27,27 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override public void start(Stage stage) {
-        Group group = new Group();
+
+        List<ParticipantBean> participantBeans = new ArrayList<ParticipantBean>();
+        for (int i = 0; i < 17; i++) {
+            participantBeans.add(new ParticipantBean("Nom " + i, "Prenom " + i));
+        }
+
+        GridComponentFight2 group = new GridComponentFight2(participantBeans);
+        group.drawGrid();
         Scene scene = new Scene(group);
 
-        SplitPane sp = new SplitPane();
-        final StackPane sp1 = new StackPane();
-        sp1.getChildren().add(new Button("Button One"));
-        final StackPane sp2 = new StackPane();
-        sp2.getChildren().add(new Button("Button Two"));
-        final StackPane sp3 = new StackPane();
-        sp3.getChildren().add(new Button("Button Three"));
-        sp.getItems().addAll(sp1, sp2, sp3);
-        sp.setDividerPositions(0.3f, 0.6f, 0.9f);
+//        SplitPane sp = new SplitPane();
+//        final StackPane sp1 = new StackPane();
+//        sp1.getChildren().add(new Button("Button One"));
+//        final StackPane sp2 = new StackPane();
+//        sp2.getChildren().add(new Button("Button Two"));
+//        final StackPane sp3 = new StackPane();
+//        sp3.getChildren().add(new Button("Button Three"));
+//        sp.getItems().addAll(sp1, sp2, sp3);
+//        sp.setDividerPositions(0.3f, 0.6f, 0.9f);
 
-        group.getChildren().add(sp);
+//        group.getChildren().add(sp);
 
         stage.setTitle("Welcome to JavaFX!");
         stage.setScene(scene);
