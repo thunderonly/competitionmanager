@@ -3,6 +3,7 @@ package fr.csmb.competition.view;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.fight.GridComponentFight;
+import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
 import javafx.collections.FXCollections;
@@ -28,7 +29,7 @@ public class ConfigureFightView {
 
     private Stage currentStage;
     private List<ParticipantBean> resultatList = null;
-    private GridComponentFight gridComponentFight;
+    private GridComponentFight2 gridComponentFight;
     public final static DataFormat format = new DataFormat("fr.csmb.competition.xml.model.Participant");
 
     public void showView(Stage mainStage, final EpreuveBean epreuveBean) {
@@ -88,7 +89,7 @@ public class ConfigureFightView {
             participantBeans.add(new ParticipantBean("", ""));
         }
 
-        gridComponentFight = new GridComponentFight(participantBeans);
+        gridComponentFight = new GridComponentFight2(participantBeans);
         gridComponentFight.drawGrid(true);
 
         hBox.getChildren().addAll(participantBeanListView, gridComponentFight);

@@ -115,9 +115,11 @@ public class ResultatsView {
             BorderPane borderPane = (BorderPane) loader.load();
             ClassementClubController controller = (ClassementClubController) loader.getController();
             computeClassementClub();
-            controller.getTableClassementClub().setItems(competitionBean.clubsProperty());
+            SortedList<ClubBean> clubBeans = new SortedList<ClubBean>(competitionBean.getClubs());
+            controller.getTableClassementClub().setItems(clubBeans);
             controller.getTableClassementClub().getSortOrder().setAll(Collections.singletonList(controller
                     .getClassementGeneral()));
+            controller.getClassementGeneral().setSortable(false);
             classementClub.setContent(borderPane);
         } catch (IOException e) {
             e.printStackTrace();

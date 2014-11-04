@@ -16,6 +16,9 @@ import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.bean.Phase;
 import fr.csmb.competition.component.textbox.TextBox;
 import fr.csmb.competition.component.textbox.TextBoxListner;
+import fr.csmb.competition.model.comparator.ComparatorParticipantPlaceOnGrid;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -32,13 +35,13 @@ public class GridComponentFight2 extends GridComponent {
     int heightRectangle = 20;
 
     private SortedList<ParticipantBean> sortedJoueurs;
-    private List<ParticipantBean> joueurs;
+    private ObservableList<ParticipantBean> joueurs = FXCollections.observableArrayList();
 
     private TextBox[] resultats = null;
     private ParticipantClassementFinalListener participantClassementFinalListener;
 
     public GridComponentFight2(List<ParticipantBean> joueurList) {
-        this.joueurs = joueurList;
+        this.joueurs.addAll(joueurList);
         resultatsList = new ArrayList<ParticipantBean>();
     }
 
@@ -48,6 +51,10 @@ public class GridComponentFight2 extends GridComponent {
             resultatsList.add(textBox.getParticipant());
         }
         return resultatsList;
+    }
+
+    public List<ParticipantBean> getListParticipant() {
+        return this.sortedJoueurs;
     }
 
     public void drawGrid() {
@@ -66,27 +73,44 @@ public class GridComponentFight2 extends GridComponent {
      * @return
      */
     private TextBox[] drawShape(Group group, boolean forConfigure) {
-        int nbJoueur = joueurs.size();
+        this.sortedJoueurs = new SortedList(joueurs);
+        this.sortedJoueurs.setComparator(new ComparatorParticipantPlaceOnGrid());
+        this.sortedJoueurs.sort();
+        int nbJoueur = sortedJoueurs.size();
         TextBox[] result = null;
         if (nbJoueur > 4) {
-            result = computeSeveralRound(nbJoueur);
+            result = computeSeveralRound(nbJoueur, forConfigure);
+            if (forConfigure) {
+                return result;
+            }
+            return new TextBox[]{result[0], result[1], result[0], result[1]};
         } else {
             if (nbJoueur > 2 && nbJoueur <= 4) {
                 int nbMatchMaxi = 4/2;
                 int placeOfJoueur = 0;
                 int i = 0;
                 int nbMatchBeforeMaxi = nbJoueur - nbMatchMaxi;
+                int index = 0;
+                result = new TextBox[4];
                 while (i < nbMatchBeforeMaxi) {
 
                     Match match = new Match();
-                    match.setJoueur1(joueurs.get(placeOfJoueur));
+                    match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
                     placeOfJoueur++;
-                    match.setJoueur2(joueurs.get(placeOfJoueur));
+                    match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
                     placeOfJoueur++;
 
                     TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
-                    result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1);
+                    result[index] = textBoxForMatch[0];
+                    result[index].setNumPlace(index + 1);
+                    index++;
+                    result[index] = textBoxForMatch[1];
+                    result[index].setNumPlace(index + 1);
+                    index++;
                     i++;
+                }
+                if (forConfigure && nbJoueur == 4) {
+                    return result;
                 }
                 double rest = nbMatchBeforeMaxi % 2;
                 if (rest > 0) {
@@ -95,24 +119,50 @@ public class GridComponentFight2 extends GridComponent {
                     match.setJoueur1(new ParticipantBean());
                     match.setJoueur2(new ParticipantBean());
                     TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
-                    result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1, false);
-                    result[i].setParticipant(joueurs.get(placeOfJoueur));
-                    placeOfJoueur++;
+                    result[index] = textBoxForMatch[0];
+                    index++;
+                    result[index] = textBoxForMatch[1];
+                    index++;
                     i++;
                 }
+                TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], this, 1, Phase.DEMI_FINALE);
+                TextBox[] resultatsDemi2 =  null;
+                if (nbJoueur == 3) {
+                    resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE, false);
+                    resultatsDemi2[0].setParticipant(sortedJoueurs.get(2));
+                    resultatsDemi2[0].setNumPlace(3);
+                    if (forConfigure) {
+                        return new TextBox[]{result[0], result[1], resultatsDemi2[0]};
+                    }
+                } else {
+                    resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE);
+                }
+                TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
+                TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
+
+                return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
+
+            } else {
+                int placeOfJoueur = 0;
+                int i = 0;
+                Match match = new Match();
+                match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
+                placeOfJoueur++;
+                match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
+                placeOfJoueur++;
+
+                TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
+                textBoxForMatch[0].setNumPlace(1);
+                textBoxForMatch[1].setNumPlace(2);
+                TextBox[] resultatsFinale = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, 2, Phase.FINALE);
+                return new TextBox[]{resultatsFinale[0], resultatsFinale[1]};
             }
         }
-
-
-
-        TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], group, 1, Phase.DEMI_FINALE);
-        TextBox[] resultatsDemi2 =  drawMatch(result[2], result[3], group, 2, Phase.DEMI_FINALE);
-        TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], group, 2, Phase.FINALE);
-        TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], group, 2, Phase.PETITE_FINALE);
-        return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
-    private TextBox[] computeSeveralRound(int nbJoueur) {
+    private TextBox[] computeSeveralRound(int nbJoueur, boolean forConfigure) {
+
+        TextBox[] resultForConfigure = new TextBox[nbJoueur];
 
         int nbMatchMaxi = 0;
         if (nbJoueur > 4 && nbJoueur <= 8) {
@@ -126,18 +176,25 @@ public class GridComponentFight2 extends GridComponent {
         int nbMatchBeforeMaxi = nbJoueur - nbMatchMaxi;
         TextBox[] result = new TextBox[nbMatchMaxi];
         int placeOfJoueur = 0;
+        int indexForConfigure = 0;
         int i = 0;
         while (i < nbMatchBeforeMaxi) {
 
             Match match = new Match();
-            match.setJoueur1(joueurs.get(placeOfJoueur));
+            match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
             placeOfJoueur++;
-            match.setJoueur2(joueurs.get(placeOfJoueur));
+            match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
             placeOfJoueur++;
 
             TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
+            textBoxForMatch[0].setNumPlace(placeOfJoueur - 1);
+            textBoxForMatch[1].setNumPlace(placeOfJoueur);
             result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1);
             i++;
+            resultForConfigure[indexForConfigure] = textBoxForMatch[0];
+            indexForConfigure++;
+            resultForConfigure[indexForConfigure] = textBoxForMatch[1];
+            indexForConfigure++;
         }
         double rest = nbMatchBeforeMaxi % 2;
         if (rest > 0) {
@@ -147,9 +204,12 @@ public class GridComponentFight2 extends GridComponent {
             match.setJoueur2(new ParticipantBean());
             TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
             result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1, false);
-            result[i].setParticipant(joueurs.get(placeOfJoueur));
+            result[i].setParticipant(sortedJoueurs.get(placeOfJoueur));
             placeOfJoueur++;
+            result[i].setNumPlace(placeOfJoueur);
             i++;
+            resultForConfigure[indexForConfigure] = result[i - 1];
+            indexForConfigure++;
         }
 
         while (i < nbMatchMaxi) {
@@ -158,9 +218,12 @@ public class GridComponentFight2 extends GridComponent {
             match.setJoueur2(new ParticipantBean());
             TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
             result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1, false);
-            result[i].setParticipant(joueurs.get(placeOfJoueur));
+            result[i].setParticipant(sortedJoueurs.get(placeOfJoueur));
             placeOfJoueur++;
+            result[i].setNumPlace(placeOfJoueur);
             i++;
+            resultForConfigure[indexForConfigure] = result[i - 1];
+            indexForConfigure++;
         }
 
         int nbMatchOtherRound = result.length / 2;
@@ -180,7 +243,15 @@ public class GridComponentFight2 extends GridComponent {
             nbMatchOtherRound = result.length / 2;
         }
 
-        return result;
+        TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], this, 1, Phase.DEMI_FINALE);
+        TextBox[] resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE);
+        TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
+        TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
+
+        if (forConfigure) {
+            return resultForConfigure;
+        }
+        return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
     private TextBox[] drawMatchFirstRound(int beginX, int beginY, Group group1, Match match, int level) {
@@ -316,6 +387,20 @@ public class GridComponentFight2 extends GridComponent {
      * @return
      */
     private TextBox[] drawMatch(TextBox boxBlue, TextBox boxRed, Group group, int level, Phase phase) {
+        return drawMatch(boxBlue, boxRed, group, level, phase, true);
+    }
+
+    /**
+     * Draw grid in function of 2 TextBox (participant). Is for Demi final, little final and final
+     *
+     * @param boxBlue
+     * @param boxRed
+     * @param group
+     * @param level
+     * @param phase
+     * @return
+     */
+    private TextBox[] drawMatch(TextBox boxBlue, TextBox boxRed, Group group, int level, Phase phase, boolean drawLine) {
         TextBox victoryBox = null;
         TextBox defaitBox = null;
         Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
@@ -333,7 +418,7 @@ public class GridComponentFight2 extends GridComponent {
             listner.setParticipantClassementFinalListener(participantClassementFinalListener);
 
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
-            victoryBox = drawMatch(boxBlue, boxRed, group, level);
+            victoryBox = drawMatch(boxBlue, boxRed, group, level, drawLine);
             defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
             //Create a TextBoxListner to prepare resultat

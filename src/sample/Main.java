@@ -29,7 +29,7 @@ public class Main extends Application {
     @Override public void start(Stage stage) {
 
         List<ParticipantBean> participantBeans = new ArrayList<ParticipantBean>();
-        for (int i = 0; i < 17; i++) {
+        for (int i = 0; i < 5; i++) {
             participantBeans.add(new ParticipantBean("Nom " + i, "Prenom " + i));
         }
 

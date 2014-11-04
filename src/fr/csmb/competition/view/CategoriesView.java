@@ -5,6 +5,7 @@ import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.*;
 import fr.csmb.competition.component.grid.fight.GridComponentFight;
+import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.controller.DetailCategorieController;
@@ -209,7 +210,7 @@ public class CategoriesView {
         }
 
         if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-            gridComponent = new GridComponentFight(participants);
+            gridComponent = new GridComponentFight2(participants);
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
             gridComponent = new GridComponentTechnical(participants);
         }
