@@ -78,6 +78,8 @@ public class CategoriesView {
     private TextField thirdPlaceTf = new TextField();
     private TextField fourthPlaceTf = new TextField();
 
+    private BorderPane epreuveBorderPane;
+
     private NetworkSender sender = new NetworkSender("", 9878);
 
     public void showView(Stage mainStage, CompetitionBean competition) {
@@ -165,7 +167,14 @@ public class CategoriesView {
                     String typeCategorie = new_val.getParent().getParent().getParent().getValue();
                     String categorie = new_val.getParent().getParent().getValue();
                     String epreuve = new_val.getValue();
-                    updateList(typeCategorie, categorie, epreuve);
+                    EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
+                    stackPane.getChildren().clear();
+                    if (epreuveBean != null && epreuveBean.getEtat() != null && epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue())) {
+                        stackPane.getChildren().add(epreuveBorderPane);
+                    } else {
+                        createTableView(stackPane);
+                        updateList(typeCategorie, categorie, epreuve);
+                    }
                 }
             }
 
@@ -179,7 +188,7 @@ public class CategoriesView {
 
     private void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
 
-        BorderPane borderPane = new BorderPane();
+        epreuveBorderPane = new BorderPane();
         GridComponent gridComponent = null;
         ParticipantClassementFinalListener participantClassementFinalListener =
                 new ParticipantClassementFinalListener(firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf);
@@ -220,12 +229,12 @@ public class CategoriesView {
         } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
             gridComponent = new GridComponentTechnical(participants);
         }
-        createCartoucheForGridComponent(borderPane, categorieBean, epreuveBean);
+        createCartoucheForGridComponent(epreuveBorderPane, categorieBean, epreuveBean);
         gridComponent.setParticipantClassementFinalListener(participantClassementFinalListener);
         gridComponent.drawGrid();
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(gridComponent);
-        borderPane.setCenter(scrollPane);
+        epreuveBorderPane.setCenter(scrollPane);
 
         final GridComponent gridComponent2  = gridComponent;
         Button button = new Button("Terminer");
@@ -304,9 +313,9 @@ public class CategoriesView {
         HBox hBox = new HBox();
         hBox.getChildren().addAll(button, cancelButton);
         hBox.setSpacing(10);
-        borderPane.setBottom(hBox);
+        epreuveBorderPane.setBottom(hBox);
         stackPane.getChildren().clear();
-        stackPane.getChildren().add(borderPane);
+        stackPane.getChildren().add(epreuveBorderPane);
     }
 
     private void createCartoucheForGridComponent(BorderPane borderPane, CategorieBean categorieBean, EpreuveBean epreuveBean) {
