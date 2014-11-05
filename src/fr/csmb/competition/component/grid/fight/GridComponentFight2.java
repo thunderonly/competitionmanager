@@ -32,7 +32,9 @@ public class GridComponentFight2 extends GridComponent {
     int spaceBetweenJoueur = 20;
     int spaceBetweenMatch = 50;
     int widthRectangle = 150;
-    int heightRectangle = 20;
+    int heightRectangle = 30;
+    Color colorBlue = Color.rgb(81, 136, 245, 0.5);
+    Color colorRed = Color.rgb(255, 255, 102, 0.5);
 
     private SortedList<ParticipantBean> sortedJoueurs;
     private ObservableList<ParticipantBean> joueurs = FXCollections.observableArrayList();
@@ -64,6 +66,12 @@ public class GridComponentFight2 extends GridComponent {
     public void drawGrid(boolean forConfigure) {
         Group group = this;
         resultats = drawShape(group, forConfigure);
+        if (forConfigure) {
+
+            for (TextBox textBox : resultats) {
+                textBox.setDragable();
+            }
+        }
     }
 
     /**
@@ -205,6 +213,9 @@ public class GridComponentFight2 extends GridComponent {
             TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
             result[i] = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, i + 1, false);
             result[i].setParticipant(sortedJoueurs.get(placeOfJoueur));
+            if (forConfigure) {
+                result[i].setDragable();
+            }
             placeOfJoueur++;
             result[i].setNumPlace(placeOfJoueur);
             i++;
@@ -277,13 +288,11 @@ public class GridComponentFight2 extends GridComponent {
         //BoxRed
         int beginXRed = newBeginX;
         int beginYRed = newBeginY + heightRectangle + spaceBetweenJoueur;
-        Color colorBlue = Color.color(1.0, 1.0, 0.0, 0.5);
-        Color colorRed = Color.color(0.0, 1.0, 1.0, 0.5);
 
 
-        Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
+        Color colorResultat = colorBlue;
         if (level % 2 == 0) {
-            colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
+            colorResultat = colorRed;
         }
 
         TextBox blue = createTextBox(match.getJoueur1(), beginXBlue, beginYBlue, colorBlue);
@@ -349,9 +358,9 @@ public class GridComponentFight2 extends GridComponent {
         double beginXResultat = endXLineHBlue;
         double beginYResultat = endYLineVBlue;
 
-        Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
+        Color colorResultat = colorBlue;
         if (level % 2 == 0) {
-            colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
+            colorResultat = colorRed;
         }
 
         Line lineBlueH = drawLine(beginXLineHBlue, beginYLineHBlue , endXLineHBlue, endYLineHBlue);
@@ -403,9 +412,9 @@ public class GridComponentFight2 extends GridComponent {
     private TextBox[] drawMatch(TextBox boxBlue, TextBox boxRed, Group group, int level, Phase phase, boolean drawLine) {
         TextBox victoryBox = null;
         TextBox defaitBox = null;
-        Color colorResultat = Color.color(1.0, 1.0, 0.0, 0.5);
+        Color colorResultat = colorBlue;
         if (level % 2 == 0) {
-            colorResultat = Color.color(0.0, 1.0, 1.0, 0.5);
+            colorResultat = colorRed;
         }
         if (phase.ordinal() == Phase.FINALE.ordinal() || phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
             victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));

@@ -42,7 +42,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -231,6 +237,29 @@ public class CategoriesView {
                 if (categorieBean != null) {
                     EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
                     if (epreuveBean != null) {
+
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                        String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+                        heureFinTf.setText(heure);
+
+                        try {
+                            Date dateDebut = simpleDateFormat.parse(heureDebutTf.getText());
+                            Date dateFin = simpleDateFormat.parse(heureFinTf.getText());
+                            GregorianCalendar calendarDebut = new GregorianCalendar();
+                            calendarDebut.setTime(dateDebut);
+                            GregorianCalendar calendarFin = new GregorianCalendar();
+                            calendarFin.setTime(dateFin);
+
+                            calendarFin.add(Calendar.HOUR_OF_DAY, -calendarDebut.get(Calendar.HOUR_OF_DAY));
+                            calendarFin.add(Calendar.MINUTE, -calendarDebut.get(Calendar.MINUTE));
+
+                            String duree = simpleDateFormat.format(calendarFin.getTime());
+                            dureeTf.setText(duree);
+                        } catch (ParseException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+
+
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                             System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " +
                                     participantBean.getClassementFinal());
@@ -248,8 +277,8 @@ public class CategoriesView {
                         epreuveBean.setHeureFin(heureFinTf.getText());
                         epreuveBean.setDuree(dureeTf.getText());
                         sender.send(competitionBean, categorieBean, epreuveBean);
-                        stackPane.getChildren().clear();
-                        createTableView(stackPane);
+//                        stackPane.getChildren().clear();
+//                        createTableView(stackPane);
                     }
                 }
             }
@@ -358,6 +387,9 @@ public class CategoriesView {
             tfEpreuves[i].setPromptText(labelEpreuves[i]);
             gridPane.add(tfEpreuves[i], 3, 6 + i);
         }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+        heureDebutTf.setText(heure);
 
         Label nbParticipantsLabel = new Label("Nb Participants");
         nbParticipantsLabel.getStyleClass().add("titleGridPane");

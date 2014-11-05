@@ -54,10 +54,14 @@ public class TextBox extends Group {
         this.participant = participant;
 
         this.getChildren().addAll(rectangle, text);
+
+    }
+
+    public void setDragable() {
         text.setOnDragEntered(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                text.setBlendMode(BlendMode.DIFFERENCE);
+                text.setBlendMode(BlendMode.DARKEN);
             }
         });
         text.setOnDragExited(new EventHandler<DragEvent>() {
