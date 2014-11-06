@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.prefs.Preferences;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -51,6 +52,7 @@ public class Main extends Application {
     private NotificationView notificationView;
     private Controller controller;
     private NetworkReceiver receiver = new NetworkReceiver("", 9878);
+    private File tmpFile;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -116,6 +118,10 @@ public class Main extends Application {
             competitionBean = CompetitionConverter.convertCompetitionToCompetitionBean(competition);
             clubs = competitionBean.getClubs();
 
+            int index = file.getAbsolutePath().indexOf(".xml");
+            String fileName = file.getAbsolutePath().substring(0,index).concat("-tmp").concat(".xml");
+            Preferences pref = Preferences.userNodeForPackage(Main.class);
+            pref.put("filePath", fileName);
 
             CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean);
             receiver.addNmeaUdpListener(receiverListner);
@@ -124,7 +130,6 @@ public class Main extends Application {
             showCompetitionView();
             notificationView.notify(NotificationView.Level.SUCCESS, "Chargement compétition",
                     "La compétition " + competition.getNom() + " a été chargée avec succès");
-
         } catch (JAXBException e) {
             e.printStackTrace();
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",

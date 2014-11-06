@@ -1,6 +1,7 @@
 package fr.csmb.competition.view;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
+import fr.csmb.competition.Main;
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.*;
@@ -8,6 +9,8 @@ import fr.csmb.competition.component.grid.fight.GridComponentFight;
 import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.component.pane.BorderedTitledPane;
+import fr.csmb.competition.component.treeview.ContextableTreeCell;
+import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
@@ -41,6 +44,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,6 +54,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.prefs.Preferences;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  * Created by Administrateur on 14/10/14.
@@ -79,10 +88,17 @@ public class CategoriesView {
     private TextField fourthPlaceTf = new TextField();
 
     private BorderPane epreuveBorderPane;
+    private File fileTmp;
 
     private NetworkSender sender = new NetworkSender("", 9878);
+    private CategorieViewController categorieViewController;
 
     public void showView(Stage mainStage, CompetitionBean competition) {
+        Preferences pref = Preferences.userNodeForPackage(Main.class);
+        String fileName = pref.get("filePath", null);
+        fileTmp = new File(fileName);
+        this.categorieViewController = new CategorieViewController(competition, mainStage);
+
         this.competitionBean = competition;
         BorderPane root = (BorderPane)mainStage.getScene().getRoot();
         SplitPane splitPane = new SplitPane();
@@ -148,10 +164,11 @@ public class CategoriesView {
         }
 
         TreeView<String> treeView = new TreeView<String>(treeItem);
+        final CategoriesView categoriesView = this;
         treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> stringTreeView) {
-                return new ContextableTreeCell();
+                return new ContextableTreeCell(categoriesView, competitionBean);
             }
         });
 
@@ -186,7 +203,7 @@ public class CategoriesView {
 
     }
 
-    private void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
+    public void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
 
         epreuveBorderPane = new BorderPane();
         GridComponent gridComponent = null;
@@ -217,6 +234,7 @@ public class CategoriesView {
             }
             epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
             sender.send(competitionBean, categorieBean, epreuveBean);
+            saveCompetitionToXmlFileTmp();
 
             if (epreuveBean != null) {
                 for (ParticipantBean participantBean : epreuveBean.getParticipants())
@@ -286,6 +304,7 @@ public class CategoriesView {
                         epreuveBean.setHeureFin(heureFinTf.getText());
                         epreuveBean.setDuree(dureeTf.getText());
                         sender.send(competitionBean, categorieBean, epreuveBean);
+                        saveCompetitionToXmlFileTmp();
 //                        stackPane.getChildren().clear();
 //                        createTableView(stackPane);
                     }
@@ -456,39 +475,23 @@ public class CategoriesView {
         return participantBeans1;
     }
 
-    public void validateEpreuve(TreeItem<String> treeItem, String typeCategorie, String categorie, String epreuve) {
-        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        if (categorieBean != null) {
-            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-            if (epreuveBean != null) {
-                if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                            "Impossible de valider une épreuve terminée");
-                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
-                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                            "Impossible de valider une épreuve fusionnée");
-                } else if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
-                    notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                            "Impossible de valider une épreuve validée");
-                } else {
-                    epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
-                    for (int i = 0; i < 8; i++) {
-                        epreuveBean.getParticipants().add(new ParticipantBean("NewNom " + i, "NewPrénom " + i));
-                    }
-                    if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                        //Configure order of fighter
-                        ConfigureFightView configureFightView = new ConfigureFightView();
-                        configureFightView.showView(currentStage, epreuveBean);
-                        if (!epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue())) {
-                            epreuveBean.getParticipants().clear();
-                        }
-                    } else {
-                        epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
-                    }
-
-                    sender.send(competitionBean, categorieBean, epreuveBean);
-                }
-            }
+    public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {
+        int result = this.categorieViewController.validateEpreuve(typeCategorie, categorie, epreuve);
+        switch (result) {
+            case 1:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de valider une épreuve terminée");
+                break;
+            case 2:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de valider une épreuve fusionnée");
+                break;
+            case 3:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de valider une épreuve validée");
+                break;
+            default:
+                break;
         }
     }
 
@@ -572,6 +575,7 @@ public class CategoriesView {
 
             epreuveBean.setParticipants(participantBeans);
 
+            saveCompetitionToXmlFileTmp();
             sender.send(competitionBean, categorieBean, epreuveBean);
 
             ImageView imageMixte = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
@@ -655,177 +659,6 @@ public class CategoriesView {
         stage.showAndWait();
     }
 
-    private class ContextableTreeCell extends TreeCell<String> {
-        private ContextMenu addMenu = new ContextMenu();
-
-        public ContextableTreeCell() {
-            MenuItem addMenuItem = new MenuItem("Edit");
-            addMenu.getItems().add(addMenuItem);
-            addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                    String categorie = getTreeItem().getParent().getParent().getValue();
-                    String epreuve = getItem();
-                    editEpreuve(typeCategorie, categorie, epreuve);
-                }
-            });
-
-            MenuItem runMenuItem = new MenuItem("Démarrer");
-            addMenu.getItems().add(runMenuItem);
-            runMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-
-                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                    String categorie = getTreeItem().getParent().getParent().getValue();
-                    String typeEpreuve = getTreeItem().getParent().getValue();
-                    String epreuve = getItem();
-                    createComponentGrid(typeCategorie, typeEpreuve, categorie, epreuve);
-                }
-            });
-            MenuItem validMenuItem = new MenuItem("Valider");
-            addMenu.getItems().add(validMenuItem);
-            validMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                    String categorie = getTreeItem().getParent().getParent().getValue();
-                    String epreuve = getItem();
-                    validateEpreuve(getTreeItem(), typeCategorie, categorie, epreuve);
-                }
-            });
-
-            MenuItem fusionMenuItem = new MenuItem("Fusionner");
-            fusionMenuItem.setVisible(false);
-            addMenu.getItems().add(fusionMenuItem);
-            fusionMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    if (getTreeView().getSelectionModel().getSelectedItems().size() >= 2) {
-                        TreeItem<String> item1 = getTreeView().getSelectionModel().getSelectedItems().get(0);
-                        String typeCategorie1 = item1.getParent().getParent().getParent().getValue();
-                        String categorie1 = item1.getParent().getParent().getValue();
-
-                        TreeItem<String> item2 = getTreeView().getSelectionModel().getSelectedItems().get(1);
-                        String typeCategorie2 = item2.getParent().getParent().getParent().getValue();
-                        String categorie2 = item2.getParent().getParent().getValue();
-                        fusionEpreuve(getTreeView(), typeCategorie1, categorie1, item1.getValue(), typeCategorie2, categorie2, item2.getValue());
-                    }
-                }
-            });
-
-        }
-
-        @Override
-        public void startEdit() {
-            super.startEdit();
-
-            setText(null);
-        }
-
-        @Override
-        public void cancelEdit() {
-            super.cancelEdit();
-
-            setText((String) getItem());
-            setGraphic(getTreeItem().getGraphic());
-        }
-
-        @Override
-        public void updateSelected(boolean b) {
-            super.updateSelected(b);
-            if (getTreeView() != null && getTreeView().getSelectionModel() != null && getTreeView().getSelectionModel().getSelectedItems() != null) {
-                if (getTreeView().getSelectionModel().getSelectedItems().size() >= 2) {
-                    for (MenuItem menuItem : addMenu.getItems()) {
-                        if (menuItem.getText().equals("Fusionner")) {
-                            menuItem.setVisible(true);
-                        }
-                    }
-                } else {
-                    for (MenuItem menuItem : addMenu.getItems()) {
-                        if (menuItem.getText().equals("Fusionner")) {
-                            menuItem.setVisible(false);
-                        }
-                    }
-                }
-            }
-        }
-
-
-
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-
-            if (empty) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                if (isEditing()) {
-                    setText(null);
-                } else {
-                    ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveInconnu.png")));
-                    if (getTreeItem().getValue().equals(TypeCategorie.FEMININ.getValue())) {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/femme.png")));
-                    } else if (getTreeItem().getValue().equals(TypeCategorie.MASCULIN.getValue())) {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/homme.png")));
-                    } else if (getTreeItem().getValue().equals(TypeCategorie.MIXTE.getValue())) {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
-                    } else if (getTreeItem().getValue().equals(TypeEpreuve.COMBAT.getValue())) {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/combat.png")));
-                    } else if (getTreeItem().getValue().equals(TypeEpreuve.TECHNIQUE.getValue())) {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/technique.png")));
-                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.FEMININ.getValue()))  {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieFeminin.png")));
-                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.MASCULIN.getValue()))  {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieMasculin.png")));
-                    } else if (getTreeItem().getParent() != null && getTreeItem().getParent().getValue().equals(TypeCategorie.MIXTE.getValue()))  {
-                        imageView = new ImageView(new Image(getClass().getResourceAsStream("images/categorieMixte.png")));
-                    }
-                    if (getTreeItem().isLeaf()){
-                        setContextMenu(addMenu);
-
-                        String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                        String categorie = getTreeItem().getParent().getParent().getValue();
-                        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-                        if (categorieBean != null) {
-                            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(getItem());
-                            if (epreuveBean != null) {
-                                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
-                                    setTextFill(Color.GREEN);
-                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveValide.png")));
-                                } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                                    setTextFill(Color.RED);
-                                    setUnderline(true);
-                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveTermine.png")));
-                                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
-                                    setTextFill(Color.DARKORANGE);
-                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveFusion.png")));
-                                } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
-                                    setTextFill(Color.DARKRED);
-                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveDemarre.png")));
-                                } else {
-                                    imageView = new ImageView(new Image(getClass().getResourceAsStream("images/epreuveInconnu.png")));
-                                }
-                            }
-                        }
-                    }
-
-                    setText(getString());
-                    imageView.setFitHeight(25);
-                    imageView.setFitWidth(25);
-                    getTreeItem().setGraphic(imageView);
-                    setGraphic(getTreeItem().getGraphic());
-                }
-            }
-        }
-
-        private String getString() {
-            return getItem() == null ? "" : getItem().toString();
-        }
-    }
-
     private EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
         EpreuveBean epreuveBean = null;
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
@@ -833,5 +666,21 @@ public class CategoriesView {
             epreuveBean = categorieBean.getEpreuveByName(epreuve);
         }
         return epreuveBean;
+    }
+
+    private void saveCompetitionToXmlFileTmp() {
+        try {
+            JAXBContext context = JAXBContext.newInstance(Competition.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            Competition competition = CompetitionConverter.convertCompetitionBeanToCompetition(competitionBean);
+
+            marshaller.marshal(competition, this.fileTmp);
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
     }
 }
