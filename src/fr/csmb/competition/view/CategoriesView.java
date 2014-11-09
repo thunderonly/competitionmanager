@@ -465,33 +465,7 @@ public class CategoriesView {
 
     private void updateList(String typeCategorie, String categorie, String epreuve) {
         participantBeans.clear();
-        participantBeans.addAll(extractEpreuves(typeCategorie, categorie, epreuve));
-    }
-
-    private ObservableList<ParticipantBean> extractEpreuves(String typeCategorie, String categorie, String epreuve) {
-        ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        if (categorieBean != null) {
-            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-            if (epreuveBean != null) {
-                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                    participantBeans1.addAll(epreuveBean.getParticipants());
-                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
-                    for (ClubBean club : competitionBean.getClubs()) {
-                        for (EleveBean eleve : club.getEleves()) {
-                            if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe()) && eleve.getPresence()) {
-                                if (eleve.getEpreuves().contains(epreuve)) {
-                                    ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
-                                    participantBeans1.add(participantBean);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        return participantBeans1;
+        participantBeans.addAll(this.categorieViewController.extractEpreuves(typeCategorie, categorie, epreuve));
     }
 
     public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {
@@ -508,6 +482,30 @@ public class CategoriesView {
             case 3:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de valider une épreuve validée");
+                break;
+            case 4:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de valider une épreuve démarrée");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void invalidateEpreuve(String typeCategorie, String categorie, String epreuve) {
+        int result = this.categorieViewController.invalidateEpreuve(typeCategorie, categorie, epreuve);
+        switch (result) {
+            case 1:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible d'invalider une épreuve terminée");
+                break;
+            case 2:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible d'invalider une épreuve fusionnée");
+                break;
+            case 3:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible d'invalider une épreuve démarrée");
                 break;
             default:
                 break;
@@ -532,153 +530,32 @@ public class CategoriesView {
 
     public void fusionEpreuve(TreeView<String> treeView, String typeCategorie1, String categorie1, String epreuve1, String typeCategorie2, String categorie2, String epreuve2) {
 
-        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, categorie1, epreuve1);
-        EpreuveBean epreuveBean2 = getEpreuveBean(typeCategorie2, categorie2, epreuve2);
-        if (EtatEpreuve.FUSION.getValue().equals(epreuveBean1.getEtat()) ||
-                EtatEpreuve.FUSION.getValue().equals(epreuveBean2.getEtat())) {
-            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                    "Impossible de fusionner une épreuve fusionnée");
-        } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean1.getEtat()) ||
-                EtatEpreuve.TERMINE.getValue().equals(epreuveBean2.getEtat())) {
-            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                    "Impossible de fusionner une épreuve terminée");
-        } else if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean1.getEtat()) ||
-                EtatEpreuve.VALIDE.getValue().equals(epreuveBean2.getEtat())) {
-            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                    "Impossible de fusionner une épreuve validée");
-        } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean1.getEtat()) ||
-                EtatEpreuve.DEMARRE.getValue().equals(epreuveBean2.getEtat())) {
-            notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                    "Impossible de fusionner une épreuve démarrée");
-        } else {
-            String newCategorie = categorie1.concat(" - ").concat(categorie2);
-            if (categorie1.equals(categorie2)) {
-                newCategorie = categorie1;
-            }
-
-            String newTypeCategorie = TypeCategorie.MIXTE.getValue();
-            if (typeCategorie1.equals(typeCategorie2)) {
-                newTypeCategorie = typeCategorie1;
-            }
-            CategorieBean categorieBean = competitionBean.getCategorie(newTypeCategorie, newCategorie);
-            if (categorieBean == null) {
-                categorieBean = new CategorieBean(newCategorie);
-                categorieBean.setType(newTypeCategorie);
-                competitionBean.getCategories().add(categorieBean);
-            }
-
-            String newEpreuve = epreuve1.concat("-").concat(epreuve2);
-            if (epreuve1.equals(epreuve2)) {
-                newEpreuve = epreuve1;
-            }
-            EpreuveBean epreuveBean = new EpreuveBean(newEpreuve);
-            epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
-            epreuveBean.setType(epreuveBean1.getType());
-            categorieBean.getEpreuves().add(epreuveBean);
-
-            ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-            if (epreuveBean1 != null) {
-                epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
-                CategorieBean categorieBean1 = competitionBean.getCategorie(typeCategorie1, categorie1);
-                sender.send(competitionBean, categorieBean1, epreuveBean1);
-
-                participantBeans.addAll(extractParticipants(typeCategorie1, categorie1, epreuve1));
-            }
-
-            if (epreuveBean2 != null) {
-                epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
-                CategorieBean categorieBean2 = competitionBean.getCategorie(typeCategorie2, categorie2);
-                sender.send(competitionBean, categorieBean2, epreuveBean2);
-                participantBeans.addAll(extractParticipants(typeCategorie2, categorie2, epreuve2));
-            }
-
-            epreuveBean.setParticipants(participantBeans);
-
-            saveCompetitionToXmlFileTmp();
-            sender.send(competitionBean, categorieBean, epreuveBean);
-
-            ImageView imageMixte = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
-            imageMixte.setFitHeight(25);
-            imageMixte.setFitWidth(25);
-            TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
-            TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
-            ImageView imageTypeEpreve = null;
-            if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/combat.png")));
-            } else {
-                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/technique.png")));
-            }
-            TreeItem<String> treeItemTypeEpreuve = new TreeItem(epreuveBean.getType());
-            TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
-            treeItemTypeCategorie.getChildren().add(treeItemCategorie);
-            treeItemCategorie.getChildren().add(treeItemTypeEpreuve);
-            treeItemTypeEpreuve.getChildren().add(treeItemEpreuve);
-
-            //get item correspond to categorie type
-            boolean categorieAdded = false;
-            for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
-                if (treeItem.getValue().equals(categorieBean.getType())) {
-                    for (TreeItem<String> itemCategorie : treeItem.getChildren()) {
-                        if (itemCategorie.getValue().equals(categorieBean.getNom())) {
-                            for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {
-                                if (itemTypeEpreuve.getValue().equals(epreuveBean.getType())) {
-                                    itemTypeEpreuve.getChildren().add(treeItemEpreuve);
-                                    categorieAdded = true;
-                                }
-                            }
-                        }
-                    }
-                    if (!categorieAdded) {
-                        treeItem.getChildren().add(treeItemCategorie);
-                        categorieAdded = true;
-                    }
-                }
-            }
-
-            //New categorie from fusion
-            if (!categorieAdded) {
-                treeView.getRoot().getChildren().add(treeItemTypeCategorie);
-            }
+        int result = categorieViewController.fusionEpreuve(treeView, typeCategorie1, categorie1, epreuve1, typeCategorie2, categorie2, epreuve2);
+        switch (result) {
+            case 1:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de fusionner une épreuve fusionnée");
+                break;
+            case 2:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de fusionner une épreuve terminée");
+                break;
+            case 3:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de fusionner une épreuve validée");
+                break;
+            case 4:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible de fusionner une épreuve démarrée");
+                break;
+            default:
+                break;
         }
+
+
     }
 
-    public void editEpreuve(String typeCategorie, String categorie, String epreuve) {
-        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        if (categorieBean != null) {
-            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-            if (epreuveBean != null) {
-                createEditEpreuveView(categorieBean, epreuveBean);
-            }
-        }
-    }
-
-    private void createEditEpreuveView(CategorieBean categorieBean, EpreuveBean epreuveBean) {
-        Stage stage = new Stage();
-        stage.setTitle("Edition épreuve : " + categorieBean.getNom() + " - " + epreuveBean.getNom());
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(currentStage);
-
-        BorderPane borderPane = new BorderPane();
-        GridPane gridPane = new GridPane();
-        Label participantsDispo = new Label("Participants disponibles");
-        participantsDispo.getStyleClass().add("biglabel");
-
-        gridPane.add(participantsDispo, 0, 0);
-        borderPane.setCenter(gridPane);
-
-        Button validBtn = new Button("Valider");
-        Button cancelBtn = new Button("Annuler");
-
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(validBtn, cancelBtn);
-        borderPane.setBottom(hBox);
-        Scene scene = new Scene(borderPane);
-        scene.getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    private EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
+    public EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
         EpreuveBean epreuveBean = null;
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         if (categorieBean != null) {

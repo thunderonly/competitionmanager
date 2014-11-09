@@ -71,6 +71,19 @@ public class ContextableTreeCell extends TreeCell<String> {
             }
         });
 
+        MenuItem invalidMenuItem = new MenuItem("Invalider");
+        invalidMenuItem.setVisible(false);
+        addMenu.getItems().add(invalidMenuItem);
+        invalidMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                String categorie = getTreeItem().getParent().getParent().getValue();
+                String epreuve = getItem();
+                categoriesView.invalidateEpreuve(typeCategorie, categorie, epreuve);
+            }
+        });
+
         MenuItem fusionMenuItem = new MenuItem("Fusionner");
         fusionMenuItem.setVisible(false);
         addMenu.getItems().add(fusionMenuItem);
@@ -121,6 +134,20 @@ public class ContextableTreeCell extends TreeCell<String> {
                 for (MenuItem menuItem : addMenu.getItems()) {
                     if (menuItem.getText().equals("Fusionner")) {
                         menuItem.setVisible(false);
+                    }
+                }
+                TreeItem<String> selected = getTreeView().getSelectionModel().getSelectedItems().get(0);
+                if (selected != null && selected.isLeaf()) {
+                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                    String categorie = getTreeItem().getParent().getParent().getValue();
+                    String epreuve = getItem();
+                    EpreuveBean epreuveBean = categoriesView.getEpreuveBean(typeCategorie, categorie, epreuve);
+                    if (epreuveBean != null && EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+                        for (MenuItem menuItem : addMenu.getItems()) {
+                            if (menuItem.getText().equals("Invalider")) {
+                                menuItem.setVisible(true);
+                            }
+                        }
                     }
                 }
             }

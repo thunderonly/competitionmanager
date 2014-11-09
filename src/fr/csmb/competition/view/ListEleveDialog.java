@@ -34,8 +34,10 @@ public class ListEleveDialog {
             BorderPane borderPane = (BorderPane) loader.load();
             root.setCenter(borderPane);
             root.setBottom(null);
+            mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
 
             Button validateButton = new Button("Valider");
+            validateButton.getStyleClass().add("buttonCompetition");
             validateButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {

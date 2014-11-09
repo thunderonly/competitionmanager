@@ -23,6 +23,7 @@ import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
+import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.ConfigureFightView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Competition;
@@ -65,6 +66,8 @@ public class CategorieViewController {
                     return 2;
                 } else if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
                     return 3;
+                } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+                    return 4;
                 } else {
                     epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
                     if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
@@ -77,6 +80,30 @@ public class CategorieViewController {
                     } else {
                         epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                     }
+
+                    saveCompetitionToXmlFileTmp();
+                    sender.send(competitionBean, categorieBean, epreuveBean);
+                    return 0;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int invalidateEpreuve(String typeCategorie, String categorie, String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            if (epreuveBean != null) {
+                if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                    return 1;
+                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
+                    return 2;
+                } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+                    return 3;
+                } else {
+                    epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
+                    epreuveBean.setEtat("");
 
                     saveCompetitionToXmlFileTmp();
                     sender.send(competitionBean, categorieBean, epreuveBean);
@@ -150,16 +177,16 @@ public class CategorieViewController {
             saveCompetitionToXmlFileTmp();
             sender.send(competitionBean, categorieBean, epreuveBean);
 
-            ImageView imageMixte = new ImageView(new Image(getClass().getResourceAsStream("images/mixte.png")));
+            ImageView imageMixte = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/mixte.png")));
             imageMixte.setFitHeight(25);
             imageMixte.setFitWidth(25);
             TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
             TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
             ImageView imageTypeEpreve = null;
             if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/combat.png")));
+                imageTypeEpreve = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/combat.png")));
             } else {
-                imageTypeEpreve = new ImageView(new Image(getClass().getResourceAsStream("images/technique.png")));
+                imageTypeEpreve = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/technique.png")));
             }
             TreeItem<String> treeItemTypeEpreuve = new TreeItem(epreuveBean.getType());
             TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
@@ -209,6 +236,32 @@ public class CategorieViewController {
             }
         }
 
+        return participantBeans1;
+    }
+
+    public ObservableList<ParticipantBean> extractEpreuves(String typeCategorie, String categorie, String epreuve) {
+        ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            if (epreuveBean != null) {
+                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                    participantBeans1.addAll(epreuveBean.getParticipants());
+                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
+                    for (ClubBean club : competitionBean.getClubs()) {
+                        for (EleveBean eleve : club.getEleves()) {
+                            if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe()) && eleve.getPresence()) {
+                                if (eleve.getEpreuves().contains(epreuve)) {
+                                    ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
+                                    participantBeans1.add(participantBean);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
         return participantBeans1;
     }
 

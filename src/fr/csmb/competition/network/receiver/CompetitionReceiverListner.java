@@ -25,11 +25,15 @@ import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Administrateur on 28/10/14.
  */
 public class CompetitionReceiverListner implements DatagramListener {
+
+    private static final Logger LOGGER = LogManager.getFormatterLogger(CompetitionReceiverListner.class);
 
     private CompetitionBean competitionBean;
     private File fileTmp;
@@ -60,6 +64,8 @@ public class CompetitionReceiverListner implements DatagramListener {
 
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
         epreuveBean.setType(epreuve.getTypeEpreuve());
+
+        LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
         for (Participant participant : epreuve.getParticipants()) {
             ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());

@@ -128,6 +128,7 @@ public class NetworkSender {
                 Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
                 epreuve.setEtatEpreuve(epreuveBean.getEtat());
                 categorie.getEpreuves().add(epreuve);
+                LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
                 for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                     Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
