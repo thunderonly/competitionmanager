@@ -9,9 +9,12 @@ import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
 import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
 import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
@@ -298,21 +301,30 @@ public class InscriptionsManager {
 
         for (CategorieBean categorieBean : competition.getCategories()) {
             boolean isSheetCreated = false;
+            XSSFSheet sheet = null;
             int rowCount = 0;
             int colCount = 0;
             String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
             for (String typeEpreuve : typeEpreuves) {
+                boolean isHeaderCreated = false;
                 if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
                     colCount = 0;
                 } else {
                     colCount = 4;
                 }
+                rowCount = 0;
                 for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
                     if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                        XSSFSheet sheet = null;
                         if (!isSheetCreated) {
                             sheet = workbook.createSheet(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
-                            Row rowTitle = sheet.createRow(rowCount++);
+                            isSheetCreated = true;
+                        }
+                        if (!isHeaderCreated) {
+                            Row rowTypeEpreuve = getRow(sheet, rowCount++);
+                            Cell cellTypeEpreuve = rowTypeEpreuve.createCell(colCount + 1);
+                            cellTypeEpreuve.setCellStyle(styleTitle);
+                            cellTypeEpreuve.setCellValue(typeEpreuve.toUpperCase());
+                            Row rowTitle = getRow(sheet, rowCount++);
                             Cell cell1 = rowTitle.createCell(colCount + 1);
                             cell1.setCellValue("Place");
                             cell1.setCellStyle(styleTitle);
@@ -322,10 +334,12 @@ public class InscriptionsManager {
                             Cell cell3 = rowTitle.createCell(colCount + 3);
                             cell3.setCellValue("Prénom");
                             cell3.setCellStyle(styleTitle);
-                            isSheetCreated = true;
+                            isHeaderCreated = true;
+                            sheet.addMergedRegion(new CellRangeAddress(rowTypeEpreuve.getRowNum(), rowTypeEpreuve.getRowNum(), colCount + 1, colCount + 3));
                         }
 
-                        Row rowEpreuve = sheet.createRow(rowCount++);
+
+                        Row rowEpreuve = getRow(sheet, rowCount++);
                         Cell cellEpreuve = rowEpreuve.createCell(colCount + 1);
                         cellEpreuve.setCellStyle(styleTitle2);
                         cellEpreuve.setCellValue(epreuveBean.getNom());
@@ -333,9 +347,17 @@ public class InscriptionsManager {
                             Cell tempCellClassementGene = rowEpreuve.createCell(i);
                             tempCellClassementGene.setCellStyle(styleTitle2);
                         }
-                        sheet.addMergedRegion(new CellRangeAddress(1, 1, colCount + 1, colCount + 3));
+                        sheet.addMergedRegion(new CellRangeAddress(rowEpreuve.getRowNum(), rowEpreuve.getRowNum(), colCount + 1, colCount + 3));
+
+                        ObservableList<ParticipantBean> newList = FXCollections.observableArrayList();
+                        //Get participant for 1, 2, 3, 4 place
                         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                            Row rowParticipant = sheet.createRow(rowCount++);
+                            if (participantBean.getClassementFinal() > 0 && participantBean.getClassementFinal() < 5) {
+                                newList.add(participantBean);
+                            }
+                        }
+                        for (ParticipantBean participantBean : newList) {
+                            Row rowParticipant = getRow(sheet, rowCount++);
                             Cell cell1 = rowParticipant.createCell(colCount + 1);
                             cell1.setCellStyle(styleData);
                             cell1.setCellValue(participantBean.getClassementFinal());
@@ -346,7 +368,7 @@ public class InscriptionsManager {
                             cell3.setCellStyle(styleData);
                             cell3.setCellValue(participantBean.getPrenom());
                         }
-                        for (int columnPosition = 0; columnPosition < 4; columnPosition++) {
+                        for (int columnPosition = 0; columnPosition < 8; columnPosition++) {
                             sheet.autoSizeColumn(columnPosition);
                         }
                     }
@@ -394,7 +416,7 @@ public class InscriptionsManager {
         sortableList.sort();
         for (ClubBean clubBean : sortableList) {
             Row rowClub = sheet.createRow(rowCount++);
-            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData, TypeEpreuve.TECHNIQUE);
         }
 
         Row rowClassementComb = sheet.createRow(rowCount++);
@@ -411,7 +433,7 @@ public class InscriptionsManager {
         sortableList.sort();
         for (ClubBean clubBean : sortableList) {
             Row rowClub = sheet.createRow(rowCount++);
-            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData, TypeEpreuve.COMBAT);
         }
 
         Row rowClassementGene = sheet.createRow(rowCount++);
@@ -428,7 +450,7 @@ public class InscriptionsManager {
         sortableList.sort();
         for (ClubBean clubBean : competition.getClubs()) {
             Row rowClub = sheet.createRow(rowCount++);
-            createClassementClubTable(clubBean, rowClub, colCount, styleData);
+            createClassementClubTable(clubBean, rowClub, colCount, styleData, null);
         }
 
         for (int columnPosition = 0; columnPosition < 7; columnPosition++) {
@@ -446,9 +468,23 @@ public class InscriptionsManager {
         }
     }
 
-    private void createClassementClubTable(ClubBean clubBean, Row rowClub, int colCount, XSSFCellStyle styleData) {
+    private Row getRow(XSSFSheet sheet, int rowCount) {
+        Row row = sheet.getRow(rowCount);
+        if (row == null) {
+            row = sheet.createRow(rowCount);
+        }
+        return row;
+    }
+
+    private void createClassementClubTable(ClubBean clubBean, Row rowClub, int colCount, XSSFCellStyle styleData, TypeEpreuve typeEpreuve) {
         Cell cell1 = rowClub.createCell(colCount + 1);
-        cell1.setCellValue(clubBean.getClassementTechnique());
+        if (typeEpreuve == null) {
+            cell1.setCellValue(clubBean.getClassementGeneral());
+        } else if (typeEpreuve.getValue().equals(TypeEpreuve.TECHNIQUE.getValue())) {
+            cell1.setCellValue(clubBean.getClassementTechnique());
+        } else if (typeEpreuve.getValue().equals(TypeEpreuve.COMBAT.getValue())) {
+            cell1.setCellValue(clubBean.getClassementCombat());
+        }
         cell1.setCellStyle(styleData);
         Cell cell2 = rowClub.createCell(colCount + 2);
         cell2.setCellValue(clubBean.getIdentifiant());

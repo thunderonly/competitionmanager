@@ -110,6 +110,7 @@ public class CategoriesView {
         splitPane.getItems().add(stackPane);
 //        stage.setTitle("Détail compétition : " + competition.getNom());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
+        mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
 //        stage.setScene(scene);
         currentStage = mainStage;
         notificationView = new NotificationView(mainStage);
@@ -256,6 +257,7 @@ public class CategoriesView {
 
         final GridComponent gridComponent2  = gridComponent;
         Button button = new Button("Terminer");
+        button.getStyleClass().add("buttonCompetition");
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -313,6 +315,7 @@ public class CategoriesView {
         });
 
         Button cancelButton = new Button("Annuler");
+        cancelButton.getStyleClass().add("buttonCompetition");
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -338,6 +341,22 @@ public class CategoriesView {
     }
 
     private void createCartoucheForGridComponent(BorderPane borderPane, CategorieBean categorieBean, EpreuveBean epreuveBean) {
+        adminTf.setText("");
+        chronoTf.setText("");
+        firstJugeTf.setText("");
+        secondJugeTf.setText("");
+        thirdJugeTf.setText("");
+        fourthJugeTf.setText("");
+        fifthJugeTf.setText("");
+        tapisTf.setText("");
+        heureDebutTf.setText("");
+        heureFinTf.setText("");
+        dureeTf.setText("");
+        firstPlaceTf.setText("");
+        secondPlaceTf.setText("");
+        thirdPlaceTf.setText("");
+        fourthPlaceTf.setText("");
+
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(5);
@@ -375,7 +394,7 @@ public class CategoriesView {
 
         Text titleClassement = new Text("Classement");
         titleClassement.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleClassement, 2, 0, 2, 1);
+        gridPane.add(titleClassement, 6, 0, 2, 1);
         TextField[] tfPlaces = new TextField[] {firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf};
         for (int i = 0; i < 4; i++) {
             String place = "";
@@ -386,34 +405,34 @@ public class CategoriesView {
             }
             Label firstPlaceLabel = new Label(place);
             firstPlaceLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(firstPlaceLabel, 2, 1 + i);
+            gridPane.add(firstPlaceLabel, 6, 1 + i);
             tfPlaces[i].setPromptText(place);
-            gridPane.add(tfPlaces[i], 3, 1 + i);
+            gridPane.add(tfPlaces[i], 7, 1 + i);
         }
 
         Text titleJuge = new Text("Juges");
         titleJuge.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleJuge, 0, 5, 2, 1);
+        gridPane.add(titleJuge, 2, 0, 2, 1);
         TextField[] tfJuges = new TextField[]{firstJugeTf, secondJugeTf, thirdJugeTf, fourthJugeTf, fifthJugeTf};
         for (int i = 0; i < 5; i++) {
             Label firstJugeLabel = new Label("Juge ".concat(String.valueOf(i + 1)));
             firstJugeLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(firstJugeLabel, 0, 6 + i);
+            gridPane.add(firstJugeLabel, 2, 1 + i);
             tfJuges[i].setPromptText("Juge ".concat(String.valueOf(i + 1)));
-            gridPane.add(tfJuges[i], 1, 6 + i);
+            gridPane.add(tfJuges[i], 3, 1 + i);
         }
 
         Text titleEpreuve = new Text("Epreuve");
         titleEpreuve.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleEpreuve, 2, 5, 2, 1);
+        gridPane.add(titleEpreuve, 4, 0, 2, 1);
         TextField[] tfEpreuves = new TextField[] {tapisTf, heureDebutTf, heureFinTf, dureeTf};
         String[] labelEpreuves = new String[] {"Tapis", "Début", "Fin", "Durée"};
         for (int i = 0; i < 4; i++) {
             Label tapisLabel = new Label(labelEpreuves[i]);
             tapisLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(tapisLabel, 2, 6 + i);
+            gridPane.add(tapisLabel, 4, 1 + i);
             tfEpreuves[i].setPromptText(labelEpreuves[i]);
-            gridPane.add(tfEpreuves[i], 3, 6 + i);
+            gridPane.add(tfEpreuves[i], 5, 1 + i);
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
@@ -421,9 +440,9 @@ public class CategoriesView {
 
         Label nbParticipantsLabel = new Label("Nb Participants");
         nbParticipantsLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(nbParticipantsLabel, 2, 10);
+        gridPane.add(nbParticipantsLabel, 4, 5);
         Label nbParticipantsTf = new Label(String.valueOf(epreuveBean.getParticipants().size()));
-        gridPane.add(nbParticipantsTf, 3, 10);
+        gridPane.add(nbParticipantsTf, 5, 5);
         nbParticipantsLabel.getStyleClass().add("titleGridPane");
 
         borderPane.setTop(gridPane);

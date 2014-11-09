@@ -62,9 +62,9 @@ public class ResultatsView {
         BorderPane root = (BorderPane) mainStage.getScene().getRoot();
         BorderPane stackPane = new BorderPane();
         createTableView(root);
-        root.setBottom(null);
 //        stage.setTitle("Résultats compétition : " + competition.getNom());
         this.mainStage = mainStage;
+        this.mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
     }
 
     private void createTableView(BorderPane stackPane) {
@@ -79,6 +79,7 @@ public class ResultatsView {
             int col = 0;
             String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
             for (String typeEpreuve : typeEpreuves) {
+                row = 0;
                 for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
                     if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         try {
@@ -89,7 +90,16 @@ public class ResultatsView {
                             BorderPane borderPane = (BorderPane) loader.load();
                             ResultatsController controller = (ResultatsController) loader.getController();
                             controller.getTitleCategorie().setText(categorieBean.getNom().concat(" - ").concat(epreuveBean.getNom()));
-                            controller.getTableResultats().setItems(epreuveBean.getParticipants());
+
+                            ObservableList<ParticipantBean> newList = FXCollections.observableArrayList();
+                            //Get participant for 1, 2, 3, 4 place
+                            for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                                if (participantBean.getClassementFinal() > 0 && participantBean.getClassementFinal() < 5) {
+                                    newList.add(participantBean);
+                                }
+                            }
+
+                            controller.getTableResultats().setItems(newList);
                             controller.getPlace().setSortable(false);
                             controller.getTableResultats().getSortOrder().setAll(Collections.singletonList(controller
                                     .getPlace()));
@@ -129,6 +139,7 @@ public class ResultatsView {
         stackPane.setCenter(tabPane);
 
         Button generateResultat = new Button("Générer");
+        generateResultat.getStyleClass().add("buttonCompetition");
         generateResultat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

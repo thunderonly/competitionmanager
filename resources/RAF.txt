@@ -29,3 +29,8 @@ Creation de Competition
 Pointage Competition
 1 - Pointage des participants. [OK]
 2 - Gerer la presenceEleve des participants [OK]
+
+Ne pas afficher les caté vides
+Code couleur pour les caté fermées (-3) personnes
+Vision globale de la compétition. comme le excel de la coupe med
+Pas de diffusion LAN

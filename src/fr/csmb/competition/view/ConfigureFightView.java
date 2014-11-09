@@ -34,14 +34,16 @@ public class ConfigureFightView {
 
     public void showView(Stage mainStage, final EpreuveBean epreuveBean) {
         BorderPane borderPane = new BorderPane();
-        Scene scene = new Scene(borderPane, 800, 600);
+        Scene scene = new Scene(borderPane, 1200, 900);
         currentStage = new Stage();
         currentStage.setTitle("Configuration des combats");
         currentStage.initOwner(mainStage);
         currentStage.initModality(Modality.WINDOW_MODAL);
         currentStage.setScene(scene);
+        currentStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
 
         Button cancelButton = new Button("Annuler");
+        cancelButton.getStyleClass().add("buttonCompetition");
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -49,6 +51,7 @@ public class ConfigureFightView {
             }
         });
         Button validButton = new Button("Valider");
+        validButton.getStyleClass().add("buttonCompetition");
         validButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

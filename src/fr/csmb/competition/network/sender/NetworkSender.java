@@ -18,6 +18,8 @@ import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,6 +35,7 @@ import java.util.Enumeration;
  */
 public class NetworkSender {
 
+    private static final Logger LOGGER = LogManager.getFormatterLogger(NetworkSender.class);
 
     private MulticastSocket ds ;
 
@@ -85,7 +88,7 @@ public class NetworkSender {
                 if (address == null || address.equals("")) {
                     address = getMulticastIp();
                 }
-
+                LOGGER.info("Send club data on address %s and port %s", address, port);
                 Club club = ClubConverter.convertClubBeanToClub(clubBean);
 
                 ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
@@ -98,10 +101,13 @@ public class NetworkSender {
                 DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address,port));
                 int byteCount = packet.getLength();
                 ds.send(packet);
+                LOGGER.info("Data sent on address %s and port %s", address, port);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
             } catch (IOException e) {
                 e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
             }
         }
     }
@@ -114,6 +120,7 @@ public class NetworkSender {
                 if (address == null || address.equals("")) {
                     address = getMulticastIp();
                 }
+                LOGGER.info("Send competition data on address %s and port %s", address, port);
 
                 Competition competition = new Competition(competitionBean.getNom());
                 Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
@@ -138,10 +145,13 @@ public class NetworkSender {
                 DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address,port));
                 int byteCount = packet.getLength();
                 ds.send(packet);
+                LOGGER.info("Data sent on address %s and port %s", address, port);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
             } catch (IOException e) {
                 e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
             }
         }
     }

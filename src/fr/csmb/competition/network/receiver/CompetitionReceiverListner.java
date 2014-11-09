@@ -17,6 +17,8 @@ import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Categorie;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
@@ -31,12 +33,14 @@ public class CompetitionReceiverListner implements DatagramListener {
 
     private CompetitionBean competitionBean;
     private File fileTmp;
+    private NotificationView notificationView;
 
-    public CompetitionReceiverListner(CompetitionBean competitionBean) {
+    public CompetitionReceiverListner(CompetitionBean competitionBean, NotificationView notificationView) {
         this.competitionBean = competitionBean;
         Preferences pref = Preferences.userNodeForPackage(Main.class);
         String fileName = pref.get("filePath", null);
         fileTmp = new File(fileName);
+        this.notificationView = notificationView;
     }
 
     @Override
@@ -66,6 +70,17 @@ public class CompetitionReceiverListner implements DatagramListener {
                 ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
             }
 
+        }
+
+        if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+            notificationView.notify(NotificationView.Level.INFO, "Information",
+                    "L'épreuve " + epreuveBean.toString() + " a été validée");
+        } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+            notificationView.notify(NotificationView.Level.INFO, "Information",
+                    "L'épreuve " + epreuveBean.toString() + " a été démarrée");
+        } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+            notificationView.notify(NotificationView.Level.INFO, "Information",
+                    "L'épreuve " + epreuveBean.toString() + " a été terminée");
         }
         saveCompetitionToXmlFileTmp();
     }

@@ -7,12 +7,15 @@ package fr.csmb.competition.component.textbox;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,20 +37,23 @@ public class TextBox extends Group {
     private ParticipantBean participant;
     public StringProperty textProperty() { return text.textProperty(); }
     private Integer numPlace;
+    private ImageView imageView;
 
     public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle) {
-        this.text = new Text(participant.toString());
+        this.text = new Text(participant.getNom().toUpperCase().concat("\n").concat(participant.getPrenom()));
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFill(Color.BLACK);
         text.setTextOrigin(VPos.CENTER);
         text.setFont(Font.font("Calibri", 11));
         text.setFontSmoothingType(FontSmoothingType.LCD);
-        text.setOnMouseClicked(new TextBoxEventHandler(this));
+        setClickable(true);
+        imageView = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/combat.png")));
 
         this.rectangle = new Rectangle(width, height);
         rectangle.setFill(colorRectangle);
         rectangle.setStroke(Color.BLACK);
         rectangle.setStrokeWidth(0.5);
+
 
         this.clip = new Rectangle(width, height);
         text.setClip(clip);
@@ -55,6 +61,14 @@ public class TextBox extends Group {
 
         this.getChildren().addAll(rectangle, text);
 
+    }
+
+    public void setClickable(boolean isClickable) {
+        if (isClickable) {
+            text.setOnMouseClicked(new TextBoxEventHandler(this));
+        } else {
+            text.setOnMouseClicked(null);
+        }
     }
 
     public void setDragable() {
@@ -109,7 +123,7 @@ public class TextBox extends Group {
 
     public void setParticipant(ParticipantBean participant) {
         this.participant = participant;
-        this.text.setText(participant.toString());
+        this.text.setText(participant.getNom().toUpperCase().concat("\n").concat(participant.getPrenom()));
     }
 
     public Integer getNumPlace() {

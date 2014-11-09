@@ -67,9 +67,6 @@ public class CategorieViewController {
                     return 3;
                 } else {
                     epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
-                    for (int i = 0; i < 8; i++) {
-                        epreuveBean.getParticipants().add(new ParticipantBean("NewNom " + i, "NewPrénom " + i));
-                    }
                     if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
                         //Configure order of fighter
                         ConfigureFightView configureFightView = new ConfigureFightView();

@@ -119,11 +119,15 @@ public class Main extends Application {
             clubs = competitionBean.getClubs();
 
             int index = file.getAbsolutePath().indexOf(".xml");
-            String fileName = file.getAbsolutePath().substring(0,index).concat("-tmp").concat(".xml");
+            String filePath = file.getAbsolutePath().substring(0,index);
+            if (filePath.indexOf("-tmp") > 0) {
+                filePath = file.getAbsolutePath().substring(0,filePath.indexOf("-tmp"));
+            }
+            String fileName = filePath.concat("-tmp").concat(".xml");
             Preferences pref = Preferences.userNodeForPackage(Main.class);
             pref.put("filePath", fileName);
 
-            CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean);
+            CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean, notificationView);
             receiver.addNmeaUdpListener(receiverListner);
             receiver.start();
 

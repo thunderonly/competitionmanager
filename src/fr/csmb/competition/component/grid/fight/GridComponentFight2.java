@@ -70,6 +70,7 @@ public class GridComponentFight2 extends GridComponent {
 
             for (TextBox textBox : resultats) {
                 textBox.setDragable();
+                textBox.setClickable(false);
             }
         }
     }
@@ -162,6 +163,9 @@ public class GridComponentFight2 extends GridComponent {
                 TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
                 textBoxForMatch[0].setNumPlace(1);
                 textBoxForMatch[1].setNumPlace(2);
+                if (forConfigure) {
+                    return new TextBox[]{textBoxForMatch[0], textBoxForMatch[1]};
+                }
                 TextBox[] resultatsFinale = drawMatch(textBoxForMatch[0], textBoxForMatch[1], this, 2, Phase.FINALE);
                 return new TextBox[]{resultatsFinale[0], resultatsFinale[1]};
             }
@@ -370,7 +374,7 @@ public class GridComponentFight2 extends GridComponent {
         Line lineRedV = drawLine(beginXLineVRed, beginYLineVRed , endXLineVRed, endYLineVRed);
 
         TextBox victoryBox = createTextBox(new ParticipantBean("", ""), beginXResultat, beginYResultat, colorResultat);
-        TextBox defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+        TextBox defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
         if (drawLine) {
             group.getChildren().addAll(victoryBox, lineBlueH, lineRedH, lineBlueV, lineRedV);
@@ -417,8 +421,8 @@ public class GridComponentFight2 extends GridComponent {
             colorResultat = colorRed;
         }
         if (phase.ordinal() == Phase.FINALE.ordinal() || phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
-            victoryBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
-            defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
+            victoryBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
+            defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
 
             //Create a TextBoxListner to prepare resultat
             TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox, phase);
@@ -428,7 +432,7 @@ public class GridComponentFight2 extends GridComponent {
 
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
             victoryBox = drawMatch(boxBlue, boxRed, group, level, drawLine);
-            defaitBox = new TextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
+            defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
             //Create a TextBoxListner to prepare resultat
             TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox);

@@ -8,6 +8,8 @@ import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Participant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -24,6 +26,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Bull SAS
  */
 public class NetworkReceiver extends Thread {
+
+    private static final Logger LOGGER = LogManager.getFormatterLogger(NetworkReceiver.class);
+
     /**
      * Listening port
      */
@@ -70,11 +75,14 @@ public class NetworkReceiver extends Thread {
             dp = new DatagramPacket(data, data.length);
             ds.joinGroup(InetAddress.getByName(address));
 
+            LOGGER.info("DataSource join the address %s on port %s", address, port);
+
             while (running) {
 
                 try {
 
                     ds.receive(dp);
+                    LOGGER.info("DataSource receive datagram packet from address %s", dp.getAddress());
                     if (!isOwnPacket(dp.getAddress())) {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
                         ObjectInputStream is = new
@@ -82,22 +90,27 @@ public class NetworkReceiver extends Thread {
                         Object receivedObj = is.readObject();
                         is.close();
                         if (receivedObj instanceof Competition) {
+                            LOGGER.info("Receive a competition");
                             Competition competition = (Competition)receivedObj;
                             fireReceive(competition);
                         } else if (receivedObj instanceof Club) {
+                            LOGGER.info("Receive a club");
                             Club club = (Club) receivedObj;
                             fireReceive(club);
                         }
                     }
                 } catch (SocketException e) {
                     e.printStackTrace();
+                    LOGGER.error("Exception when receive data ", e);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LOGGER.error("Exception when receive data ", e);
                 }
 
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.error("Exception when receive data ", e);
         }
     }
 
