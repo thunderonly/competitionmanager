@@ -34,17 +34,17 @@ public class ContextableTreeCell extends TreeCell<String> {
     public ContextableTreeCell(final CategoriesView categoriesView, final CompetitionBean competitionBean) {
         this.competitionBean = competitionBean;
         this.categoriesView = categoriesView;
-        MenuItem addMenuItem = new MenuItem("Edit");
-        addMenu.getItems().add(addMenuItem);
-        addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                String categorie = getTreeItem().getParent().getParent().getValue();
-                String epreuve = getItem();
-                categoriesView.editEpreuve(typeCategorie, categorie, epreuve);
-            }
-        });
+//        MenuItem addMenuItem = new MenuItem("Edit");
+//        addMenu.getItems().add(addMenuItem);
+//        addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+//                String categorie = getTreeItem().getParent().getParent().getValue();
+//                String epreuve = getItem();
+//                categoriesView.editEpreuve(typeCategorie, categorie, epreuve);
+//            }
+//        });
 
         MenuItem runMenuItem = new MenuItem("Démarrer");
         addMenu.getItems().add(runMenuItem);
