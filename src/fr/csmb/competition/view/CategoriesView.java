@@ -126,18 +126,35 @@ public class CategoriesView {
         TreeItem<String> itemTypeCategorieMasculin = new TreeItem<String>(TypeCategorie.MASCULIN.getValue());
         treeItem.getChildren().add(itemTypeCategorieMasculin);
         TreeItem<String> itemTypeCategorieMixte = null;
-
         for (CategorieBean categorie : competitionBean.getCategories()) {
             TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNom());
-            TreeItem<String> itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
-            itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
-            TreeItem<String> itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
-            itemCategorie.getChildren().add(itemEpreuveTypeCombat);
+
+            boolean isTechniqueCreated = false;
+            boolean isCombatCreated = false;
+            boolean isEpreuveCreated = false;
+            TreeItem<String> itemEpreuveTypeTechnique = null;
+            TreeItem<String> itemEpreuveTypeCombat = null;
             for (EpreuveBean epreuve : categorie.getEpreuves()) {
+
+                ObservableList<ParticipantBean> list = categorieViewController.extractEpreuves(categorie.getType(), categorie.getNom(), epreuve.getNom());
+                if (list.size() <= 0) {
+                    continue;
+                }
                 final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
+                isEpreuveCreated = true;
                 if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getType())) {
+                    if (!isTechniqueCreated) {
+                        itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
+                        itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
+                        isTechniqueCreated = true;
+                    }
                     itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
                 } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
+                    if (!isCombatCreated) {
+                        itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
+                        itemCategorie.getChildren().add(itemEpreuveTypeCombat);
+                        isCombatCreated = true;
+                    }
                     itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
                 }
 
@@ -151,16 +168,18 @@ public class CategoriesView {
                     }
                 });
             }
-            if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
-                itemTypeCategorieFeminin.getChildren().add(itemCategorie);
-            } else if (categorie.getType().equals(TypeCategorie.MASCULIN.getValue())) {
-                itemTypeCategorieMasculin.getChildren().add(itemCategorie);
-            } else if (categorie.getType().equals(TypeCategorie.MIXTE.getValue())) {
-                if (itemTypeCategorieMixte == null) {
-                    itemTypeCategorieMixte = new TreeItem<String>(TypeCategorie.MIXTE.getValue());
-                    treeItem.getChildren().add(itemTypeCategorieMixte);
+            if (isEpreuveCreated) {
+                if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
+                    itemTypeCategorieFeminin.getChildren().add(itemCategorie);
+                } else if (categorie.getType().equals(TypeCategorie.MASCULIN.getValue())) {
+                    itemTypeCategorieMasculin.getChildren().add(itemCategorie);
+                } else if (categorie.getType().equals(TypeCategorie.MIXTE.getValue())) {
+                    if (itemTypeCategorieMixte == null) {
+                        itemTypeCategorieMixte = new TreeItem<String>(TypeCategorie.MIXTE.getValue());
+                        treeItem.getChildren().add(itemTypeCategorieMixte);
+                    }
+                    itemTypeCategorieMixte.getChildren().add(itemCategorie);
                 }
-                itemTypeCategorieMixte.getChildren().add(itemCategorie);
             }
         }
 
@@ -181,7 +200,7 @@ public class CategoriesView {
                     ObservableValue<? extends TreeItem<String>> observable,
                     TreeItem<String> old_val, TreeItem<String> new_val) {
                 TreeItem<String> selectedItem = new_val;
-                if (selectedItem.getChildren().size() == 0) {
+                if (selectedItem != null && selectedItem.getChildren() != null && selectedItem.getChildren().size() == 0) {
                     String typeCategorie = new_val.getParent().getParent().getParent().getValue();
                     String categorie = new_val.getParent().getParent().getValue();
                     String epreuve = new_val.getValue();

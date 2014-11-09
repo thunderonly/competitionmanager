@@ -138,8 +138,29 @@ public class ContextableTreeCell extends TreeCell<String> {
                 }
                 TreeItem<String> selected = getTreeView().getSelectionModel().getSelectedItems().get(0);
                 if (selected != null && selected.isLeaf()) {
-                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                    String categorie = getTreeItem().getParent().getParent().getValue();
+                    String typeEpreuve = null;
+                    String categorie = null;
+                    String typeCategorie = null;
+                    if (getTreeItem().getParent() != null) {
+                        typeEpreuve = getTreeItem().getParent().getValue();
+                        if (!typeEpreuve.equals(TypeEpreuve.COMBAT.getValue()) && !typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
+                            return;
+                        }
+                        if (getTreeItem().getParent().getParent() != null) {
+                            categorie = getTreeItem().getParent().getParent().getValue();
+                        } else {
+                            return;
+                        }
+
+                        if (getTreeItem().getParent().getParent().getParent() != null) {
+                            typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                        } else {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+
                     String epreuve = getItem();
                     EpreuveBean epreuveBean = categoriesView.getEpreuveBean(typeCategorie, categorie, epreuve);
                     if (epreuveBean != null && EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
@@ -187,9 +208,28 @@ public class ContextableTreeCell extends TreeCell<String> {
                 }
                 if (getTreeItem().isLeaf()){
                     setContextMenu(addMenu);
+                    String typeEpreuve = null;
+                    String categorie = null;
+                    String typeCategorie = null;
+                    if (getTreeItem().getParent() != null) {
+                        typeEpreuve = getTreeItem().getParent().getValue();
+                        if (!typeEpreuve.equals(TypeEpreuve.COMBAT.getValue()) && !typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
+                            return;
+                        }
+                        if (getTreeItem().getParent().getParent() != null) {
+                            categorie = getTreeItem().getParent().getParent().getValue();
+                        } else {
+                            return;
+                        }
 
-                    String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-                    String categorie = getTreeItem().getParent().getParent().getValue();
+                        if (getTreeItem().getParent().getParent().getParent() != null) {
+                            typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                        } else {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
                     CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
                     if (categorieBean != null) {
                         EpreuveBean epreuveBean = categorieBean.getEpreuveByName(getItem());

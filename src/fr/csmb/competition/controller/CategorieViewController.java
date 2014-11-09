@@ -223,7 +223,7 @@ public class CategorieViewController {
         return 0;
     }
 
-    private ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
+    public ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
         ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
         for (ClubBean clubBean : competitionBean.getClubs()) {
             for (EleveBean eleveBean : clubBean.getEleves()) {
