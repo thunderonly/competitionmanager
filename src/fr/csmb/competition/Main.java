@@ -11,6 +11,7 @@ import fr.csmb.competition.network.receiver.CompetitionReceiverListner;
 import fr.csmb.competition.network.receiver.NetworkReceiver;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.CreateCompetitionView;
+import fr.csmb.competition.view.GlobalVisionView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.view.ResultatsView;
 import fr.csmb.competition.xml.model.Club;
@@ -213,5 +214,10 @@ public class Main extends Application {
     public void showCreationEpreuveView() {
         CreateCompetitionView createCompetitionView = new CreateCompetitionView();
         createCompetitionView.showCreateEpreuveView(mainStage, competitionBean);
+    }
+
+    public void showGlobalVisionView() {
+        GlobalVisionView globalVisionView = new GlobalVisionView();
+        globalVisionView.showView(mainStage, competitionBean);
     }
 }

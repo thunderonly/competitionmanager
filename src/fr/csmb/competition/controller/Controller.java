@@ -120,6 +120,11 @@ public class Controller {
         main.showResultatsView();
     }
 
+    @FXML
+    private void handleGlobalVision() {
+        main.showGlobalVisionView();
+    }
+
     public MenuItem getCreateCompetition() {
         return createCompetition;
     }
@@ -131,4 +136,5 @@ public class Controller {
     public MenuItem getCreateEpreuve() {
         return createEpreuve;
     }
+
 }

@@ -1,15 +1,4 @@
-.root {
-     -fx-background-image: url("background.jpg");
-}
 
-#Competition {
-   -fx-font-size: 32px;
-   -fx-font-family: "Arial Black";
-   -fx-fill: #818181;
-   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-}
-
-.column-header-background { visibility: hidden; -fx-padding: -1em; }
 
 .biglabelGridPane {
     -fx-font: bold 20pt "Arial";

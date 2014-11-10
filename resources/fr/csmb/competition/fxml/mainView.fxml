@@ -20,6 +20,7 @@
                         <Menu mnemonicParsing="false" text="Gérer">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Import Inscription" onAction="#handleLoadInscription"/>
+                                <MenuItem mnemonicParsing="false" text="Vision Globale" onAction="#handleGlobalVision"/>
                                 <MenuItem mnemonicParsing="false" text="Présence" onAction="#handlePresence"/>
                                 <MenuItem mnemonicParsing="false" text="Categories" onAction="#handleManageCategories"/>
                                 <MenuItem mnemonicParsing="false" text="Résultats" onAction="#handleShowResultats"/>
