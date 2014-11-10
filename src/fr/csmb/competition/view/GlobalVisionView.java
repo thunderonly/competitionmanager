@@ -21,6 +21,7 @@ import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -49,8 +50,10 @@ public class GlobalVisionView {
             visions.add(globalVision);
         }
         GridPane gridPane = globalVisionGrid.drawGlobalVisionGrid(visions);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(gridPane);
         BorderPane root = (BorderPane) mainStage.getScene().getRoot();
-        root.setCenter(gridPane);
+        root.setCenter(scrollPane);
     }
 
     private Map<String, GlobalVision> computeStructure() {
@@ -100,6 +103,7 @@ public class GlobalVisionView {
                 if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
                     if (eleveBean.getEpreuves().contains(epreuve)) {
                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
+                        participantBean.setClub(clubBean.getNom());
                         participantBeans1.add(participantBean);
                     }
                 }

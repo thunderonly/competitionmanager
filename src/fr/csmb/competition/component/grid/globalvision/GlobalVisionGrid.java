@@ -26,18 +26,33 @@ public class GlobalVisionGrid {
         gridPane.getStylesheets().addAll(getClass().getResource("css/globalVisionGrid.css").toExternalForm());
         int startColumn = 0;
         for (GlobalVision structure : testStructures) {
-            VBox title = new VBox();
-            title.setAlignment(Pos.CENTER);
-            Label categorieTitle = new Label(structure.getNomCategorie());
-            categorieTitle.getStyleClass().add("biglabelGridPane");
-            title.getChildren().add(categorieTitle);
-            gridPane.add(title, startColumn, 0, 5, 1);
+            if (haveParticipant(structure)) {
+                VBox title = new VBox();
+                title.setAlignment(Pos.CENTER);
+                Label categorieTitle = new Label(structure.getNomCategorie());
+                categorieTitle.getStyleClass().add("biglabelGridPane");
+                title.getChildren().add(categorieTitle);
+                gridPane.add(title, startColumn, 0, 5, 1);
 
-            drawHeader(gridPane, startColumn);
-            drawBody(gridPane, startColumn, 2, structure.getTypeCategories());
-            startColumn += 5;
+                drawHeader(gridPane, startColumn);
+                drawBody(gridPane, startColumn, 2, structure.getTypeCategories());
+                startColumn += 5;
+            }
         }
         return gridPane;
+    }
+
+    private boolean haveParticipant(GlobalVision structure) {
+        boolean result = false;
+        for (String keyCategorie : structure.getTypeCategories().keySet()) {
+            for (String key : structure.getTypeCategories().get(keyCategorie).keySet()) {
+                if (structure.getTypeCategories().get(keyCategorie).get(key).size() > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return result;
     }
 
     private void drawBody(GridPane gridPane, int colStart, int rowStart, Map<String, Map<String, List<Participant>>> datas) {
@@ -52,33 +67,33 @@ public class GlobalVisionGrid {
 
                 for (Participant participant : datas.get(keyCategorie).get(key)) {
                     addData(gridPane, colStart + 2, rowStartForData, participant.getNomParticipant().concat(" ").concat(participant.getPrenomParticipant()));
-                    addData(gridPane, colStart + 3, rowStartForData, "Club " + rowStartForData);
+                    addData(gridPane, colStart + 3, rowStartForData, participant.getClubParticipant());
                     addData(gridPane, colStart + 4, rowStartForData, "1");
                     rowStartForData++;
                 }
-
-                addTotalCategorie(gridPane, colStart + 1, rowStartForData, key, totalParticipant);
-                rowStartForData++;
-
-                VBox vBox1 = new VBox();
-                vBox1.setAlignment(Pos.CENTER);
-                Label sexeLabel1 = new Label(key);
-                vBox1.getChildren().add(sexeLabel1);
-                vBox1.getStyleClass().add("cellSexe");
                 if (totalParticipant > 0) {
-                    gridPane.add(vBox1, colStart + 1, rowStartForSexe, 1, totalParticipant);
-                }
-                rowStartForSexe = rowStartForData;
-                totalRow = rowStartForData;
-            }
+                    addTotalCategorie(gridPane, colStart + 1, rowStartForData, key, totalParticipant);
+                    rowStartForData++;
 
-            VBox vBox = new VBox();
-            vBox.setAlignment(Pos.CENTER);
-            Label categorieLabel = new Label(keyCategorie);
-            vBox.getChildren().add(categorieLabel);
-            vBox.getStyleClass().add("cellCategorie");
-            gridPane.add(vBox, colStart, rowStartForCategorie, 1, totalRow);
-            rowStartForCategorie = totalRow;
+                    VBox vBox1 = new VBox();
+                    vBox1.setAlignment(Pos.CENTER);
+                    Label sexeLabel1 = new Label(key);
+                    vBox1.getChildren().add(sexeLabel1);
+                    vBox1.getStyleClass().add("cellSexe");
+                    gridPane.add(vBox1, colStart + 1, rowStartForSexe, 1, totalParticipant);
+                    rowStartForSexe = rowStartForData;
+                    totalRow = rowStartForData;
+                }
+            }
+            if (totalRow > 0) {
+                VBox vBox = new VBox();
+                vBox.setAlignment(Pos.CENTER);
+                Label categorieLabel = new Label(keyCategorie);
+                vBox.getChildren().add(categorieLabel);
+                vBox.getStyleClass().add("cellCategorie");
+                gridPane.add(vBox, colStart, rowStartForCategorie, 1, totalRow - rowStartForCategorie);
+                rowStartForCategorie = totalRow;
+            }
 
         }
 

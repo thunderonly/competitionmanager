@@ -18,6 +18,8 @@ public class Participant implements Serializable {
     private String nomParticipant;
     @XmlAttribute(name="prenomParticipant")
     private String prenomParticipant;
+    @XmlAttribute(name="clubParticipant")
+    private String clubParticipant;
     @XmlElement(name="classementAuto")
     private String classementAuto;
     @XmlElement(name="classementManuel")
@@ -53,6 +55,14 @@ public class Participant implements Serializable {
 
     public void setPrenomParticipant(String prenomParticipant) {
         this.prenomParticipant = prenomParticipant;
+    }
+
+    public String getClubParticipant() {
+        return clubParticipant;
+    }
+
+    public void setClubParticipant(String clubParticipant) {
+        this.clubParticipant = clubParticipant;
     }
 
     public String getClassementAuto() {

@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.component.treeview;
 
+import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EpreuveBean;
@@ -30,21 +31,12 @@ public class ContextableTreeCell extends TreeCell<String> {
     private ContextMenu addMenu = new ContextMenu();
     private CompetitionBean competitionBean;
     private CategoriesView categoriesView;
+    private CategorieViewController categorieViewController;
 
-    public ContextableTreeCell(final CategoriesView categoriesView, final CompetitionBean competitionBean) {
+    public ContextableTreeCell(final CategoriesView categoriesView, final CompetitionBean competitionBean, final CategorieViewController categorieViewController) {
         this.competitionBean = competitionBean;
         this.categoriesView = categoriesView;
-//        MenuItem addMenuItem = new MenuItem("Edit");
-//        addMenu.getItems().add(addMenuItem);
-//        addMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
-//                String categorie = getTreeItem().getParent().getParent().getValue();
-//                String epreuve = getItem();
-//                categoriesView.editEpreuve(typeCategorie, categorie, epreuve);
-//            }
-//        });
+        this.categorieViewController = categorieViewController;
 
         MenuItem runMenuItem = new MenuItem("Démarrer");
         addMenu.getItems().add(runMenuItem);
@@ -248,7 +240,11 @@ public class ContextableTreeCell extends TreeCell<String> {
                                 setTextFill(Color.DARKRED);
                                 imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveDemarre.png")));
                             } else {
-                                imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveInconnu.png")));
+                                if (categorieViewController.extractEpreuves(categorieBean.getType(), categorieBean.getNom(), epreuveBean.getNom()).size() > 3) {
+                                    imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
+                                } else {
+                                    imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveKO.png")));
+                                }
                             }
                         }
                     }

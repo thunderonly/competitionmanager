@@ -38,49 +38,9 @@ public class Main extends Application {
             participantBeans.add(new ParticipantBean("Nom " + i, "Prenom " + i));
         }
 
-//        GridComponentFight2 group = new GridComponentFight2(participantBeans);
-//        group.drawGrid();
-        HBox hBox = new HBox();
-        final TextField tfDebut = new TextField();
-//        final long debutL = System.currentTimeMillis();
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        String debut = simpleDateFormat.format(new Date(System.currentTimeMillis()));
-        tfDebut.setText(debut);
+        GridComponentFight2 group = new GridComponentFight2(participantBeans);
+        group.drawGrid();
 
-        final TextField tfFin = new TextField();
-        final TextField tfDuree = new TextField();
-        Button valide = new Button("valider");
-        valide.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                final long finL = System.currentTimeMillis();
-                String fin = simpleDateFormat.format(new Date(finL));
-                tfFin.setText(fin);
-                Date dateDebut = null;
-                Date dateFin = null;
-                try {
-                    dateDebut = simpleDateFormat.parse(tfDebut.getText());
-                    dateFin = simpleDateFormat.parse(fin);
-                } catch (ParseException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-
-                GregorianCalendar calendarDebut = new GregorianCalendar();
-                calendarDebut.setTime(dateDebut);
-                GregorianCalendar calendarFin = new GregorianCalendar();
-                calendarFin.setTime(dateFin);
-
-                calendarFin.add(Calendar.HOUR_OF_DAY, -calendarDebut.get(Calendar.HOUR_OF_DAY));
-                calendarFin.add(Calendar.MINUTE, -calendarDebut.get(Calendar.MINUTE));
-
-                String duree = simpleDateFormat.format(calendarFin.getTime());
-                tfDuree.setText(duree);
-            }
-        });
-
-        hBox.getChildren().addAll(tfDebut, tfFin, tfDuree, valide);
-        Group group = new Group();
-        group.getChildren().add(hBox);
         Scene scene = new Scene(group);
 
 //        SplitPane sp = new SplitPane();

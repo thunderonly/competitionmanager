@@ -179,7 +179,9 @@ public class InscriptionsManager {
     }
 
     private String convertCategorie(String categorie) {
-        if ("B".equalsIgnoreCase(categorie)) {
+        if ("P".equalsIgnoreCase(categorie)) {
+            return "Pupille";
+        } else if ("B".equalsIgnoreCase(categorie)) {
             return "Benjamin";
         } else if ("M".equalsIgnoreCase(categorie)) {
             return "Minime";

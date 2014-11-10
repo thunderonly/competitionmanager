@@ -188,7 +188,7 @@ public class CategoriesView {
         treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> stringTreeView) {
-                return new ContextableTreeCell(categoriesView, competitionBean);
+                return new ContextableTreeCell(categoriesView, competitionBean, categorieViewController);
             }
         });
 

@@ -13,7 +13,7 @@ Gestion des categories
 8 - Gestion des équipes Doi Luyen [OK]
 9 - Gestion fusion féminin/masculin [OK]
 10 - Combat : Gestion des categories de 4 et 3 participants [OK]
-11 - Configuration des combats avec ordre de distribution des participants
+11 - Configuration des combats avec ordre de distribution des participants [OK}
 
 Classement des clubs
 1 - Mettre en place le classement des clubs [OK]
@@ -29,9 +29,10 @@ Creation de Competition
 Pointage Competition
 1 - Pointage des participants. [OK]
 2 - Gerer la presenceEleve des participants [OK]
+3 - Modifier les élèves présents (poid, épreuves)
 
 Ne pas afficher les caté vides [OK]
-Code couleur pour les caté fermées (-3) personnes
-Vision globale de la compétition. comme le excel de la coupe med
+Code couleur pour les caté fermées (-3) personnes [OK]
+Vision globale de la compétition. comme le excel de la coupe med [OK]
 Pas de diffusion LAN
 Ajouter un fichier de configuration/parametrage

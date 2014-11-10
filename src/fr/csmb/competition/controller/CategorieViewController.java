@@ -230,6 +230,7 @@ public class CategorieViewController {
                 if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
                     if (eleveBean.getEpreuves().contains(epreuve)) {
                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
+                        participantBean.setClub(clubBean.getIdentifiant());
                         participantBeans1.add(participantBean);
                     }
                 }
@@ -253,6 +254,7 @@ public class CategorieViewController {
                             if (categorie.equals(eleve.getCategorie()) && typeCategorie.equals(eleve.getSexe()) && eleve.getPresence()) {
                                 if (eleve.getEpreuves().contains(epreuve)) {
                                     ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
+                                    participantBean.setClub(club.getIdentifiant());
                                     participantBeans1.add(participantBean);
                                 }
                             }

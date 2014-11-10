@@ -19,6 +19,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty classementFinal;
     private SimpleStringProperty nom;
     private SimpleStringProperty prenom;
+    private SimpleStringProperty club;
     private SimpleIntegerProperty note1;
     private SimpleIntegerProperty note2;
     private SimpleIntegerProperty note3;
@@ -33,6 +34,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         classementFinal = new SimpleIntegerProperty(0);
         this.nom = new SimpleStringProperty("");
         this.prenom = new SimpleStringProperty("");
+        this.club = new SimpleStringProperty("");
         note1 = new SimpleIntegerProperty(0);
         note2 = new SimpleIntegerProperty(0);
         note3 = new SimpleIntegerProperty(0);
@@ -48,6 +50,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         classementFinal = new SimpleIntegerProperty(0);
         this.nom = new SimpleStringProperty(nom);
         this.prenom = new SimpleStringProperty(prenom);
+        this.club = new SimpleStringProperty("");
         note1 = new SimpleIntegerProperty(0);
         note2 = new SimpleIntegerProperty(0);
         note3 = new SimpleIntegerProperty(0);
@@ -76,6 +79,8 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     public String getPrenom() {
         return this.prenom.get();
     }
+
+    public String getClub() { return this.club.get(); }
 
     public Integer getNote1() {
         return this.note1.get();
@@ -124,6 +129,8 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     public void setPrenom(String prenom) {
         this.prenom.set(prenom);
     }
+
+    public void setClub(String club) { this.club.set(club); }
 
     public void setNote1(Integer note1) {
         this.note1.set(note1);
@@ -176,6 +183,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public SimpleStringProperty prenomProperty() {
         return prenom;
+    }
+
+    public SimpleStringProperty clubProperty() {
+        return club;
     }
 
     public SimpleIntegerProperty note1Property() {

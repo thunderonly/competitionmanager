@@ -18,6 +18,7 @@ public class ParticipantConverter {
         Participant participant = new Participant();
         participant.setNomParticipant(participantBean.getNom());
         participant.setPrenomParticipant(participantBean.getPrenom());
+        participant.setClubParticipant(participantBean.getClub());
         participant.setNote1(String.valueOf(participantBean.getNote1()));
         participant.setNote2(String.valueOf(participantBean.getNote2()));
         participant.setNote3(String.valueOf(participantBean.getNote3()));
@@ -38,6 +39,7 @@ public class ParticipantConverter {
     }
 
     public static void convertParticipantToParticipantBean(Participant participant, ParticipantBean participantBean) {
+        participantBean.setClub(participant.getClubParticipant());
         participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
         participantBean.setClassementManuel(Integer.parseInt(participant.getClassementManuel()));
         participantBean.setClassementAuto(Integer.parseInt(participant.getClassementAuto()));
