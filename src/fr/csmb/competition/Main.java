@@ -149,6 +149,7 @@ public class Main extends Application {
             BorderPane tableView = (BorderPane) loader.load();
             ClubController controller = (ClubController) loader.getController();
             controller.setMainStage(mainStage);
+            controller.setCompetitionBean(competitionBean);
             controller.getTableClub().setItems(clubs);
             borderPane.setCenter(tableView);
         } catch (IOException e) {

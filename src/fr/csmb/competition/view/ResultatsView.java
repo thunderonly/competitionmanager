@@ -124,6 +124,7 @@ public class ResultatsView {
             loader.setLocation(getClass().getResource("fxml/classementClubView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
             ClassementClubController controller = (ClassementClubController) loader.getController();
+            controller.setCompetitionBean(competitionBean);
             computeClassementClub();
             SortedList<ClubBean> clubBeans = new SortedList<ClubBean>(competitionBean.getClubs());
             controller.getTableClassementClub().setItems(clubBeans);

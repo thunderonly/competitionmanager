@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <BorderPane fx:controller="fr.csmb.competition.controller.DetailClubController"
             xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="400.0" prefWidth="800.0" >
     <center>
@@ -26,4 +28,11 @@
             </columnResizePolicy>
         </TableView>
     </center>
+    <bottom>
+        <HBox spacing="10">
+            <Button fx:id="validateButton" text="Valider" onAction="#validate" styleClass="buttonCompetition"></Button>
+            <Button fx:id="addButton" text="Ajouter" onAction="#addEleve" styleClass="buttonCompetition"></Button>
+            <Button fx:id="editButton" text="Editer" onAction="#editEleve" styleClass="buttonCompetition"></Button>
+        </HBox>
+    </bottom>
 </BorderPane>

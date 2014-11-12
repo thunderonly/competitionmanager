@@ -1,17 +1,21 @@
 package fr.csmb.competition.controller;
 
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ClubBean;
+import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
+import fr.csmb.competition.network.sender.NetworkSender;
+import fr.csmb.competition.view.EditEleveView;
+import fr.csmb.competition.view.ListEleveDialog;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -37,9 +41,19 @@ public class DetailClubController {
     private TableColumn<EleveBean, String> poidsEleve;
     @FXML
     private TableColumn<EleveBean, Boolean> presenceEleve;
+    @FXML
+    private Button editButton;
+
+    private NetworkSender sender;
+    private ListEleveDialog listEleveDialog;
+    private ClubBean clubBean;
+    private CompetitionBean competitionBean;
+    private Stage mainStage;
 
     @FXML
     private void initialize() {
+        editButton.setDisable(true);
+
         licenceEleve.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<EleveBean, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<EleveBean, String> eleveBeanStringCellDataFeatures) {
@@ -91,13 +105,37 @@ public class DetailClubController {
         });
         presenceEleve.setCellValueFactory(new PropertyValueFactory<EleveBean, Boolean>("presence"));
 
-
+        tableEleve.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EleveBean>() {
+            @Override
+            public void changed(ObservableValue<? extends EleveBean> observableValue, EleveBean eleveBean, EleveBean eleveBean2) {
+                editButton.setDisable(false);
+            }
+        });
     }
 
     public TableView<EleveBean> getTableEleve() {
         return tableEleve;
     }
 
+    public void setSender(NetworkSender sender) {
+        this.sender = sender;
+    }
+
+    public void setListEleveDialog(ListEleveDialog listEleveDialog) {
+        this.listEleveDialog = listEleveDialog;
+    }
+
+    public void setClubBean(ClubBean clubBean) {
+        this.clubBean = clubBean;
+    }
+
+    public void setCompetitionBean(CompetitionBean competitionBean) {
+        this.competitionBean = competitionBean;
+    }
+
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
+    }
 
     //CheckBoxTableCell for creating a CheckBox in a table cell
     private class PresenceCheckBoxTableCell<S, T> extends TableCell<S, T> {
@@ -141,5 +179,35 @@ public class DetailClubController {
                 }
             }
         }
+    }
+
+
+
+    @FXML
+    private void validate() {
+        sender.sendClub(clubBean);
+        listEleveDialog.close();
+    }
+
+    @FXML
+    private void addEleve() {
+        EditEleveView editEleveView = new EditEleveView(mainStage, competitionBean, clubBean);
+        editEleveView.showView();
+
+    }
+
+    @FXML
+    private void editEleve() {
+        final EleveBean eleveBean = tableEleve.getSelectionModel().getSelectedItem();
+        EditEleveView editEleveView = new EditEleveView(mainStage, competitionBean, clubBean);
+        editEleveView.showView(eleveBean);
+        eleveBean.poidsProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                int index = tableEleve.getItems().indexOf(eleveBean);
+                tableEleve.getItems().remove(index);
+                tableEleve.getItems().add(index, eleveBean);
+            }
+        });
     }
 }

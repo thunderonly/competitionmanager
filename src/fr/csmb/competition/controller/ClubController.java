@@ -1,6 +1,7 @@
 package fr.csmb.competition.controller;
 
 import fr.csmb.competition.model.ClubBean;
+import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.view.ListEleveDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +19,7 @@ public class ClubController {
 
     private Stage mainStage;
     private ListEleveDialog listEleveDialog = new ListEleveDialog();
+    private CompetitionBean competitionBean;
 
     @FXML
     private TableView<ClubBean> tableClub;
@@ -52,7 +54,7 @@ public class ClubController {
         tableClub.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ClubBean>() {
             @Override
             public void changed(ObservableValue<? extends ClubBean> observableValue, ClubBean clubBean, ClubBean clubBean2) {
-                listEleveDialog.showClubDetailDialog(mainStage, clubBean2);
+                listEleveDialog.showClubDetailDialog(mainStage, competitionBean, clubBean2);
             }
         });
     }
@@ -63,5 +65,9 @@ public class ClubController {
 
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
+    }
+
+    public void setCompetitionBean(CompetitionBean competitionBean) {
+        this.competitionBean = competitionBean;
     }
 }

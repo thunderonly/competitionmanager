@@ -23,4 +23,13 @@ public enum TypeCategorie {
     public String getValue() {
         return this.value;
     }
+
+    public static TypeCategorie getByValue(String type) {
+        for (TypeCategorie value : values()) {
+            if (type.equals(value.getValue())) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

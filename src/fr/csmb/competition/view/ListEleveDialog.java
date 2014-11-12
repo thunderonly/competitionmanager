@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,33 +24,30 @@ import java.io.IOException;
 public class ListEleveDialog {
 
     private NetworkSender sender = new NetworkSender("", 9878);
+    private Button editButton;
+    private Node oldCenter;
+    private Node oldBottom;
+    private BorderPane root;
 
-    public void showClubDetailDialog(Stage mainStage, final ClubBean clubBean) {
+    public void showClubDetailDialog(final Stage mainStage, final CompetitionBean competitionBean, final ClubBean clubBean) {
         try {
-            final BorderPane root = (BorderPane) mainStage.getScene().getRoot();
-            final Node oldCenter = root.getCenter();
-            final Node oldBottom = root.getBottom();
+            root = (BorderPane) mainStage.getScene().getRoot();
+            oldCenter = root.getCenter();
+            oldBottom = root.getBottom();
+
+            mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
-            root.setCenter(borderPane);
-            root.setBottom(null);
-            mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
-
-            Button validateButton = new Button("Valider");
-            validateButton.getStyleClass().add("buttonCompetition");
-            validateButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    sender.sendClub(clubBean);
-                    root.setBottom(oldBottom);
-                    root.setCenter(oldCenter);
-                }
-            });
-
-            borderPane.setBottom(validateButton);
+            root.setCenter(borderPane.getCenter());
+            root.setBottom(borderPane.getBottom());
 
             DetailClubController detailClubController = loader.getController();
+            detailClubController.setClubBean(clubBean);
+            detailClubController.setListEleveDialog(this);
+            detailClubController.setSender(sender);
+            detailClubController.setCompetitionBean(competitionBean);
+            detailClubController.setMainStage(mainStage);
 
             if (clubBean != null) {
                 detailClubController.getTableEleve().setItems(clubBean.getEleves());
@@ -58,5 +56,10 @@ public class ListEleveDialog {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void close() {
+        root.setBottom(oldBottom);
+        root.setCenter(oldCenter);
     }
 }
