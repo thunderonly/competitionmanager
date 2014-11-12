@@ -53,7 +53,7 @@ public class EditEleveView {
         final BorderPane root = (BorderPane) currentStage.getScene().getRoot();
 
         currentStage.getScene().getStylesheets().add(getClass().getResource("css/createCompetitionView.css").toExternalForm());
-        currentStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
+        currentStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
 
         final Node oldCenter = root.getCenter();
         final Node oldBottom = root.getBottom();

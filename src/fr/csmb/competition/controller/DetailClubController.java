@@ -193,7 +193,6 @@ public class DetailClubController {
     private void addEleve() {
         EditEleveView editEleveView = new EditEleveView(mainStage, competitionBean, clubBean);
         editEleveView.showView();
-
     }
 
     @FXML
@@ -202,6 +201,38 @@ public class DetailClubController {
         EditEleveView editEleveView = new EditEleveView(mainStage, competitionBean, clubBean);
         editEleveView.showView(eleveBean);
         eleveBean.poidsProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                int index = tableEleve.getItems().indexOf(eleveBean);
+                tableEleve.getItems().remove(index);
+                tableEleve.getItems().add(index, eleveBean);
+            }
+        });
+        eleveBean.ageProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                int index = tableEleve.getItems().indexOf(eleveBean);
+                tableEleve.getItems().remove(index);
+                tableEleve.getItems().add(index, eleveBean);
+            }
+        });
+        eleveBean.sexeProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                int index = tableEleve.getItems().indexOf(eleveBean);
+                tableEleve.getItems().remove(index);
+                tableEleve.getItems().add(index, eleveBean);
+            }
+        });
+        eleveBean.nomProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                int index = tableEleve.getItems().indexOf(eleveBean);
+                tableEleve.getItems().remove(index);
+                tableEleve.getItems().add(index, eleveBean);
+            }
+        });
+        eleveBean.prenomProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 int index = tableEleve.getItems().indexOf(eleveBean);

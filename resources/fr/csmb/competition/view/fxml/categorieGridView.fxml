@@ -1,0 +1,114 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import java.net.*?>
+<BorderPane fx:id="borderPane" fx:controller="fr.csmb.competition.controller.GridCategorieController"
+            xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="400.0" prefWidth="800.0" >
+
+    <top>
+        <GridPane vgap="5" hgap="20">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Text fx:id="txtTitle" text="Fiche Administrateur" styleClass="biglabelGridPane"
+                  GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Label fx:id="categorieLabel" text="Catégorie" styleClass="titleGridPane"
+                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Label fx:id="categorieTf" styleClass="labelGridPane"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label fx:id="epreuveLabel" text="Epreuve" styleClass="titleGridPane"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label fx:id="epreuveTf" styleClass="labelGridPane"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label fx:id="adminLabel" text="Administrateur" styleClass="titleGridPane"
+                   GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="adminTf" promptText="Nom administrateur"
+                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label fx:id="chronoLabel" text="Chronométreur" styleClass="titleGridPane"
+                   GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="chronoTf" promptText="Nom chronométreur"
+                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <!-- Juges -->
+            <Text fx:id="titleJuge" text="Juges" styleClass="biglabelGridPane"
+                  GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Label fx:id="juge1Label" text="Juge 1" styleClass="titleGridPane"
+                   GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <TextField fx:id="firstJugeTf" promptText="Juge 1"
+                   GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <Label fx:id="juge2Label" text="Juge 2" styleClass="titleGridPane"
+                   GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <TextField fx:id="secondJugeTf" promptText="Juge 2"
+                       GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            <Label fx:id="juge3Label" text="Juge 3" styleClass="titleGridPane"
+                   GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            <TextField fx:id="thirdJugeTf" promptText="Juge 3"
+                       GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+            <Label fx:id="juge4Label" text="Juge 4" styleClass="titleGridPane"
+                   GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+            <TextField fx:id="fourthJugeTf" promptText="Juge 4"
+                       GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+            <Label fx:id="juge5Label" text="Juge 5" styleClass="titleGridPane"
+                   GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+            <TextField fx:id="fifthJugeTf" promptText="Juge 5"
+                       GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+            <!-- Epreuve -->
+            <Text fx:id="titleEpreuve" text="Epreuve" styleClass="biglabelGridPane"
+                  GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Label fx:id="tapisLabel" text="Tapis" styleClass="titleGridPane"
+                   GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+            <TextField fx:id="tapisTf" promptText="Tapis"
+                       GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+            <Label fx:id="debutLabel" text="Début" styleClass="titleGridPane"
+                   GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+            <TextField fx:id="heureDebutTf" promptText="Heure Début"
+                       GridPane.columnIndex="5" GridPane.rowIndex="2"/>
+            <Label fx:id="finLabel" text="Fin" styleClass="titleGridPane"
+                   GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+            <TextField fx:id="heureFinTf" promptText="Heure Fin"
+                       GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+            <Label fx:id="dureeLabel" text="Durée" styleClass="titleGridPane"
+                   GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+            <TextField fx:id="dureeTf" promptText="Durée"
+                       GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+            <Label fx:id="nbParticipantsLabel" text="Nb Participants" styleClass="titleGridPane"
+                   GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+            <Label fx:id="nbParticipantsTf"
+                       GridPane.columnIndex="5" GridPane.rowIndex="5"/>
+            <!-- Classement -->
+            <Text fx:id="titleClassement" text="Classement" styleClass="biglabelGridPane"
+                  GridPane.columnIndex="6" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Label fx:id="firstPlaceLabel" text="1ere Place" styleClass="titleGridPane"
+                   GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+            <TextField fx:id="firstPlaceTf" promptText="1ere Place"
+                       GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+            <Label fx:id="secondPlaceLabel" text="2ème Place" styleClass="titleGridPane"
+                   GridPane.columnIndex="6" GridPane.rowIndex="2"/>
+            <TextField fx:id="secondPlaceTf" promptText="2ème Place"
+                       GridPane.columnIndex="7" GridPane.rowIndex="2"/>
+            <Label fx:id="thirdPlaceLabel" text="3ème Place" styleClass="titleGridPane"
+                   GridPane.columnIndex="6" GridPane.rowIndex="3"/>
+            <TextField fx:id="thirdPlaceTf" promptText="3ème Place"
+                       GridPane.columnIndex="7" GridPane.rowIndex="3"/>
+            <Label fx:id="fourthPlaceLabel" text="4ème Place" styleClass="titleGridPane"
+                   GridPane.columnIndex="6" GridPane.rowIndex="4"/>
+            <TextField fx:id="fourthPlaceTf" promptText="4ème Place"
+                       GridPane.columnIndex="7" GridPane.rowIndex="4"/>
+
+        </GridPane>
+    </top>
+
+    <bottom>
+        <HBox spacing="10">
+            <Button fx:id="validateButton" text="Terminer" onAction="#validate" styleClass="buttonCompetition"/>
+            <Button fx:id="cancelButton" text="Annuler" onAction="#cancel" styleClass="buttonCompetition"/>
+        </HBox>
+    </bottom>
+    <stylesheets>
+        <URL value="@../css/global.css"/>
+    </stylesheets>
+</BorderPane>

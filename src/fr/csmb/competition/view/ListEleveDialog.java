@@ -24,7 +24,6 @@ import java.io.IOException;
 public class ListEleveDialog {
 
     private NetworkSender sender = new NetworkSender("", 9878);
-    private Button editButton;
     private Node oldCenter;
     private Node oldBottom;
     private BorderPane root;
@@ -35,7 +34,7 @@ public class ListEleveDialog {
             oldCenter = root.getCenter();
             oldBottom = root.getBottom();
 
-            mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
+            mainStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/clubDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();

@@ -60,6 +60,7 @@ public class FightView {
         currentStage.setScene(scene);
         currentStage.sizeToScene();
         currentStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
+        currentStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
         Group group = new Group();
         this.boxBlue.setLayoutX(10);
         this.boxBlue.setLayoutY(10);

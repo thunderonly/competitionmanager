@@ -12,6 +12,7 @@ import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.component.treeview.ContextableTreeCell;
 import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.controller.DetailCategorieController;
+import fr.csmb.competition.controller.GridCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -226,10 +227,16 @@ public class CategoriesView {
     public void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
 
         epreuveBorderPane = new BorderPane();
-        GridComponent gridComponent = null;
-        ParticipantClassementFinalListener participantClassementFinalListener =
-                new ParticipantClassementFinalListener(firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf);
-        ObservableList<ParticipantBean> participants = FXCollections.observableArrayList();
+        GridCategorieController gridCategorieController = null;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("fxml/categorieGridView.fxml"));
+            epreuveBorderPane = (BorderPane) loader.load();
+            gridCategorieController = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         EpreuveBean epreuveBean = null;
         if (categorieBean != null) {
@@ -252,219 +259,18 @@ public class CategoriesView {
                         "Impossible de démarrer une épreuve déjà démarrée");
                 return;
             }
-            epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
-            sender.send(competitionBean, categorieBean, epreuveBean);
-            saveCompetitionToXmlFileTmp();
 
-            if (epreuveBean != null) {
-                for (ParticipantBean participantBean : epreuveBean.getParticipants())
-                    participants.add(participantBean);
-            }
         }
+        gridCategorieController.setCategorieView(this);
+        gridCategorieController.initGrid(sender, competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
 
-        if (typeEpreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-            gridComponent = new GridComponentFight2(participants);
-        } else if (typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
-            gridComponent = new GridComponentTechnical(participants);
-        }
-        createCartoucheForGridComponent(epreuveBorderPane, categorieBean, epreuveBean);
-        gridComponent.setParticipantClassementFinalListener(participantClassementFinalListener);
-        gridComponent.drawGrid();
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(gridComponent);
-        epreuveBorderPane.setCenter(scrollPane);
-
-        final GridComponent gridComponent2  = gridComponent;
-        Button button = new Button("Terminer");
-        button.getStyleClass().add("buttonCompetition");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                List<ParticipantBean> resutlats = gridComponent2.getResultatsList();
-                CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-                if (categorieBean != null) {
-                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-                    if (epreuveBean != null) {
-
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-                        String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
-                        heureFinTf.setText(heure);
-
-                        try {
-                            Date dateDebut = simpleDateFormat.parse(heureDebutTf.getText());
-                            Date dateFin = simpleDateFormat.parse(heureFinTf.getText());
-                            GregorianCalendar calendarDebut = new GregorianCalendar();
-                            calendarDebut.setTime(dateDebut);
-                            GregorianCalendar calendarFin = new GregorianCalendar();
-                            calendarFin.setTime(dateFin);
-
-                            calendarFin.add(Calendar.HOUR_OF_DAY, -calendarDebut.get(Calendar.HOUR_OF_DAY));
-                            calendarFin.add(Calendar.MINUTE, -calendarDebut.get(Calendar.MINUTE));
-
-                            String duree = simpleDateFormat.format(calendarFin.getTime());
-                            dureeTf.setText(duree);
-                        } catch (ParseException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-
-
-                        for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                            System.out.println("Nom : " + participantBean.getNom() + " Classement Final : " +
-                                    participantBean.getClassementFinal());
-                        }
-                        epreuveBean.setEtat(EtatEpreuve.TERMINE.getValue());
-                        epreuveBean.setAdministrateur(adminTf.getText());
-                        epreuveBean.setChronometreur(chronoTf.getText());
-                        epreuveBean.setJuge1(firstJugeTf.getText());
-                        epreuveBean.setJuge2(secondJugeTf.getText());
-                        epreuveBean.setJuge3(thirdJugeTf.getText());
-                        epreuveBean.setJuge4(fourthJugeTf.getText());
-                        epreuveBean.setJuge5(fifthJugeTf.getText());
-                        epreuveBean.setTapis(tapisTf.getText());
-                        epreuveBean.setHeureDebut(heureDebutTf.getText());
-                        epreuveBean.setHeureFin(heureFinTf.getText());
-                        epreuveBean.setDuree(dureeTf.getText());
-                        sender.send(competitionBean, categorieBean, epreuveBean);
-                        saveCompetitionToXmlFileTmp();
-//                        stackPane.getChildren().clear();
-//                        createTableView(stackPane);
-                    }
-                }
-            }
-        });
-
-        Button cancelButton = new Button("Annuler");
-        cancelButton.getStyleClass().add("buttonCompetition");
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-                if (categorieBean != null) {
-                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
-                    if (epreuveBean != null) {
-                        epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
-                        sender.send(competitionBean, categorieBean, epreuveBean);
-                    }
-                }
-                stackPane.getChildren().clear();
-                createTableView(stackPane);
-            }
-        });
-
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(button, cancelButton);
-        hBox.setSpacing(10);
-        epreuveBorderPane.setBottom(hBox);
         stackPane.getChildren().clear();
         stackPane.getChildren().add(epreuveBorderPane);
     }
 
-    private void createCartoucheForGridComponent(BorderPane borderPane, CategorieBean categorieBean, EpreuveBean epreuveBean) {
-        adminTf.setText("");
-        chronoTf.setText("");
-        firstJugeTf.setText("");
-        secondJugeTf.setText("");
-        thirdJugeTf.setText("");
-        fourthJugeTf.setText("");
-        fifthJugeTf.setText("");
-        tapisTf.setText("");
-        heureDebutTf.setText("");
-        heureFinTf.setText("");
-        dureeTf.setText("");
-        firstPlaceTf.setText("");
-        secondPlaceTf.setText("");
-        thirdPlaceTf.setText("");
-        fourthPlaceTf.setText("");
-
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setVgap(5);
-        gridPane.setHgap(20);
-        Text titleFiche = new Text("Fiche Administrateur");
-        titleFiche.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleFiche, 0, 0, 2, 1);
-
-        Label categorieLabel = new Label("Catégorie");
-        categorieLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(categorieLabel, 0, 1);
-        Label categorieTf = new Label(categorieBean.getNom().concat(" ").concat(categorieBean.getType()));
-        categorieTf.getStyleClass().add("labelGridPane");
-        gridPane.add(categorieTf, 1, 1);
-
-        Label epreuveLabel = new Label("Epreuve");
-        epreuveLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(epreuveLabel, 0, 2);
-        Label epreuveTf = new Label(epreuveBean.getNom());
-        epreuveTf.getStyleClass().add("labelGridPane");
-        gridPane.add(epreuveTf, 1, 2);
-
-        Label adminLabel = new Label("Administrateur");
-        adminLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(adminLabel, 0, 3);
-        adminTf.setPromptText("Nom administrateur");
-        gridPane.add(adminTf, 1, 3);
-
-        Label chronoLabel = new Label("Chronométreur");
-        chronoLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(chronoLabel, 0, 4);
-        chronoTf.setPromptText("Nom chronométreur");
-        gridPane.add(chronoTf, 1, 4);
-
-
-        Text titleClassement = new Text("Classement");
-        titleClassement.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleClassement, 6, 0, 2, 1);
-        TextField[] tfPlaces = new TextField[] {firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf};
-        for (int i = 0; i < 4; i++) {
-            String place = "";
-            if (i == 0) {
-                place = "1ere Place";
-            } else {
-                place = String.valueOf(i + 1).concat("ème Place");
-            }
-            Label firstPlaceLabel = new Label(place);
-            firstPlaceLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(firstPlaceLabel, 6, 1 + i);
-            tfPlaces[i].setPromptText(place);
-            gridPane.add(tfPlaces[i], 7, 1 + i);
-        }
-
-        Text titleJuge = new Text("Juges");
-        titleJuge.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleJuge, 2, 0, 2, 1);
-        TextField[] tfJuges = new TextField[]{firstJugeTf, secondJugeTf, thirdJugeTf, fourthJugeTf, fifthJugeTf};
-        for (int i = 0; i < 5; i++) {
-            Label firstJugeLabel = new Label("Juge ".concat(String.valueOf(i + 1)));
-            firstJugeLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(firstJugeLabel, 2, 1 + i);
-            tfJuges[i].setPromptText("Juge ".concat(String.valueOf(i + 1)));
-            gridPane.add(tfJuges[i], 3, 1 + i);
-        }
-
-        Text titleEpreuve = new Text("Epreuve");
-        titleEpreuve.getStyleClass().add("biglabelGridPane");
-        gridPane.add(titleEpreuve, 4, 0, 2, 1);
-        TextField[] tfEpreuves = new TextField[] {tapisTf, heureDebutTf, heureFinTf, dureeTf};
-        String[] labelEpreuves = new String[] {"Tapis", "Début", "Fin", "Durée"};
-        for (int i = 0; i < 4; i++) {
-            Label tapisLabel = new Label(labelEpreuves[i]);
-            tapisLabel.getStyleClass().add("titleGridPane");
-            gridPane.add(tapisLabel, 4, 1 + i);
-            tfEpreuves[i].setPromptText(labelEpreuves[i]);
-            gridPane.add(tfEpreuves[i], 5, 1 + i);
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
-        heureDebutTf.setText(heure);
-
-        Label nbParticipantsLabel = new Label("Nb Participants");
-        nbParticipantsLabel.getStyleClass().add("titleGridPane");
-        gridPane.add(nbParticipantsLabel, 4, 5);
-        Label nbParticipantsTf = new Label(String.valueOf(epreuveBean.getParticipants().size()));
-        gridPane.add(nbParticipantsTf, 5, 5);
-        nbParticipantsLabel.getStyleClass().add("titleGridPane");
-
-        borderPane.setTop(gridPane);
+    public void handleCancelEpreuve() {
+        stackPane.getChildren().clear();
+        createTableView(stackPane);
     }
 
     private void createTableView(StackPane stackPane) {
@@ -531,22 +337,6 @@ public class CategoriesView {
         }
     }
 
-    private ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
-        ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        for (ClubBean clubBean : competitionBean.getClubs()) {
-            for (EleveBean eleveBean : clubBean.getEleves()) {
-                if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
-                    if (eleveBean.getEpreuves().contains(epreuve)) {
-                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
-                        participantBeans1.add(participantBean);
-                    }
-                }
-            }
-        }
-
-        return participantBeans1;
-    }
-
     public void fusionEpreuve(TreeView<String> treeView, String typeCategorie1, String categorie1, String epreuve1, String typeCategorie2, String categorie2, String epreuve2) {
 
         int result = categorieViewController.fusionEpreuve(treeView, typeCategorie1, categorie1, epreuve1, typeCategorie2, categorie2, epreuve2);
@@ -583,19 +373,4 @@ public class CategoriesView {
         return epreuveBean;
     }
 
-    private void saveCompetitionToXmlFileTmp() {
-        try {
-            JAXBContext context = JAXBContext.newInstance(Competition.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            Competition competition = CompetitionConverter.convertCompetitionBeanToCompetition(competitionBean);
-
-            marshaller.marshal(competition, this.fileTmp);
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

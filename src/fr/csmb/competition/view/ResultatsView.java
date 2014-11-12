@@ -64,7 +64,7 @@ public class ResultatsView {
         createTableView(root);
 //        stage.setTitle("Résultats compétition : " + competition.getNom());
         this.mainStage = mainStage;
-        this.mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
+        this.mainStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
     }
 
     private void createTableView(BorderPane stackPane) {

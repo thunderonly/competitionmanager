@@ -41,6 +41,7 @@ public class ConfigureFightView {
         currentStage.initModality(Modality.WINDOW_MODAL);
         currentStage.setScene(scene);
         currentStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
+        currentStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
 
         Button cancelButton = new Button("Annuler");
         cancelButton.getStyleClass().add("buttonCompetition");
