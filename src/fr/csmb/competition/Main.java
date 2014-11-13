@@ -119,6 +119,8 @@ public class Main extends Application {
             competitionBean = CompetitionConverter.convertCompetitionToCompetitionBean(competition);
             clubs = competitionBean.getClubs();
 
+            controller.setCompetitionBean(competitionBean);
+
             int index = file.getAbsolutePath().indexOf(".xml");
             String filePath = file.getAbsolutePath().substring(0,index);
             if (filePath.indexOf("-tmp") > 0) {

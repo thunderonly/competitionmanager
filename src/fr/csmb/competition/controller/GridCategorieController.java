@@ -89,8 +89,8 @@ public class GridCategorieController {
     @FXML
     private void initialize(){}
 
-    public void initGrid(NetworkSender sender, CompetitionBean competitionBean, final String typeCategorie, final String categorie, final String typeEpreuve, final String epreuve) {
-        this.sender = sender;
+    public void initGrid(CompetitionBean competitionBean, final String typeCategorie, final String categorie, final String typeEpreuve, final String epreuve) {
+        this.sender = NetworkSender.getINSTANCE();
         this.competitionBean = competitionBean;
         this.categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         this.epreuveBean = null;

@@ -31,7 +31,8 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Générer">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Fichier Organisation" />
+                        <MenuItem mnemonicParsing="false" text="Résultats" onAction="#generateResultat"/>
+                        <MenuItem mnemonicParsing="false" text="Vision Globale" onAction="#generateGlobalVision"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

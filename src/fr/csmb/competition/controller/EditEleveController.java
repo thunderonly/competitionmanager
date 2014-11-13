@@ -1,6 +1,7 @@
 package fr.csmb.competition.controller;
 
 import fr.csmb.competition.model.*;
+import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.Epreuve;
@@ -20,10 +21,12 @@ public class EditEleveController {
         EleveBean eleveBean = new EleveBean();
         setEleve(eleveBean, licence, nom, prenom, age, poids, sexe, epreuves);
         clubBean.getEleves().add(eleveBean);
+        NetworkSender.getINSTANCE().sendClub(clubBean);
     }
 
     public void updateEleve(EleveBean eleveBean, String licence, String nom, String prenom, String age, String poids, TypeCategorie sexe, List<String> epreuves) {
         setEleve(eleveBean, licence, nom, prenom, age, poids, sexe, epreuves);
+        NetworkSender.getINSTANCE().sendClub(clubBean);
     }
 
     private void setEleve(EleveBean eleveBean, String licence, String nom, String prenom, String age, String poids, TypeCategorie sexe, List<String> epreuves) {

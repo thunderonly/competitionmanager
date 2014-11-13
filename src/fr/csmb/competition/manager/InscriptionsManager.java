@@ -505,4 +505,18 @@ public class InscriptionsManager {
         cell6.setCellStyle(styleData);
     }
 
+    public boolean saveGlobalVisionFile(File file, CompetitionBean competition) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Vision Globale");
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

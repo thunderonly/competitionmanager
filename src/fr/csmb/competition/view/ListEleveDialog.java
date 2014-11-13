@@ -23,7 +23,6 @@ import java.io.IOException;
  */
 public class ListEleveDialog {
 
-    private NetworkSender sender = new NetworkSender("", 9878);
     private Node oldCenter;
     private Node oldBottom;
     private BorderPane root;
@@ -44,7 +43,6 @@ public class ListEleveDialog {
             DetailClubController detailClubController = loader.getController();
             detailClubController.setClubBean(clubBean);
             detailClubController.setListEleveDialog(this);
-            detailClubController.setSender(sender);
             detailClubController.setCompetitionBean(competitionBean);
             detailClubController.setMainStage(mainStage);
 

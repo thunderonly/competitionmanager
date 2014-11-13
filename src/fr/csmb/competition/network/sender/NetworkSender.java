@@ -35,6 +35,8 @@ import java.util.Enumeration;
  */
 public class NetworkSender {
 
+    private static NetworkSender INSTANCE;
+
     private static final Logger LOGGER = LogManager.getFormatterLogger(NetworkSender.class);
 
     private MulticastSocket ds ;
@@ -60,13 +62,20 @@ public class NetworkSender {
      */
     String address;
 
+    public static NetworkSender getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new NetworkSender("", 9878);
+        }
+        return INSTANCE;
+    }
+
     /**
      * Datagram Server Constructor
      *
      * @param port    : port to send
      * @param address : address to send
      */
-    public NetworkSender(String address, int port) {
+    private NetworkSender(String address, int port) {
         this.port = port;
         this.address = address;
     }

@@ -43,7 +43,7 @@ import javafx.stage.Stage;
 public class CategorieViewController {
 
     private CompetitionBean competitionBean;
-    private NetworkSender sender = new NetworkSender("", 9878);
+    private NetworkSender sender;
     private Stage currentStage;
     private File fileTmp;
 
@@ -53,6 +53,7 @@ public class CategorieViewController {
         Preferences pref = Preferences.userNodeForPackage(Main.class);
         String fileName = pref.get("filePath", null);
         fileTmp = new File(fileName);
+        this.sender = NetworkSender.getINSTANCE();
     }
 
     public int validateEpreuve(String typeCategorie, String categorie, String epreuve) {

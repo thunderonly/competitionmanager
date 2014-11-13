@@ -62,7 +62,6 @@ public class ResultatsView {
         BorderPane root = (BorderPane) mainStage.getScene().getRoot();
         BorderPane stackPane = new BorderPane();
         createTableView(root);
-//        stage.setTitle("Résultats compétition : " + competition.getNom());
         this.mainStage = mainStage;
         this.mainStage.getScene().getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
     }

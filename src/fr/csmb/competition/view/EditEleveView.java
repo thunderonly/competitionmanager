@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -59,10 +60,15 @@ public class EditEleveView {
         final Node oldBottom = root.getBottom();
 
         GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10, 0, 0, 10));
         root.setCenter(gridPane);
 
         GridPane gridInfoEleve = new GridPane();
+        gridInfoEleve.setHgap(10);
+        gridInfoEleve.setVgap(10);
         Label licenceEleve = new Label("Licence");
         licenceEleveTf = new TextField();
         gridInfoEleve.add(licenceEleve, 0, 0);

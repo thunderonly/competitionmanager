@@ -117,10 +117,6 @@ public class DetailClubController {
         return tableEleve;
     }
 
-    public void setSender(NetworkSender sender) {
-        this.sender = sender;
-    }
-
     public void setListEleveDialog(ListEleveDialog listEleveDialog) {
         this.listEleveDialog = listEleveDialog;
     }
@@ -185,7 +181,7 @@ public class DetailClubController {
 
     @FXML
     private void validate() {
-        sender.sendClub(clubBean);
+        NetworkSender.getINSTANCE().sendClub(clubBean);
         listEleveDialog.close();
     }
 

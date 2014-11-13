@@ -91,7 +91,6 @@ public class CategoriesView {
     private BorderPane epreuveBorderPane;
     private File fileTmp;
 
-    private NetworkSender sender = new NetworkSender("", 9878);
     private CategorieViewController categorieViewController;
 
     public void showView(Stage mainStage, CompetitionBean competition) {
@@ -262,7 +261,7 @@ public class CategoriesView {
 
         }
         gridCategorieController.setCategorieView(this);
-        gridCategorieController.initGrid(sender, competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
+        gridCategorieController.initGrid(competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(epreuveBorderPane);
