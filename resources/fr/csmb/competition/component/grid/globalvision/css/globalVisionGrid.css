@@ -11,16 +11,16 @@
     -fx-text-fill: red;
 }
 
+.cellHeader {
+    -fx-background-color: rgba(226, 107, 10, 1);
+    -fx-border-color: #000;
+}
 .cellCategorie {
     -fx-background-color: rgba(255, 191, 143, 1);
     -fx-border-color: #000;
 }
 .cellSexe {
     -fx-background-color: rgba(253, 233, 217, 1);
-    -fx-border-color: #000;
-}
-.cellHeader {
-    -fx-background-color: rgba(226, 107, 10, 1);
     -fx-border-color: #000;
 }
 .cellTotal {
