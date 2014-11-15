@@ -10,6 +10,7 @@ import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Participant;
@@ -176,10 +177,17 @@ public class Controller {
                 file = new File(file.getPath() + ".xlsx");
             }
 
-            List<GlobalVision> visions = new ArrayList<GlobalVision>();
-            for (GlobalVision globalVision : computeStructure().values()) {
-                visions.add(globalVision);
+            List<GlobalVision> visionsCombat = new ArrayList<GlobalVision>();
+            List<GlobalVision> visionsTechnique = new ArrayList<GlobalVision>();
+            for (GlobalVision globalVision : computeStructure().get(TypeEpreuve.COMBAT.getValue()).values()) {
+                visionsCombat.add(globalVision);
             }
+            for (GlobalVision globalVision : computeStructure().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
+                visionsTechnique.add(globalVision);
+            }
+            Map<TypeEpreuve, List<GlobalVision>> visions = new HashMap<TypeEpreuve, List<GlobalVision>>();
+            visions.put(TypeEpreuve.COMBAT, visionsCombat);
+            visions.put(TypeEpreuve.TECHNIQUE, visionsTechnique);
             InscriptionsManager inscriptionsManager = new InscriptionsManager();
             boolean isSaved = inscriptionsManager.saveGlobalVisionFile(file, visions);
             if (isSaved) {
@@ -194,16 +202,18 @@ public class Controller {
         }
     }
 
-    private Map<String, GlobalVision> computeStructure() {
-        Map<String, GlobalVision> map = new HashMap<String, GlobalVision>();
+    private Map<String, Map<String, GlobalVision>> computeStructure() {
+        Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
+        mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
+        mapSexe.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
             for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
                 GlobalVision testStructure = null;
-                if (map.containsKey(epreuveBean.getNom())) {
-                    testStructure = map.get(epreuveBean.getNom());
+                if (mapSexe.get(epreuveBean.getType()).containsKey(epreuveBean.getNom())) {
+                    testStructure = mapSexe.get(epreuveBean.getType()).get(epreuveBean.getNom());
                 } else {
                     testStructure = new GlobalVision(epreuveBean.getNom());
-                    map.put(epreuveBean.getNom(), testStructure);
+                    mapSexe.get(epreuveBean.getType()).put(epreuveBean.getNom(), testStructure);
                 }
 
                 Map<String, List<Participant>> map1 = null;
@@ -231,7 +241,7 @@ public class Controller {
             }
         }
 
-        return map;
+        return mapSexe;
     }
 
     public ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {

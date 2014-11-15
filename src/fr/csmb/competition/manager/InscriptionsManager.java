@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.*;
 
 import java.awt.Color;
@@ -503,7 +504,7 @@ public class InscriptionsManager {
         cell6.setCellStyle(styleData);
     }
 
-    public boolean saveGlobalVisionFile(File file, List<GlobalVision> testStructures) {
+    public boolean saveGlobalVisionFile(File file, Map<TypeEpreuve, List<GlobalVision>> testStructures) {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         XSSFFont fontCellGeneral= workbook.createFont();
@@ -518,29 +519,36 @@ public class InscriptionsManager {
         XSSFCellStyle styleCellCategorie = setStyleCategorieForGlobalVision(workbook, fontCellGeneral);
         XSSFCellStyle styleCellSexe = setStyleSexeForGlobalVision(workbook, fontCellGeneral);
         XSSFCellStyle styleCellTotal = setStyleTotalForGlobalVision(workbook);
+        XSSFCellStyle styleCellTotal1 = setStyleTotal1ForGlobalVision(workbook, fontCellGeneral);
+        for (TypeEpreuve typeEpreuve :testStructures.keySet()) {
 
-        XSSFSheet sheet = workbook.createSheet("Vision Globale");
+            List<GlobalVision> visions = testStructures.get(typeEpreuve);
+            XSSFSheet sheet = workbook.createSheet(typeEpreuve.getValue());
+            int colCount = 0;
+            for (GlobalVision globalVision : visions) {
+                if (haveParticipantForEpreuve(globalVision)) {
+                    int rowCount = 0;
+                    Row rowEpreuve = getRow(sheet, 0);
+                    Cell cellEpreuve = rowEpreuve.createCell(colCount);
+                    cellEpreuve.setCellValue(globalVision.getNomCategorie());
+                    cellEpreuve.setCellStyle(styleCellEpreuve);
+                    for (int i = colCount + 1; i <= colCount + 4; i++) {
+                        Cell cellEpreuveEmpty = rowEpreuve.createCell(i);
+                        cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+                    }
+                    sheet.addMergedRegion(new CellRangeAddress(rowEpreuve.getRowNum(), rowEpreuve.getRowNum(), colCount, colCount + 4));
+                    rowCount++;
+                    Row rowHeader = getRow(sheet, rowCount);
+                    createHeader(rowHeader, colCount, styleCellTitle);
+                    rowCount++;
+                    createBody(sheet, styleCellCategorie, styleCellSexe, styleCellTotal, styleCellTotal1, colCount, rowCount, globalVision.getTypeCategories());
 
-        int colCount = 0;
-        for (GlobalVision globalVision : testStructures) {
-            if (haveParticipantForEpreuve(globalVision)) {
-                int rowCount = 0;
-                Row rowEpreuve = getRow(sheet, 0);
-                Cell cellEpreuve = rowEpreuve.createCell(0);
-                cellEpreuve.setCellValue(globalVision.getNomCategorie());
-                cellEpreuve.setCellStyle(styleCellEpreuve);
-                for (int i = colCount + 1; i <= colCount + 4; i++) {
-                    Cell cellEpreuveEmpty = rowEpreuve.createCell(i);
-                    cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+                    colCount += 5;
                 }
-                sheet.addMergedRegion(new CellRangeAddress(rowEpreuve.getRowNum(), rowEpreuve.getRowNum(), colCount, colCount + 4));
-                rowCount++;
-                Row rowHeader = getRow(sheet, rowCount);
-                createHeader(rowHeader, colCount, styleCellTitle);
-                rowCount++;
-                createBody(sheet, styleCellCategorie, styleCellSexe, styleCellTotal, colCount, rowCount, globalVision.getTypeCategories());
+            }
 
-                colCount += 5;
+            for (int columnPosition = 0; columnPosition < colCount; columnPosition++) {
+                sheet.autoSizeColumn(columnPosition);
             }
         }
 
@@ -558,17 +566,22 @@ public class InscriptionsManager {
     private void createHeader(Row row, int colCount, XSSFCellStyle styleCellTitle) {
         Cell cellHeaderCat = row.createCell(colCount);
         cellHeaderCat.setCellValue("Cat.");
+        cellHeaderCat.setCellStyle(styleCellTitle);
         Cell cellHeaderSexe = row.createCell(colCount+1);
         cellHeaderSexe.setCellValue("Sexe");
+        cellHeaderSexe.setCellStyle(styleCellTitle);
         Cell cellHeaderNomPrenom = row.createCell(colCount+2);
         cellHeaderNomPrenom.setCellValue("Nom Prénom");
-        Cell cellHeaderClub = row.createCell(colCount+3);
+        cellHeaderNomPrenom.setCellStyle(styleCellTitle);
+        Cell cellHeaderClub = row.createCell(colCount + 3);
         cellHeaderClub.setCellValue("Club");
-        Cell cellHeaderTotal = row.createCell(colCount+4);
+        cellHeaderClub.setCellStyle(styleCellTitle);
+        Cell cellHeaderTotal = row.createCell(colCount + 4);
         cellHeaderTotal.setCellValue("Total");
+        cellHeaderTotal.setCellStyle(styleCellTitle);
     }
 
-    private void createBody(XSSFSheet sheet, XSSFCellStyle styleCellCategorie, XSSFCellStyle styleCellSexe, XSSFCellStyle styleCellTotal, int startCol, int rowStart, Map<String, Map<String, List<Participant>>> datas) {
+    private void createBody(XSSFSheet sheet, XSSFCellStyle styleCellCategorie, XSSFCellStyle styleCellSexe, XSSFCellStyle styleCellTotal, XSSFCellStyle styleCellTotal1, int startCol, int rowStart, Map<String, Map<String, List<Participant>>> datas) {
         int rowStartForCategorie = rowStart;
         for (String keyCategorie : datas.keySet()) {
             if (haveParticipantForCategorie(keyCategorie, datas)) {
@@ -595,6 +608,7 @@ public class InscriptionsManager {
                             cellClub.setCellValue(participant.getClubParticipant());
                             Cell cellTotal = rowParticipant.createCell(startCol + 4);
                             cellTotal.setCellValue(1);
+                            cellTotal.setCellStyle(styleCellTotal1);
                             rowStartForData++;
                         }
 
@@ -612,24 +626,30 @@ public class InscriptionsManager {
                         cellTotalValue.setCellStyle(styleCellTotal);
                         rowStartForData++;
 
-                        for (int i = rowStartForSexe + 1; i <= totalParticipant; i++) {
-                            Row rowSexeEmpty = getRow(sheet, i);
+                        Row rowSexeEmpty = null;
+                        for (int i = rowStartForSexe + 1; i < rowStartForSexe + totalParticipant; i++) {
+                            rowSexeEmpty = getRow(sheet, i);
                             Cell cellSexeEmpty = rowSexeEmpty.createCell(startCol + 1);
                             cellSexeEmpty.setCellStyle(styleCellSexe);
                         }
-                        sheet.addMergedRegion(new CellRangeAddress(rowSexe.getRowNum(), rowSexe.getRowNum() + totalParticipant - 1, startCol, startCol));
+                        if (rowSexeEmpty != null) {
+                            sheet.addMergedRegion(new CellRangeAddress(rowSexe.getRowNum(), rowSexeEmpty.getRowNum(), startCol + 1, startCol + 1));
+                        }
 
                         rowStartForSexe = rowStartForData;
                         totalRow = rowStartForData;
                     }
                 }
                 if (totalRow > 0) {
-                    for (int i = rowStartForCategorie + 1; i <= totalRow; i++) {
-                        Row rowEpreuveEmpty = getRow(sheet, i);
+                    Row rowEpreuveEmpty = null;
+                    for (int i = rowStartForCategorie + 1; i < totalRow; i++) {
+                        rowEpreuveEmpty = getRow(sheet, i);
                         Cell cellEpreuveEmpty = rowEpreuveEmpty.createCell(startCol);
                         cellEpreuveEmpty.setCellStyle(styleCellCategorie);
                     }
-                    sheet.addMergedRegion(new CellRangeAddress(rowCategorie.getRowNum(), rowCategorie.getRowNum() + totalRow, startCol, startCol));
+                    if (rowEpreuveEmpty != null) {
+                        sheet.addMergedRegion(new CellRangeAddress(rowCategorie.getRowNum(), rowEpreuveEmpty.getRowNum(), startCol, startCol));
+                    }
                     rowStartForCategorie = totalRow;
                 }
             }
@@ -682,7 +702,7 @@ public class InscriptionsManager {
 
     private XSSFCellStyle setStyleTitleForGlobalVision(XSSFWorkbook workbook) {
         XSSFFont fontCellTitle= workbook.createFont();
-        fontCellTitle.setFontHeightInPoints((short) 14);
+        fontCellTitle.setFontHeightInPoints((short) 12);
         fontCellTitle.setFontName("Arial");
         fontCellTitle.setColor(IndexedColors.WHITE.getIndex());
         fontCellTitle.setBold(true);
@@ -690,7 +710,7 @@ public class InscriptionsManager {
 
         XSSFCellStyle styleCellTitle = workbook.createCellStyle();
         styleCellTitle.setFont(fontCellTitle);
-        styleCellTitle.setFillForegroundColor(new XSSFColor(new Color(255, 191, 143)));
+        styleCellTitle.setFillForegroundColor(new XSSFColor(new Color(226, 107, 10)));
         styleCellTitle.setFillPattern(CellStyle.SOLID_FOREGROUND);
         styleCellTitle.setAlignment(CellStyle.ALIGN_CENTER);
         styleCellTitle.setBorderBottom(CellStyle.BORDER_MEDIUM);
@@ -706,6 +726,7 @@ public class InscriptionsManager {
         styleCellCategorie.setFillForegroundColor(new XSSFColor(new Color(255, 191, 143)));
         styleCellCategorie.setFillPattern(CellStyle.SOLID_FOREGROUND);
         styleCellCategorie.setAlignment(CellStyle.ALIGN_CENTER);
+        styleCellCategorie.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         styleCellCategorie.setBorderBottom(CellStyle.BORDER_MEDIUM);
         styleCellCategorie.setBorderLeft(CellStyle.BORDER_MEDIUM);
         styleCellCategorie.setBorderRight(CellStyle.BORDER_MEDIUM);
@@ -719,6 +740,7 @@ public class InscriptionsManager {
         styleCellSexe.setFillForegroundColor(new XSSFColor(new Color(253, 233, 217)));
         styleCellSexe.setFillPattern(CellStyle.SOLID_FOREGROUND);
         styleCellSexe.setAlignment(CellStyle.ALIGN_CENTER);
+        styleCellSexe.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         styleCellSexe.setBorderBottom(CellStyle.BORDER_MEDIUM);
         styleCellSexe.setBorderLeft(CellStyle.BORDER_MEDIUM);
         styleCellSexe.setBorderRight(CellStyle.BORDER_MEDIUM);
@@ -743,6 +765,15 @@ public class InscriptionsManager {
         styleCellTotal.setBorderLeft(CellStyle.BORDER_MEDIUM);
         styleCellTotal.setBorderRight(CellStyle.BORDER_MEDIUM);
         styleCellTotal.setBorderTop(CellStyle.BORDER_MEDIUM);
+        return styleCellTotal;
+    }
+
+    private XSSFCellStyle setStyleTotal1ForGlobalVision(XSSFWorkbook workbook, XSSFFont font) {
+
+        XSSFCellStyle styleCellTotal = workbook.createCellStyle();
+        styleCellTotal.setFont(font);
+        styleCellTotal.setAlignment(CellStyle.ALIGN_CENTER);
+        styleCellTotal.setBorderRight(CellStyle.BORDER_MEDIUM);
         return styleCellTotal;
     }
 
