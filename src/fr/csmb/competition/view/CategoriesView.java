@@ -162,9 +162,24 @@ public class CategoriesView {
                     @Override
                     public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
                         TreeItem<String> parent = itemEpreuve.getParent();
+                        TreeItem<String> categorie = parent.getParent();
+                        TreeItem<String> sexe = categorie.getParent();
                         int index = parent.getChildren().indexOf(itemEpreuve);
                         parent.getChildren().remove(itemEpreuve);
                         parent.getChildren().add(index, itemEpreuve);
+                        if (EtatEpreuve.VALIDE.getValue().equals(s2)) {
+                            notificationView.notify(NotificationView.Level.INFO, "Information",
+                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
+                                            .concat(itemEpreuve.getValue()) + " a été validée");
+                        } else if (EtatEpreuve.DEMARRE.getValue().equals(s2)) {
+                            notificationView.notify(NotificationView.Level.INFO, "Information",
+                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
+                                            .concat(itemEpreuve.getValue()) + " a été démarrée");
+                        } else if (EtatEpreuve.TERMINE.getValue().equals(s2)) {
+                            notificationView.notify(NotificationView.Level.INFO, "Information",
+                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
+                                            .concat(itemEpreuve.getValue()) + " a été terminée");
+                        }
                     }
                 });
             }

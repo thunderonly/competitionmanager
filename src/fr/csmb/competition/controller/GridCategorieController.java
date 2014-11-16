@@ -126,6 +126,7 @@ public class GridCategorieController {
         borderPane.setCenter(scrollPane);
 
         epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
+        sender.send(competitionBean, categorieBean, epreuveBean);
     }
 
     @FXML

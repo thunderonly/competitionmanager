@@ -62,7 +62,6 @@ public class CompetitionReceiverListner implements DatagramListener {
             categorieBean.getEpreuves().add(epreuveBean);
         }
 
-        epreuveBean.setEtat(epreuve.getEtatEpreuve());
         epreuveBean.setType(epreuve.getTypeEpreuve());
 
         LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
@@ -77,17 +76,20 @@ public class CompetitionReceiverListner implements DatagramListener {
             }
 
         }
-
-        if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
-            notificationView.notify(NotificationView.Level.INFO, "Information",
-                    "L'épreuve " + epreuveBean.toString() + " a été validée");
-        } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
-            notificationView.notify(NotificationView.Level.INFO, "Information",
-                    "L'épreuve " + epreuveBean.toString() + " a été démarrée");
-        } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-            notificationView.notify(NotificationView.Level.INFO, "Information",
-                    "L'épreuve " + epreuveBean.toString() + " a été terminée");
+        if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals(epreuve.getEtatEpreuve())) {
+            if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+                notificationView.notify(NotificationView.Level.INFO, "Information",
+                        "L'épreuve " + epreuveBean.toString() + " a été validée");
+            } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+                notificationView.notify(NotificationView.Level.INFO, "Information",
+                        "L'épreuve " + epreuveBean.toString() + " a été démarrée");
+            } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                notificationView.notify(NotificationView.Level.INFO, "Information",
+                        "L'épreuve " + epreuveBean.toString() + " a été terminée");
+            }
         }
+
+        epreuveBean.setEtat(epreuve.getEtatEpreuve());
         saveCompetitionToXmlFileTmp();
     }
 

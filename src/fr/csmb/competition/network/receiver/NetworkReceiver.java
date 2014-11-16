@@ -70,9 +70,8 @@ public class NetworkReceiver extends Thread {
             if (address == null || address.equals("")) {
                 address = getMulticastIp();
             }
-            byte[] data = new byte[5000];
             ds = new MulticastSocket(port);
-            dp = new DatagramPacket(data, data.length);
+            ds.setTimeToLive(5);
             ds.joinGroup(InetAddress.getByName(address));
 
             LOGGER.info("DataSource join the address %s on port %s", address, port);
@@ -81,9 +80,11 @@ public class NetworkReceiver extends Thread {
 
                 try {
 
+                    byte[] data = new byte[5000];
+                    dp = new DatagramPacket(data, data.length);
                     ds.receive(dp);
-                    LOGGER.info("DataSource receive datagram packet from address %s", dp.getAddress());
-                    if (!isOwnPacket(dp.getAddress())) {
+                    LOGGER.info("DataSource receive datagram packet from address %s. Length %s", dp.getAddress(), dp.getLength());
+                    if (isOwnPacket(dp.getAddress())) {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
                         ObjectInputStream is = new
                                 ObjectInputStream(new BufferedInputStream(byteStream));
