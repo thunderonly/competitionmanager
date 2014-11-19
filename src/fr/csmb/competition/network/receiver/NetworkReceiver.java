@@ -84,7 +84,7 @@ public class NetworkReceiver extends Thread {
                     dp = new DatagramPacket(data, data.length);
                     ds.receive(dp);
                     LOGGER.info("DataSource receive datagram packet from address %s. Length %s", dp.getAddress(), dp.getLength());
-                    if (isOwnPacket(dp.getAddress())) {
+                    if (!isOwnPacket(dp.getAddress())) {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
                         ObjectInputStream is = new
                                 ObjectInputStream(new BufferedInputStream(byteStream));

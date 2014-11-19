@@ -55,39 +55,56 @@ public class CompetitionReceiverListner implements DatagramListener {
         CategorieBean categorieBean = competitionBean.getCategorie(
                 categorie.getTypeCategorie(),
                 categorie.getNomCategorie());
+        if (categorieBean == null) {
+            categorieBean = new CategorieBean(categorie.getNomCategorie());
+            categorieBean.setType(categorie.getTypeCategorie());
+            competitionBean.getCategories().add(categorieBean);
+        }
         Epreuve epreuve = categorie.getEpreuves().get(0);
         EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve.getNomEpreuve());
-        if (epreuveBean == null) {
-            epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
-            categorieBean.getEpreuves().add(epreuveBean);
-        }
-
-        epreuveBean.setType(epreuve.getTypeEpreuve());
-
-        LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-
-        for (Participant participant : epreuve.getParticipants()) {
-            ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());
-            if (participantBean == null) {
-                participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
-                epreuveBean.getParticipants().add(participantBean);
-            } else {
-                ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
+        if (EtatEpreuve.SUPPRIME.getValue().equals(epreuve.getEtatEpreuve())) {
+            if (epreuveBean != null) {
+                LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
+                categorieBean.getEpreuves().remove(epreuveBean);
+                if (categorieBean.getEpreuves().isEmpty()) {
+                    competitionBean.getCategories().remove(categorieBean);
+                }
+            }
+        } else {
+            if (epreuveBean == null) {
+                epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
+                categorieBean.getEpreuves().add(epreuveBean);
             }
 
-        }
-        if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals(epreuve.getEtatEpreuve())) {
-            if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
-                notificationView.notify(NotificationView.Level.INFO, "Information",
-                        "L'épreuve " + epreuveBean.toString() + " a été validée");
-            } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
-                notificationView.notify(NotificationView.Level.INFO, "Information",
-                        "L'épreuve " + epreuveBean.toString() + " a été démarrée");
-            } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                notificationView.notify(NotificationView.Level.INFO, "Information",
-                        "L'épreuve " + epreuveBean.toString() + " a été terminée");
+            LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
+            epreuveBean.setType(epreuve.getTypeEpreuve());
+
+            for (Participant participant : epreuve.getParticipants()) {
+                ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());
+                if (participantBean == null) {
+                    participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+                    epreuveBean.getParticipants().add(participantBean);
+                } else {
+                    ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
+                }
+
             }
         }
+//        if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals(epreuve.getEtatEpreuve())) {
+//            if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+//                notificationView.notify(NotificationView.Level.INFO, "Information",
+//                        "L'épreuve " + epreuveBean.toString() + " a été validée");
+//            } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+//                notificationView.notify(NotificationView.Level.INFO, "Information",
+//                        "L'épreuve " + epreuveBean.toString() + " a été démarrée");
+//            } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+//                notificationView.notify(NotificationView.Level.INFO, "Information",
+//                        "L'épreuve " + epreuveBean.toString() + " a été terminée");
+//            } else if (EtatEpreuve.SUPPRIME.getValue().equals(epreuveBean.getEtat())) {
+//                notificationView.notify(NotificationView.Level.INFO, "Information",
+//                        "L'épreuve " + epreuveBean.toString() + " a été supprimée");
+//            }
+//        }
 
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
         saveCompetitionToXmlFileTmp();

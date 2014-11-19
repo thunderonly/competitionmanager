@@ -76,6 +76,19 @@ public class ContextableTreeCell extends TreeCell<String> {
             }
         });
 
+        MenuItem deleteMenuItem = new MenuItem("Supprimer");
+        invalidMenuItem.setVisible(false);
+        addMenu.getItems().add(deleteMenuItem);
+        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                String categorie = getTreeItem().getParent().getParent().getValue();
+                String epreuve = getItem();
+                categoriesView.deleteEpreuve(getTreeView(), typeCategorie, categorie, epreuve);
+            }
+        });
+
         MenuItem fusionMenuItem = new MenuItem("Fusionner");
         fusionMenuItem.setVisible(false);
         addMenu.getItems().add(fusionMenuItem);
@@ -155,7 +168,7 @@ public class ContextableTreeCell extends TreeCell<String> {
 
                     String epreuve = getItem();
                     EpreuveBean epreuveBean = categoriesView.getEpreuveBean(typeCategorie, categorie, epreuve);
-                    if (epreuveBean != null && EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
+                    if (epreuveBean != null && (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()))) {
                         for (MenuItem menuItem : addMenu.getItems()) {
                             if (menuItem.getText().equals("Invalider")) {
                                 menuItem.setVisible(true);

@@ -164,9 +164,23 @@ public class CategoriesView {
                         TreeItem<String> parent = itemEpreuve.getParent();
                         TreeItem<String> categorie = parent.getParent();
                         TreeItem<String> sexe = categorie.getParent();
-                        int index = parent.getChildren().indexOf(itemEpreuve);
-                        parent.getChildren().remove(itemEpreuve);
-                        parent.getChildren().add(index, itemEpreuve);
+                        TreeItem<String> root = sexe.getParent();
+                        if (EtatEpreuve.SUPPRIME.getValue().equals(s2)) {
+                            parent.getChildren().remove(itemEpreuve);
+                            if (parent.getChildren().isEmpty()) {
+                                categorie.getChildren().remove(parent);
+                                if (categorie.getChildren().isEmpty()) {
+                                    sexe.getChildren().remove(categorie);
+                                    if (sexe.getChildren().isEmpty()) {
+                                        root.getChildren().remove(sexe);
+                                    }
+                                }
+                            }
+                        } else {
+                            int index = parent.getChildren().indexOf(itemEpreuve);
+                            parent.getChildren().remove(itemEpreuve);
+                            parent.getChildren().add(index, itemEpreuve);
+                        }
                         if (EtatEpreuve.VALIDE.getValue().equals(s2)) {
                             notificationView.notify(NotificationView.Level.INFO, "Information",
                                     "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
@@ -179,6 +193,10 @@ public class CategoriesView {
                             notificationView.notify(NotificationView.Level.INFO, "Information",
                                     "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
                                             .concat(itemEpreuve.getValue()) + " a été terminée");
+                        } else if (EtatEpreuve.SUPPRIME.getValue().equals(s2)) {
+                            notificationView.notify(NotificationView.Level.INFO, "Information",
+                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
+                                            .concat(itemEpreuve.getValue()) + " a été supprimée");
                         }
                     }
                 });
@@ -340,9 +358,21 @@ public class CategoriesView {
                 break;
             case 2:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
-                        "Impossible d'invalider une épreuve fusionnée");
+                        "Impossible d'invalider une épreuve démarrée");
                 break;
-            case 3:
+            default:
+                break;
+        }
+    }
+
+    public void deleteEpreuve(TreeView<String> treeView, String typeCategorie, String categorie, String epreuve) {
+        int result = this.categorieViewController.deleteEpreuve(treeView, typeCategorie, categorie, epreuve);
+        switch (result) {
+            case 1:
+                notificationView.notify(NotificationView.Level.ERROR, "Erreur",
+                        "Impossible d'invalider une épreuve terminée");
+                break;
+            case 2:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible d'invalider une épreuve démarrée");
                 break;

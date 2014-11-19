@@ -118,11 +118,7 @@ public class NetworkSender {
                         os.flush();
                         //retrieves byte array
                         byte[] sendBuf = byteStream.toByteArray();
-                        DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address, port));
-                        int byteCount = packet.getLength();
-                        ds.send(packet);
-                        Thread.sleep(500);
-                        LOGGER.info("Data sent on address %s and port %s. Length %s", address, port, byteCount);
+                        sendPacket(sendBuf);
                         eleves.clear();
                     }
                 }
@@ -151,36 +147,23 @@ public class NetworkSender {
                 int nbParticipants = epreuveBean.getParticipants().size();
                 int nbSend = 0;
                 List<Participant> participants = new ArrayList<Participant>(4);
+                boolean isSend = false;
                 for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
                     participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
                     nbSend++;
                     if (nbSend % 2 == 0 || nbSend == nbParticipants) {
-                        Competition competition = new Competition(competitionBean.getNom());
-                        Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
-                        competition.getCategories().add(categorie);
-                        Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
-                        if (nbSend >= nbParticipants) {
-                            epreuve.setEtatEpreuve(epreuveBean.getEtat());
-                        }
-                        categorie.getEpreuves().add(epreuve);
-                        LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
-                        epreuve.setParticipants(participants);
-
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
-                        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-                        os.flush();
-                        os.writeObject(competition);
-                        os.flush();
                         //retrieves byte array
-                        byte[] sendBuf = byteStream.toByteArray();
-                        DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address, port));
-                        int byteCount = packet.getLength();
-                        ds.send(packet);
-                        LOGGER.info("Data sent on address %s and port %s", address, port);
-                        Thread.sleep(500);
+                        byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, nbSend, nbParticipants, participants);
+                        sendPacket(sendBuf);
                         participants.clear();
+                        isSend = true;
                     }
+                }
+                if (!isSend) {
+                    //retrieves byte array
+                    byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, 0, 0, participants);
+                    sendPacket(sendBuf);
                 }
 
             } catch (UnknownHostException e) {
@@ -196,11 +179,37 @@ public class NetworkSender {
         }
     }
 
+    private void sendPacket(byte[] sendBuf) throws IOException, InterruptedException {
+        DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address, port));
+        int byteCount = packet.getLength();
+        ds.send(packet);
+        LOGGER.info("Data sent on address %s and port %s", address, port);
+        Thread.sleep(500);
+    }
 
-    private byte[] buildPacket(String nmeaSentence) {
-        final StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(nmeaSentence).append(NMEA_SEP);
-        return stringBuilder.toString().getBytes();
+
+    private byte[] buildPacket(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
+            throws IOException{
+        Competition competition = new Competition(competitionBean.getNom());
+        Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
+        competition.getCategories().add(categorie);
+        Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
+        if (nbSend >= nbParticipants) {
+            epreuve.setEtatEpreuve(epreuveBean.getEtat());
+        }
+        categorie.getEpreuves().add(epreuve);
+        LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
+
+        epreuve.setParticipants(participants);
+
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
+        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+        os.flush();
+        os.writeObject(competition);
+        os.flush();
+        //retrieves byte array
+        byte[] sendBuf = byteStream.toByteArray();
+        return sendBuf;
     }
 
 

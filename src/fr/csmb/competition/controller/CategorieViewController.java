@@ -98,13 +98,80 @@ public class CategorieViewController {
             if (epreuveBean != null) {
                 if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                     return 1;
-                } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
-                    return 2;
                 } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
-                    return 3;
+                    return 2;
                 } else {
-                    epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
+                    epreuveBean.getParticipants().clear();
                     epreuveBean.setEtat("");
+
+                    saveCompetitionToXmlFileTmp();
+                    sender.send(competitionBean, categorieBean, epreuveBean);
+                    return 0;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int deleteEpreuve(TreeView<String> treeView, String typeCategorie, String categorie, String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        if (categorieBean != null) {
+            EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            if (epreuveBean != null) {
+                if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                    return 1;
+                } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
+                    return 2;
+                } else {
+                    epreuveBean.getParticipants().clear();
+                    epreuveBean.setEtat(EtatEpreuve.SUPPRIME.getValue());
+                    categorieBean.getEpreuves().remove(epreuveBean);
+                    if (categorieBean.getEpreuves().isEmpty()) {
+                        competitionBean.getCategories().remove(categorieBean);
+                    }
+
+                    TreeItem<String> itemTypeCategorieToRemove = null;
+                    for (TreeItem<String> itemTypeCategorie : treeView.getRoot().getChildren()) {
+                        if (itemTypeCategorie.getValue().equals(categorieBean.getType())) {
+                            TreeItem<String> itemCategorieToRemove = null;
+                            for (TreeItem<String> itemCategorie : itemTypeCategorie.getChildren()) {
+                                if (itemCategorie.getValue().equals(categorieBean.getNom())) {
+                                    TreeItem<String> itemTypeEpreuveToRemove = null;
+                                    for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {
+                                        if (itemTypeEpreuve.getValue().equals(epreuveBean.getType())) {
+                                            TreeItem<String> itemEpreuveToRemove = null;
+                                            for (TreeItem<String> treeItemEpreuve : itemTypeEpreuve.getChildren()) {
+                                                if (treeItemEpreuve.getValue().equals(epreuveBean.getNom())) {
+                                                    itemEpreuveToRemove = treeItemEpreuve;
+                                                }
+                                            }
+                                            if (itemEpreuveToRemove != null) {
+                                                itemTypeEpreuve.getChildren().remove(itemEpreuveToRemove);
+                                                if (itemTypeEpreuve.getChildren().isEmpty()) {
+                                                    itemTypeEpreuveToRemove = itemTypeEpreuve;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (itemTypeEpreuveToRemove != null) {
+                                        itemCategorie.getChildren().remove(itemTypeEpreuveToRemove);
+                                        if (itemCategorie.getChildren().isEmpty()) {
+                                            itemCategorieToRemove = itemCategorie;
+                                        }
+                                    }
+                                }
+                            }
+                            if (itemCategorieToRemove != null) {
+                                itemTypeCategorie.getChildren().remove(itemCategorieToRemove);
+                                if (itemTypeCategorie.getChildren().isEmpty()) {
+                                    itemTypeCategorieToRemove = itemTypeCategorie;
+                                }
+                            }
+                        }
+                    }
+                    if (itemTypeCategorieToRemove != null) {
+                        treeView.getRoot().getChildren().remove(itemTypeCategorieToRemove);
+                    }
 
                     saveCompetitionToXmlFileTmp();
                     sender.send(competitionBean, categorieBean, epreuveBean);
@@ -196,7 +263,10 @@ public class CategorieViewController {
             treeItemTypeEpreuve.getChildren().add(treeItemEpreuve);
 
             //get item correspond to categorie type
-            boolean categorieAdded = false;
+            boolean epreuveAdded = false;
+            boolean categorieExist = false;
+            boolean typeCategorieExist = false;
+            boolean typeEpreuveExist = false;
             for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
                 if (treeItem.getValue().equals(categorieBean.getType())) {
                     for (TreeItem<String> itemCategorie : treeItem.getChildren()) {
@@ -204,20 +274,25 @@ public class CategorieViewController {
                             for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {
                                 if (itemTypeEpreuve.getValue().equals(epreuveBean.getType())) {
                                     itemTypeEpreuve.getChildren().add(treeItemEpreuve);
-                                    categorieAdded = true;
+                                    epreuveAdded = true;
+                                    typeEpreuveExist = true;
                                 }
                             }
+                            if (!typeEpreuveExist) {
+                                itemCategorie.getChildren().add(treeItemTypeEpreuve);
+                            }
+                            categorieExist = true;
                         }
                     }
-                    if (!categorieAdded) {
+                    if (!categorieExist) {
                         treeItem.getChildren().add(treeItemCategorie);
-                        categorieAdded = true;
                     }
+                    typeCategorieExist = true;
                 }
             }
 
             //New categorie from fusion
-            if (!categorieAdded) {
+            if (!typeCategorieExist) {
                 treeView.getRoot().getChildren().add(treeItemTypeCategorie);
             }
         }

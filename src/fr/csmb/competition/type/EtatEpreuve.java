@@ -14,7 +14,8 @@ public enum EtatEpreuve {
     VALIDE ("Valide"),
     FUSION ("Fusion"),
     DEMARRE ("Demarre"),
-    TERMINE ("Termine");
+    TERMINE ("Termine"),
+    SUPPRIME ("Supprime");
 
     private String value;
 
