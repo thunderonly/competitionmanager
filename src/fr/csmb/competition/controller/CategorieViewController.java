@@ -220,7 +220,7 @@ public class CategorieViewController {
                 newEpreuve = epreuve1;
             }
             EpreuveBean epreuveBean = new EpreuveBean(newEpreuve);
-            epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+            epreuveBean.setEtat(EtatEpreuve.REGROUPE.getValue());
             epreuveBean.setType(epreuveBean1.getType());
             categorieBean.getEpreuves().add(epreuveBean);
 
@@ -229,15 +229,26 @@ public class CategorieViewController {
                 epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
                 CategorieBean categorieBean1 = competitionBean.getCategorie(typeCategorie1, categorie1);
                 sender.send(competitionBean, categorieBean1, epreuveBean1);
-
-                participantBeans.addAll(extractParticipants(typeCategorie1, categorie1, epreuve1));
+                if (epreuveBean1.getParticipants().isEmpty()) {
+                    participantBeans.addAll(extractParticipants(typeCategorie1, categorie1, epreuve1));
+                } else {
+                    ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean1.getParticipants());
+                    participantBeans.addAll(observableList);
+                    epreuveBean1.setParticipants(FXCollections.observableArrayList());
+                }
             }
 
             if (epreuveBean2 != null) {
                 epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
                 CategorieBean categorieBean2 = competitionBean.getCategorie(typeCategorie2, categorie2);
                 sender.send(competitionBean, categorieBean2, epreuveBean2);
-                participantBeans.addAll(extractParticipants(typeCategorie2, categorie2, epreuve2));
+                if (epreuveBean2.getParticipants().isEmpty()) {
+                    participantBeans.addAll(extractParticipants(typeCategorie2, categorie2, epreuve2));
+                } else {
+                    ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean2.getParticipants());
+                    participantBeans.addAll(observableList);
+                    epreuveBean2.setParticipants(FXCollections.observableArrayList());
+                }
             }
 
             epreuveBean.setParticipants(participantBeans);
@@ -307,6 +318,7 @@ public class CategorieViewController {
                     if (eleveBean.getEpreuves().contains(epreuve)) {
                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
                         participantBean.setClub(clubBean.getIdentifiant());
+                        participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
                         participantBeans1.add(participantBean);
                     }
                 }
@@ -322,7 +334,7 @@ public class CategorieViewController {
         if (categorieBean != null) {
             EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
             if (epreuveBean != null) {
-                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.REGROUPE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                     participantBeans1.addAll(epreuveBean.getParticipants());
                 } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
                     for (ClubBean club : competitionBean.getClubs()) {

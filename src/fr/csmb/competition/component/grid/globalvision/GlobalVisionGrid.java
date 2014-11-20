@@ -68,7 +68,7 @@ public class GlobalVisionGrid {
                 for (Participant participant : datas.get(keyCategorie).get(key)) {
                     addData(gridPane, colStart + 2, rowStartForData, participant.getNomParticipant().concat(" ").concat(participant.getPrenomParticipant()));
                     addData(gridPane, colStart + 3, rowStartForData, participant.getClubParticipant());
-                    addData(gridPane, colStart + 4, rowStartForData, "1");
+                    addData(gridPane, colStart + 4, rowStartForData, participant.getPoidsParticipant());
                     rowStartForData++;
                 }
                 if (totalParticipant > 0) {
@@ -132,7 +132,7 @@ public class GlobalVisionGrid {
         addHeaderLabel(gridPane, colStart + 1, 1, "sexe");
         addHeaderLabel(gridPane, colStart + 2, 1, "nom");
         addHeaderLabel(gridPane, colStart + 3, 1, "club");
-        addHeaderLabel(gridPane, colStart + 4, 1, "Total");
+        addHeaderLabel(gridPane, colStart + 4, 1, "poids");
     }
 
     private void addHeaderLabel(GridPane gridPane, int colStart, int rowStart, String data) {

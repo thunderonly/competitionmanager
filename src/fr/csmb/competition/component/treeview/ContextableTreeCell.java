@@ -146,7 +146,7 @@ public class ContextableTreeCell extends TreeCell<String> {
                     String typeEpreuve = null;
                     String categorie = null;
                     String typeCategorie = null;
-                    if (getTreeItem().getParent() != null) {
+                    if (getTreeItem()!= null && getTreeItem().getParent() != null) {
                         typeEpreuve = getTreeItem().getParent().getValue();
                         if (!typeEpreuve.equals(TypeEpreuve.COMBAT.getValue()) && !typeEpreuve.equals(TypeEpreuve.TECHNIQUE.getValue())) {
                             return;
@@ -252,7 +252,10 @@ public class ContextableTreeCell extends TreeCell<String> {
                             } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                                 setTextFill(Color.DARKRED);
                                 imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveDemarre.png")));
-                            } else {
+                            } else if (EtatEpreuve.REGROUPE.getValue().equals(epreuveBean.getEtat())) {
+                                setTextFill(Color.GREEN);
+                                imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
+                            }else {
                                 if (categorieViewController.extractEpreuves(categorieBean.getType(), categorieBean.getNom(), epreuveBean.getNom()).size() > 3) {
                                     imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
                                 } else {

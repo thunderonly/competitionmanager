@@ -202,6 +202,49 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void generateGlobalVisionCurrent() {
+        FileChooser fileChooser = new FileChooser();
+
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(main.getMainStage());
+
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xlsx")) {
+                file = new File(file.getPath() + ".xlsx");
+            }
+
+            List<GlobalVision> visionsCombat = new ArrayList<GlobalVision>();
+            List<GlobalVision> visionsTechnique = new ArrayList<GlobalVision>();
+            for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.COMBAT.getValue()).values()) {
+                visionsCombat.add(globalVision);
+            }
+            for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
+                visionsTechnique.add(globalVision);
+            }
+            Map<TypeEpreuve, List<GlobalVision>> visions = new HashMap<TypeEpreuve, List<GlobalVision>>();
+            visions.put(TypeEpreuve.COMBAT, visionsCombat);
+            visions.put(TypeEpreuve.TECHNIQUE, visionsTechnique);
+            InscriptionsManager inscriptionsManager = new InscriptionsManager();
+            boolean isSaved = inscriptionsManager.saveGlobalVisionFile(file, visions);
+            if (isSaved) {
+                NotificationView notificationView = new NotificationView(main.getMainStage());
+                notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                        "Le fichier de résultat : " + file.getName() + " a été correctement généré.");
+            } else {
+                NotificationView notificationView = new NotificationView(main.getMainStage());
+                notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                        "Erreur lors de la génération du fichier de résultat : " + file.getName() + ".");
+            }
+        }
+    }
+
     private Map<String, Map<String, GlobalVision>> computeStructure() {
         Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
         mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
@@ -252,6 +295,9 @@ public class Controller {
                     if (eleveBean.getEpreuves().contains(epreuve)) {
                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
                         participantBean.setClub(clubBean.getNom());
+                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
+                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
+                        }
                         participantBeans1.add(participantBean);
                     }
                 }
@@ -259,6 +305,47 @@ public class Controller {
         }
 
         return participantBeans1;
+    }
+
+    private Map<String, Map<String, GlobalVision>> computeStructureCurrent() {
+        Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
+        mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
+        mapSexe.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
+        for (CategorieBean categorieBean : competitionBean.getCategories()) {
+            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
+                GlobalVision testStructure = null;
+                if (mapSexe.get(epreuveBean.getType()).containsKey(epreuveBean.getNom())) {
+                    testStructure = mapSexe.get(epreuveBean.getType()).get(epreuveBean.getNom());
+                } else {
+                    testStructure = new GlobalVision(epreuveBean.getNom());
+                    mapSexe.get(epreuveBean.getType()).put(epreuveBean.getNom(), testStructure);
+                }
+
+                Map<String, List<Participant>> map1 = null;
+                if(testStructure.getTypeCategories().containsKey(categorieBean.getNom())) {
+                    map1 = testStructure.getTypeCategories().get(categorieBean.getNom());
+                } else {
+                    map1 = new HashMap<String, List<Participant>>();
+                    testStructure.getTypeCategories().put(categorieBean.getNom(), map1);
+                }
+
+                List<Participant> participants = null;
+                if (map1.containsKey(categorieBean.getType())) {
+                    participants = map1.get(categorieBean.getType());
+                } else {
+                    participants = new ArrayList<Participant>();
+                    map1.put(categorieBean.getType(), participants);
+                }
+
+                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
+                    participants.add(participant);
+                }
+
+            }
+        }
+
+        return mapSexe;
     }
 
     @FXML

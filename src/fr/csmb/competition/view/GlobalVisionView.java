@@ -104,6 +104,9 @@ public class GlobalVisionView {
                     if (eleveBean.getEpreuves().contains(epreuve)) {
                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
                         participantBean.setClub(clubBean.getNom());
+                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
+                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
+                        }
                         participantBeans1.add(participantBean);
                     }
                 }

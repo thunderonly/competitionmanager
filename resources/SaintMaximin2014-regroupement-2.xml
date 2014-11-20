@@ -1,0 +1,2065 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<competition nom="Saint Maximin 2014">
+    <categories>
+        <categorie nomCategorie="Pupille" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-30" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="30-35" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="BONSIGNOUR" prenomParticipant="Gabriel" clubParticipant="83001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="CHEBABI" prenomParticipant="Rayan" clubParticipant="83001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Pupille" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-25" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="25-30" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="30-35">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="35-40">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Benjamin" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-30" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="LANDO" prenomParticipant="Anthony" clubParticipant="13003" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Morel" prenomParticipant="Anhao" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="30-35" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="Mokli-Polge" prenomParticipant="Pierre" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Rigaud" prenomParticipant="Achille" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>3</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="DARFEUILLE" prenomParticipant="Kalvyn" clubParticipant="83001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="RESTAGNO" prenomParticipant="Numa" clubParticipant="83001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>4</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Benjamin" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-25">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="25-30">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="30-35" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="35-40">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Minime" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-40">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Minime" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-35">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="35-40">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="40-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Cadet" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-50" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-100">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-50-50-55" etatEpreuve="Fusion">
+                    <participants>
+                        <participant nomParticipant="Thiers" prenomParticipant="Alan" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Muzar" prenomParticipant="Alexi" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>5</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60-0-50-50-55" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="COLOMBANI" prenomParticipant="Bastian" clubParticipant="13003" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="FUSCA" prenomParticipant="Nicolas" clubParticipant="13003" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>3</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Rinjard" prenomParticipant="Lucas" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>4</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Thiers" prenomParticipant="Alan" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Muzar" prenomParticipant="Alexi" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>5</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Cadet" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-45">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-100">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60-60-65" etatEpreuve="Fusion">
+                    <participants>
+                        <participant nomParticipant="Depoizier" prenomParticipant="Lucile" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Monnet" prenomParticipant="Olivia" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Montaudoin" prenomParticipant="Chloé" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>3</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Junior" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-80">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="80-120">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Junior" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-50">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="50-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60" etatEpreuve="Fusion">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-100">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Senior" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-80">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="80-85">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="85-120">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Senior" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-80">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="80-120">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Vétéran" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-80">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="80-85">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="85-120">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Vétéran" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Arme">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Main Nue">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Technique" nomEpreuve="Doi Luyen">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-55">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="60-65">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="65-70">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="70-75">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="75-80">
+                    <participants/>
+                </epreuve>
+                <epreuve typeEpreuve="Combat" nomEpreuve="80-120">
+                    <participants/>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Pupille" typeCategorie="Mixte">
+            <epreuves>
+                <epreuve typeEpreuve="Combat" nomEpreuve="0-25-0-30" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="Berberian" prenomParticipant="Jade" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="DARFEUILLE" prenomParticipant="Warren" clubParticipant="83001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Pupille - Benjamin" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Combat" nomEpreuve="25-30-30-35" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="Peirano" prenomParticipant="Lisa" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Aroca" prenomParticipant="Marie" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Benjamin - Minime" typeCategorie="Masculin">
+            <epreuves>
+                <epreuve typeEpreuve="Combat" nomEpreuve="45-50-40-45" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="Mokli" prenomParticipant="Thomas" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>3</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Tazrart" prenomParticipant="Elies" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Coston" prenomParticipant="Theo" clubParticipant="13001" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+        <categorie nomCategorie="Cadet - Junior" typeCategorie="Féminin">
+            <epreuves>
+                <epreuve typeEpreuve="Combat" nomEpreuve="55-60-60-65-55-60" etatEpreuve="Valide">
+                    <participants>
+                        <participant nomParticipant="Depoizier" prenomParticipant="Lucile" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>1</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Monnet" prenomParticipant="Olivia" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>2</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Montaudoin" prenomParticipant="Chloé" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>3</placeOnGrid>
+                        </participant>
+                        <participant nomParticipant="Rinjard" prenomParticipant="Camille" clubParticipant="13002" poidsParticipant="0">
+                            <classementAuto>0</classementAuto>
+                            <classementManuel>0</classementManuel>
+                            <classementFinal>0</classementFinal>
+                            <note1>0</note1>
+                            <note2>0</note2>
+                            <note3>0</note3>
+                            <note4>0</note4>
+                            <note5>0</note5>
+                            <placeOnGrid>4</placeOnGrid>
+                        </participant>
+                    </participants>
+                </epreuve>
+            </epreuves>
+        </categorie>
+    </categories>
+    <clubs>
+        <club nomClub="CSMB Omnisports" identifiant="13001" responsable="Henry gael">
+            <eleves>
+                <eleve>
+                    <licenceEleve>1300101</licenceEleve>
+                    <nomEleve>Mokli-Polge</nomEleve>
+                    <prenomEleve>Pierre</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>32</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300102</licenceEleve>
+                    <nomEleve>Mokli</nomEleve>
+                    <prenomEleve>Thomas</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>46</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>45-50</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300103</licenceEleve>
+                    <nomEleve>Tazrart</nomEleve>
+                    <prenomEleve>Elies</prenomEleve>
+                    <ageEleve>12</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>40</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>40-45</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300104</licenceEleve>
+                    <nomEleve>Coston</nomEleve>
+                    <prenomEleve>Theo</prenomEleve>
+                    <ageEleve>13</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>40</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>40-45</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300105</licenceEleve>
+                    <nomEleve>Rigaud</nomEleve>
+                    <prenomEleve>Achille</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>30</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300106</licenceEleve>
+                    <nomEleve>Muzar</nomEleve>
+                    <prenomEleve>Alexi</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>50</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>50-55</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300107</licenceEleve>
+                    <nomEleve>Thiers</nomEleve>
+                    <prenomEleve>Alan</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>47</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>0-50</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300108</licenceEleve>
+                    <nomEleve>Brunet</nomEleve>
+                    <prenomEleve>Antoine</prenomEleve>
+                    <ageEleve>16</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>56</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300109</licenceEleve>
+                    <nomEleve>Brunet</nomEleve>
+                    <prenomEleve>Lisa</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300110</licenceEleve>
+                    <nomEleve>Huynh</nomEleve>
+                    <prenomEleve>Marie-Elisabeth</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300111</licenceEleve>
+                    <nomEleve>Huynh</nomEleve>
+                    <prenomEleve>David</prenomEleve>
+                    <ageEleve>18</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>67</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300112</licenceEleve>
+                    <nomEleve>Nguyen Van Ty</nomEleve>
+                    <prenomEleve>Nicolas</prenomEleve>
+                    <ageEleve>19</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>64</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>60-65</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300113</licenceEleve>
+                    <nomEleve>Henry</nomEleve>
+                    <prenomEleve>Gael</prenomEleve>
+                    <ageEleve>31</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300114</licenceEleve>
+                    <nomEleve>Berberian</nomEleve>
+                    <prenomEleve>Jade</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>24</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>0-25</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300115</licenceEleve>
+                    <nomEleve>Tran</nomEleve>
+                    <prenomEleve>Kévin</prenomEleve>
+                    <ageEleve>25</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>69</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>65-70</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300116</licenceEleve>
+                    <nomEleve>Revel</nomEleve>
+                    <prenomEleve>Eric</prenomEleve>
+                    <ageEleve>41</ageEleve>
+                    <categorieEleve>Vétéran</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+            </eleves>
+        </club>
+        <club nomClub="Vo Quyen Dao " identifiant="13003" responsable="Jacquemart Arnaud">
+            <eleves>
+                <eleve>
+                    <licenceEleve>1300301</licenceEleve>
+                    <nomEleve>COLOMBANI</nomEleve>
+                    <prenomEleve>Bastian</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>55</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300302</licenceEleve>
+                    <nomEleve>JACQUEMART</nomEleve>
+                    <prenomEleve>ARNAUD</prenomEleve>
+                    <ageEleve>40</ageEleve>
+                    <categorieEleve>Vétéran</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>79</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>75-80</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300303</licenceEleve>
+                    <nomEleve>LANDO</nomEleve>
+                    <prenomEleve>Anthony</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>27</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>0-30</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300304</licenceEleve>
+                    <nomEleve>FUSCA</nomEleve>
+                    <prenomEleve>Nicolas</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>55</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+            </eleves>
+        </club>
+        <club nomClub="KY LAN VO DAO LA LICORNE" identifiant="13002" responsable="Jean Christophe Bertolucci">
+            <eleves>
+                <eleve>
+                    <licenceEleve>1300201</licenceEleve>
+                    <nomEleve>Peirano</nomEleve>
+                    <prenomEleve>Lisa</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>28</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>25-30</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300202</licenceEleve>
+                    <nomEleve>Morel</nomEleve>
+                    <prenomEleve>Anhao</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>27</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>0-30</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300203</licenceEleve>
+                    <nomEleve>Aroca</nomEleve>
+                    <prenomEleve>Marie</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>31</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300204</licenceEleve>
+                    <nomEleve>Depoizier</nomEleve>
+                    <prenomEleve>Maylis</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>44</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300205</licenceEleve>
+                    <nomEleve>Rinjard</nomEleve>
+                    <prenomEleve>Lucas</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>56</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300206</licenceEleve>
+                    <nomEleve>Montaudoin</nomEleve>
+                    <prenomEleve>Chloé</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>60</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>60-65</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300207</licenceEleve>
+                    <nomEleve>Depoizier</nomEleve>
+                    <prenomEleve>Lucile</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>55</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300208</licenceEleve>
+                    <nomEleve>Mailliet</nomEleve>
+                    <prenomEleve>Lucie</prenomEleve>
+                    <ageEleve>16</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300209</licenceEleve>
+                    <nomEleve>Monnet</nomEleve>
+                    <prenomEleve>Olivia</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>55</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300210</licenceEleve>
+                    <nomEleve>Rinjard</nomEleve>
+                    <prenomEleve>Camille</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve>55</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>55-60</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300211</licenceEleve>
+                    <nomEleve>Cesari</nomEleve>
+                    <prenomEleve>Bernard</prenomEleve>
+                    <ageEleve>27</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>70</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300212</licenceEleve>
+                    <nomEleve>Monnet</nomEleve>
+                    <prenomEleve>Dylan</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>70</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300213</licenceEleve>
+                    <nomEleve>Chenault</nomEleve>
+                    <prenomEleve>Tom</prenomEleve>
+                    <ageEleve>18</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>65</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>65-70</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300214</licenceEleve>
+                    <nomEleve>Delestrade</nomEleve>
+                    <prenomEleve>Clément</prenomEleve>
+                    <ageEleve>27</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>70</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300215</licenceEleve>
+                    <nomEleve>Cheruel</nomEleve>
+                    <prenomEleve>Reynald</prenomEleve>
+                    <ageEleve>44</ageEleve>
+                    <categorieEleve>Vétéran</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>81</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>80-85</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300216</licenceEleve>
+                    <nomEleve>Marrassé</nomEleve>
+                    <prenomEleve>Jean-Bastiste</prenomEleve>
+                    <ageEleve>34</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300217</licenceEleve>
+                    <nomEleve>Barberousse</nomEleve>
+                    <prenomEleve>Pascal</prenomEleve>
+                    <ageEleve>35</ageEleve>
+                    <categorieEleve>Vétéran</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>90</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>85-120</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300218</licenceEleve>
+                    <nomEleve>Chenault</nomEleve>
+                    <prenomEleve>Alain</prenomEleve>
+                    <ageEleve>35</ageEleve>
+                    <categorieEleve>Vétéran</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>73</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 1</licenceEleve>
+                    <nomEleve>Morel/Aroca</nomEleve>
+                    <prenomEleve>Anhao/Marie</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 2</licenceEleve>
+                    <nomEleve>Rinjard/Montaudoin</nomEleve>
+                    <prenomEleve>Lucas/Chloé</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 5</licenceEleve>
+                    <nomEleve>Monnet/Chenault</nomEleve>
+                    <prenomEleve>Dylan/Tom</prenomEleve>
+                    <ageEleve>18</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 6</licenceEleve>
+                    <nomEleve>Monnet/Marrassé</nomEleve>
+                    <prenomEleve>Olivia/Jean-Bastiste</prenomEleve>
+                    <ageEleve>34</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 3</licenceEleve>
+                    <nomEleve>Depoizier/Mailliet</nomEleve>
+                    <prenomEleve>Lucile/Lucie</prenomEleve>
+                    <ageEleve>16</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13002-Équipe 4</licenceEleve>
+                    <nomEleve>Rinjard/Cesari</nomEleve>
+                    <prenomEleve>Camille/Bernard</prenomEleve>
+                    <ageEleve>27</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+            </eleves>
+        </club>
+        <club nomClub="Van Long" identifiant="13004" responsable="Krespo Kévin">
+            <eleves>
+                <eleve>
+                    <licenceEleve>1300101</licenceEleve>
+                    <nomEleve>Krespo</nomEleve>
+                    <prenomEleve>Kévin</prenomEleve>
+                    <ageEleve>20</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>76</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>75-80</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300102</licenceEleve>
+                    <nomEleve>Moritz</nomEleve>
+                    <prenomEleve>Benjamin</prenomEleve>
+                    <ageEleve>20</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>74</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300103</licenceEleve>
+                    <nomEleve>Calas</nomEleve>
+                    <prenomEleve>Antoine</prenomEleve>
+                    <ageEleve>20</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>74</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>70-75</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+            </eleves>
+        </club>
+        <club nomClub="EVAM St Maximin" identifiant="83001" responsable="JJM">
+            <eleves>
+                <eleve>
+                    <licenceEleve>830010147</licenceEleve>
+                    <nomEleve>CHEBABI</nomEleve>
+                    <prenomEleve>Nélia</prenomEleve>
+                    <ageEleve>7</ageEleve>
+                    <categorieEleve></categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010156</licenceEleve>
+                    <nomEleve>BREN</nomEleve>
+                    <prenomEleve>Hugo</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010180</licenceEleve>
+                    <nomEleve>GROLLEAU</nomEleve>
+                    <prenomEleve>Hugo</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010060</licenceEleve>
+                    <nomEleve>PORTEFAIX</nomEleve>
+                    <prenomEleve>Paul</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010168</licenceEleve>
+                    <nomEleve>DARFEUILLE</nomEleve>
+                    <prenomEleve>Warren</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>20</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>0-30</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010011</licenceEleve>
+                    <nomEleve>BIANCIOTTO</nomEleve>
+                    <prenomEleve>Margot</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010145</licenceEleve>
+                    <nomEleve>CHIARONI</nomEleve>
+                    <prenomEleve>Léna</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010150</licenceEleve>
+                    <nomEleve>DOLIWA</nomEleve>
+                    <prenomEleve>Antonin</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010107</licenceEleve>
+                    <nomEleve>KHADIR</nomEleve>
+                    <prenomEleve>Erwan</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010179</licenceEleve>
+                    <nomEleve>MAITREHENRY</nomEleve>
+                    <prenomEleve>Hugo</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010164</licenceEleve>
+                    <nomEleve>BONSIGNOUR</nomEleve>
+                    <prenomEleve>Gabriel</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>33</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010148</licenceEleve>
+                    <nomEleve>CHEBABI</nomEleve>
+                    <prenomEleve>Rayan</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>30</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010056</licenceEleve>
+                    <nomEleve>MOURET-MANZONE</nomEleve>
+                    <prenomEleve>Alexandre</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>30</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010141</licenceEleve>
+                    <nomEleve>FLORENS</nomEleve>
+                    <prenomEleve>Alicia</prenomEleve>
+                    <ageEleve>10</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010185</licenceEleve>
+                    <nomEleve>MARMORAT</nomEleve>
+                    <prenomEleve>Arthur</prenomEleve>
+                    <ageEleve>10</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010172</licenceEleve>
+                    <nomEleve>TUROWSKI</nomEleve>
+                    <prenomEleve>Mathias</prenomEleve>
+                    <ageEleve>10</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>43</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010146</licenceEleve>
+                    <nomEleve>DARFEUILLE</nomEleve>
+                    <prenomEleve>Kalvyn</prenomEleve>
+                    <ageEleve>10</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>30</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010109</licenceEleve>
+                    <nomEleve>RESTAGNO</nomEleve>
+                    <prenomEleve>Numa</prenomEleve>
+                    <ageEleve>10</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>30</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>30-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010173</licenceEleve>
+                    <nomEleve>MAGNAN</nomEleve>
+                    <prenomEleve>Clémentine</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010135</licenceEleve>
+                    <nomEleve>PAGE-BROCHE</nomEleve>
+                    <prenomEleve>FlorlIse</prenomEleve>
+                    <ageEleve>11</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve/>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010038</licenceEleve>
+                    <nomEleve>LEFRANCQ</nomEleve>
+                    <prenomEleve>Yohan</prenomEleve>
+                    <ageEleve>12</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010114</licenceEleve>
+                    <nomEleve>MARTIN</nomEleve>
+                    <prenomEleve>Joris</prenomEleve>
+                    <ageEleve>12</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010017</licenceEleve>
+                    <nomEleve>CHIARONI</nomEleve>
+                    <prenomEleve>Bastien</prenomEleve>
+                    <ageEleve>13</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010028</licenceEleve>
+                    <nomEleve>FLORENS</nomEleve>
+                    <prenomEleve>Nicolas</prenomEleve>
+                    <ageEleve>13</ageEleve>
+                    <categorieEleve>Minime</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010061</licenceEleve>
+                    <nomEleve>RAPETTI</nomEleve>
+                    <prenomEleve>Johan</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010140</licenceEleve>
+                    <nomEleve>LOMBARD</nomEleve>
+                    <prenomEleve>Théo</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>63</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>60-65</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010110</licenceEleve>
+                    <nomEleve>VANDENKOORNHUYSE</nomEleve>
+                    <prenomEleve>Mattias</prenomEleve>
+                    <ageEleve>14</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010086</licenceEleve>
+                    <nomEleve>FAVRE</nomEleve>
+                    <prenomEleve>Florian</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010083</licenceEleve>
+                    <nomEleve>GIAQUINTA</nomEleve>
+                    <prenomEleve>Julie</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010080</licenceEleve>
+                    <nomEleve>LAUNAY</nomEleve>
+                    <prenomEleve>Manon</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010052</licenceEleve>
+                    <nomEleve>MINASYAN</nomEleve>
+                    <prenomEleve>Julia</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010084</licenceEleve>
+                    <nomEleve>GRANADOS</nomEleve>
+                    <prenomEleve>Clément</prenomEleve>
+                    <ageEleve>16</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>64</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>60-65</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010051</licenceEleve>
+                    <nomEleve>MINASYAN</nomEleve>
+                    <prenomEleve>Thibaud</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve> </poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010167</licenceEleve>
+                    <nomEleve>LUPO</nomEleve>
+                    <prenomEleve>Damien</prenomEleve>
+                    <ageEleve>25</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>75</poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                        <epreuveEleve>Arme</epreuveEleve>
+                        <epreuveEleve>75-80</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010067</licenceEleve>
+                    <nomEleve>SERRIERE</nomEleve>
+                    <prenomEleve>Michaël</prenomEleve>
+                    <ageEleve>27</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve/>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010184</licenceEleve>
+                    <nomEleve>BARDOZ</nomEleve>
+                    <prenomEleve>Adrien</prenomEleve>
+                    <ageEleve>27</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010177</licenceEleve>
+                    <nomEleve>TOMASZEVSKI</nomEleve>
+                    <prenomEleve>Maëva</prenomEleve>
+                    <ageEleve>8</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>830010178</licenceEleve>
+                    <nomEleve>TOMASZEVSKI</nomEleve>
+                    <prenomEleve>Romain</prenomEleve>
+                    <ageEleve>9</ageEleve>
+                    <categorieEleve>Pupille</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>83001-Équipe 1</licenceEleve>
+                    <nomEleve>GRANADOS/MINASYAN</nomEleve>
+                    <prenomEleve>Clément/Thibaud</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Senior</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>83001-Équipe 2</licenceEleve>
+                    <nomEleve>RAPETTI/FAVRE</nomEleve>
+                    <prenomEleve>Johan/Florian</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>83001-Équipe 3</licenceEleve>
+                    <nomEleve>LEFRANCQ/CHIARONI</nomEleve>
+                    <prenomEleve>Yohan/Bastien</prenomEleve>
+                    <ageEleve>13</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <presenceEleve>true</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+            </eleves>
+        </club>
+    </clubs>
+</competition>

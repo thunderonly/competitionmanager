@@ -20,6 +20,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleStringProperty nom;
     private SimpleStringProperty prenom;
     private SimpleStringProperty club;
+    private SimpleIntegerProperty poids;
     private SimpleIntegerProperty note1;
     private SimpleIntegerProperty note2;
     private SimpleIntegerProperty note3;
@@ -35,6 +36,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         this.nom = new SimpleStringProperty("");
         this.prenom = new SimpleStringProperty("");
         this.club = new SimpleStringProperty("");
+        this.poids = new SimpleIntegerProperty(0);
         note1 = new SimpleIntegerProperty(0);
         note2 = new SimpleIntegerProperty(0);
         note3 = new SimpleIntegerProperty(0);
@@ -51,6 +53,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         this.nom = new SimpleStringProperty(nom);
         this.prenom = new SimpleStringProperty(prenom);
         this.club = new SimpleStringProperty("");
+        this.poids = new SimpleIntegerProperty(0);
         note1 = new SimpleIntegerProperty(0);
         note2 = new SimpleIntegerProperty(0);
         note3 = new SimpleIntegerProperty(0);
@@ -81,6 +84,8 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     }
 
     public String getClub() { return this.club.get(); }
+
+    public Integer getPoids() { return this.poids.get(); }
 
     public Integer getNote1() {
         return this.note1.get();
@@ -131,6 +136,8 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     }
 
     public void setClub(String club) { this.club.set(club); }
+
+    public void setPoids(Integer poids) { this.poids.set(poids);}
 
     public void setNote1(Integer note1) {
         this.note1.set(note1);
@@ -187,6 +194,10 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public SimpleStringProperty clubProperty() {
         return club;
+    }
+
+    public SimpleIntegerProperty poidsProperty() {
+        return poids;
     }
 
     public SimpleIntegerProperty note1Property() {

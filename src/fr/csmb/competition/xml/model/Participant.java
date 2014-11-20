@@ -20,6 +20,8 @@ public class Participant implements Serializable {
     private String prenomParticipant;
     @XmlAttribute(name="clubParticipant")
     private String clubParticipant;
+    @XmlAttribute(name="poidsParticipant")
+    private String poidsParticipant;
     @XmlElement(name="classementAuto")
     private String classementAuto;
     @XmlElement(name="classementManuel")
@@ -63,6 +65,14 @@ public class Participant implements Serializable {
 
     public void setClubParticipant(String clubParticipant) {
         this.clubParticipant = clubParticipant;
+    }
+
+    public String getPoidsParticipant() {
+        return poidsParticipant;
+    }
+
+    public void setPoidsParticipant(String poidsParticipant) {
+        this.poidsParticipant = poidsParticipant;
     }
 
     public String getClassementAuto() {

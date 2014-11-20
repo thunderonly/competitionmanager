@@ -237,7 +237,7 @@ public class InscriptionsManager {
                     int intMinPoids = Integer.parseInt(minPoids);
                     int intMaxPoids = Integer.parseInt(maxPoids);
 
-                    if (categorie.getNom().equals(eleve.getCategorie())) {
+                    if (categorie.getNom().equals(eleve.getCategorie()) && categorie.getType().equals(eleve.getSexe())) {
                         if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
                             return nomEpreuve;
                         }
@@ -577,7 +577,7 @@ public class InscriptionsManager {
         cellHeaderClub.setCellValue("Club");
         cellHeaderClub.setCellStyle(styleCellTitle);
         Cell cellHeaderTotal = row.createCell(colCount + 4);
-        cellHeaderTotal.setCellValue("Total");
+        cellHeaderTotal.setCellValue("Poids");
         cellHeaderTotal.setCellStyle(styleCellTitle);
     }
 
@@ -606,9 +606,9 @@ public class InscriptionsManager {
                             cellNomPrenom.setCellValue(participant.getNomParticipant().concat(" ").concat(participant.getPrenomParticipant()));
                             Cell cellClub = rowParticipant.createCell(startCol + 3);
                             cellClub.setCellValue(participant.getClubParticipant());
-                            Cell cellTotal = rowParticipant.createCell(startCol + 4);
-                            cellTotal.setCellValue(1);
-                            cellTotal.setCellStyle(styleCellTotal1);
+                            Cell cellPoids = rowParticipant.createCell(startCol + 4);
+                            cellPoids.setCellValue(participant.getPoidsParticipant());
+                            cellPoids.setCellStyle(styleCellTotal1);
                             rowStartForData++;
                         }
 
