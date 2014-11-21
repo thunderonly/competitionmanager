@@ -90,21 +90,6 @@ public class CompetitionReceiverListner implements DatagramListener {
 
             }
         }
-//        if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals(epreuve.getEtatEpreuve())) {
-//            if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
-//                notificationView.notify(NotificationView.Level.INFO, "Information",
-//                        "L'épreuve " + epreuveBean.toString() + " a été validée");
-//            } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
-//                notificationView.notify(NotificationView.Level.INFO, "Information",
-//                        "L'épreuve " + epreuveBean.toString() + " a été démarrée");
-//            } else if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-//                notificationView.notify(NotificationView.Level.INFO, "Information",
-//                        "L'épreuve " + epreuveBean.toString() + " a été terminée");
-//            } else if (EtatEpreuve.SUPPRIME.getValue().equals(epreuveBean.getEtat())) {
-//                notificationView.notify(NotificationView.Level.INFO, "Information",
-//                        "L'épreuve " + epreuveBean.toString() + " a été supprimée");
-//            }
-//        }
 
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
         saveCompetitionToXmlFileTmp();

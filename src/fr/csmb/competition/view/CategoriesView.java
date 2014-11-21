@@ -136,8 +136,7 @@ public class CategoriesView {
             TreeItem<String> itemEpreuveTypeCombat = null;
             for (EpreuveBean epreuve : categorie.getEpreuves()) {
 
-                ObservableList<ParticipantBean> list = categorieViewController.extractEpreuves(categorie.getType(), categorie.getNom(), epreuve.getNom());
-                if (list.size() <= 0) {
+                if (epreuve.getParticipants().isEmpty()) {
                     continue;
                 }
                 final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
@@ -243,7 +242,9 @@ public class CategoriesView {
                         stackPane.getChildren().add(epreuveBorderPane);
                     } else {
                         createTableView(stackPane);
-                        updateList(typeCategorie, categorie, epreuve);
+                        if (epreuveBean != null) {
+                            updateList(epreuveBean);
+                        }
                     }
                 }
             }
@@ -320,9 +321,9 @@ public class CategoriesView {
 
     }
 
-    private void updateList(String typeCategorie, String categorie, String epreuve) {
+    private void updateList(EpreuveBean epreuveBean) {
         participantBeans.clear();
-        participantBeans.addAll(this.categorieViewController.extractEpreuves(typeCategorie, categorie, epreuve));
+        participantBeans.addAll(epreuveBean.getParticipants());
     }
 
     public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {

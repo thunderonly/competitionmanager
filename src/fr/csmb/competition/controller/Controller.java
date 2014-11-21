@@ -10,6 +10,7 @@ import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.NotificationView;
@@ -313,35 +314,36 @@ public class Controller {
         mapSexe.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
             for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                GlobalVision testStructure = null;
-                if (mapSexe.get(epreuveBean.getType()).containsKey(epreuveBean.getNom())) {
-                    testStructure = mapSexe.get(epreuveBean.getType()).get(epreuveBean.getNom());
-                } else {
-                    testStructure = new GlobalVision(epreuveBean.getNom());
-                    mapSexe.get(epreuveBean.getType()).put(epreuveBean.getNom(), testStructure);
-                }
+                if (!EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
+                    GlobalVision testStructure = null;
+                    if (mapSexe.get(epreuveBean.getType()).containsKey(epreuveBean.getNom())) {
+                        testStructure = mapSexe.get(epreuveBean.getType()).get(epreuveBean.getNom());
+                    } else {
+                        testStructure = new GlobalVision(epreuveBean.getNom());
+                        mapSexe.get(epreuveBean.getType()).put(epreuveBean.getNom(), testStructure);
+                    }
 
-                Map<String, List<Participant>> map1 = null;
-                if(testStructure.getTypeCategories().containsKey(categorieBean.getNom())) {
-                    map1 = testStructure.getTypeCategories().get(categorieBean.getNom());
-                } else {
-                    map1 = new HashMap<String, List<Participant>>();
-                    testStructure.getTypeCategories().put(categorieBean.getNom(), map1);
-                }
+                    Map<String, List<Participant>> map1 = null;
+                    if (testStructure.getTypeCategories().containsKey(categorieBean.getNom())) {
+                        map1 = testStructure.getTypeCategories().get(categorieBean.getNom());
+                    } else {
+                        map1 = new HashMap<String, List<Participant>>();
+                        testStructure.getTypeCategories().put(categorieBean.getNom(), map1);
+                    }
 
-                List<Participant> participants = null;
-                if (map1.containsKey(categorieBean.getType())) {
-                    participants = map1.get(categorieBean.getType());
-                } else {
-                    participants = new ArrayList<Participant>();
-                    map1.put(categorieBean.getType(), participants);
-                }
+                    List<Participant> participants = null;
+                    if (map1.containsKey(categorieBean.getType())) {
+                        participants = map1.get(categorieBean.getType());
+                    } else {
+                        participants = new ArrayList<Participant>();
+                        map1.put(categorieBean.getType(), participants);
+                    }
 
-                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                    Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
-                    participants.add(participant);
+                    for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                        Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
+                        participants.add(participant);
+                    }
                 }
-
             }
         }
 

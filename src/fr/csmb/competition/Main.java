@@ -1,12 +1,15 @@
 package fr.csmb.competition;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
+import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.controller.ClubController;
 import fr.csmb.competition.controller.Controller;
 import fr.csmb.competition.manager.InscriptionsManager;
+import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
+import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.network.receiver.CompetitionReceiverListner;
 import fr.csmb.competition.network.receiver.NetworkReceiver;
 import fr.csmb.competition.view.CategoriesView;
@@ -18,6 +21,8 @@ import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Eleve;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -118,6 +123,7 @@ public class Main extends Application {
             competitionData.add(competition);
             competitionBean = CompetitionConverter.convertCompetitionToCompetitionBean(competition);
             clubs = competitionBean.getClubs();
+            initializeListener();
 
             controller.setCompetitionBean(competitionBean);
 
@@ -142,6 +148,50 @@ public class Main extends Application {
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
                     "Erreur lors du chargement de la compétition");
         }
+    }
+
+    private void initializeListener() {
+
+        for (final ClubBean clubBean : clubs) {
+            for (final EleveBean eleveBean : clubBean.getEleves()) {
+                eleveBean.presenceProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                        if (t1) {
+                            CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
+                            if (categorieBean != null) {
+                                for (String epreuve : eleveBean.getEpreuves()) {
+                                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                                    if (epreuveBean != null) {
+                                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
+                                        participantBean.setClub(clubBean.getIdentifiant());
+                                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
+                                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
+                                        }
+                                        epreuveBean.getParticipants().add(participantBean);
+                                    }
+                                }
+                            }
+
+                        } else {
+                            CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
+                            if (categorieBean != null) {
+                                for (String epreuve : eleveBean.getEpreuves()) {
+                                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                                    if (epreuveBean != null) {
+                                        ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(
+                                                eleveBean.getNom(), eleveBean.getPrenom());
+                                        epreuveBean.getParticipants().remove(participantBean);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
     }
 
     public void showCompetitionView() {

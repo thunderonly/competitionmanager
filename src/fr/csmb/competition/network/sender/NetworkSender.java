@@ -30,6 +30,9 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * [Enter type description here].
@@ -96,42 +99,13 @@ public class NetworkSender {
     public void sendClub(ClubBean clubBean) {
         if (createDatagramSocket()) {
 
-            try {
-                if (address == null || address.equals("")) {
-                    address = getMulticastIp();
-                }
-                LOGGER.info("Send club data on address %s and port %s", address, port);
-//                Club club = ClubConverter.convertClubBeanToClub(clubBean);
-                int nbEleves = clubBean.getEleves().size();
-                int nbSend = 0;
-                List<Eleve> eleves = new ArrayList<Eleve>(2);
-                for (EleveBean eleveBean : clubBean.getEleves()) {
-                    eleves.add(EleveConverter.convertEleveBeanToEleve(eleveBean));
-                    nbSend++;
-                    if (nbSend % 4 == 0 || nbSend == nbEleves) {
-                        Club club = new Club(clubBean.getIdentifiant(), clubBean.getNom());
-                        club.setEleves(eleves);
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
-                        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-                        os.flush();
-                        os.writeObject(club);
-                        os.flush();
-                        //retrieves byte array
-                        byte[] sendBuf = byteStream.toByteArray();
-                        sendPacket(sendBuf);
-                        eleves.clear();
-                    }
-                }
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (IOException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
+            if (address == null || address.equals("")) {
+                address = getMulticastIp();
             }
+            LOGGER.info("Send club data on address %s and port %s", address, port);
+//                Club club = ClubConverter.convertClubBeanToClub(clubBean);
+            ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.execute(new ClubSender(clubBean));
         }
     }
 
@@ -139,43 +113,13 @@ public class NetworkSender {
 
         if (createDatagramSocket()) {
 
-            try {
-                if (address == null || address.equals("")) {
-                    address = getMulticastIp();
-                }
-                LOGGER.info("Send competition data on address %s and port %s", address, port);
-                int nbParticipants = epreuveBean.getParticipants().size();
-                int nbSend = 0;
-                List<Participant> participants = new ArrayList<Participant>(4);
-                boolean isSend = false;
-                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                    participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
-                    nbSend++;
-                    if (nbSend % 2 == 0 || nbSend == nbParticipants) {
-
-                        //retrieves byte array
-                        byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, nbSend, nbParticipants, participants);
-                        sendPacket(sendBuf);
-                        participants.clear();
-                        isSend = true;
-                    }
-                }
-                if (!isSend) {
-                    //retrieves byte array
-                    byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, 0, 0, participants);
-                    sendPacket(sendBuf);
-                }
-
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (IOException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
+            if (address == null || address.equals("")) {
+                address = getMulticastIp();
             }
+            LOGGER.info("Send competition data on address %s and port %s", address, port);
+            ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.execute(new CompetitionSender(competitionBean, categorieBean, epreuveBean));
+
         }
     }
 
@@ -283,5 +227,98 @@ public class NetworkSender {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private class ClubSender implements Runnable {
+
+        private ClubBean clubBean;
+
+        public ClubSender(ClubBean clubBean) {
+            this.clubBean = clubBean;
+        }
+
+        @Override
+        public void run() {
+            try {
+                int nbEleves = clubBean.getEleves().size();
+                int nbSend = 0;
+                List<Eleve> eleves = new ArrayList<Eleve>(2);
+                for (EleveBean eleveBean : clubBean.getEleves()) {
+                    eleves.add(EleveConverter.convertEleveBeanToEleve(eleveBean));
+                    nbSend++;
+                    if (nbSend % 4 == 0 || nbSend == nbEleves) {
+                        Club club = new Club(clubBean.getIdentifiant(), clubBean.getNom());
+                        club.setEleves(eleves);
+                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
+                        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+                        os.flush();
+                        os.writeObject(club);
+                        os.flush();
+                        //retrieves byte array
+                        byte[] sendBuf = byteStream.toByteArray();
+                        sendPacket(sendBuf);
+                        eleves.clear();
+                    }
+                }
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            }
+        }
+    }
+
+    private class CompetitionSender implements Runnable {
+
+        private CompetitionBean competitionBean;
+        private CategorieBean categorieBean;
+        private EpreuveBean epreuveBean;
+
+        public CompetitionSender(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean) {
+            this.competitionBean = competitionBean;
+            this.categorieBean = categorieBean;
+            this.epreuveBean = epreuveBean;
+        }
+
+        @Override
+        public void run() {
+            try {
+                int nbParticipants = epreuveBean.getParticipants().size();
+                int nbSend = 0;
+                List<Participant> participants = new ArrayList<Participant>(4);
+                boolean isSend = false;
+                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
+                    nbSend++;
+                    if (nbSend % 2 == 0 || nbSend == nbParticipants) {
+
+                        //retrieves byte array
+                        byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, nbSend, nbParticipants, participants);
+                        sendPacket(sendBuf);
+                        participants.clear();
+                        isSend = true;
+                    }
+                }
+                if (!isSend) {
+                    //retrieves byte array
+                    byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, 0, 0, participants);
+                    sendPacket(sendBuf);
+                }
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                LOGGER.error("Error when send data ", e);
+            }
+        }
     }
 }

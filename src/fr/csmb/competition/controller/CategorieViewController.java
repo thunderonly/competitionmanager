@@ -70,14 +70,14 @@ public class CategorieViewController {
                 } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                     return 4;
                 } else {
-                    epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
+//                    epreuveBean.getParticipants().addAll(extractParticipants(typeCategorie, categorie, epreuve));
                     if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
                         //Configure order of fighter
                         ConfigureFightView configureFightView = new ConfigureFightView();
                         configureFightView.showView(currentStage, epreuveBean);
-                        if (!epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue())) {
-                            epreuveBean.getParticipants().clear();
-                        }
+//                        if (!epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue())) {
+//                            epreuveBean.getParticipants().clear();
+//                        }
                     } else {
                         epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                     }
@@ -101,7 +101,7 @@ public class CategorieViewController {
                 } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                     return 2;
                 } else {
-                    epreuveBean.getParticipants().clear();
+//                    epreuveBean.getParticipants().clear();
                     epreuveBean.setEtat("");
 
                     saveCompetitionToXmlFileTmp();
@@ -234,7 +234,7 @@ public class CategorieViewController {
                 } else {
                     ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean1.getParticipants());
                     participantBeans.addAll(observableList);
-                    epreuveBean1.setParticipants(FXCollections.observableArrayList());
+//                    epreuveBean1.setParticipants(FXCollections.observableArrayList());
                 }
             }
 
@@ -247,7 +247,7 @@ public class CategorieViewController {
                 } else {
                     ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean2.getParticipants());
                     participantBeans.addAll(observableList);
-                    epreuveBean2.setParticipants(FXCollections.observableArrayList());
+//                    epreuveBean2.setParticipants(FXCollections.observableArrayList());
                 }
             }
 
