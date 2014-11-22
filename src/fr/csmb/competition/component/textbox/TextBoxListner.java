@@ -39,27 +39,13 @@ public class TextBoxListner {
     }
 
     public void onFireEvent(TextBox sourceBox) {
-        FightView fightView = new FightView(boxBlue, boxRed, boxVictory, boxFail, phase);
-        if (!boxBlue.getParticipant().getNom().equals("") && !boxRed.getParticipant().getNom().equals("")) {
-            fightView.showView();
+        if (sourceBox != null) {
+            FightView fightView = new FightView(boxBlue, boxRed, boxVictory, boxFail, phase);
+            if (!boxBlue.getParticipant().getNom().equals("") && !boxRed.getParticipant().getNom().equals("")) {
+                fightView.showView();
+            }
         }
-//        if (sourceBox == boxBlue) {
-//            boxVictory.setParticipant(boxBlue.getParticipant());
-//            boxFail.setParticipant(boxRed.getParticipant());
-//        } else {
-//            boxVictory.setParticipant(boxRed.getParticipant());
-//            boxFail.setParticipant(boxBlue.getParticipant());
-//        }
-//        switch (phase) {
-//            case PETITE_FINALE:
-//                boxVictory.getParticipant().setClassementFinal(3);
-//                boxFail.getParticipant().setClassementFinal(4);
-//                break;
-//            case FINALE:
-//                boxVictory.getParticipant().setClassementFinal(1);
-//                boxFail.getParticipant().setClassementFinal(2);
-//                break;
-//        }
+
         if (participantClassementFinalListener != null) {
             participantClassementFinalListener.fireUpdateClassementFinal(boxVictory.getParticipant());
             participantClassementFinalListener.fireUpdateClassementFinal(boxFail.getParticipant());

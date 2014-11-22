@@ -5,6 +5,7 @@ import fr.csmb.competition.Main;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.manager.InscriptionsManager;
+import fr.csmb.competition.manager.ResultatsManager;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -146,8 +147,8 @@ public class Controller {
             if (!file.getPath().endsWith(".xlsx")) {
                 file = new File(file.getPath() + ".xlsx");
             }
-            InscriptionsManager inscriptionsManager = new InscriptionsManager();
-            boolean isSaved = inscriptionsManager.saveResultatFile(file, competitionBean);
+            ResultatsManager resultatsManager = new ResultatsManager();
+            boolean isSaved = resultatsManager.saveResultatFile(file, competitionBean);
             if (isSaved) {
                 NotificationView notificationView = new NotificationView(main.getMainStage());
                 notificationView.notify(NotificationView.Level.SUCCESS, "Génération",

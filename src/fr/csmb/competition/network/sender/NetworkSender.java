@@ -19,6 +19,7 @@ import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
+import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -103,9 +104,9 @@ public class NetworkSender {
                 address = getMulticastIp();
             }
             LOGGER.info("Send club data on address %s and port %s", address, port);
-//                Club club = ClubConverter.convertClubBeanToClub(clubBean);
-            ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
             executorService.execute(new ClubSender(clubBean));
+            executorService.shutdown();
         }
     }
 
@@ -119,7 +120,7 @@ public class NetworkSender {
             LOGGER.info("Send competition data on address %s and port %s", address, port);
             ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.execute(new CompetitionSender(competitionBean, categorieBean, epreuveBean));
-
+            executorService.shutdown();
         }
     }
 

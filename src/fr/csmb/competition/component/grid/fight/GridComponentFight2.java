@@ -148,6 +148,10 @@ public class GridComponentFight2 extends GridComponent {
                 }
                 TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
                 TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
+                if (nbJoueur == 3) {
+                    resultatsDemi1[1].getText().setText("3eme");
+                    resultatsDemi1[1].enableListForFight3Fighters(resultatsPetiteFinale[0]);
+                }
 
                 return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
 

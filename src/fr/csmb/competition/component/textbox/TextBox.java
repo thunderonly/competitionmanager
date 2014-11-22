@@ -10,6 +10,8 @@ import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
@@ -101,6 +103,20 @@ public class TextBox extends Group {
                 player.setPlaceOnGrid(numPlace);
                 setParticipant(player);
                 dragEvent.setDropCompleted(true);
+            }
+        });
+    }
+
+    public void enableListForFight3Fighters(final TextBox boxVictory) {
+        final TextBox tb = this;
+        text.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (listner != null) {
+                    boxVictory.setParticipant(participant);
+                    participant.setClassementFinal(3);
+                    listner.onFireEvent(null);
+                }
             }
         });
     }
