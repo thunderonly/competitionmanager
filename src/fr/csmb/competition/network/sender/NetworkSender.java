@@ -142,7 +142,7 @@ public class NetworkSender {
         if (nbSend >= nbParticipants) {
             epreuve.setEtatEpreuve(epreuveBean.getEtat());
         }
-        categorie.getEpreuves().add(epreuve);
+        competition.getEpreuve().add(epreuve);
         LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
         epreuve.setParticipants(participants);

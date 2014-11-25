@@ -14,9 +14,9 @@ public class Competition implements Serializable{
 
     @XmlAttribute(name="nom")
     private String nom;
-    @XmlElementWrapper(name="categories")
-    @XmlElement(name="categorie")
     private List<Categorie> categories;
+    private List<Epreuve> epreuve;
+    private List<Discipline> discipline;
     @XmlElementWrapper(name="clubs")
     @XmlElement(name="club")
     private List<Club> clubs;
@@ -24,12 +24,16 @@ public class Competition implements Serializable{
     public Competition(){
         this.nom = "";
         this.categories = new ArrayList<Categorie>();
+        this.epreuve = new ArrayList<Epreuve>();
+        this.discipline = new ArrayList<Discipline>();
         this.clubs = new ArrayList<Club>();
     }
 
     public Competition(String nom) {
         this.nom = nom;
         this.categories = new ArrayList<Categorie>();
+        this.epreuve = new ArrayList<Epreuve>();
+        this.discipline = new ArrayList<Discipline>();
         this.clubs = new ArrayList<Club>();
     }
 
@@ -47,6 +51,22 @@ public class Competition implements Serializable{
 
     public void setCategories(List<Categorie> categories) {
         this.categories = categories;
+    }
+
+    public List<Epreuve> getEpreuve() {
+        return epreuve;
+    }
+
+    public void setEpreuve(List<Epreuve> epreuve) {
+        this.epreuve = epreuve;
+    }
+
+    public List<Discipline> getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(List<Discipline> discipline) {
+        this.discipline = discipline;
     }
 
     public List<Club> getClubs() {

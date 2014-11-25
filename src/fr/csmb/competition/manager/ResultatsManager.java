@@ -215,8 +215,8 @@ public class ResultatsManager {
                 } else {
                     cell4.setCellValue("---");
                 }
+                nbPart++;
             }
-            nbPart++;
         }
         while (nbPart < 4) {
             Row rowParticipant = getRow(sheet, nbPart + rowCount);

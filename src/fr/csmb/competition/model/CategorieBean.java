@@ -19,6 +19,7 @@ public class CategorieBean implements Cloneable {
     private SimpleStringProperty nom;
     private SimpleStringProperty type;
     private SimpleListProperty<EpreuveBean> epreuves;
+    private SimpleListProperty<DisciplineBean> disciplines;
 
     public CategorieBean(String nom) {
         this.nom = new SimpleStringProperty(nom);
@@ -26,6 +27,9 @@ public class CategorieBean implements Cloneable {
         this.epreuves = new SimpleListProperty<EpreuveBean>();
         ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
         this.epreuves.set(epreuveBeans);
+        this.disciplines = new SimpleListProperty<DisciplineBean>();
+        ObservableList<DisciplineBean> disciplineBeans = FXCollections.observableArrayList();
+        this.disciplines.set(disciplineBeans);
     }
 
     public String getNom() {
@@ -62,6 +66,18 @@ public class CategorieBean implements Cloneable {
 
     public SimpleListProperty<EpreuveBean> epreuvesProperty() {
         return epreuves;
+    }
+
+    public ObservableList<DisciplineBean> getDisciplines() {
+        return disciplines.get();
+    }
+
+    public SimpleListProperty<DisciplineBean> disciplinesProperty() {
+        return disciplines;
+    }
+
+    public void setDisciplines(ObservableList<DisciplineBean> disciplines) {
+        this.disciplines.set(disciplines);
     }
 
     @Override

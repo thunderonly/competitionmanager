@@ -12,22 +12,38 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Categorie implements Cloneable, Serializable {
 
+    @XmlAttribute @XmlID
+    private String id;
     @XmlAttribute(name="nomCategorie")
     private String nomCategorie;
     @XmlAttribute(name="typeCategorie")
     private String typeCategorie;
-    @XmlElementWrapper(name="epreuves")
-    @XmlElement(name="epreuve")
-    private List<Epreuve> epreuves;
+    @XmlElement
+    @XmlIDREF
+    private List<Discipline> discipline;
 
     public Categorie() {
-        this("", "");
+        this(null, null);
     }
 
     public Categorie(String nom, String type) {
+        if (nom != null && type != null) {
+            this.id = nom.concat("-").concat(type);
+        }
         this.nomCategorie = nom;
         this.typeCategorie = type;
-        this.epreuves = new ArrayList<Epreuve>();
+        this.discipline = new ArrayList<Discipline>();
+    }
+
+    public String getId() {
+        if (this.nomCategorie != null && this.typeCategorie != null) {
+            this.id = this.nomCategorie.concat("-").concat(this.typeCategorie);
+        }
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNomCategorie() {
@@ -46,18 +62,18 @@ public class Categorie implements Cloneable, Serializable {
         this.typeCategorie = typeCategorie;
     }
 
-    public List<Epreuve> getEpreuves() {
-        return epreuves;
+    public List<Discipline> getDiscipline() {
+        return discipline;
     }
 
-    public void setEpreuves(List<Epreuve> epreuves) {
-        this.epreuves = epreuves;
+    public void setDiscipline(List<Discipline> discipline) {
+        this.discipline = discipline;
     }
 
-    public Epreuve getEpreuveByName(String name) {
-        for (Epreuve epreuve : epreuves) {
-            if (epreuve.getNomEpreuve().equals(name)) {
-                return epreuve;
+    public Discipline getDisciplineByName(String name) {
+        for (Discipline discipline1 : discipline) {
+            if (discipline1.getNom().equals(name)) {
+                return discipline1;
             }
         }
         return null;

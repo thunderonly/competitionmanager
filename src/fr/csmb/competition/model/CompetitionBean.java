@@ -20,6 +20,8 @@ public class CompetitionBean {
 
     private SimpleStringProperty nom;
     private SimpleListProperty<CategorieBean> categories;
+    private SimpleListProperty<EpreuveBean> epreuves;
+    private SimpleListProperty<DisciplineBean> disciplines;
     private SimpleListProperty<ClubBean> clubs;
 
     public CompetitionBean() {
@@ -31,6 +33,12 @@ public class CompetitionBean {
         this.categories = new SimpleListProperty<CategorieBean>();
         ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
         this.categories.set(categorieBeans);
+        this.epreuves = new SimpleListProperty<EpreuveBean>();
+        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+        this.epreuves.set(epreuveBeans);
+        this.disciplines = new SimpleListProperty<DisciplineBean>();
+        ObservableList<DisciplineBean> disciplineBeans = FXCollections.observableArrayList();
+        this.disciplines.set(disciplineBeans);
         ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         this.clubs = new SimpleListProperty<ClubBean>();
         this.clubs.set(clubBeans);
@@ -52,6 +60,14 @@ public class CompetitionBean {
         this.categories.set(categories);
     }
 
+    public ObservableList<EpreuveBean> getEpreuves() {
+        return this.epreuves.get();
+    }
+
+    public void setEpreuves(ObservableList<EpreuveBean> epreuves) {
+        this.epreuves.set(epreuves);
+    }
+
     public ObservableList<ClubBean> getClubs() {
         return this.clubs.get();
     }
@@ -68,8 +84,24 @@ public class CompetitionBean {
         return categories;
     }
 
+    public SimpleListProperty<EpreuveBean> epreuvesProperty() {
+        return epreuves;
+    }
+
     public SimpleListProperty<ClubBean> clubsProperty() {
         return clubs;
+    }
+
+    public ObservableList<DisciplineBean> getDisciplines() {
+        return disciplines.get();
+    }
+
+    public SimpleListProperty<DisciplineBean> disciplinesProperty() {
+        return disciplines;
+    }
+
+    public void setDisciplines(ObservableList<DisciplineBean> disciplines) {
+        this.disciplines.set(disciplines);
     }
 
     public CategorieBean getCategorieByName(String name) {

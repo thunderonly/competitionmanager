@@ -17,6 +17,8 @@ import javafx.collections.ObservableList;
  */
 public class EpreuveBean {
 
+    private DisciplineBean discipline;
+    private CategorieBean categorie;
     private SimpleStringProperty type;
     private SimpleStringProperty nom;
     private SimpleStringProperty etat;
@@ -232,6 +234,22 @@ public class EpreuveBean {
 
     public SimpleListProperty<ParticipantBean> participantsProperty() {
         return participants;
+    }
+
+    public DisciplineBean getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(DisciplineBean discipline) {
+        this.discipline = discipline;
+    }
+
+    public CategorieBean getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(CategorieBean categorie) {
+        this.categorie = categorie;
     }
 
     @Override

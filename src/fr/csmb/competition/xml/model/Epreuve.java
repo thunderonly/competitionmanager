@@ -12,6 +12,12 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Epreuve implements Serializable {
 
+    @XmlAttribute @XmlID
+    private String id;
+    @XmlAttribute @XmlIDREF
+    private Discipline discipline;
+    @XmlAttribute @XmlIDREF
+    private Categorie categorie;
     @XmlAttribute(name="typeEpreuve")
     private String typeEpreuve;
     @XmlAttribute(name="nomEpreuve")
@@ -45,6 +51,9 @@ public class Epreuve implements Serializable {
     private List<Participant> participants;
 
     public Epreuve(String nom, String type) {
+        if (nom != null && type != null) {
+            this.id = nom.concat("-").concat(type);
+        }
         this.nomEpreuve = nom;
         this.typeEpreuve = type;
         this.participants = new ArrayList<Participant>();
@@ -52,6 +61,33 @@ public class Epreuve implements Serializable {
 
     public Epreuve() {
         this(null, null);
+    }
+
+    public String getId() {
+        if (this.nomEpreuve != null && this.typeEpreuve != null) {
+            this.id = this.nomEpreuve.concat("-").concat(this.typeEpreuve);
+        }
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Discipline getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(Discipline discipline) {
+        this.discipline = discipline;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
     public String getTypeEpreuve() {

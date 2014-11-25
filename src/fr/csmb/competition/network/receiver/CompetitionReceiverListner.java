@@ -60,7 +60,7 @@ public class CompetitionReceiverListner implements DatagramListener {
             categorieBean.setType(categorie.getTypeCategorie());
             competitionBean.getCategories().add(categorieBean);
         }
-        Epreuve epreuve = categorie.getEpreuves().get(0);
+        Epreuve epreuve = competition.getEpreuve().get(0);
         EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve.getNomEpreuve());
         if (EtatEpreuve.SUPPRIME.getValue().equals(epreuve.getEtatEpreuve())) {
             if (epreuveBean != null) {

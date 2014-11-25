@@ -3,6 +3,7 @@ package fr.csmb.competition.view;
 import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
@@ -239,16 +240,28 @@ public class CreateCompetitionView {
             @Override
             public void handle(ActionEvent actionEvent) {
                 for (CategorieBean categorie : categorieListChoix.getItems()) {
-                    EpreuveBean epreuve = new EpreuveBean(nomEpreuveTF.getText());
+                    DisciplineBean disciplineBean = new DisciplineBean(nomEpreuveTF.getText());
                     if (technique.isSelected()) {
-                        epreuve.setType(TypeEpreuve.TECHNIQUE.getValue());
+                        disciplineBean.setType(TypeEpreuve.TECHNIQUE.getValue());
                     } else if (combat.isSelected()) {
-                        epreuve.setType(TypeEpreuve.COMBAT.getValue());
+                        disciplineBean.setType(TypeEpreuve.COMBAT.getValue());
                     }
-                    categorie.getEpreuves().add(epreuve);
-                    String textEpreuve = categorie.toString().concat(" / ").concat(epreuve.toString());
+                    categorie.getDisciplines().add(disciplineBean);
+                    String textEpreuve = categorie.toString().concat(" / ").concat(disciplineBean.toString());
                     epreuveListChoix.getItems().add(textEpreuve);
+
+                    EpreuveBean epreuveBean = new EpreuveBean(categorie.toString().concat(disciplineBean.toString()));
+                    epreuveBean.setDiscipline(disciplineBean);
+                    epreuveBean.setCategorie(categorie);
+                    competition.getEpreuves().add(epreuveBean);
                 }
+                DisciplineBean disciplineBean = new DisciplineBean(nomEpreuveTF.getText());
+                if (technique.isSelected()) {
+                    disciplineBean.setType(TypeEpreuve.TECHNIQUE.getValue());
+                } else if (combat.isSelected()) {
+                    disciplineBean.setType(TypeEpreuve.COMBAT.getValue());
+                }
+                competition.getDisciplines().add(disciplineBean);
             }
         });
         grid.add(addBtn, 1, 3);
