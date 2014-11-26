@@ -16,6 +16,7 @@ import fr.csmb.competition.controller.GridCategorieController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.network.sender.NetworkSender;
@@ -134,21 +135,21 @@ public class CategoriesView {
             boolean isEpreuveCreated = false;
             TreeItem<String> itemEpreuveTypeTechnique = null;
             TreeItem<String> itemEpreuveTypeCombat = null;
-            for (EpreuveBean epreuve : categorie.getEpreuves()) {
+            for (EpreuveBean epreuve : competitionBean.getEpreuveByCategorie(categorie)) {
 
                 if (epreuve.getParticipants().isEmpty()) {
                     continue;
                 }
-                final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getNom());
+                final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getDiscipline().getNom());
                 isEpreuveCreated = true;
-                if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getType())) {
+                if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getDiscipline().getType())) {
                     if (!isTechniqueCreated) {
                         itemEpreuveTypeTechnique = new TreeItem<String>(TypeEpreuve.TECHNIQUE.getValue());
                         itemCategorie.getChildren().add(itemEpreuveTypeTechnique);
                         isTechniqueCreated = true;
                     }
                     itemEpreuveTypeTechnique.getChildren().add(itemEpreuve);
-                } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
+                } else if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getDiscipline().getType())) {
                     if (!isCombatCreated) {
                         itemEpreuveTypeCombat = new TreeItem<String>(TypeEpreuve.COMBAT.getValue());
                         itemCategorie.getChildren().add(itemEpreuveTypeCombat);
@@ -271,9 +272,9 @@ public class CategoriesView {
         }
 
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        EpreuveBean epreuveBean = null;
-        if (categorieBean != null) {
-            epreuveBean = categorieBean.getEpreuveByName(epreuve);
+        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+        EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
+        if (epreuveBean!= null) {
 
             if (epreuveBean.getEtat() == null || "".equals(epreuveBean.getEtat())) {
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
@@ -410,10 +411,11 @@ public class CategoriesView {
     }
 
     public EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
-        EpreuveBean epreuveBean = null;
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        if (categorieBean != null) {
-            epreuveBean = categorieBean.getEpreuveByName(epreuve);
+        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+        EpreuveBean epreuveBean = null;
+        if (categorieBean != null && disciplineBean != null) {
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
         }
         return epreuveBean;
     }

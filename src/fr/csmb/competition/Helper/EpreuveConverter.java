@@ -2,6 +2,7 @@ package fr.csmb.competition.Helper;
 
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.DetailEpreuveBean;
 import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
@@ -17,57 +18,39 @@ import javafx.collections.ObservableList;
 public class EpreuveConverter {
 
     public static EpreuveBean convertEpreuveToEpreuveBean(Epreuve epreuve) {
-        EpreuveBean epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
+        EpreuveBean epreuveBean = new EpreuveBean();
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
-        epreuveBean.setType(epreuve.getTypeEpreuve());
         ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
         for (Participant participant : epreuve.getParticipants()) {
             ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
             participantBeans.add(participantBean);
         }
-        epreuveBean.setAdministrateur(epreuve.getAdministrateur());
-        epreuveBean.setChronometreur(epreuve.getChronometreur());
-        epreuveBean.setDuree(epreuve.getDuree());
-        epreuveBean.setHeureDebut(epreuve.getHeureDebut());
-        epreuveBean.setHeureFin(epreuve.getHeureFin());
-        epreuveBean.setJuge1(epreuve.getJuge1());
-        epreuveBean.setJuge2(epreuve.getJuge2());
-        epreuveBean.setJuge3(epreuve.getJuge3());
-        epreuveBean.setJuge4(epreuve.getJuge4());
-        epreuveBean.setJuge5(epreuve.getJuge5());
         epreuveBean.setParticipants(participantBeans);
 
         CategorieBean categorieBean = new CategorieBean(epreuve.getCategorie().getNomCategorie());
         categorieBean.setType(epreuve.getCategorie().getTypeCategorie());
         epreuveBean.setCategorie(categorieBean);
 
-        DisciplineBean disciplineBean = new DisciplineBean(epreuve.getDiscipline().getNom());
+        DisciplineBean disciplineBean = new DisciplineBean(epreuve.getDiscipline().getNom(), epreuve.getDiscipline().getType());
         disciplineBean.setType(epreuve.getDiscipline().getType());
         epreuveBean.setDiscipline(disciplineBean);
+
+        epreuveBean.setDetailEpreuve(DetailEpreuveConverter.convertDetailEpreuveToDetailEpreuveBean(epreuve
+                .getDetailEpreuve()));
 
         return epreuveBean;
     }
 
     public static Epreuve convertEpreuveBeanToEpreuve(EpreuveBean epreuveBean) {
-        Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
+        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        Epreuve epreuve = new Epreuve(categorie, discipline);
         epreuve.setEtatEpreuve(epreuveBean.getEtat());
-        epreuve.setAdministrateur(epreuveBean.getAdministrateur());
-        epreuve.setChronometreur(epreuveBean.getChronometreur());
-        epreuve.setJuge1(epreuveBean.getJuge1());
-        epreuve.setJuge2(epreuveBean.getJuge2());
-        epreuve.setJuge3(epreuveBean.getJuge3());
-        epreuve.setJuge4(epreuveBean.getJuge4());
-        epreuve.setJuge5(epreuveBean.getJuge5());
-        epreuve.setTapis(epreuveBean.getTapis());
-        epreuve.setHeureDebut(epreuveBean.getHeureDebut());
-        epreuve.setHeureFin(epreuveBean.getHeureFin());
-        epreuve.setDuree(epreuveBean.getDuree());
         for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
             Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
             epreuve.getParticipants().add(participant);
         }
-        epreuve.setDiscipline(new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType()));
-        epreuve.setCategorie(new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType()));
+        epreuve.setDetailEpreuve(DetailEpreuveConverter.convertDetailEpreuveBeanToDetailEpreuve(epreuveBean.getDetailEpreuve()));
         return epreuve;
     }
 }

@@ -118,8 +118,8 @@ public class ResultatsManager {
                     colCount = 4;
                 }
                 rowCount = 0;
-                for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                    if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
+                    if (epreuveBean.getDiscipline().getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         if (!isSheetCreated) {
                             sheet = workbook.createSheet(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
                             isSheetCreated = true;
@@ -135,7 +135,7 @@ public class ResultatsManager {
                         Row rowEpreuve = getRow(sheet, rowCount++);
                         Cell cellEpreuve = rowEpreuve.createCell(colCount + 1);
                         cellEpreuve.setCellStyle(styleTitle2);
-                        cellEpreuve.setCellValue(epreuveBean.getNom());
+                        cellEpreuve.setCellValue(epreuveBean.getDiscipline().getNom());
                         //Add style for all column
                         for (int i = colCount + 2; i <= colCount + 4; i++) {
                             Cell tempCellClassementGene = rowEpreuve.createCell(i);

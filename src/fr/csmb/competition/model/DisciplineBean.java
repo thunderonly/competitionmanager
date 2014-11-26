@@ -20,8 +20,8 @@ public class DisciplineBean {
     private SimpleStringProperty type;
     private SimpleStringProperty nom;
 
-    public DisciplineBean(String nom) {
-        this.type = new SimpleStringProperty();
+    public DisciplineBean(String nom, String type) {
+        this.type = new SimpleStringProperty(type);
         this.nom = new SimpleStringProperty(nom);
     }
 
@@ -57,6 +57,7 @@ public class DisciplineBean {
         DisciplineBean that = (DisciplineBean) o;
 
         if (!nom.get().equals(that.nom.get())) return false;
+        if (!type.get().equals(that.type.get())) return false;
 
         return true;
     }

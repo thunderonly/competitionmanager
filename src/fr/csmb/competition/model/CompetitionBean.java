@@ -122,6 +122,53 @@ public class CompetitionBean {
         return null;
     }
 
+    public DisciplineBean getDiscipline(String type, String name) {
+        for (DisciplineBean disciplineBean : getDisciplines()) {
+            if (name.equals(disciplineBean.getNom()) && type.equals(disciplineBean.getType())) {
+                return disciplineBean;
+            }
+        }
+        return null;
+    }
+
+    public DisciplineBean getDiscipline(String name) {
+        for (DisciplineBean disciplineBean : getDisciplines()) {
+            if (name.equals(disciplineBean.getNom())) {
+                return disciplineBean;
+            }
+        }
+        return null;
+    }
+
+    public EpreuveBean getEpreuve(CategorieBean categorieBean, DisciplineBean disciplineBean) {
+        for (EpreuveBean epreuveBean : getEpreuves()) {
+            if (epreuveBean.getCategorie().equals(categorieBean) && epreuveBean.getDiscipline().equals(disciplineBean)) {
+                return epreuveBean;
+            }
+        }
+        return null;
+    }
+
+    public ObservableList<EpreuveBean> getEpreuveByDiscipline(DisciplineBean disciplineBean) {
+        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+        for (EpreuveBean epreuveBean : getEpreuves()) {
+            if (epreuveBean.getDiscipline().equals(disciplineBean)) {
+                epreuveBeans.add(epreuveBean);
+            }
+        }
+        return epreuveBeans;
+    }
+
+    public ObservableList<EpreuveBean> getEpreuveByCategorie(CategorieBean categorieBean) {
+        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+        for (EpreuveBean epreuveBean : getEpreuves()) {
+            if (epreuveBean.getCategorie().equals(categorieBean)) {
+                epreuveBeans.add(epreuveBean);
+            }
+        }
+        return epreuveBeans;
+    }
+
     public ClubBean getClubByIdentifiant(String identifiant) {
         for (ClubBean clubBean : getClubs()) {
             if (clubBean.getIdentifiant().equals(identifiant)) {

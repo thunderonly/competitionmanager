@@ -3,6 +3,7 @@ package fr.csmb.competition.view;
 import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DetailEpreuveBean;
 import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.TypeCategorie;
@@ -240,26 +241,26 @@ public class CreateCompetitionView {
             @Override
             public void handle(ActionEvent actionEvent) {
                 for (CategorieBean categorie : categorieListChoix.getItems()) {
-                    DisciplineBean disciplineBean = new DisciplineBean(nomEpreuveTF.getText());
+                    DisciplineBean disciplineBean = null;
                     if (technique.isSelected()) {
-                        disciplineBean.setType(TypeEpreuve.TECHNIQUE.getValue());
+                        disciplineBean = new DisciplineBean(nomEpreuveTF.getText(), TypeEpreuve.TECHNIQUE.getValue());
                     } else if (combat.isSelected()) {
-                        disciplineBean.setType(TypeEpreuve.COMBAT.getValue());
+                        disciplineBean = new DisciplineBean(nomEpreuveTF.getText(), TypeEpreuve.COMBAT.getValue());
                     }
-                    categorie.getDisciplines().add(disciplineBean);
                     String textEpreuve = categorie.toString().concat(" / ").concat(disciplineBean.toString());
                     epreuveListChoix.getItems().add(textEpreuve);
 
-                    EpreuveBean epreuveBean = new EpreuveBean(categorie.toString().concat(disciplineBean.toString()));
+                    EpreuveBean epreuveBean = new EpreuveBean();
                     epreuveBean.setDiscipline(disciplineBean);
                     epreuveBean.setCategorie(categorie);
+                    epreuveBean.setDetailEpreuve(new DetailEpreuveBean());
                     competition.getEpreuves().add(epreuveBean);
                 }
-                DisciplineBean disciplineBean = new DisciplineBean(nomEpreuveTF.getText());
+                DisciplineBean disciplineBean = null;
                 if (technique.isSelected()) {
-                    disciplineBean.setType(TypeEpreuve.TECHNIQUE.getValue());
+                    disciplineBean = new DisciplineBean(nomEpreuveTF.getText(), TypeEpreuve.TECHNIQUE.getValue());
                 } else if (combat.isSelected()) {
-                    disciplineBean.setType(TypeEpreuve.COMBAT.getValue());
+                    disciplineBean = new DisciplineBean(nomEpreuveTF.getText(), TypeEpreuve.COMBAT.getValue());
                 }
                 competition.getDisciplines().add(disciplineBean);
             }
@@ -275,12 +276,12 @@ public class CreateCompetitionView {
         createBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                for (CategorieBean categorie1 : categorieListChoix.getItems()) {
-                    CategorieBean categorieCompetition = competition.getCategories().get(competition.getCategories().indexOf(categorie1));
-                    if (categorieCompetition != null) {
-                        categorieCompetition.setEpreuves(categorie1.getEpreuves());
-                    }
-                }
+//                for (CategorieBean categorie1 : categorieListChoix.getItems()) {
+//                    CategorieBean categorieCompetition = competition.getCategories().get(competition.getCategories().indexOf(categorie1));
+//                    if (categorieCompetition != null) {
+//                        categorieCompetition.setEpreuves(categorie1.getEpreuves());
+//                    }
+//                }
                 stage.close();
             }
         });

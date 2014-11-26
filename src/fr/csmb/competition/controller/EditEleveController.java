@@ -72,20 +72,18 @@ public class EditEleveController {
         String poids = eleve.getPoids();
         int poidsEleveInt = Integer.parseInt(poids);
         List<Epreuve> epreuvesCombat = new ArrayList<Epreuve>();
-        for (CategorieBean categorie : competition.getCategories()) {
-            for (EpreuveBean epreuve : categorie.getEpreuves()) {
-                if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getType())) {
-                    String nomEpreuve = epreuve.getNom();
-                    String newNomEpreuve = nomEpreuve.trim();
-                    String minPoids = newNomEpreuve.substring(0, newNomEpreuve.indexOf("-"));
-                    String maxPoids = newNomEpreuve.substring(newNomEpreuve.indexOf("-") + 1);
-                    int intMinPoids = Integer.parseInt(minPoids);
-                    int intMaxPoids = Integer.parseInt(maxPoids);
+        for (EpreuveBean epreuve : competition.getEpreuves()) {
+            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getDiscipline().getType())) {
+                String nomEpreuve = epreuve.getDiscipline().getNom();
+                String newNomEpreuve = nomEpreuve.trim();
+                String minPoids = newNomEpreuve.substring(0, newNomEpreuve.indexOf("-"));
+                String maxPoids = newNomEpreuve.substring(newNomEpreuve.indexOf("-") + 1);
+                int intMinPoids = Integer.parseInt(minPoids);
+                int intMaxPoids = Integer.parseInt(maxPoids);
 
-                    if (categorie.getNom().equals(eleve.getCategorie())) {
-                        if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
-                            return nomEpreuve;
-                        }
+                if (epreuve.getCategorie().getNom().equals(eleve.getCategorie()) && epreuve.getCategorie().getType().equals(eleve.getSexe())) {
+                    if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
+                        return nomEpreuve;
                     }
                 }
             }

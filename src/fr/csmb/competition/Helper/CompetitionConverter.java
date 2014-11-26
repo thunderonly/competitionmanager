@@ -25,20 +25,13 @@ public class CompetitionConverter {
         for (Categorie categorie : competition.getCategories()) {
             CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
             categorieBean.setType(categorie.getTypeCategorie());
-            ObservableList<DisciplineBean> disciplineBeans = FXCollections.observableArrayList();
-            for (Discipline discipline : categorie.getDiscipline()) {
-                DisciplineBean disciplineBean = new DisciplineBean(discipline.getNom());
-                disciplineBean.setType(discipline.getType());
-                disciplineBeans.add(disciplineBean);
-            }
-            categorieBean.setDisciplines(disciplineBeans);
             categorieBeans.add(categorieBean);
         }
         competitionBean.setCategories(categorieBeans);
 
         ObservableList<DisciplineBean> disciplineBeans = FXCollections.observableArrayList();
         for (Discipline discipline : competition.getDiscipline()) {
-            DisciplineBean disciplineBean = new DisciplineBean(discipline.getNom());
+            DisciplineBean disciplineBean = new DisciplineBean(discipline.getNom(), discipline.getType());
             disciplineBean.setType(discipline.getType());
             disciplineBeans.add(disciplineBean);
         }
@@ -58,12 +51,7 @@ public class CompetitionConverter {
         Competition competition = new Competition(competitionBean.getNom());
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
             Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
-            categorie.setDiscipline(new ArrayList<Discipline>());
             competition.getCategories().add(categorie);
-            for (DisciplineBean disciplineBean : categorieBean.getDisciplines()) {
-                Discipline discipline = new Discipline(disciplineBean.getNom(), disciplineBean.getType());
-                categorie.getDiscipline().add(discipline);
-            }
         }
 
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {

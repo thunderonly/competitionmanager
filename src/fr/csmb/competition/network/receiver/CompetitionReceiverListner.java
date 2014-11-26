@@ -9,12 +9,14 @@ import javax.xml.bind.Marshaller;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.Helper.EleveConverter;
+import fr.csmb.competition.Helper.EpreuveConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.Main;
 import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
@@ -61,23 +63,20 @@ public class CompetitionReceiverListner implements DatagramListener {
             competitionBean.getCategories().add(categorieBean);
         }
         Epreuve epreuve = competition.getEpreuve().get(0);
-        EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve.getNomEpreuve());
+        EpreuveBean epreuveBean = EpreuveConverter.convertEpreuveToEpreuveBean(epreuve);
         if (EtatEpreuve.SUPPRIME.getValue().equals(epreuve.getEtatEpreuve())) {
             if (epreuveBean != null) {
                 LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-                categorieBean.getEpreuves().remove(epreuveBean);
-                if (categorieBean.getEpreuves().isEmpty()) {
-                    competitionBean.getCategories().remove(categorieBean);
-                }
+                competitionBean.getEpreuves().remove(epreuveBean);
             }
         } else {
             if (epreuveBean == null) {
-                epreuveBean = new EpreuveBean(epreuve.getNomEpreuve());
-                categorieBean.getEpreuves().add(epreuveBean);
+                epreuveBean = new EpreuveBean();
+                competitionBean.getEpreuves().add(epreuveBean);
             }
 
             LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-            epreuveBean.setType(epreuve.getTypeEpreuve());
+            epreuveBean.setDiscipline(new DisciplineBean(epreuve.getDiscipline().getNom(), epreuve.getDiscipline().getType()));
 
             for (Participant participant : epreuve.getParticipants()) {
                 ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());

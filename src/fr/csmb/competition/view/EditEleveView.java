@@ -106,13 +106,11 @@ public class EditEleveView {
         int i = 0;
         HBox hBoxEpreuve = new HBox(20);
         epreuveCheckBox = new ArrayList<CheckBox>();
-        for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                if (epreuveBean.getType().equals(TypeEpreuve.TECHNIQUE.getValue())) {
-                    CheckBox checkBox = new CheckBox(epreuveBean.getNom());
-                    epreuveCheckBox.add(checkBox);
-                    hBoxEpreuve.getChildren().add(checkBox);
-                }
+        for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
+            if (disciplineBean.getType().equals(TypeEpreuve.TECHNIQUE.getValue())) {
+                CheckBox checkBox = new CheckBox(disciplineBean.getNom());
+                epreuveCheckBox.add(checkBox);
+                hBoxEpreuve.getChildren().add(checkBox);
             }
             break;
         }

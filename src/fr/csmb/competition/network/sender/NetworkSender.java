@@ -16,6 +16,7 @@ import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
+import fr.csmb.competition.xml.model.Discipline;
 import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
@@ -110,7 +111,7 @@ public class NetworkSender {
         }
     }
 
-    public void send(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean) {
+    public void send(CompetitionBean competitionBean, EpreuveBean epreuveBean) {
 
         if (createDatagramSocket()) {
 
@@ -119,7 +120,7 @@ public class NetworkSender {
             }
             LOGGER.info("Send competition data on address %s and port %s", address, port);
             ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.execute(new CompetitionSender(competitionBean, categorieBean, epreuveBean));
+            executorService.execute(new CompetitionSender(competitionBean, epreuveBean));
             executorService.shutdown();
         }
     }
@@ -133,12 +134,15 @@ public class NetworkSender {
     }
 
 
-    private byte[] buildPacket(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
+    private byte[] buildPacket(CompetitionBean competitionBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
             throws IOException{
         Competition competition = new Competition(competitionBean.getNom());
-        Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
         competition.getCategories().add(categorie);
-        Epreuve epreuve = new Epreuve(epreuveBean.getNom(), epreuveBean.getType());
+        Epreuve epreuve = new Epreuve();
+        epreuve.setCategorie(categorie);
+        epreuve.setDiscipline(discipline);
         if (nbSend >= nbParticipants) {
             epreuve.setEtatEpreuve(epreuveBean.getEtat());
         }
@@ -277,12 +281,10 @@ public class NetworkSender {
     private class CompetitionSender implements Runnable {
 
         private CompetitionBean competitionBean;
-        private CategorieBean categorieBean;
         private EpreuveBean epreuveBean;
 
-        public CompetitionSender(CompetitionBean competitionBean, CategorieBean categorieBean, EpreuveBean epreuveBean) {
+        public CompetitionSender(CompetitionBean competitionBean, EpreuveBean epreuveBean) {
             this.competitionBean = competitionBean;
-            this.categorieBean = categorieBean;
             this.epreuveBean = epreuveBean;
         }
 
@@ -299,7 +301,7 @@ public class NetworkSender {
                     if (nbSend % 2 == 0 || nbSend == nbParticipants) {
 
                         //retrieves byte array
-                        byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, nbSend, nbParticipants, participants);
+                        byte[] sendBuf = buildPacket(competitionBean, epreuveBean, nbSend, nbParticipants, participants);
                         sendPacket(sendBuf);
                         participants.clear();
                         isSend = true;
@@ -307,7 +309,7 @@ public class NetworkSender {
                 }
                 if (!isSend) {
                     //retrieves byte array
-                    byte[] sendBuf = buildPacket(competitionBean, categorieBean, epreuveBean, 0, 0, participants);
+                    byte[] sendBuf = buildPacket(competitionBean, epreuveBean, 0, 0, participants);
                     sendPacket(sendBuf);
                 }
             } catch (UnknownHostException e) {

@@ -56,8 +56,8 @@ public class ResultatsView {
             String[] typeEpreuves = new String[]{ TypeEpreuve.TECHNIQUE.getValue(), TypeEpreuve.COMBAT.getValue()};
             for (String typeEpreuve : typeEpreuves) {
                 row = 0;
-                for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                    if (epreuveBean.getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                for (EpreuveBean epreuveBean : competitionBean.getEpreuveByCategorie(categorieBean)) {
+                    if (epreuveBean.getDiscipline().getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         try {
                             isTabCreated = true;
 
@@ -65,7 +65,7 @@ public class ResultatsView {
                             loader.setLocation(getClass().getResource("fxml/resultatsView.fxml"));
                             BorderPane borderPane = (BorderPane) loader.load();
                             ResultatsController controller = (ResultatsController) loader.getController();
-                            controller.getTitleCategorie().setText(categorieBean.getNom().concat(" - ").concat(epreuveBean.getNom()));
+                            controller.getTitleCategorie().setText(categorieBean.getNom().concat(" - ").concat(epreuveBean.getDiscipline().getNom()));
 
                             ObservableList<ParticipantBean> newList = FXCollections.observableArrayList();
                             //Get participant for 1, 2, 3, 4 place

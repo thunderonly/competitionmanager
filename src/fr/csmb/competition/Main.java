@@ -8,6 +8,7 @@ import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.network.receiver.CompetitionReceiverListner;
@@ -161,7 +162,8 @@ public class Main extends Application {
                             CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
                             if (categorieBean != null) {
                                 for (String epreuve : eleveBean.getEpreuves()) {
-                                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                                    DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+                                    EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
                                     if (epreuveBean != null) {
                                         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
                                         participantBean.setClub(clubBean.getIdentifiant());
@@ -177,7 +179,8 @@ public class Main extends Application {
                             CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
                             if (categorieBean != null) {
                                 for (String epreuve : eleveBean.getEpreuves()) {
-                                    EpreuveBean epreuveBean = categorieBean.getEpreuveByName(epreuve);
+                                    DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+                                    EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
                                     if (epreuveBean != null) {
                                         ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(
                                                 eleveBean.getNom(), eleveBean.getPrenom());

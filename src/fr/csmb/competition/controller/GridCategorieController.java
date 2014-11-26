@@ -9,6 +9,8 @@ import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DetailEpreuveBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
@@ -81,6 +83,7 @@ public class GridCategorieController {
 
     private CompetitionBean competitionBean;
     private CategorieBean categorieBean;
+    private DisciplineBean disciplineBean;
     private EpreuveBean epreuveBean;
     private GridComponent gridComponent;
     private NetworkSender sender;
@@ -93,10 +96,11 @@ public class GridCategorieController {
         this.sender = NetworkSender.getINSTANCE();
         this.competitionBean = competitionBean;
         this.categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        this.disciplineBean = competitionBean.getDiscipline(typeEpreuve, epreuve);
         this.epreuveBean = null;
         ObservableList<ParticipantBean> participants = FXCollections.observableArrayList();
         if (categorieBean != null) {
-            epreuveBean = categorieBean.getEpreuveByName(epreuve);
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
             if (epreuveBean != null) {
                 for (ParticipantBean participantBean : epreuveBean.getParticipants())
                     participants.add(participantBean);
@@ -104,7 +108,7 @@ public class GridCategorieController {
         }
 
         categorieTf.setText(categorieBean.getNom().concat(" ").concat(categorieBean.getType()));
-        epreuveTf.setText(epreuveBean.getNom());
+        epreuveTf.setText(disciplineBean.getNom());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
@@ -126,7 +130,7 @@ public class GridCategorieController {
         borderPane.setCenter(scrollPane);
 
         epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
-        sender.send(competitionBean, categorieBean, epreuveBean);
+        sender.send(competitionBean, epreuveBean);
     }
 
     @FXML
@@ -153,18 +157,20 @@ public class GridCategorieController {
         }
 
         epreuveBean.setEtat(EtatEpreuve.TERMINE.getValue());
-        epreuveBean.setAdministrateur(adminTf.getText());
-        epreuveBean.setChronometreur(chronoTf.getText());
-        epreuveBean.setJuge1(firstJugeTf.getText());
-        epreuveBean.setJuge2(secondJugeTf.getText());
-        epreuveBean.setJuge3(thirdJugeTf.getText());
-        epreuveBean.setJuge4(fourthJugeTf.getText());
-        epreuveBean.setJuge5(fifthJugeTf.getText());
-        epreuveBean.setTapis(tapisTf.getText());
-        epreuveBean.setHeureDebut(heureDebutTf.getText());
-        epreuveBean.setHeureFin(heureFinTf.getText());
-        epreuveBean.setDuree(dureeTf.getText());
-        sender.send(competitionBean, categorieBean, epreuveBean);
+        DetailEpreuveBean detailEpreuveBean = new DetailEpreuveBean();
+        detailEpreuveBean.setAdministrateur(adminTf.getText());
+        detailEpreuveBean.setChronometreur(chronoTf.getText());
+        detailEpreuveBean.setJuge1(firstJugeTf.getText());
+        detailEpreuveBean.setJuge2(secondJugeTf.getText());
+        detailEpreuveBean.setJuge3(thirdJugeTf.getText());
+        detailEpreuveBean.setJuge4(fourthJugeTf.getText());
+        detailEpreuveBean.setJuge5(fifthJugeTf.getText());
+        detailEpreuveBean.setTapis(tapisTf.getText());
+        detailEpreuveBean.setHeureDebut(heureDebutTf.getText());
+        detailEpreuveBean.setHeureFin(heureFinTf.getText());
+        detailEpreuveBean.setDuree(dureeTf.getText());
+        epreuveBean.setDetailEpreuve(detailEpreuveBean);
+        sender.send(competitionBean, epreuveBean);
         saveCompetitionToXmlFileTmp();
     }
 
@@ -172,7 +178,7 @@ public class GridCategorieController {
     private void cancel() {
         if (epreuveBean != null) {
             epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
-            sender.send(competitionBean, categorieBean, epreuveBean);
+            sender.send(competitionBean, epreuveBean);
         }
         this.categorieView.handleCancelEpreuve();
     }

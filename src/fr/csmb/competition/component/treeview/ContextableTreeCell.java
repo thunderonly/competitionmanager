@@ -7,6 +7,7 @@ package fr.csmb.competition.component.treeview;
 import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
@@ -236,8 +237,9 @@ public class ContextableTreeCell extends TreeCell<String> {
                         return;
                     }
                     CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+                    DisciplineBean disciplineBean = competitionBean.getDiscipline(typeEpreuve, getItem());
                     if (categorieBean != null) {
-                        EpreuveBean epreuveBean = categorieBean.getEpreuveByName(getItem());
+                        EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
                         if (epreuveBean != null) {
                             if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
                                 setTextFill(Color.GREEN);
@@ -256,7 +258,7 @@ public class ContextableTreeCell extends TreeCell<String> {
                                 setTextFill(Color.GREEN);
                                 imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
                             }else {
-                                if (categorieViewController.extractEpreuves(categorieBean.getType(), categorieBean.getNom(), epreuveBean.getNom()).size() > 3) {
+                                if (categorieViewController.extractEpreuves(epreuveBean).size() > 3) {
                                     imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
                                 } else {
                                     imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveKO.png")));

@@ -20,7 +20,7 @@ public class Discipline {
 
     public Discipline(String nom, String type) {
         if (nom != null && type != null) {
-            this.id = nom.concat("-").concat(type);
+            this.id = type.concat("-").concat(nom);
         }
         this.nom = nom;
         this.type = type;

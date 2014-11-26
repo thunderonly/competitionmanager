@@ -58,39 +58,37 @@ public class GlobalVisionView {
 
     private Map<String, GlobalVision> computeStructure() {
         Map<String, GlobalVision> map = new HashMap<String, GlobalVision>();
-        for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                GlobalVision testStructure = null;
-                if (map.containsKey(epreuveBean.getNom())) {
-                    testStructure = map.get(epreuveBean.getNom());
-                } else {
-                    testStructure = new GlobalVision(epreuveBean.getNom());
-                    map.put(epreuveBean.getNom(), testStructure);
-                }
-
-                Map<String, List<Participant>> map1 = null;
-                if(testStructure.getTypeCategories().containsKey(categorieBean.getNom())) {
-                    map1 = testStructure.getTypeCategories().get(categorieBean.getNom());
-                } else {
-                    map1 = new HashMap<String, List<Participant>>();
-                    testStructure.getTypeCategories().put(categorieBean.getNom(), map1);
-                }
-
-                List<Participant> participants = null;
-                if (map1.containsKey(categorieBean.getType())) {
-                    participants = map1.get(categorieBean.getType());
-                } else {
-                    participants = new ArrayList<Participant>();
-                    map1.put(categorieBean.getType(), participants);
-                }
-
-                ObservableList<ParticipantBean> participantBeans = extractParticipants(categorieBean.getType(), categorieBean.getNom(), epreuveBean.getNom());
-                for (ParticipantBean participantBean : participantBeans) {
-                    Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
-                    participants.add(participant);
-                }
-
+        for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
+            GlobalVision testStructure = null;
+            if (map.containsKey(epreuveBean.getDiscipline().getNom())) {
+                testStructure = map.get(epreuveBean.getDiscipline().getNom());
+            } else {
+                testStructure = new GlobalVision(epreuveBean.getDiscipline().getNom());
+                map.put(epreuveBean.getDiscipline().getNom(), testStructure);
             }
+
+            Map<String, List<Participant>> map1 = null;
+            if(testStructure.getTypeCategories().containsKey(epreuveBean.getCategorie().getNom())) {
+                map1 = testStructure.getTypeCategories().get(epreuveBean.getCategorie().getNom());
+            } else {
+                map1 = new HashMap<String, List<Participant>>();
+                testStructure.getTypeCategories().put(epreuveBean.getCategorie().getNom(), map1);
+            }
+
+            List<Participant> participants = null;
+            if (map1.containsKey(epreuveBean.getCategorie().getType())) {
+                participants = map1.get(epreuveBean.getCategorie().getType());
+            } else {
+                participants = new ArrayList<Participant>();
+                map1.put(epreuveBean.getCategorie().getType(), participants);
+            }
+
+            ObservableList<ParticipantBean> participantBeans = extractParticipants(epreuveBean.getCategorie().getType(), epreuveBean.getCategorie().getNom(), epreuveBean.getDiscipline().getNom());
+            for (ParticipantBean participantBean : participantBeans) {
+                Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
+                participants.add(participant);
+            }
+
         }
 
         return map;

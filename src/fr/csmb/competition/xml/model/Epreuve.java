@@ -18,44 +18,20 @@ public class Epreuve implements Serializable {
     private Discipline discipline;
     @XmlAttribute @XmlIDREF
     private Categorie categorie;
-    @XmlAttribute(name="typeEpreuve")
-    private String typeEpreuve;
-    @XmlAttribute(name="nomEpreuve")
-    private String nomEpreuve;
     @XmlAttribute(name="etatEpreuve")
     private String etatEpreuve;
-    @XmlElement(name="administrateur")
-    private String administrateur;
-    @XmlElement(name="chronometreur")
-    private String chronometreur;
-    @XmlElement(name="juge1")
-    private String juge1;
-    @XmlElement(name="juge2")
-    private String juge2;
-    @XmlElement(name="juge3")
-    private String juge3;
-    @XmlElement(name="juge4")
-    private String juge4;
-    @XmlElement(name="juge5")
-    private String juge5;
-    @XmlElement(name="tapis")
-    private String tapis;
-    @XmlElement(name="heureDebut")
-    private String heureDebut;
-    @XmlElement(name="heureFin")
-    private String heureFin;
-    @XmlElement(name="duree")
-    private String duree;
+    @XmlElement
+    private DetailEpreuve detailEpreuve;
     @XmlElementWrapper(name="participants")
     @XmlElement(name="participant")
     private List<Participant> participants;
 
-    public Epreuve(String nom, String type) {
-        if (nom != null && type != null) {
-            this.id = nom.concat("-").concat(type);
+    public Epreuve(Categorie categorie, Discipline discipline) {
+        if (categorie != null && discipline != null) {
+            this.id = categorie.getId().concat("-").concat(discipline.getId());
         }
-        this.nomEpreuve = nom;
-        this.typeEpreuve = type;
+        this.categorie = categorie;
+        this.discipline = discipline;
         this.participants = new ArrayList<Participant>();
     }
 
@@ -64,8 +40,8 @@ public class Epreuve implements Serializable {
     }
 
     public String getId() {
-        if (this.nomEpreuve != null && this.typeEpreuve != null) {
-            this.id = this.nomEpreuve.concat("-").concat(this.typeEpreuve);
+        if (categorie != null && discipline != null) {
+            this.id = categorie.getId().concat(discipline.getId());
         }
         return id;
     }
@@ -90,22 +66,6 @@ public class Epreuve implements Serializable {
         this.categorie = categorie;
     }
 
-    public String getTypeEpreuve() {
-        return typeEpreuve;
-    }
-
-    public void setTypeEpreuve(String typeEpreuve) {
-        this.typeEpreuve = typeEpreuve;
-    }
-
-    public String getNomEpreuve() {
-        return nomEpreuve;
-    }
-
-    public void setNomEpreuve(String nomEpreuve) {
-        this.nomEpreuve = nomEpreuve;
-    }
-
     public String getEtatEpreuve() {
         return etatEpreuve;
     }
@@ -114,105 +74,20 @@ public class Epreuve implements Serializable {
         this.etatEpreuve = etatEpreuve;
     }
 
+    public DetailEpreuve getDetailEpreuve() {
+        return detailEpreuve;
+    }
+
+    public void setDetailEpreuve(DetailEpreuve detailEpreuve) {
+        this.detailEpreuve = detailEpreuve;
+    }
+
     public List<Participant> getParticipants() {
         return participants;
     }
 
-    public String getAdministrateur() {
-        return administrateur;
-    }
-
-    public void setAdministrateur(String administrateur) {
-        this.administrateur = administrateur;
-    }
-
-    public String getChronometreur() {
-        return chronometreur;
-    }
-
-    public void setChronometreur(String chronometreur) {
-        this.chronometreur = chronometreur;
-    }
-
-    public String getJuge1() {
-        return juge1;
-    }
-
-    public void setJuge1(String juge1) {
-        this.juge1 = juge1;
-    }
-
-    public String getJuge2() {
-        return juge2;
-    }
-
-    public void setJuge2(String juge2) {
-        this.juge2 = juge2;
-    }
-
-    public String getJuge3() {
-        return juge3;
-    }
-
-    public void setJuge3(String juge3) {
-        this.juge3 = juge3;
-    }
-
-    public String getJuge4() {
-        return juge4;
-    }
-
-    public void setJuge4(String juge4) {
-        this.juge4 = juge4;
-    }
-
-    public String getJuge5() {
-        return juge5;
-    }
-
-    public void setJuge5(String juge5) {
-        this.juge5 = juge5;
-    }
-
-    public String getTapis() {
-        return tapis;
-    }
-
-    public void setTapis(String tapis) {
-        this.tapis = tapis;
-    }
-
-    public String getHeureDebut() {
-        return heureDebut;
-    }
-
-    public void setHeureDebut(String heureDebut) {
-        this.heureDebut = heureDebut;
-    }
-
-    public String getHeureFin() {
-        return heureFin;
-    }
-
-    public void setHeureFin(String heureFin) {
-        this.heureFin = heureFin;
-    }
-
-    public String getDuree() {
-        return duree;
-    }
-
-    public void setDuree(String duree) {
-        this.duree = duree;
-    }
-
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
-    }
-
-    @Override
-    public String toString() {
-        return typeEpreuve.concat(" - ").concat(nomEpreuve);
     }
 
     public Participant getParticipantByNomPrenom(String nom, String prenom) {

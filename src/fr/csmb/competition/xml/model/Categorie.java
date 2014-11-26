@@ -18,9 +18,6 @@ public class Categorie implements Cloneable, Serializable {
     private String nomCategorie;
     @XmlAttribute(name="typeCategorie")
     private String typeCategorie;
-    @XmlElement
-    @XmlIDREF
-    private List<Discipline> discipline;
 
     public Categorie() {
         this(null, null);
@@ -32,7 +29,6 @@ public class Categorie implements Cloneable, Serializable {
         }
         this.nomCategorie = nom;
         this.typeCategorie = type;
-        this.discipline = new ArrayList<Discipline>();
     }
 
     public String getId() {
@@ -60,23 +56,6 @@ public class Categorie implements Cloneable, Serializable {
 
     public void setTypeCategorie(String typeCategorie) {
         this.typeCategorie = typeCategorie;
-    }
-
-    public List<Discipline> getDiscipline() {
-        return discipline;
-    }
-
-    public void setDiscipline(List<Discipline> discipline) {
-        this.discipline = discipline;
-    }
-
-    public Discipline getDisciplineByName(String name) {
-        for (Discipline discipline1 : discipline) {
-            if (discipline1.getNom().equals(name)) {
-                return discipline1;
-            }
-        }
-        return null;
     }
 
     @Override

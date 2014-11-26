@@ -142,17 +142,15 @@ public class ClassementClubController {
     }
 
     public void computeClassementClub() {
-        for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            for (EpreuveBean epreuveBean : categorieBean.getEpreuves()) {
-                if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                    for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-                        ClubBean clubBean = getClubById(competitionBean, participantBean.getClub());
-                        Integer points = pointForParticipant(participantBean);
-                        if (epreuveBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                            clubBean.setTotalCombat(clubBean.getTotalCombat() + points);
-                        } else {
-                            clubBean.setTotalTechnique(clubBean.getTotalTechnique() + points);
-                        }
+        for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
+            if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
+                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    ClubBean clubBean = getClubById(competitionBean, participantBean.getClub());
+                    Integer points = pointForParticipant(participantBean);
+                    if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                        clubBean.setTotalCombat(clubBean.getTotalCombat() + points);
+                    } else {
+                        clubBean.setTotalTechnique(clubBean.getTotalTechnique() + points);
                     }
                 }
             }
