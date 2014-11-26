@@ -32,7 +32,7 @@ public class Discipline {
 
     public String getId() {
         if (this.nom != null && this.type != null) {
-            this.id = this.nom.concat("-").concat(this.type);
+            this.id = this.type.concat("-").concat(this.nom);
         }
         return id;
     }

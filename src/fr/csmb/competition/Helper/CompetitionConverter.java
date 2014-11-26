@@ -37,6 +37,13 @@ public class CompetitionConverter {
         }
         competitionBean.setDisciplines(disciplineBeans);
 
+        ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
+        for (Epreuve epreuve : competition.getEpreuve()) {
+            EpreuveBean epreuveBean = EpreuveConverter.convertEpreuveToEpreuveBean(epreuve);
+            epreuveBeans.add(epreuveBean);
+        }
+        competitionBean.setEpreuves(epreuveBeans);
+
         ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         for (Club club : competition.getClubs()) {
             ClubBean clubBean = ClubConverter.convertClubToClubBean(club);
