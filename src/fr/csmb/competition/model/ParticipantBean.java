@@ -2,8 +2,9 @@
  * Copyright (c) 2013 Bull SAS.
  * All rights reserved.
  */
-package fr.csmb.competition.component.grid.bean;
+package fr.csmb.competition.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -28,6 +29,8 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleIntegerProperty note5;
     private SimpleIntegerProperty noteTotal;
     private SimpleIntegerProperty placeOnGrid;
+    private SimpleBooleanProperty participe;
+    private EpreuveBean epreuveBean;
 
     public ParticipantBean() {
         classementAuto = new SimpleIntegerProperty(0);
@@ -44,6 +47,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         note5 = new SimpleIntegerProperty(0);
         noteTotal = new SimpleIntegerProperty(0);
         placeOnGrid = new SimpleIntegerProperty(0);
+        participe = new SimpleBooleanProperty(true);
     }
 
     public ParticipantBean(String nom, String prenom) {
@@ -61,6 +65,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         note5 = new SimpleIntegerProperty(0);
         noteTotal = new SimpleIntegerProperty(0);
         placeOnGrid = new SimpleIntegerProperty(0);
+        participe = new SimpleBooleanProperty(true);
     }
 
     public Integer getClassementAuto() {
@@ -226,6 +231,26 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public SimpleIntegerProperty placeOnGridProperty() {
         return placeOnGrid;
+    }
+
+    public boolean getParticipe() {
+        return participe.get();
+    }
+
+    public SimpleBooleanProperty participeProperty() {
+        return participe;
+    }
+
+    public void setParticipe(boolean participe) {
+        this.participe.set(participe);
+    }
+
+    public EpreuveBean getEpreuveBean() {
+        return epreuveBean;
+    }
+
+    public void setEpreuveBean(EpreuveBean epreuveBean) {
+        this.epreuveBean = epreuveBean;
     }
 
     public void computeTotal() {

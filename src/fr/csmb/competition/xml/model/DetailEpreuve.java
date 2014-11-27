@@ -7,6 +7,7 @@ package fr.csmb.competition.xml.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
 
 /**
  * [Enter type description here].
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlElement;
  * @author Bull SAS
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DetailEpreuve {
+public class DetailEpreuve implements Serializable {
 
     @XmlElement(name="administrateur")
     private String administrateur;

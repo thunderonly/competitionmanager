@@ -1,8 +1,7 @@
 package fr.csmb.competition.Helper;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
-import fr.csmb.competition.model.DetailEpreuveBean;
 import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
@@ -20,12 +19,12 @@ public class EpreuveConverter {
     public static EpreuveBean convertEpreuveToEpreuveBean(Epreuve epreuve) {
         EpreuveBean epreuveBean = new EpreuveBean();
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
-        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-        for (Participant participant : epreuve.getParticipants()) {
-            ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
-            participantBeans.add(participantBean);
-        }
-        epreuveBean.setParticipants(participantBeans);
+//        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+//        for (Participant participant : epreuve.getParticipants()) {
+//            ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+//            participantBeans.add(participantBean);
+//        }
+//        epreuveBean.setParticipants(participantBeans);
 
         CategorieBean categorieBean = new CategorieBean(epreuve.getCategorie().getNomCategorie());
         categorieBean.setType(epreuve.getCategorie().getTypeCategorie());
@@ -37,6 +36,7 @@ public class EpreuveConverter {
 
         epreuveBean.setDetailEpreuve(DetailEpreuveConverter.convertDetailEpreuveToDetailEpreuveBean(epreuve
                 .getDetailEpreuve()));
+        epreuveBean.setId(epreuve.getId());
 
         return epreuveBean;
     }
@@ -46,11 +46,12 @@ public class EpreuveConverter {
         Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
         Epreuve epreuve = new Epreuve(categorie, discipline);
         epreuve.setEtatEpreuve(epreuveBean.getEtat());
-        for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
-            Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
-            epreuve.getParticipants().add(participant);
-        }
+//        for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+//            Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
+//            epreuve.getParticipants().add(participant);
+//        }
         epreuve.setDetailEpreuve(DetailEpreuveConverter.convertDetailEpreuveBeanToDetailEpreuve(epreuveBean.getDetailEpreuve()));
+        epreuve.setId(epreuveBean.getId());
         return epreuve;
     }
 }

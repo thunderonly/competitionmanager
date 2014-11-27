@@ -1,9 +1,6 @@
 package fr.csmb.competition.xml.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
 /**
@@ -22,6 +19,8 @@ public class Participant implements Serializable {
     private String clubParticipant;
     @XmlAttribute(name="poidsParticipant")
     private String poidsParticipant;
+    @XmlAttribute @XmlIDREF
+    private Epreuve epreuve;
     @XmlElement(name="classementAuto")
     private String classementAuto;
     @XmlElement(name="classementManuel")
@@ -42,6 +41,9 @@ public class Participant implements Serializable {
     private String noteTotal;
     @XmlElement(name="placeOnGrid")
     private String placeOnGrid;
+    @XmlElement(name="participe")
+    private Boolean participe;
+
 
     public String getNomParticipant() {
         return nomParticipant;
@@ -153,5 +155,21 @@ public class Participant implements Serializable {
 
     public void setPlaceOnGrid(String placeOnGrid) {
         this.placeOnGrid = placeOnGrid;
+    }
+
+    public Boolean getParticipe() {
+        return participe;
+    }
+
+    public void setParticipe(Boolean participe) {
+        this.participe = participe;
+    }
+
+    public Epreuve getEpreuve() {
+        return epreuve;
+    }
+
+    public void setEpreuve(Epreuve epreuve) {
+        this.epreuve = epreuve;
     }
 }

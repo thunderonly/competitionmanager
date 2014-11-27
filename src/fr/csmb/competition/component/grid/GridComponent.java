@@ -6,7 +6,7 @@ package fr.csmb.competition.component.grid;
 
 import java.util.List;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.scene.Group;
 
 /**

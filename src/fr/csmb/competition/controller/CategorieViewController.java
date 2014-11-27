@@ -13,22 +13,15 @@ import javax.xml.bind.Marshaller;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.Main;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import fr.csmb.competition.model.CategorieBean;
-import fr.csmb.competition.model.ClubBean;
-import fr.csmb.competition.model.CompetitionBean;
-import fr.csmb.competition.model.DisciplineBean;
-import fr.csmb.competition.model.EleveBean;
-import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.model.ParticipantBean;
+import fr.csmb.competition.model.*;
 import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.ConfigureFightView;
-import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Competition;
-import fr.csmb.competition.xml.model.Discipline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
@@ -78,7 +71,7 @@ public class CategorieViewController {
                     if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
                         //Configure order of fighter
                         ConfigureFightView configureFightView = new ConfigureFightView();
-                        configureFightView.showView(currentStage, epreuveBean);
+                        configureFightView.showView(currentStage, competitionBean, epreuveBean);
 //                        if (!epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue())) {
 //                            epreuveBean.getParticipants().clear();
 //                        }
@@ -129,7 +122,10 @@ public class CategorieViewController {
                 } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                     return 2;
                 } else {
-                    epreuveBean.getParticipants().clear();
+                    for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
+                        competitionBean.getParticipants().remove(participantBean);
+                    }
+
                     epreuveBean.setEtat(EtatEpreuve.SUPPRIME.getValue());
                     competitionBean.getEpreuves().remove(epreuveBean);
 
@@ -185,10 +181,11 @@ public class CategorieViewController {
         return -1;
     }
 
-    public int fusionEpreuve(TreeView<String> treeView, String typeCategorie1, String categorie1, String epreuve1, String typeCategorie2, String categorie2, String epreuve2) {
+    public int fusionEpreuve(TreeView<String> treeView, String typeCategorie1, String nomCategorie1, String nomDiscipline1,
+                             String typeCategorie2, String nomCategorie2, String nomDiscipline2) {
 
-        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, categorie1, epreuve1);
-        EpreuveBean epreuveBean2 = getEpreuveBean(typeCategorie2, categorie2, epreuve2);
+        EpreuveBean epreuveBean1 = getEpreuveBean(typeCategorie1, nomCategorie1, nomDiscipline1);
+        EpreuveBean epreuveBean2 = getEpreuveBean(typeCategorie2, nomCategorie2, nomDiscipline2);
         if (EtatEpreuve.FUSION.getValue().equals(epreuveBean1.getEtat()) ||
                 EtatEpreuve.FUSION.getValue().equals(epreuveBean2.getEtat())) {
             return 1;
@@ -202,74 +199,87 @@ public class CategorieViewController {
                 EtatEpreuve.DEMARRE.getValue().equals(epreuveBean2.getEtat())) {
             return 4;
         } else {
-            String newCategorie = categorie1.concat(" - ").concat(categorie2);
-            if (categorie1.equals(categorie2)) {
-                newCategorie = categorie1;
-            }
+            CategorieBean categorieBean1 = competitionBean.getCategorie(typeCategorie1, nomCategorie1);
+            CategorieBean categorieBean2 = competitionBean.getCategorie(typeCategorie2, nomCategorie2);
+            DisciplineBean disciplineBean1 = competitionBean.getDiscipline(nomDiscipline1);
+            DisciplineBean disciplineBean2 = competitionBean.getDiscipline(nomDiscipline2);
 
-            String newTypeCategorie = TypeCategorie.MIXTE.getValue();
-            if (typeCategorie1.equals(typeCategorie2)) {
-                newTypeCategorie = typeCategorie1;
-            }
-            CategorieBean categorieBean = competitionBean.getCategorie(newTypeCategorie, newCategorie);
-            if (categorieBean == null) {
-                categorieBean = new CategorieBean(newCategorie);
-                categorieBean.setType(newTypeCategorie);
-                competitionBean.getCategories().add(categorieBean);
-            }
-
-            String newEpreuve = epreuve1.concat("-").concat(epreuve2);
-            if (epreuve1.equals(epreuve2)) {
-                newEpreuve = epreuve1;
-            }
-            EpreuveBean epreuveBean = new EpreuveBean();
-            epreuveBean.setEtat(EtatEpreuve.REGROUPE.getValue());
-
-            ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-            if (epreuveBean1 != null) {
-                epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
-                CategorieBean categorieBean1 = competitionBean.getCategorie(typeCategorie1, categorie1);
-                sender.send(competitionBean, epreuveBean1);
-                if (epreuveBean1.getParticipants().isEmpty()) {
-                    participantBeans.addAll(extractParticipants(typeCategorie1, categorie1, epreuve1));
+            CategorieBean categorieFusion = null;
+            if (categorieBean1 != null && categorieBean2 != null) {
+                if (categorieBean1.equals(categorieBean2)) {
+                    categorieFusion = categorieBean1;
                 } else {
-                    ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean1.getParticipants());
-                    participantBeans.addAll(observableList);
-//                    epreuveBean1.setParticipants(FXCollections.observableArrayList());
+                    String newCategorieName = categorieBean1.getNom().concat("-").concat(categorieBean2.getNom());
+                    String newTypeCategorie = TypeCategorie.MIXTE.getValue();
+                    if (categorieBean1.getNom().equals(categorieBean2.getNom())) {
+                        newCategorieName = categorieBean1.getNom();
+                    }
+                    if (categorieBean1.getType().equals(categorieBean2.getType())) {
+                        newTypeCategorie = categorieBean1.getType();
+                    }
+                    //Create or uupdate current categorie
+                    categorieFusion = competitionBean.getCategorie(newTypeCategorie, newCategorieName);
+                    if (categorieFusion == null) {
+                        categorieFusion = new CategorieBean(newCategorieName);
+                        categorieFusion.setType(newTypeCategorie);
+                        competitionBean.getCategories().add(categorieFusion);
+                    }
                 }
             }
 
-            if (epreuveBean2 != null) {
-                epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
-                CategorieBean categorieBean2 = competitionBean.getCategorie(typeCategorie2, categorie2);
-                sender.send(competitionBean, epreuveBean2);
-                if (epreuveBean2.getParticipants().isEmpty()) {
-                    participantBeans.addAll(extractParticipants(typeCategorie2, categorie2, epreuve2));
+            DisciplineBean disciplineFusion = null;
+            if (disciplineBean1 != null && disciplineBean2 != null) {
+                if (disciplineBean1.equals(disciplineBean2)) {
+                    disciplineFusion = disciplineBean1;
                 } else {
-                    ObservableList<ParticipantBean> observableList = FXCollections.observableArrayList(epreuveBean2.getParticipants());
-                    participantBeans.addAll(observableList);
-//                    epreuveBean2.setParticipants(FXCollections.observableArrayList());
+                    String newDisciplineName = disciplineBean1.getNom().concat("-").concat(disciplineBean2.getNom());
+                    if (disciplineBean1.getNom().equals(disciplineBean2.getNom())) {
+                        newDisciplineName = disciplineBean1.getNom();
+                    }
+
+                    disciplineFusion = competitionBean.getDiscipline(newDisciplineName);
+                    if (disciplineFusion == null) {
+                        disciplineFusion = new DisciplineBean(newDisciplineName, disciplineBean1.getType());
+                    }
                 }
             }
 
-            epreuveBean.setParticipants(participantBeans);
+            EpreuveBean epreuveFusion = new EpreuveBean();
+            epreuveFusion.setCategorie(categorieFusion);
+            epreuveFusion.setDiscipline(disciplineFusion);
+            epreuveFusion.setDetailEpreuve(new DetailEpreuveBean());
+            epreuveFusion.setId(categorieFusion.getNom().concat("-").concat(categorieFusion.getType()).concat(
+                    disciplineFusion.getType()).concat("-").concat(disciplineFusion.getNom()));
+            epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
+            epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
+            epreuveFusion.setEtat(EtatEpreuve.REGROUPE.getValue());
+            competitionBean.getEpreuves().add(epreuveFusion);
+
+            for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean1)) {
+                participantBean.setEpreuveBean(epreuveFusion);
+            }
+
+            for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean2)) {
+                participantBean.setEpreuveBean(epreuveFusion);
+            }
+
 
             saveCompetitionToXmlFileTmp();
-            sender.send(competitionBean, epreuveBean);
+//            sender.send(competitionBean, epreuveBean);
 
             ImageView imageMixte = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/mixte.png")));
             imageMixte.setFitHeight(25);
             imageMixte.setFitWidth(25);
-            TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieBean.getType());
-            TreeItem<String> treeItemCategorie = new TreeItem(newCategorie);
+            TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieFusion.getType());
+            TreeItem<String> treeItemCategorie = new TreeItem(categorieFusion.getNom());
             ImageView imageTypeEpreve = null;
-            if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+            if (epreuveFusion.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
                 imageTypeEpreve = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/combat.png")));
             } else {
                 imageTypeEpreve = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/technique.png")));
             }
-            TreeItem<String> treeItemTypeEpreuve = new TreeItem(epreuveBean.getDiscipline().getType());
-            TreeItem<String> treeItemEpreuve = new TreeItem<String>(newEpreuve);
+            TreeItem<String> treeItemTypeEpreuve = new TreeItem(epreuveFusion.getDiscipline().getType());
+            TreeItem<String> treeItemEpreuve = new TreeItem<String>(epreuveFusion.getDiscipline().getNom());
             treeItemTypeCategorie.getChildren().add(treeItemCategorie);
             treeItemCategorie.getChildren().add(treeItemTypeEpreuve);
             treeItemTypeEpreuve.getChildren().add(treeItemEpreuve);
@@ -280,11 +290,11 @@ public class CategorieViewController {
             boolean typeCategorieExist = false;
             boolean typeEpreuveExist = false;
             for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
-                if (treeItem.getValue().equals(categorieBean.getType())) {
+                if (treeItem.getValue().equals(categorieFusion.getType())) {
                     for (TreeItem<String> itemCategorie : treeItem.getChildren()) {
-                        if (itemCategorie.getValue().equals(categorieBean.getNom())) {
+                        if (itemCategorie.getValue().equals(categorieFusion.getNom())) {
                             for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {
-                                if (itemTypeEpreuve.getValue().equals(epreuveBean.getDiscipline().getType())) {
+                                if (itemTypeEpreuve.getValue().equals(epreuveFusion.getDiscipline().getType())) {
                                     itemTypeEpreuve.getChildren().add(treeItemEpreuve);
                                     epreuveAdded = true;
                                     typeEpreuveExist = true;
@@ -329,31 +339,6 @@ public class CategorieViewController {
         return participantBeans1;
     }
 
-    public ObservableList<ParticipantBean> extractEpreuves(EpreuveBean epreuveBean) {
-        CategorieBean categorieBean = epreuveBean.getCategorie();
-        DisciplineBean disciplineBean = epreuveBean.getDiscipline();
-        ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        if (epreuveBean != null) {
-            if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.REGROUPE.getValue().equals(epreuveBean.getEtat()) || EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                participantBeans1.addAll(epreuveBean.getParticipants());
-            } else if (EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat()) || "".equals(epreuveBean.getEtat()) || epreuveBean.getEtat() == null) {
-                for (ClubBean club : competitionBean.getClubs()) {
-                    for (EleveBean eleve : club.getEleves()) {
-                        if (categorieBean.getNom().equals(eleve.getCategorie()) && categorieBean.getType().equals(eleve.getSexe()) && eleve.getPresence()) {
-                            if (eleve.getEpreuves().contains(disciplineBean.getNom())) {
-                                ParticipantBean participantBean = new ParticipantBean(eleve.getNom(), eleve.getPrenom());
-                                participantBean.setClub(club.getIdentifiant());
-                                participantBeans1.add(participantBean);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return participantBeans1;
-    }
-
     private void saveCompetitionToXmlFileTmp() {
         try {
             JAXBContext context = JAXBContext.newInstance(Competition.class);
@@ -374,7 +359,7 @@ public class CategorieViewController {
         EpreuveBean epreuveBean = null;
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
-        if (categorieBean != null) {
+        if (categorieBean != null && disciplineBean != null) {
             epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
         }
         return epreuveBean;

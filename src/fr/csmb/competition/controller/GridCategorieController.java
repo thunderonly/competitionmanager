@@ -4,7 +4,7 @@ import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.Main;
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.model.CategorieBean;
@@ -34,7 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.prefs.Preferences;
 
 /**
@@ -102,7 +101,7 @@ public class GridCategorieController {
         if (categorieBean != null) {
             epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
             if (epreuveBean != null) {
-                for (ParticipantBean participantBean : epreuveBean.getParticipants())
+                for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean))
                     participants.add(participantBean);
             }
         }
@@ -114,7 +113,7 @@ public class GridCategorieController {
         String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));
         heureDebutTf.setText(heure);
 
-        nbParticipantsTf.setText(String.valueOf(epreuveBean.getParticipants().size()));
+        nbParticipantsTf.setText(String.valueOf(competitionBean.getParticipantByEpreuve(epreuveBean).size()));
 
         ParticipantClassementFinalListener participantClassementFinalListener =
                 new ParticipantClassementFinalListener(firstPlaceTf, secondPlaceTf, thirdPlaceTf, fourthPlaceTf);

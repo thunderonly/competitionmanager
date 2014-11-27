@@ -276,12 +276,6 @@ public class CreateCompetitionView {
         createBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-//                for (CategorieBean categorie1 : categorieListChoix.getItems()) {
-//                    CategorieBean categorieCompetition = competition.getCategories().get(competition.getCategories().indexOf(categorie1));
-//                    if (categorieCompetition != null) {
-//                        categorieCompetition.setEpreuves(categorie1.getEpreuves());
-//                    }
-//                }
                 stage.close();
             }
         });

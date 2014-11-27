@@ -22,9 +22,9 @@ public class Epreuve implements Serializable {
     private String etatEpreuve;
     @XmlElement
     private DetailEpreuve detailEpreuve;
-    @XmlElementWrapper(name="participants")
-    @XmlElement(name="participant")
-    private List<Participant> participants;
+//    @XmlElementWrapper(name="participants")
+//    @XmlElement(name="participant")
+//    private List<Participant> participants;
 
     public Epreuve(Categorie categorie, Discipline discipline) {
         if (categorie != null && discipline != null) {
@@ -32,7 +32,7 @@ public class Epreuve implements Serializable {
         }
         this.categorie = categorie;
         this.discipline = discipline;
-        this.participants = new ArrayList<Participant>();
+//        this.participants = new ArrayList<Participant>();
     }
 
     public Epreuve() {
@@ -82,20 +82,20 @@ public class Epreuve implements Serializable {
         this.detailEpreuve = detailEpreuve;
     }
 
-    public List<Participant> getParticipants() {
-        return participants;
-    }
+//    public List<Participant> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(List<Participant> participants) {
+//        this.participants = participants;
+//    }
 
-    public void setParticipants(List<Participant> participants) {
-        this.participants = participants;
-    }
-
-    public Participant getParticipantByNomPrenom(String nom, String prenom) {
-        for (Participant participant : getParticipants()) {
-            if (participant.getNomParticipant().equals(nom) && participant.getPrenomParticipant().equals(prenom)) {
-                return participant;
-            }
-        }
-        return null;
-    }
+//    public Participant getParticipantByNomPrenom(String nom, String prenom) {
+//        for (Participant participant : getParticipants()) {
+//            if (participant.getNomParticipant().equals(nom) && participant.getPrenomParticipant().equals(prenom)) {
+//                return participant;
+//            }
+//        }
+//        return null;
+//    }
 }

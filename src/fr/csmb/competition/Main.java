@@ -1,7 +1,7 @@
 package fr.csmb.competition;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.controller.ClubController;
 import fr.csmb.competition.controller.Controller;
 import fr.csmb.competition.manager.InscriptionsManager;
@@ -18,19 +18,15 @@ import fr.csmb.competition.view.CreateCompetitionView;
 import fr.csmb.competition.view.GlobalVisionView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.view.ResultatsView;
-import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
-import fr.csmb.competition.xml.model.Eleve;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
@@ -39,10 +35,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.prefs.Preferences;
 
 /**
@@ -159,35 +151,43 @@ public class Main extends Application {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                         if (t1) {
+                            //Check if participant exist for epreuve of eleve
                             CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
                             if (categorieBean != null) {
                                 for (String epreuve : eleveBean.getEpreuves()) {
-                                    DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
-                                    EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
-                                    if (epreuveBean != null) {
-                                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
-                                        participantBean.setClub(clubBean.getIdentifiant());
-                                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
-                                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
+                                    if (!"".equals(epreuve)) {
+                                        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+                                        EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+                                        boolean participantExist = false;
+                                        for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(
+                                                epreuveBean)) {
+                                            if (participantBean.getNom().equals(eleveBean.getNom()) &&
+                                                    participantBean.getPrenom().equals(eleveBean.getPrenom())) {
+                                                participantExist = true;
+                                            }
                                         }
-                                        epreuveBean.getParticipants().add(participantBean);
+                                        if (!participantExist) {
+                                            ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
+                                            participantBean.setEpreuveBean(epreuveBean);
+                                            if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
+                                                participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
+                                            }
+                                            participantBean.setClub(clubBean.getIdentifiant());
+                                            competitionBean.getParticipants().add(participantBean);
+                                        }
                                     }
                                 }
                             }
+                            for (ParticipantBean participantBean : competitionBean.getParticipantByNomPrenom(
+                                    eleveBean.getNom(), eleveBean.getPrenom())) {
+                                participantBean.setParticipe(true);
+                            }
+
 
                         } else {
-                            CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
-                            if (categorieBean != null) {
-                                for (String epreuve : eleveBean.getEpreuves()) {
-                                    DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
-                                    EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
-                                    if (epreuveBean != null) {
-                                        ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(
-                                                eleveBean.getNom(), eleveBean.getPrenom());
-                                        epreuveBean.getParticipants().remove(participantBean);
-
-                                    }
-                                }
+                            for (ParticipantBean participantBean : competitionBean.getParticipantByNomPrenom(
+                                    eleveBean.getNom(), eleveBean.getPrenom())) {
+                                participantBean.setParticipe(false);
                             }
                         }
                     }

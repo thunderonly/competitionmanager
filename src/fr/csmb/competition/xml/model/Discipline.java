@@ -4,12 +4,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
+import java.io.Serializable;
 
 /**
  * Created by Administrateur on 25/11/14.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Discipline {
+public class Discipline implements Serializable {
 
     @XmlAttribute @XmlID
     private String id;

@@ -10,14 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import fr.csmb.competition.Helper.ParticipantConverter;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.*;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.component.grid.globalvision.GlobalVisionGrid;
-import fr.csmb.competition.model.CategorieBean;
-import fr.csmb.competition.model.ClubBean;
-import fr.csmb.competition.model.CompetitionBean;
-import fr.csmb.competition.model.EleveBean;
-import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,21 +90,21 @@ public class GlobalVisionView {
         return map;
     }
 
+    public EpreuveBean getEpreuveBean(String typeCategorie, String categorie, String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+        EpreuveBean epreuveBean = null;
+        if (categorieBean != null && disciplineBean != null) {
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+        }
+        return epreuveBean;
+    }
+
     public ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
         ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        for (ClubBean clubBean : competitionBean.getClubs()) {
-            for (EleveBean eleveBean : clubBean.getEleves()) {
-                if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
-                    if (eleveBean.getEpreuves().contains(epreuve)) {
-                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
-                        participantBean.setClub(clubBean.getNom());
-                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
-                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
-                        }
-                        participantBeans1.add(participantBean);
-                    }
-                }
-            }
+        EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
+        if (epreuveBean != null) {
+            participantBeans1.addAll(competitionBean.getParticipantByEpreuve(epreuveBean));
         }
 
         return participantBeans1;

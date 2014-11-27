@@ -7,7 +7,7 @@ package fr.csmb.competition.component.grid.technical;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

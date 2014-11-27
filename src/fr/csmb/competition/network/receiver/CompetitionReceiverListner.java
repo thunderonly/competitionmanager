@@ -12,7 +12,7 @@ import fr.csmb.competition.Helper.EleveConverter;
 import fr.csmb.competition.Helper.EpreuveConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.Main;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -78,11 +78,13 @@ public class CompetitionReceiverListner implements DatagramListener {
             LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
             epreuveBean.setDiscipline(new DisciplineBean(epreuve.getDiscipline().getNom(), epreuve.getDiscipline().getType()));
 
-            for (Participant participant : epreuve.getParticipants()) {
-                ParticipantBean participantBean = epreuveBean.getParticipantByNomPrenom(participant.getNomParticipant(), participant.getPrenomParticipant());
+            for (Participant participant : competition.getParticipant()) {
+                EpreuveBean epreuveBeanPart = EpreuveConverter.convertEpreuveToEpreuveBean(participant.getEpreuve());
+                ParticipantBean participantBean = competitionBean.getParticipantByNomPrenomEpreuve(
+                        participant.getNomParticipant(), participant.getPrenomParticipant(), epreuveBeanPart);
                 if (participantBean == null) {
                     participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
-                    epreuveBean.getParticipants().add(participantBean);
+                    competitionBean.getParticipants().add(participantBean);
                 } else {
                     ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
                 }

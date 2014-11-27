@@ -1,8 +1,8 @@
 package fr.csmb.competition.view;
 
 import fr.csmb.competition.Helper.ParticipantConverter;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import fr.csmb.competition.component.grid.fight.GridComponentFight;
+import fr.csmb.competition.model.CompetitionBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,7 +31,7 @@ public class ConfigureFightView {
     private GridComponentFight2 gridComponentFight;
     public final static DataFormat format = new DataFormat("fr.csmb.competition.xml.model.Participant");
 
-    public void showView(Stage mainStage, final EpreuveBean epreuveBean) {
+    public void showView(Stage mainStage, final CompetitionBean competitionBean, final EpreuveBean epreuveBean) {
         BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane, 1200, 900);
         currentStage = new Stage();
@@ -60,8 +59,8 @@ public class ConfigureFightView {
                 resultatList = gridComponentFight.getResultatsList();
                 for (ParticipantBean participantBean : resultatList) {
                     System.out.println("Place on Grid : " + participantBean.getPlaceOnGrid() + " " + participantBean.toString());
-                    ParticipantBean epreuveParticipantBean = epreuveBean.getParticipantByNomPrenom(
-                            participantBean.getNom(), participantBean.getPrenom());
+                    ParticipantBean epreuveParticipantBean = competitionBean.getParticipantByNomPrenomEpreuve(
+                            participantBean.getNom(), participantBean.getPrenom(), epreuveBean);
                     if (epreuveParticipantBean != null) {
                         epreuveParticipantBean.setPlaceOnGrid(participantBean.getPlaceOnGrid());
                     }
@@ -78,18 +77,18 @@ public class ConfigureFightView {
         hBox1.setSpacing(10);
         borderPane.setCenter(hBox1);
 
-        createView(hBox1, epreuveBean);
+        createView(hBox1, competitionBean, epreuveBean);
 
         currentStage.showAndWait();
     }
 
-    private void createView(HBox hBox, EpreuveBean epreuveBean) {
+    private void createView(HBox hBox, CompetitionBean competitionBean, EpreuveBean epreuveBean) {
         ListView<ParticipantBean> participantBeanListView = new ListView<ParticipantBean>();
-        participantBeanListView.getItems().addAll(epreuveBean.getParticipants());
+        participantBeanListView.getItems().addAll(competitionBean.getParticipantByEpreuve(epreuveBean));
         initializeListener(participantBeanListView);
 
         ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-        for (int i = 0; i < epreuveBean.getParticipants().size(); i++) {
+        for (int i = 0; i < participantBeanListView.getItems().size(); i++) {
             participantBeans.add(new ParticipantBean("", ""));
         }
 

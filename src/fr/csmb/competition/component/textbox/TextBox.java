@@ -5,8 +5,7 @@
 package fr.csmb.competition.component.textbox;
 
 import fr.csmb.competition.Helper.ParticipantConverter;
-import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.StringProperty;

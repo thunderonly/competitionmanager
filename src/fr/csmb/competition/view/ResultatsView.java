@@ -1,13 +1,11 @@
 package fr.csmb.competition.view;
 
 import com.sun.javafx.collections.transformation.SortedList;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.controller.ClassementClubController;
 import fr.csmb.competition.controller.ResultatsController;
 import fr.csmb.competition.manager.ResultatsManager;
 import fr.csmb.competition.model.*;
-import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
-import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import javafx.collections.FXCollections;
@@ -69,7 +67,7 @@ public class ResultatsView {
 
                             ObservableList<ParticipantBean> newList = FXCollections.observableArrayList();
                             //Get participant for 1, 2, 3, 4 place
-                            for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                            for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                                 if (participantBean.getClassementFinal() > 0 && participantBean.getClassementFinal() < 5) {
                                     newList.add(participantBean);
                                 }

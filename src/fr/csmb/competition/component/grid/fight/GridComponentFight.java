@@ -12,7 +12,7 @@ import com.sun.javafx.collections.transformation.SortedList;
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
 import fr.csmb.competition.component.grid.bean.Match;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.bean.Phase;
 import fr.csmb.competition.component.textbox.TextBox;
 import fr.csmb.competition.component.textbox.TextBoxListner;

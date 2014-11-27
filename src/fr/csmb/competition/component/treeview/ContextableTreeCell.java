@@ -254,11 +254,8 @@ public class ContextableTreeCell extends TreeCell<String> {
                             } else if (EtatEpreuve.DEMARRE.getValue().equals(epreuveBean.getEtat())) {
                                 setTextFill(Color.DARKRED);
                                 imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveDemarre.png")));
-                            } else if (EtatEpreuve.REGROUPE.getValue().equals(epreuveBean.getEtat())) {
-                                setTextFill(Color.GREEN);
-                                imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
                             }else {
-                                if (categorieViewController.extractEpreuves(epreuveBean).size() > 3) {
+                                if (competitionBean.getParticipantPresentByEpreuve(epreuveBean).size() > 3) {
                                     imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveOK.png")));
                                 } else {
                                     imageView = new ImageView(new Image(this.categoriesView.getClass().getResourceAsStream("images/epreuveKO.png")));

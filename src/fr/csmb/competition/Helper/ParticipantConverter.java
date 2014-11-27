@@ -4,7 +4,8 @@
  */
 package fr.csmb.competition.Helper;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
+import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
 
 /**
@@ -30,6 +31,8 @@ public class ParticipantConverter {
         participant.setClassementManuel(String.valueOf(participantBean.getClassementManuel()));
         participant.setClassementFinal(String.valueOf(participantBean.getClassementFinal()));
         participant.setPlaceOnGrid(String.valueOf(participantBean.getPlaceOnGrid()));
+        participant.setParticipe(participantBean.getParticipe());
+        participant.setEpreuve(EpreuveConverter.convertEpreuveBeanToEpreuve(participantBean.getEpreuveBean()));
         return participant;
     }
 
@@ -51,5 +54,7 @@ public class ParticipantConverter {
         participantBean.setNote4(Integer.parseInt(participant.getNote4()));
         participantBean.setNote5(Integer.parseInt(participant.getNote5()));
         participantBean.setPlaceOnGrid(Integer.parseInt(participant.getPlaceOnGrid()));
+        participantBean.setParticipe(participant.getParticipe());
+        participantBean.setEpreuveBean(EpreuveConverter.convertEpreuveToEpreuveBean(participant.getEpreuve()));
     }
 }

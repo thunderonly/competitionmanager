@@ -1,8 +1,7 @@
 package fr.csmb.competition.controller;
 
 import com.sun.javafx.collections.transformation.SortedList;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EpreuveBean;
@@ -144,7 +143,7 @@ public class ClassementClubController {
     public void computeClassementClub() {
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
             if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
-                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                     ClubBean clubBean = getClubById(competitionBean, participantBean.getClub());
                     Integer points = pointForParticipant(participantBean);
                     if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {

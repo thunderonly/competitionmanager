@@ -4,7 +4,6 @@
  */
 package fr.csmb.competition.model;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,14 +21,14 @@ public class EpreuveBean {
     private CategorieBean categorie;
     private DetailEpreuveBean detailEpreuve;
     private SimpleStringProperty etat;
-    private SimpleListProperty<ParticipantBean> participants;
+//    private SimpleListProperty<ParticipantBean> participants;
 
     public EpreuveBean() {
         this.id = new SimpleStringProperty();
         this.etat = new SimpleStringProperty();
-        this.participants = new SimpleListProperty<ParticipantBean>();
-        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-        this.participants.set(participantBeans);
+//        this.participants = new SimpleListProperty<ParticipantBean>();
+//        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+//        this.participants.set(participantBeans);
     }
 
     public String getId() {
@@ -80,17 +79,17 @@ public class EpreuveBean {
         this.etat.set(etat);
     }
 
-    public ObservableList<ParticipantBean> getParticipants() {
-        return participants.get();
-    }
-
-    public SimpleListProperty<ParticipantBean> participantsProperty() {
-        return participants;
-    }
-
-    public void setParticipants(ObservableList<ParticipantBean> participants) {
-        this.participants.set(participants);
-    }
+//    public ObservableList<ParticipantBean> getParticipants() {
+//        return participants.get();
+//    }
+//
+//    public SimpleListProperty<ParticipantBean> participantsProperty() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(ObservableList<ParticipantBean> participants) {
+//        this.participants.set(participants);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -109,12 +108,12 @@ public class EpreuveBean {
         return id.get().hashCode();
     }
 
-    public ParticipantBean getParticipantByNomPrenom(String nom, String prenom) {
-        for (ParticipantBean participantBean : getParticipants()) {
-            if (participantBean.getNom().equals(nom) && participantBean.getPrenom().equals(prenom)) {
-                return participantBean;
-            }
-        }
-        return null;
-    }
+//    public ParticipantBean getParticipantByNomPrenom(String nom, String prenom) {
+//        for (ParticipantBean participantBean : getParticipants()) {
+//            if (participantBean.getNom().equals(nom) && participantBean.getPrenom().equals(prenom)) {
+//                return participantBean;
+//            }
+//        }
+//        return null;
+//    }
 }

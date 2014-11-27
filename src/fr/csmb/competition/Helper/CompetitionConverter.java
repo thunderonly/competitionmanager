@@ -4,9 +4,6 @@
  */
 package fr.csmb.competition.Helper;
 
-import java.util.ArrayList;
-
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.xml.model.*;
 import javafx.collections.FXCollections;
@@ -44,6 +41,13 @@ public class CompetitionConverter {
         }
         competitionBean.setEpreuves(epreuveBeans);
 
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        for (Participant participant : competition.getParticipant()) {
+            ParticipantBean participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+            participantBeans.add(participantBean);
+        }
+        competitionBean.setParticipants(participantBeans);
+
         ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         for (Club club : competition.getClubs()) {
             ClubBean clubBean = ClubConverter.convertClubToClubBean(club);
@@ -69,6 +73,11 @@ public class CompetitionConverter {
         for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
             Discipline discipline = new Discipline(disciplineBean.getNom(), disciplineBean.getType());
             competition.getDiscipline().add(discipline);
+        }
+
+        for (ParticipantBean participantBean : competitionBean.getParticipants()) {
+            Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
+            competition.getParticipant().add(participant);
         }
 
         for (ClubBean clubBean : competitionBean.getClubs()) {

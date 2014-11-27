@@ -1,6 +1,5 @@
 package fr.csmb.competition.controller;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
@@ -10,7 +9,6 @@ import fr.csmb.competition.view.ListEleveDialog;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

@@ -1,7 +1,7 @@
 package fr.csmb.competition.manager;
 
 import com.sun.javafx.collections.transformation.SortedList;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
@@ -118,7 +118,7 @@ public class ResultatsManager {
                     colCount = 4;
                 }
                 rowCount = 0;
-                for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
+                for (EpreuveBean epreuveBean : competitionBean.getEpreuveByCategorie(categorieBean)) {
                     if (epreuveBean.getDiscipline().getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         if (!isSheetCreated) {
                             sheet = workbook.createSheet(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
@@ -190,7 +190,7 @@ public class ResultatsManager {
      * @param epreuveBean
      */
     private void createBodyForClassementParticipant(XSSFSheet sheet, int rowCount, int colCount, XSSFCellStyle styleData, CompetitionBean competitionBean, EpreuveBean epreuveBean) {
-        SortedList<ParticipantBean> sortableList = new SortedList<ParticipantBean>(epreuveBean.getParticipants());
+        SortedList<ParticipantBean> sortableList = new SortedList<ParticipantBean>(competitionBean.getParticipantByEpreuve(epreuveBean));
         sortableList.setComparator(new ComparatorParticipantCombat());
         sortableList.sort();
         int nbPart = 0;

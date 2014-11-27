@@ -4,7 +4,7 @@
  */
 package fr.csmb.competition.component.grid;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.scene.control.TextField;
 
 /**

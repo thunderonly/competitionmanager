@@ -1,66 +1,27 @@
 package fr.csmb.competition.view;
 
-import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.Main;
-import fr.csmb.competition.component.grid.GridComponent;
-import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
-import fr.csmb.competition.component.grid.bean.*;
-import fr.csmb.competition.component.grid.fight.GridComponentFight;
-import fr.csmb.competition.component.grid.fight.GridComponentFight2;
-import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
-import fr.csmb.competition.component.pane.BorderedTitledPane;
 import fr.csmb.competition.component.treeview.ContextableTreeCell;
 import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.controller.GridCategorieController;
-import fr.csmb.competition.model.CategorieBean;
-import fr.csmb.competition.model.ClubBean;
-import fr.csmb.competition.model.CompetitionBean;
-import fr.csmb.competition.model.DisciplineBean;
-import fr.csmb.competition.model.EleveBean;
-import fr.csmb.competition.model.EpreuveBean;
-import fr.csmb.competition.network.sender.NetworkSender;
+import fr.csmb.competition.model.*;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
-import fr.csmb.competition.xml.model.*;
-import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.prefs.Preferences;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 /**
  * Created by Administrateur on 14/10/14.
@@ -130,6 +91,7 @@ public class CategoriesView {
         for (CategorieBean categorie : competitionBean.getCategories()) {
             TreeItem<String> itemCategorie = new TreeItem<String>(categorie.getNom());
 
+
             boolean isTechniqueCreated = false;
             boolean isCombatCreated = false;
             boolean isEpreuveCreated = false;
@@ -137,7 +99,7 @@ public class CategoriesView {
             TreeItem<String> itemEpreuveTypeCombat = null;
             for (EpreuveBean epreuve : competitionBean.getEpreuveByCategorie(categorie)) {
 
-                if (epreuve.getParticipants().isEmpty()) {
+                if (competitionBean.getParticipantByEpreuve(epreuve).isEmpty()) {
                     continue;
                 }
                 final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getDiscipline().getNom());
@@ -201,6 +163,7 @@ public class CategoriesView {
                     }
                 });
             }
+
             if (isEpreuveCreated) {
                 if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
                     itemTypeCategorieFeminin.getChildren().add(itemCategorie);
@@ -324,7 +287,7 @@ public class CategoriesView {
 
     private void updateList(EpreuveBean epreuveBean) {
         participantBeans.clear();
-        participantBeans.addAll(epreuveBean.getParticipants());
+        participantBeans.addAll(competitionBean.getParticipantPresentByEpreuve(epreuveBean));
     }
 
     public void validateEpreuve(String typeCategorie, String categorie, String epreuve) {

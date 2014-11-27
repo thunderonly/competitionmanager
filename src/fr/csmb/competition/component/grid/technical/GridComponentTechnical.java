@@ -5,21 +5,18 @@
 package fr.csmb.competition.component.grid.technical;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.sun.javafx.collections.transformation.SortedList;
 
 import fr.csmb.competition.component.grid.GridComponent;
 import fr.csmb.competition.component.grid.ParticipantClassementFinalListener;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

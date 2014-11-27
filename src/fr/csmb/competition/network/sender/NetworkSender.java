@@ -4,11 +4,9 @@
  */
 package fr.csmb.competition.network.sender;
 
-import fr.csmb.competition.Helper.ClubConverter;
 import fr.csmb.competition.Helper.EleveConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import fr.csmb.competition.model.CategorieBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
@@ -20,7 +18,6 @@ import fr.csmb.competition.xml.model.Discipline;
 import fr.csmb.competition.xml.model.Eleve;
 import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
-import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +31,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * [Enter type description here].
@@ -149,7 +145,7 @@ public class NetworkSender {
         competition.getEpreuve().add(epreuve);
         LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
-        epreuve.setParticipants(participants);
+        competition.setParticipant(participants);
 
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
@@ -291,11 +287,11 @@ public class NetworkSender {
         @Override
         public void run() {
             try {
-                int nbParticipants = epreuveBean.getParticipants().size();
+                int nbParticipants = competitionBean.getParticipantByEpreuve(epreuveBean).size();
                 int nbSend = 0;
                 List<Participant> participants = new ArrayList<Participant>(4);
                 boolean isSend = false;
-                for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                     participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
                     nbSend++;
                     if (nbSend % 2 == 0 || nbSend == nbParticipants) {

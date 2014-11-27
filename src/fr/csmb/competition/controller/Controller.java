@@ -2,11 +2,10 @@ package fr.csmb.competition.controller;
 
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.Main;
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.manager.ResultatsManager;
-import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.DisciplineBean;
@@ -14,7 +13,6 @@ import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
-import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.collections.FXCollections;
@@ -278,8 +276,7 @@ public class Controller {
                     map1.put(epreuveBean.getCategorie().getType(), participants);
                 }
 
-                ObservableList<ParticipantBean> participantBeans = extractParticipants(epreuveBean.getCategorie().getType(), epreuveBean.getCategorie().getNom(), epreuveBean.getDiscipline().getNom());
-                for (ParticipantBean participantBean : participantBeans) {
+                for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                     Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
                     participants.add(participant);
                 }
@@ -288,26 +285,6 @@ public class Controller {
         }
 
         return mapSexe;
-    }
-
-    public ObservableList<ParticipantBean> extractParticipants(String typeCategorie, String categorie, String epreuve) {
-        ObservableList<ParticipantBean> participantBeans1 = FXCollections.observableArrayList();
-        for (ClubBean clubBean : competitionBean.getClubs()) {
-            for (EleveBean eleveBean : clubBean.getEleves()) {
-                if (categorie.equals(eleveBean.getCategorie()) && typeCategorie.equals(eleveBean.getSexe())) {
-                    if (eleveBean.getEpreuves().contains(epreuve)) {
-                        ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
-                        participantBean.setClub(clubBean.getNom());
-                        if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
-                            participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
-                        }
-                        participantBeans1.add(participantBean);
-                    }
-                }
-            }
-        }
-
-        return participantBeans1;
     }
 
     private Map<String, Map<String, GlobalVision>> computeStructureCurrent() {
@@ -341,7 +318,7 @@ public class Controller {
                         map1.put(epreuveBean.getCategorie().getType(), participants);
                     }
 
-                    for (ParticipantBean participantBean : epreuveBean.getParticipants()) {
+                    for (ParticipantBean participantBean : competitionBean.getParticipantPresentByEpreuve(epreuveBean)) {
                         Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
                         participants.add(participant);
                     }

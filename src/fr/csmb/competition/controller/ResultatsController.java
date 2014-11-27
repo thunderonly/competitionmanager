@@ -1,13 +1,10 @@
 package fr.csmb.competition.controller;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import fr.csmb.competition.model.EleveBean;
-import javafx.beans.value.ObservableValue;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 
 /**
  * Created by Administrateur on 20/10/14.

@@ -5,6 +5,7 @@
 package fr.csmb.competition.component.grid.bean;
 
 import fr.csmb.competition.component.textbox.TextBox;
+import fr.csmb.competition.model.ParticipantBean;
 
 /**
  * [Enter type description here].

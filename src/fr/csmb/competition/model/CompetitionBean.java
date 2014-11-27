@@ -5,7 +5,9 @@
 package fr.csmb.competition.model;
 
 import java.util.List;
+import java.util.Observable;
 
+import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,8 +22,9 @@ public class CompetitionBean {
 
     private SimpleStringProperty nom;
     private SimpleListProperty<CategorieBean> categories;
-    private SimpleListProperty<EpreuveBean> epreuves;
     private SimpleListProperty<DisciplineBean> disciplines;
+    private SimpleListProperty<EpreuveBean> epreuves;
+    private SimpleListProperty<ParticipantBean> participants;
     private SimpleListProperty<ClubBean> clubs;
 
     public CompetitionBean() {
@@ -33,12 +36,19 @@ public class CompetitionBean {
         this.categories = new SimpleListProperty<CategorieBean>();
         ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
         this.categories.set(categorieBeans);
+
         this.epreuves = new SimpleListProperty<EpreuveBean>();
         ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
         this.epreuves.set(epreuveBeans);
+
         this.disciplines = new SimpleListProperty<DisciplineBean>();
         ObservableList<DisciplineBean> disciplineBeans = FXCollections.observableArrayList();
         this.disciplines.set(disciplineBeans);
+
+        this.participants = new SimpleListProperty<ParticipantBean>();
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        this.participants.set(participantBeans);
+
         ObservableList<ClubBean> clubBeans = FXCollections.observableArrayList();
         this.clubs = new SimpleListProperty<ClubBean>();
         this.clubs.set(clubBeans);
@@ -104,6 +114,18 @@ public class CompetitionBean {
         this.disciplines.set(disciplines);
     }
 
+    public ObservableList<ParticipantBean> getParticipants() {
+        return participants.get();
+    }
+
+    public SimpleListProperty<ParticipantBean> participantsProperty() {
+        return participants;
+    }
+
+    public void setParticipants(ObservableList<ParticipantBean> participants) {
+        this.participants.set(participants);
+    }
+
     public CategorieBean getCategorieByName(String name) {
         for (CategorieBean categorieBean : getCategories()) {
             if (name.equals(categorieBean.getNom())) {
@@ -167,6 +189,46 @@ public class CompetitionBean {
             }
         }
         return epreuveBeans;
+    }
+
+    public ObservableList<ParticipantBean> getParticipantByNomPrenom(String nom, String prenom) {
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        for (ParticipantBean participantBean : getParticipants()) {
+            if (participantBean.getNom().equals(nom) && participantBean.getPrenom().equals(prenom)) {
+                participantBeans.add(participantBean);
+            }
+        }
+        return participantBeans;
+    }
+
+    public ParticipantBean getParticipantByNomPrenomEpreuve(String nom, String prenom, EpreuveBean epreuveBean) {
+        for (ParticipantBean participantBean : getParticipants()) {
+            if (participantBean.getNom().equals(nom) && participantBean.getPrenom().equals(prenom) &&
+                    participantBean.getEpreuveBean().equals(epreuveBean)) {
+                return participantBean;
+            }
+        }
+        return null;
+    }
+
+    public ObservableList<ParticipantBean> getParticipantByEpreuve(EpreuveBean epreuveBean) {
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        for (ParticipantBean participantBean : getParticipants()) {
+            if (participantBean.getEpreuveBean().equals(epreuveBean)) {
+                participantBeans.add(participantBean);
+            }
+        }
+        return participantBeans;
+    }
+
+    public ObservableList<ParticipantBean> getParticipantPresentByEpreuve(EpreuveBean epreuveBean) {
+        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
+        for (ParticipantBean participantBean : getParticipants()) {
+            if (participantBean.getEpreuveBean().equals(epreuveBean) && participantBean.getParticipe()) {
+                participantBeans.add(participantBean);
+            }
+        }
+        return participantBeans;
     }
 
     public ClubBean getClubByIdentifiant(String identifiant) {

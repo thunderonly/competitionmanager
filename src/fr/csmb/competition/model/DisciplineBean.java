@@ -4,11 +4,7 @@
  */
 package fr.csmb.competition.model;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * [Enter type description here].

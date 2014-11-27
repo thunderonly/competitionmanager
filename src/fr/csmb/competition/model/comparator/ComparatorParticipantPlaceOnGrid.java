@@ -1,6 +1,6 @@
 package fr.csmb.competition.model.comparator;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
+import fr.csmb.competition.model.ParticipantBean;
 
 import java.util.Comparator;
 

@@ -1,23 +1,14 @@
 package fr.csmb.competition.manager;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
-import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
-import fr.csmb.competition.model.comparator.ComparatorClubTotalCombat;
-import fr.csmb.competition.model.comparator.ComparatorClubTotalTechnique;
-import fr.csmb.competition.model.comparator.ComparatorParticipantCombat;
-import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.*;
 
 import java.awt.Color;
@@ -27,8 +18,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.sun.javafx.collections.transformation.SortedList;
 
 /**
  * Created by Administrateur on 13/10/14.
