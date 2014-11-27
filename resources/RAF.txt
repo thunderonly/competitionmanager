@@ -1,38 +1,5 @@
-Gestion des categories
-1 - Empecher le demarrage de categories "Terminees" [OK]
-2 - Pouvoir demarrer un categories que si elle est "validee" [OK]
-3 - Permettre la creation de categorie [OK]
-4 - La validation d'une categorie entraine la creation des participants[OK]
-5 - La fusion de categorie entraine la validation de celle-ci[OK]
-6 - Classer les categories par sexe [OK]
-	Type Categorie (sexe)
-		Categorie
-			Type epreuve
-				Epreuve
-7 - Ajouter le cartouche dans les tableaux de catégorie [OK]
-8 - Gestion des équipes Doi Luyen [OK]
-9 - Gestion fusion féminin/masculin [OK]
-10 - Combat : Gestion des categories de 4 et 3 participants [OK]
-11 - Configuration des combats avec ordre de distribution des participants [OK}
+Réparer diffusion LAN
+Gestion des élèves :
+Enlever un élève d'une épreuve (fusionnée ou non)
+Permettre ajout et suppression de participant par le tableau d'une catégorie
 
-Classement des clubs
-1 - Mettre en place le classement des clubs [OK]
-2 - Exporter le classement au format Excel [OK]
-
-Diffusion LAN
-1 - Diffuser les categories apres changement d etat [OK]
-
-Creation de Competition
-1 - Nom de la competition [OK]
-2 - Les categories presentes [OK]
-
-Pointage Competition
-1 - Pointage des participants. [OK]
-2 - Gerer la presenceEleve des participants [OK]
-3 - Modifier les élèves présents (poid, épreuves)
-
-Ne pas afficher les caté vides [OK]
-Code couleur pour les caté fermées (-3) personnes [OK]
-Vision globale de la compétition. comme le excel de la coupe med [OK]
-Pas de diffusion LAN
-Ajouter un fichier de configuration/parametrage

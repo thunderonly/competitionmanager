@@ -37,6 +37,7 @@ public class EditEleveController {
         eleveBean.setPoids(poids);
         eleveBean.setSexe(sexe.getValue());
         eleveBean.setCategorie(extractCategorie(age));
+        eleveBean.setPresence(true);
         for (String epreuve : epreuves) {
             if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
                 eleveBean.getEpreuves().add(extractCategorieCombat(eleveBean, competitionBean));
