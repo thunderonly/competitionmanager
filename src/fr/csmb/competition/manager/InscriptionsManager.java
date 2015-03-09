@@ -142,25 +142,32 @@ public class InscriptionsManager {
                         }
                     }
                     for (String equipe : teamSongLuyenMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSongLuyenMainNue.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSongLuyenMainNue.get(equipe), "Song Luyen Main Nue"));
                     }
                     for (String equipe : teamSongLuyenArmes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSongLuyenArmes.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSongLuyenArmes.get(equipe), "Song Luyen Armes"));
                     }
                     for (String equipe : teamDoiLuyenMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe), "Doi Luyen Main Nue"));
                     }
                     for (String equipe : teamDoiLuyenArmes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyenArmes.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamDoiLuyenArmes.get(equipe), "Doi Luyen Armes"));
                     }
                     for (String equipe : teamSynchroMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe), "Quy Dinh Synchro Main Nue"));
                     }
                     for (String equipe : teamSynchroArmesCourtes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroArmesCourtes.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroArmesCourtes.get(equipe), "Quy Dinh Synchro Armes Courtes"));
                     }
                     for (String equipe : teamSynchroArmesLongues.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroArmesLongues.get(equipe)));
+                        clubBean.getEleves().add(extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroArmesLongues.get(equipe), "Quy Dinh Synchro Armes Longues"));
                     }
 
                     if (competition.getClubs().contains(clubBean)) {
@@ -179,7 +186,7 @@ public class InscriptionsManager {
         return null;
     }
 
-    private EleveBean extractEleveFromTeam(String clubId, String equipe, List<EleveBean> eleves) {
+    private EleveBean extractEleveFromTeam(String clubId, String equipe, List<EleveBean> eleves, String epreuve) {
         EleveBean newEleve = new EleveBean();
         for (EleveBean eleve : eleves) {
             if (newEleve.getLicence() == null) {
@@ -187,7 +194,7 @@ public class InscriptionsManager {
             }
 
             if (newEleve.getEpreuves().size() <= 0) {
-                newEleve.getEpreuves().add("Doi Luyen");
+                newEleve.getEpreuves().add(epreuve);
             }
             //Nom
             if (newEleve.getNom() == null) {
@@ -224,12 +231,12 @@ public class InscriptionsManager {
             if (eleve.getCategorie().equals("Benjamin") || eleve.getCategorie().equals("Minime") || eleve.getCategorie().equals("Cadet")) {
                 currentCategorie = "Cadet";
             } else {
-                currentCategorie = "Senior";
+                currentCategorie = "Sénior";
             }
             if (newEleve.getCategorie() == null) {
                newEleve.setCategorie(currentCategorie);
             } else {
-                if (newEleve.getCategorie().equals("Cadet") && currentCategorie.equals("Senior")) {
+                if (newEleve.getCategorie().equals("Cadet") && currentCategorie.equals("Sénior")) {
                     newEleve.setCategorie(currentCategorie);
                 }
             }
