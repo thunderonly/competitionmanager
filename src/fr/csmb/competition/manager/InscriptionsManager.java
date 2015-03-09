@@ -52,7 +52,13 @@ public class InscriptionsManager {
                 } else if (cellB!= null && cellB.getCellType() == Cell.CELL_TYPE_STRING &&
                         "Renseignements".equals(cellB.getStringCellValue())) {
                     rowIterator.next();
-                    Map<String, List<EleveBean>> teamDoiLuyen = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamSongLuyenMainNue = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamSongLuyenArmes = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamDoiLuyenMainNue = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamDoiLuyenArmes = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamSynchroMainNue = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamSynchroArmesCourtes = new HashMap<String, List<EleveBean>>();
+                    Map<String, List<EleveBean>> teamSynchroArmesLongues = new HashMap<String, List<EleveBean>>();
                     while(rowIterator.hasNext()) {
                         EleveBean eleve = new EleveBean();
                         row = rowIterator.next();
@@ -66,20 +72,66 @@ public class InscriptionsManager {
                         eleve.setPoids(getCellValue(row, 9));
                         String epreuve = getCellValue(row, 10);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
-                            eleve.getEpreuves().add("Main Nue");
+                            eleve.getEpreuves().add("Quy Dinh Main Nue");
                         }
                         epreuve = getCellValue(row, 11);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
-                            eleve.getEpreuves().add("Arme");
+                            eleve.getEpreuves().add("Quy Dinh Armes Courtes");
                         }
                         epreuve = getCellValue(row, 12);
-                        if (epreuve.contains("Équipe")) {
-                            if (teamDoiLuyen.get(epreuve) == null) {
-                                teamDoiLuyen.put(epreuve, new ArrayList<EleveBean>());
-                            }
-                            teamDoiLuyen.get(epreuve).add(eleve);
+                        if ("Oui".equalsIgnoreCase(epreuve)) {
+                            eleve.getEpreuves().add("Quy Dinh Armes Longues");
                         }
                         epreuve = getCellValue(row, 13);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamSongLuyenMainNue.get(epreuve) == null) {
+                                teamSongLuyenMainNue.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamSongLuyenMainNue.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 14);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamSongLuyenArmes.get(epreuve) == null) {
+                                teamSongLuyenArmes.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamSongLuyenArmes.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 15);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamDoiLuyenMainNue.get(epreuve) == null) {
+                                teamDoiLuyenMainNue.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamDoiLuyenMainNue.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 16);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamDoiLuyenArmes.get(epreuve) == null) {
+                                teamDoiLuyenArmes.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamDoiLuyenArmes.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 17);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamSynchroMainNue.get(epreuve) == null) {
+                                teamSynchroMainNue.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamSynchroMainNue.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 18);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamSynchroArmesCourtes.get(epreuve) == null) {
+                                teamSynchroArmesCourtes.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamSynchroArmesCourtes.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 19);
+                        if (epreuve.contains("Équipe")) {
+                            if (teamSynchroArmesLongues.get(epreuve) == null) {
+                                teamSynchroArmesLongues.put(epreuve, new ArrayList<EleveBean>());
+                            }
+                            teamSynchroArmesLongues.get(epreuve).add(eleve);
+                        }
+                        epreuve = getCellValue(row, 20);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
 
                             eleve.getEpreuves().add(extractCategorieCombat(eleve, competition));
@@ -89,8 +141,26 @@ public class InscriptionsManager {
                             clubBean.getEleves().add(eleve);
                         }
                     }
-                    for (String equipe : teamDoiLuyen.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyen.get(equipe)));
+                    for (String equipe : teamSongLuyenMainNue.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSongLuyenMainNue.get(equipe)));
+                    }
+                    for (String equipe : teamSongLuyenArmes.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSongLuyenArmes.get(equipe)));
+                    }
+                    for (String equipe : teamDoiLuyenMainNue.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe)));
+                    }
+                    for (String equipe : teamDoiLuyenArmes.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamDoiLuyenArmes.get(equipe)));
+                    }
+                    for (String equipe : teamSynchroMainNue.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe)));
+                    }
+                    for (String equipe : teamSynchroArmesCourtes.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroArmesCourtes.get(equipe)));
+                    }
+                    for (String equipe : teamSynchroArmesLongues.keySet()) {
+                        clubBean.getEleves().add(extractEleveFromTeam(clubBean.getIdentifiant(), equipe, teamSynchroArmesLongues.get(equipe)));
                     }
 
                     if (competition.getClubs().contains(clubBean)) {
@@ -179,7 +249,7 @@ public class InscriptionsManager {
         } else if ("J".equalsIgnoreCase(categorie)) {
             return "Junior";
         } else if ("S".equalsIgnoreCase(categorie)) {
-            return "Senior";
+            return "Sénior";
         } else if ("V".equalsIgnoreCase(categorie)) {
             return "Vétéran";
         }
