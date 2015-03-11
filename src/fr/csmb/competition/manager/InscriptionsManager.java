@@ -1,10 +1,7 @@
 package fr.csmb.competition.manager;
 
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
-import fr.csmb.competition.model.ClubBean;
-import fr.csmb.competition.model.CompetitionBean;
-import fr.csmb.competition.model.EleveBean;
-import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.model.*;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
@@ -139,35 +136,50 @@ public class InscriptionsManager {
 
                         if (!eleve.getNom().equals("")) {
                             clubBean.getEleves().add(eleve);
+                            initializeListener(competition, eleve, clubBean);
                         }
                     }
                     for (String equipe : teamSongLuyenMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSongLuyenMainNue.get(equipe), "Song Luyen Main Nue"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSongLuyenMainNue.get(equipe), "Song Luyen Main Nue");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamSongLuyenArmes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSongLuyenArmes.get(equipe), "Song Luyen Armes"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSongLuyenArmes.get(equipe), "Song Luyen Armes");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamDoiLuyenMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe), "Doi Luyen Main Nue"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe), "Doi Luyen Main Nue");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamDoiLuyenArmes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamDoiLuyenArmes.get(equipe), "Doi Luyen Armes"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamDoiLuyenArmes.get(equipe), "Doi Luyen Armes");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamSynchroMainNue.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe), "Quy Dinh Synchro Main Nue"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe), "Quy Dinh Synchro Main Nue");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamSynchroArmesCourtes.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSynchroArmesCourtes.get(equipe), "Quy Dinh Synchro Armes Courtes"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroArmesCourtes.get(equipe), "Quy Dinh Synchro Armes Courtes");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
                     for (String equipe : teamSynchroArmesLongues.keySet()) {
-                        clubBean.getEleves().add(extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSynchroArmesLongues.get(equipe), "Quy Dinh Synchro Armes Longues"));
+                        EleveBean newEleveBean = extractEleveFromTeam(
+                                clubBean.getIdentifiant(), equipe, teamSynchroArmesLongues.get(equipe), "Quy Dinh Synchro Armes Longues");
+                        initializeListener(competition, newEleveBean, clubBean);
+                        clubBean.getEleves().add(newEleveBean);
                     }
 
                     if (competition.getClubs().contains(clubBean)) {
@@ -184,6 +196,14 @@ public class InscriptionsManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void initializeListener(CompetitionBean competition, EleveBean eleveBean, ClubBean clubBean) {
+        EleveBeanPresenceChangePropertyListener changeListener = new EleveBeanPresenceChangePropertyListener();
+        changeListener.setClubBean(clubBean);
+        changeListener.setCompetitionBean(competition);
+        changeListener.setEleveBean(eleveBean);
+        eleveBean.presenceProperty().addListener(changeListener);
     }
 
     private EleveBean extractEleveFromTeam(String clubId, String equipe, List<EleveBean> eleves, String epreuve) {

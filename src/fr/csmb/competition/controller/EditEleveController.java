@@ -21,6 +21,14 @@ public class EditEleveController {
         EleveBean eleveBean = new EleveBean();
         setEleve(eleveBean, licence, nom, prenom, age, poids, sexe, epreuves);
         clubBean.getEleves().add(eleveBean);
+
+        EleveBeanPresenceChangePropertyListener propertyListener = new EleveBeanPresenceChangePropertyListener();
+        propertyListener.setCompetitionBean(competitionBean);
+        propertyListener.setClubBean(clubBean);
+        propertyListener.setEleveBean(eleveBean);
+        eleveBean.presenceProperty().addListener(propertyListener);
+        eleveBean.setPresence(true);
+
         NetworkSender.getINSTANCE().sendClub(clubBean);
     }
 
@@ -37,7 +45,6 @@ public class EditEleveController {
         eleveBean.setPoids(poids);
         eleveBean.setSexe(sexe.getValue());
         eleveBean.setCategorie(extractCategorie(age));
-        eleveBean.setPresence(true);
         for (String epreuve : epreuves) {
             if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
                 eleveBean.getEpreuves().add(extractCategorieCombat(eleveBean, competitionBean));
@@ -61,7 +68,7 @@ public class EditEleveController {
         } else if (ageInt >= 16 && ageInt < 18) {
             return "Junior";
         } else if (ageInt >= 18 && ageInt < 35) {
-            return "Senior";
+            return "Sénior";
         } else if (ageInt >= 35 && ageInt < 50) {
             return "Vétérant";
         }

@@ -240,6 +240,7 @@ public class CategorieViewController {
                     disciplineFusion = competitionBean.getDiscipline(newDisciplineName);
                     if (disciplineFusion == null) {
                         disciplineFusion = new DisciplineBean(newDisciplineName, disciplineBean1.getType());
+                        competitionBean.getDisciplines().add(disciplineFusion);
                     }
                 }
             }

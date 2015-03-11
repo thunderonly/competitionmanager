@@ -104,15 +104,21 @@ public class EditEleveView {
         gridPane.add(borderedTitledPane, 0, 0);
 
         int i = 0;
-        HBox hBoxEpreuve = new HBox(20);
+        GridPane hBoxEpreuve = new GridPane();
         epreuveCheckBox = new ArrayList<CheckBox>();
+        int indexCol = 0;
+        int indexRow = 0;
         for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
             if (disciplineBean.getType().equals(TypeEpreuve.TECHNIQUE.getValue())) {
                 CheckBox checkBox = new CheckBox(disciplineBean.getNom());
                 epreuveCheckBox.add(checkBox);
-                hBoxEpreuve.getChildren().add(checkBox);
+                if (indexCol % 4 == 0) {
+                    indexRow ++;
+                    indexCol = 0;
+                }
+                hBoxEpreuve.add(checkBox, indexCol, indexRow);
+                indexCol++;
             }
-            break;
         }
         CheckBox combat = new CheckBox(TypeEpreuve.COMBAT.getValue());
         epreuveCheckBox.add(combat);
