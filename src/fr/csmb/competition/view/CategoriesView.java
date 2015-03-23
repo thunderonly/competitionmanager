@@ -21,6 +21,8 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.prefs.Preferences;
 
 /**
@@ -54,6 +56,9 @@ public class CategoriesView {
     private File fileTmp;
 
     private CategorieViewController categorieViewController;
+
+    private Map<EpreuveBean, BorderPane> borderPaneMap =
+            new HashMap<EpreuveBean, BorderPane>();
 
     public void showView(Stage mainStage, CompetitionBean competition) {
         Preferences pref = Preferences.userNodeForPackage(Main.class);
@@ -202,7 +207,12 @@ public class CategoriesView {
                     String epreuve = new_val.getValue();
                     EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
                     stackPane.getChildren().clear();
-                    if (epreuveBean != null && epreuveBean.getEtat() != null && epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue())) {
+                    if (epreuveBean != null && epreuveBean.getEtat() != null &&
+                            (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue()) ||
+                            epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue()))) {
+                        if (borderPaneMap.containsKey(epreuveBean)) {
+                            epreuveBorderPane = borderPaneMap.get(epreuveBean);
+                        }
                         stackPane.getChildren().add(epreuveBorderPane);
                     } else {
                         createTableView(stackPane);
@@ -224,15 +234,6 @@ public class CategoriesView {
     public void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
 
         epreuveBorderPane = new BorderPane();
-        GridCategorieController gridCategorieController = null;
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("fxml/categorieGridView.fxml"));
-            epreuveBorderPane = (BorderPane) loader.load();
-            gridCategorieController = loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
         DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
@@ -258,16 +259,34 @@ public class CategoriesView {
             }
 
         }
-        gridCategorieController.setCategorieView(this);
-        gridCategorieController.initGrid(competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
+
+        GridCategorieController gridCategorieController = null;
+        if (borderPaneMap.containsKey(epreuveBean)) {
+            epreuveBorderPane = borderPaneMap.get(epreuveBean);
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("fxml/categorieGridView.fxml"));
+                epreuveBorderPane = (BorderPane) loader.load();
+                gridCategorieController = loader.getController();
+                borderPaneMap.put(epreuveBean, epreuveBorderPane);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gridCategorieController.setCategorieView(this);
+            gridCategorieController.initGrid(competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
+        }
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(epreuveBorderPane);
     }
 
-    public void handleCancelEpreuve() {
+    public void handleCancelEpreuve(EpreuveBean epreuveBean) {
         stackPane.getChildren().clear();
         createTableView(stackPane);
+        if (borderPaneMap.containsKey(epreuveBean)) {
+            borderPaneMap.remove(epreuveBean);
+        }
     }
 
     private void createTableView(StackPane stackPane) {

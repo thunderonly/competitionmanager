@@ -106,6 +106,7 @@
         <HBox spacing="10">
             <Button fx:id="validateButton" text="Terminer" onAction="#validate" styleClass="buttonCompetition"/>
             <Button fx:id="cancelButton" text="Annuler" onAction="#cancel" styleClass="buttonCompetition"/>
+            <Button fx:id="addPartButton" text="Ajout Part." onAction="#addPart" styleClass="buttonCompetition"/>
         </HBox>
     </bottom>
     <stylesheets>

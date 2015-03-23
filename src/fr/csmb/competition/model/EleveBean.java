@@ -147,4 +147,13 @@ public class EleveBean {
     public ListProperty<String> epreuvesProperty() {
         return epreuves;
     }
+
+    @Override
+    public String toString() {
+        String toString = "";
+        if (prenom.get()!= null && nom.get() != null) {
+            toString = prenom.get().concat(" - ").concat(nom.get());
+        }
+        return toString;
+    }
 }

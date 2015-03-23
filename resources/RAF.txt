@@ -3,3 +3,4 @@ Gestion des élèves :
 Enlever un élève d'une épreuve (fusionnée ou non)
 Permettre ajout et suppression de participant par le tableau d'une catégorie
 
+Reprendre état des catégories "démarré" et "terminée" (les vues) après redemarrage.

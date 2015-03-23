@@ -43,6 +43,7 @@ public class Main extends Application {
     private ObservableList<ClubBean> clubs;
     private CompetitionBean competitionBean;
     private NotificationView notificationView;
+    private CategoriesView categoriesView;
     private Controller controller;
     private NetworkReceiver receiver = new NetworkReceiver("", 9878);
     private File tmpFile;
@@ -188,7 +189,9 @@ public class Main extends Application {
             notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                     "Aucune compétition chargée. Vous devez ouvrir une compétition.");
         } else {
-            CategoriesView categoriesView = new CategoriesView();
+            if (categoriesView == null) {
+                categoriesView = new CategoriesView();
+            }
             categoriesView.showView(mainStage, this.competitionBean);
         }
     }

@@ -20,15 +20,19 @@ import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -179,7 +183,24 @@ public class GridCategorieController {
             epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
             sender.send(competitionBean, epreuveBean);
         }
-        this.categorieView.handleCancelEpreuve();
+        this.categorieView.handleCancelEpreuve(epreuveBean);
+    }
+
+    @FXML
+    private void addPart() {
+        try {
+            Stage newStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../view/fxml/addPartView.fxml"));
+            BorderPane pane = (BorderPane) loader.load();
+            AddParticipantController participantController = loader.getController();
+            participantController.initComponent(competitionBean, epreuveBean);
+            newStage.setScene(new Scene(pane));
+            newStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveCompetitionToXmlFileTmp() {
