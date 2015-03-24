@@ -25,4 +25,6 @@ public abstract class GridComponent extends Group {
 
     public abstract void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener);
 
+    public abstract void addParticipant(ParticipantBean participantBean);
+
 }

@@ -39,6 +39,7 @@ public class TextBox extends Group {
     public StringProperty textProperty() { return text.textProperty(); }
     private Integer numPlace;
     private ImageView imageView;
+//    public final static DataFormat format = new DataFormat("fr.csmb.competition.xml.model.Participant");
 
     public TextBox(ParticipantBean participant, double width, double height, Color colorRectangle) {
         this.text = new Text(participant.getNom().toUpperCase().concat("\n").concat(participant.getPrenom()));
@@ -102,6 +103,21 @@ public class TextBox extends Group {
                 player.setPlaceOnGrid(numPlace);
                 setParticipant(player);
                 dragEvent.setDropCompleted(true);
+            }
+        });
+
+        text.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("setOnDragDetected");
+
+                Dragboard dragBoard = text.startDragAndDrop(TransferMode.MOVE);
+                DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
+                ClipboardContent content = new ClipboardContent();
+                content.put(format, ParticipantConverter.convertParticipantBeanToParticipant(
+                        participant));
+                dragBoard.setContent(content);
+                setParticipant(new ParticipantBean("", ""));
             }
         });
     }

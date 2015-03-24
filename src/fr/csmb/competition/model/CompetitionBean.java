@@ -239,4 +239,15 @@ public class CompetitionBean {
         }
         return null;
     }
+
+    public ClubBean getClubByEleve(EleveBean eleveBean) {
+        for (ClubBean clubBean : getClubs()) {
+            for (EleveBean eleveBean1 : clubBean.getEleves()) {
+                if (eleveBean1.equals(eleveBean)) {
+                    return clubBean;
+                }
+            }
+        }
+        return null;
+    }
 }

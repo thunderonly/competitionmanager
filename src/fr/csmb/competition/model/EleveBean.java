@@ -156,4 +156,26 @@ public class EleveBean {
         }
         return toString;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EleveBean)) return false;
+
+        EleveBean eleveBean = (EleveBean) o;
+
+        if (!licence.equals(eleveBean.licence)) return false;
+        if (!nom.equals(eleveBean.nom)) return false;
+        if (!prenom.equals(eleveBean.prenom)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = licence.hashCode();
+        result = 31 * result + nom.hashCode();
+        result = 31 * result + prenom.hashCode();
+        return result;
+    }
 }

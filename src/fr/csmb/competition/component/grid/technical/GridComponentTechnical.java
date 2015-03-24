@@ -62,6 +62,10 @@ public class GridComponentTechnical extends GridComponent {
         return resultatsList;
     }
 
+    public void addParticipant(ParticipantBean participantBean) {
+        table.getItems().add(participantBean);
+    }
+
     private void createTableView() {
         //Create a customer cell factory so that cells can support editing.
         Callback<TableColumn, TableCell> cellFactory = new Callback<TableColumn, TableCell>() {

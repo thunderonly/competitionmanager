@@ -59,6 +59,10 @@ public class GridComponentFight2 extends GridComponent {
         return this.sortedJoueurs;
     }
 
+    public void addParticipant(ParticipantBean participantBean) {
+
+    }
+
     public void drawGrid() {
         drawGrid(false);
     }

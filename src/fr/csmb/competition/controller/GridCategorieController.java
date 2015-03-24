@@ -31,6 +31,8 @@ import javafx.stage.Stage;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -193,10 +195,17 @@ public class GridCategorieController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("../view/fxml/addPartView.fxml"));
             BorderPane pane = (BorderPane) loader.load();
-            AddParticipantController participantController = loader.getController();
+            final AddParticipantController participantController = loader.getController();
             participantController.initComponent(competitionBean, epreuveBean);
             newStage.setScene(new Scene(pane));
             newStage.show();
+
+            participantController.setActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    gridComponent.addParticipant(participantController.getParticipantBean());
+                }
+            });
 
         } catch (IOException e) {
             e.printStackTrace();

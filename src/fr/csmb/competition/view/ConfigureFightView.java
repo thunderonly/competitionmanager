@@ -6,6 +6,7 @@ import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.fight.GridComponentFight2;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.xml.model.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +32,7 @@ public class ConfigureFightView {
     private List<ParticipantBean> resultatList = null;
     private GridComponentFight2 gridComponentFight;
     public final static DataFormat format = new DataFormat("fr.csmb.competition.xml.model.Participant");
+    private ListView<ParticipantBean> participantBeanListView = new ListView<ParticipantBean>();
 
     public void showView(Stage mainStage, final CompetitionBean competitionBean, final EpreuveBean epreuveBean) {
         BorderPane borderPane = new BorderPane();
@@ -65,6 +68,14 @@ public class ConfigureFightView {
                         epreuveParticipantBean.setPlaceOnGrid(participantBean.getPlaceOnGrid());
                     }
                 }
+
+                for (ParticipantBean participantBean : participantBeanListView.getItems()) {
+                    ParticipantBean epreuveParticipantBean = competitionBean.getParticipantByNomPrenomEpreuve(
+                            participantBean.getNom(), participantBean.getPrenom(), epreuveBean);
+                    if (epreuveParticipantBean != null) {
+                        epreuveParticipantBean.setPlaceOnGrid(participantBean.getPlaceOnGrid());
+                    }
+                }
                 currentStage.close();
             }
         });
@@ -83,13 +94,28 @@ public class ConfigureFightView {
     }
 
     private void createView(HBox hBox, CompetitionBean competitionBean, EpreuveBean epreuveBean) {
-        ListView<ParticipantBean> participantBeanListView = new ListView<ParticipantBean>();
+
         participantBeanListView.getItems().addAll(competitionBean.getParticipantByEpreuve(epreuveBean));
         initializeListener(participantBeanListView);
 
         ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-        for (int i = 0; i < participantBeanListView.getItems().size(); i++) {
-            participantBeans.add(new ParticipantBean("", ""));
+//        for (int i = 0; i < participantBeanListView.getItems().size(); i++) {
+//            participantBeans.add(new ParticipantBean("", ""));
+//        }
+
+        for (ParticipantBean participantBean : participantBeanListView.getItems()) {
+            if (participantBean.getPlaceOnGrid() != 0) {
+                participantBeans.add(participantBean);
+            } else {
+                participantBeans.add(new ParticipantBean("", ""));
+            }
+        }
+
+        //remove participant from listView
+        for (ParticipantBean participantBean : participantBeans) {
+            if (participantBeanListView.getItems().contains(participantBean)) {
+                participantBeanListView.getItems().remove(participantBean);
+            }
         }
 
         gridComponentFight = new GridComponentFight2(participantBeans);
@@ -107,9 +133,45 @@ public class ConfigureFightView {
                 Dragboard dragBoard = participantBeanListView.startDragAndDrop(TransferMode.MOVE);
 
                 ClipboardContent content = new ClipboardContent();
+                ParticipantBean participantBean = participantBeanListView.getSelectionModel().getSelectedItem();
                 content.put(format, ParticipantConverter.convertParticipantBeanToParticipant(
-                        participantBeanListView.getSelectionModel().getSelectedItem()));
+                        participantBean));
                 dragBoard.setContent(content);
+                participantBeanListView.getItems().remove(participantBean);
+                participantBeanListView.getSelectionModel().clearSelection();
+            }
+        });
+
+
+        participantBeanListView.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+//                DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
+                Participant participant1 = (Participant) dragEvent.getDragboard().getContent(format);
+                ParticipantBean player = ParticipantConverter.convertParticipantToParticipantBean(participant1);
+                player.setPlaceOnGrid(0);
+                participantBeanListView.getItems().add(player);
+                dragEvent.setDropCompleted(true);
+            }
+        });
+        participantBeanListView.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                participantBeanListView.setBlendMode(BlendMode.DARKEN);
+            }
+        });
+        participantBeanListView.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                participantBeanListView.setBlendMode(null);
+            }
+        });
+        participantBeanListView.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
             }
         });
     }
