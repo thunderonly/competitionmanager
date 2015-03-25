@@ -154,6 +154,9 @@ public class TextBox extends Group {
 
     public void setParticipant(ParticipantBean participant) {
         this.participant = participant;
+        if (this.participant != null && getNumPlace() != null) {
+            this.participant.setPlaceOnGrid(getNumPlace());
+        }
         this.text.setText(participant.getNom().toUpperCase().concat("\n").concat(participant.getPrenom()));
     }
 

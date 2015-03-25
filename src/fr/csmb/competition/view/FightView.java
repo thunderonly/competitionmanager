@@ -3,6 +3,7 @@ package fr.csmb.competition.view;
 import fr.csmb.competition.component.grid.bean.Phase;
 import fr.csmb.competition.component.textbox.NumberTextField;
 import fr.csmb.competition.component.textbox.TextBox;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -40,6 +41,8 @@ public class FightView {
 
     private TextBox boxBlue;
     private TextBox boxRed;
+    private TextBox boxBlueInit;
+    private TextBox boxRedInit;
     private TextBox boxVictory;
     private TextBox boxFail;
     private Phase phase;
@@ -47,6 +50,8 @@ public class FightView {
     public FightView(TextBox boxBlue, TextBox boxRed, TextBox boxVictory, TextBox boxFail, Phase phase) {
         this.boxBlue = new TextBox(boxBlue.getParticipant(), 150, 30, colorBlue);
         this.boxRed = new TextBox(boxRed.getParticipant(), 150, 30, colorRed);
+        this.boxBlueInit = boxBlue;
+        this.boxRedInit = boxRed;
         this.boxFail = boxFail;
         this.boxVictory = boxVictory;
         this.phase = phase;
@@ -83,9 +88,22 @@ public class FightView {
                 if (resultat1 > resultat2) {
                     boxVictory.setParticipant(boxBlue.getParticipant());
                     boxFail.setParticipant(boxRed.getParticipant());
+                    switch (phase) {
+                        case PETITE_FINALE:
+                        case FINALE:
+                            break;
+                        default:
+                            boxBlueInit.setParticipant(new ParticipantBean("", ""));
+                            break;
+                    }
                 } else {
                     boxVictory.setParticipant(boxRed.getParticipant());
                     boxFail.setParticipant(boxBlue.getParticipant());
+                    switch (phase) {
+                        default:
+                            boxRedInit.setParticipant(new ParticipantBean("", ""));
+                            break;
+                    }
                 }
                 switch (phase) {
                     case PETITE_FINALE:
@@ -96,7 +114,10 @@ public class FightView {
                         boxVictory.getParticipant().setClassementFinal(1);
                         boxFail.getParticipant().setClassementFinal(2);
                         break;
+                    default:
+                        break;
                 }
+
                 currentStage.close();
             }
         });

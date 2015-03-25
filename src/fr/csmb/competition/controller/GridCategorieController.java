@@ -16,6 +16,7 @@ import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
+import fr.csmb.competition.view.ConfigureFightView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -191,7 +192,7 @@ public class GridCategorieController {
     @FXML
     private void addPart() {
         try {
-            Stage newStage = new Stage();
+            final Stage newStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("../view/fxml/addPartView.fxml"));
             BorderPane pane = (BorderPane) loader.load();
@@ -204,6 +205,12 @@ public class GridCategorieController {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     gridComponent.addParticipant(participantController.getParticipantBean());
+                    if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                        ConfigureFightView configureFightView = new ConfigureFightView();
+//                        newStage.close();
+                        configureFightView.showView(newStage, competitionBean, epreuveBean);
+                        gridComponent.drawGrid();
+                    }
                 }
             });
 

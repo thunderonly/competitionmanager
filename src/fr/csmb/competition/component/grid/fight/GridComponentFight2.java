@@ -60,7 +60,10 @@ public class GridComponentFight2 extends GridComponent {
     }
 
     public void addParticipant(ParticipantBean participantBean) {
-
+        ObservableList newList = FXCollections.observableArrayList(this.joueurs);
+        this.joueurs = newList;
+        this.joueurs.add(participantBean);
+        this.getChildren().clear();
     }
 
     public void drawGrid() {
