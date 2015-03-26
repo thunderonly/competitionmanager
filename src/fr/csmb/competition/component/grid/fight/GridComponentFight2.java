@@ -102,65 +102,7 @@ public class GridComponentFight2 extends GridComponent {
             return new TextBox[]{result[0], result[1], result[0], result[1]};
         } else {
             if (nbJoueur > 2 && nbJoueur <= 4) {
-                int nbMatchMaxi = 4/2;
-                int placeOfJoueur = 0;
-                int i = 0;
-                int nbMatchBeforeMaxi = nbJoueur - nbMatchMaxi;
-                int index = 0;
-                result = new TextBox[4];
-                while (i < nbMatchBeforeMaxi) {
-
-                    Match match = new Match();
-                    match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
-                    placeOfJoueur++;
-                    match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
-                    placeOfJoueur++;
-
-                    TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
-                    result[index] = textBoxForMatch[0];
-                    result[index].setNumPlace(index + 1);
-                    index++;
-                    result[index] = textBoxForMatch[1];
-                    result[index].setNumPlace(index + 1);
-                    index++;
-                    i++;
-                }
-                if (forConfigure && nbJoueur == 4) {
-                    return result;
-                }
-                double rest = nbMatchBeforeMaxi % 2;
-                if (rest > 0) {
-
-                    Match match = new Match();
-                    match.setJoueur1(new ParticipantBean());
-                    match.setJoueur2(new ParticipantBean());
-                    TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
-                    result[index] = textBoxForMatch[0];
-                    index++;
-                    result[index] = textBoxForMatch[1];
-                    index++;
-                    i++;
-                }
-                TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], this, 1, Phase.DEMI_FINALE);
-                TextBox[] resultatsDemi2 =  null;
-                if (nbJoueur == 3) {
-                    resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE, false);
-                    resultatsDemi2[0].setParticipant(sortedJoueurs.get(2));
-                    resultatsDemi2[0].setNumPlace(3);
-                    if (forConfigure) {
-                        return new TextBox[]{result[0], result[1], resultatsDemi2[0]};
-                    }
-                } else {
-                    resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE);
-                }
-                TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
-                TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
-                if (nbJoueur == 3) {
-                    resultatsDemi1[1].getText().setText("3eme");
-                    resultatsDemi1[1].enableListForFight3Fighters(resultatsPetiteFinale[0]);
-                }
-
-                return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
+                return computeFor2To4Fighters(nbJoueur, forConfigure);
 
             } else {
                 int placeOfJoueur = 0;
@@ -181,6 +123,69 @@ public class GridComponentFight2 extends GridComponent {
                 return new TextBox[]{resultatsFinale[0], resultatsFinale[1]};
             }
         }
+    }
+
+    private TextBox[] computeFor2To4Fighters(int nbJoueur, boolean forConfigure) {
+        TextBox[] result = null;
+        int nbMatchMaxi = 4/2;
+        int placeOfJoueur = 0;
+        int i = 0;
+        int nbMatchBeforeMaxi = nbJoueur - nbMatchMaxi;
+        int index = 0;
+        result = new TextBox[4];
+        while (i < nbMatchBeforeMaxi) {
+
+            Match match = new Match();
+            match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
+            placeOfJoueur++;
+            match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
+            placeOfJoueur++;
+
+            TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
+            result[index] = textBoxForMatch[0];
+            result[index].setNumPlace(index + 1);
+            index++;
+            result[index] = textBoxForMatch[1];
+            result[index].setNumPlace(index + 1);
+            index++;
+            i++;
+        }
+        if (forConfigure && nbJoueur == 4) {
+            return result;
+        }
+        double rest = nbMatchBeforeMaxi % 2;
+        if (rest > 0) {
+
+            Match match = new Match();
+            match.setJoueur1(new ParticipantBean());
+            match.setJoueur2(new ParticipantBean());
+            TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1, false);
+            result[index] = textBoxForMatch[0];
+            index++;
+            result[index] = textBoxForMatch[1];
+            index++;
+            i++;
+        }
+        TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], this, 1, Phase.DEMI_FINALE);
+        TextBox[] resultatsDemi2 =  null;
+        if (nbJoueur == 3) {
+            resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE, false);
+            resultatsDemi2[0].setParticipant(sortedJoueurs.get(2));
+            resultatsDemi2[0].setNumPlace(3);
+            if (forConfigure) {
+                return new TextBox[]{result[0], result[1], resultatsDemi2[0]};
+            }
+        } else {
+            resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE);
+        }
+        TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
+        TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
+        if (nbJoueur == 3) {
+            resultatsDemi1[1].getText().setText("3eme");
+            resultatsDemi1[1].enableListForFight3Fighters(resultatsPetiteFinale[0]);
+        }
+
+        return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
     private TextBox[] computeSeveralRound(int nbJoueur, boolean forConfigure) {

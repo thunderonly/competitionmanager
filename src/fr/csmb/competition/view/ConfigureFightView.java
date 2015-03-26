@@ -99,9 +99,6 @@ public class ConfigureFightView {
         initializeListener(participantBeanListView);
 
         ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-//        for (int i = 0; i < participantBeanListView.getItems().size(); i++) {
-//            participantBeans.add(new ParticipantBean("", ""));
-//        }
 
         for (ParticipantBean participantBean : participantBeanListView.getItems()) {
             if (participantBean.getPlaceOnGrid() != 0) {

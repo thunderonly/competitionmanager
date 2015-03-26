@@ -100,6 +100,9 @@ public class FightView {
                     boxVictory.setParticipant(boxRed.getParticipant());
                     boxFail.setParticipant(boxBlue.getParticipant());
                     switch (phase) {
+                        case PETITE_FINALE:
+                        case FINALE:
+                            break;
                         default:
                             boxRedInit.setParticipant(new ParticipantBean("", ""));
                             break;
