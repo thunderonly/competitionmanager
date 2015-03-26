@@ -19,9 +19,13 @@ import fr.csmb.competition.component.textbox.TextBoxListner;
 import fr.csmb.competition.model.comparator.ComparatorParticipantPlaceOnGrid;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  * [Enter type description here].
@@ -446,8 +450,38 @@ public class GridComponentFight2 extends GridComponent {
             boxRed.setListner(listner);
             listner.setParticipantClassementFinalListener(participantClassementFinalListener);
 
+            if (level % 2 == 0) {
+                Label label;
+                if (phase.ordinal() == Phase.FINALE.ordinal()) {
+                    label= new Label("FINALE");
+                } else {
+                    label= new Label("PETITE FINALE");
+                }
+
+                //BoxBlue
+                double beginXBlue = boxBlue.getLayoutX();
+                double beginYBlue = boxBlue.getLayoutY();
+                double endYBlue = beginYBlue + heightRectangle;
+                //BoxRed
+                double beginXRed = boxRed.getLayoutX();
+                double beginYRed = boxRed.getLayoutY();
+
+                double y = ((beginYRed - endYBlue) / 2) - (spaceBetweenJoueur/2) + endYBlue;
+                label.setAlignment(Pos.CENTER);
+                Font font = Font.font("Arial", FontWeight.BOLD, 16);
+                label.setFont(font);
+                label.setMinWidth(widthRectangle);
+                label.setTextFill(Color.RED);
+
+                label.setLayoutX(beginXBlue);
+                label.setLayoutY(y);
+                group.getChildren().add(label);
+            }
+
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
             victoryBox = drawMatch(boxBlue, boxRed, group, level, drawLine);
+
+
             defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
             //Create a TextBoxListner to prepare resultat
