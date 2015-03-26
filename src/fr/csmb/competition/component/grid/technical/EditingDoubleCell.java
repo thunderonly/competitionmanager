@@ -4,74 +4,75 @@
  */
 package fr.csmb.competition.component.grid.technical;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.csmb.competition.model.ParticipantBean;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * [Enter type description here].
  *
  * @author Bull SAS
  */
-public abstract class EditingCell<T> extends TableCell<ParticipantBean, T> {
-    protected TextField textField;
-    public EditingCell() {
-    }
+public class EditingDoubleCell extends EditingCell<Double> {
+
     @Override
-    public void startEdit() {
-        super.startEdit();
-        if (textField == null) {
-            createTextField();
+    public void updateItem(Double item, boolean empty) {
+        super.updateItem(item, empty);
+        if (getTableColumn().getText().equals("Final")) {
+            if (item != null) {
+                if (item == 1) {
+                    setStyle("-fx-background-color: green");
+                } else if (item == 2) {
+                    setStyle("-fx-background-color: yellow");
+                } else if (item == 3) {
+                    setStyle("-fx-background-color: orange");
+                } else if (item == 4) {
+                    setStyle("-fx-background-color: red");
+                } else {
+                    setStyle("");
+                }
+            }
+            if (getTableView().getItems().size() > getIndex()) {
+                System.out.println(getTableView().getItems().get(getIndex()).getNom());
+            }
         }
-        setGraphic(textField);
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        Platform.runLater(new Runnable() {
+    }
+    protected void createTextField() {
+        textField = new TextField(getString());
+        textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+        textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void run() {
-                textField.requestFocus();
-                textField.selectAll();
+            public void handle(KeyEvent t) {
+                if (t.getCode() == KeyCode.ENTER) {
+                    commitEdit(Double.parseDouble(textField.getText()));
+                } else if (t.getCode() == KeyCode.ESCAPE) {
+                    cancelEdit();
+                } else if (t.getCode() == KeyCode.TAB) {
+                    commitEdit(Double.parseDouble(textField.getText()));
+                    TableColumn nextColumn = getNextColumn(!t.isShiftDown());
+                    if (nextColumn != null) {
+                        getTableView().edit(getTableRow().getIndex(), nextColumn);
+                    }
+                }
+            }
+        });
+        textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue && textField != null) {
+                    commitEdit(Double.parseDouble(textField.getText()));
+                }
             }
         });
     }
-    @Override
-    public void cancelEdit() {
-        super.cancelEdit();
-        setText(String.valueOf(getItem()));
-        setContentDisplay(ContentDisplay.TEXT_ONLY);
-    }
-    @Override
-    public void updateItem(T item, boolean empty) {
-        super.updateItem(item, empty);
-        if (empty) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            if (isEditing()) {
-                if (textField != null) {
-                    textField.setText(getString());
-                }
-                setGraphic(textField);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            } else {
-                setText(getString());
-                getStyleClass().add("labelTableViewGridComponent");
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
-            }
-
-        }
-    }
-    protected abstract void createTextField();
     private String getString() {
         return getItem() == null ? "" : getItem().toString();
     }

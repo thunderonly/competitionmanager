@@ -5,6 +5,7 @@
 package fr.csmb.competition.model;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -22,12 +23,12 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     private SimpleStringProperty prenom;
     private SimpleStringProperty club;
     private SimpleIntegerProperty poids;
-    private SimpleIntegerProperty note1;
-    private SimpleIntegerProperty note2;
-    private SimpleIntegerProperty note3;
-    private SimpleIntegerProperty note4;
-    private SimpleIntegerProperty note5;
-    private SimpleIntegerProperty noteTotal;
+    private SimpleDoubleProperty note1;
+    private SimpleDoubleProperty note2;
+    private SimpleDoubleProperty note3;
+    private SimpleDoubleProperty note4;
+    private SimpleDoubleProperty note5;
+    private SimpleDoubleProperty noteTotal;
     private SimpleIntegerProperty placeOnGrid;
     private SimpleBooleanProperty participe;
     private EpreuveBean epreuveBean;
@@ -40,12 +41,12 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         this.prenom = new SimpleStringProperty("");
         this.club = new SimpleStringProperty("");
         this.poids = new SimpleIntegerProperty(0);
-        note1 = new SimpleIntegerProperty(0);
-        note2 = new SimpleIntegerProperty(0);
-        note3 = new SimpleIntegerProperty(0);
-        note4 = new SimpleIntegerProperty(0);
-        note5 = new SimpleIntegerProperty(0);
-        noteTotal = new SimpleIntegerProperty(0);
+        note1 = new SimpleDoubleProperty(0);
+        note2 = new SimpleDoubleProperty(0);
+        note3 = new SimpleDoubleProperty(0);
+        note4 = new SimpleDoubleProperty(0);
+        note5 = new SimpleDoubleProperty(0);
+        noteTotal = new SimpleDoubleProperty(0);
         placeOnGrid = new SimpleIntegerProperty(0);
         participe = new SimpleBooleanProperty(true);
     }
@@ -58,12 +59,12 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         this.prenom = new SimpleStringProperty(prenom);
         this.club = new SimpleStringProperty("");
         this.poids = new SimpleIntegerProperty(0);
-        note1 = new SimpleIntegerProperty(0);
-        note2 = new SimpleIntegerProperty(0);
-        note3 = new SimpleIntegerProperty(0);
-        note4 = new SimpleIntegerProperty(0);
-        note5 = new SimpleIntegerProperty(0);
-        noteTotal = new SimpleIntegerProperty(0);
+        note1 = new SimpleDoubleProperty(0);
+        note2 = new SimpleDoubleProperty(0);
+        note3 = new SimpleDoubleProperty(0);
+        note4 = new SimpleDoubleProperty(0);
+        note5 = new SimpleDoubleProperty(0);
+        noteTotal = new SimpleDoubleProperty(0);
         placeOnGrid = new SimpleIntegerProperty(0);
         participe = new SimpleBooleanProperty(true);
     }
@@ -92,27 +93,27 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public Integer getPoids() { return this.poids.get(); }
 
-    public Integer getNote1() {
+    public Double getNote1() {
         return this.note1.get();
     }
 
-    public Integer getNote2() {
+    public Double getNote2() {
         return this.note2.get();
     }
 
-    public Integer getNote3() {
+    public Double getNote3() {
         return this.note3.get();
     }
 
-    public Integer getNote4() {
+    public Double getNote4() {
         return this.note4.get();
     }
 
-    public Integer getNote5() {
+    public Double getNote5() {
         return this.note5.get();
     }
 
-    public Integer getNoteTotal() {
+    public Double getNoteTotal() {
         return this.noteTotal.get();
     }
 
@@ -144,32 +145,32 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
     public void setPoids(Integer poids) { this.poids.set(poids);}
 
-    public void setNote1(Integer note1) {
+    public void setNote1(Double note1) {
         this.note1.set(note1);
         this.computeTotal();
     }
 
-    public void setNote2(Integer note2) {
+    public void setNote2(Double note2) {
         this.note2.set(note2);
         this.computeTotal();
     }
 
-    public void setNote3(Integer note3) {
+    public void setNote3(Double note3) {
         this.note3.set(note3);
         this.computeTotal();
     }
 
-    public void setNote4(Integer note4) {
+    public void setNote4(Double note4) {
         this.note4.set(note4);
         this.computeTotal();
     }
 
-    public void setNote5(Integer note5) {
+    public void setNote5(Double note5) {
         this.note5.set(note5);
         this.computeTotal();
     }
 
-    public void setNoteTotal(Integer noteTotal) {
+    public void setNoteTotal(Double noteTotal) {
         this.noteTotal.set(noteTotal);
     }
 
@@ -205,27 +206,27 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
         return poids;
     }
 
-    public SimpleIntegerProperty note1Property() {
+    public SimpleDoubleProperty note1Property() {
         return note1;
     }
 
-    public SimpleIntegerProperty note2Property() {
+    public SimpleDoubleProperty note2Property() {
         return note2;
     }
 
-    public SimpleIntegerProperty note3Property() {
+    public SimpleDoubleProperty note3Property() {
         return note3;
     }
 
-    public SimpleIntegerProperty note4Property() {
+    public SimpleDoubleProperty note4Property() {
         return note4;
     }
 
-    public SimpleIntegerProperty note5Property() {
+    public SimpleDoubleProperty note5Property() {
         return note5;
     }
 
-    public SimpleIntegerProperty noteTotalProperty() {
+    public SimpleDoubleProperty noteTotalProperty() {
         return noteTotal;
     }
 

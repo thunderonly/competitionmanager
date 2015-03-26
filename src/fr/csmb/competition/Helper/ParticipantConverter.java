@@ -48,11 +48,11 @@ public class ParticipantConverter {
         participantBean.setClassementFinal(Integer.parseInt(participant.getClassementFinal()));
         participantBean.setClassementManuel(Integer.parseInt(participant.getClassementManuel()));
         participantBean.setClassementAuto(Integer.parseInt(participant.getClassementAuto()));
-        participantBean.setNote1(Integer.parseInt(participant.getNote1()));
-        participantBean.setNote2(Integer.parseInt(participant.getNote2()));
-        participantBean.setNote3(Integer.parseInt(participant.getNote3()));
-        participantBean.setNote4(Integer.parseInt(participant.getNote4()));
-        participantBean.setNote5(Integer.parseInt(participant.getNote5()));
+        participantBean.setNote1(Double.parseDouble(participant.getNote1()));
+        participantBean.setNote2(Double.parseDouble(participant.getNote2()));
+        participantBean.setNote3(Double.parseDouble(participant.getNote3()));
+        participantBean.setNote4(Double.parseDouble(participant.getNote4()));
+        participantBean.setNote5(Double.parseDouble(participant.getNote5()));
         participantBean.setPlaceOnGrid(Integer.parseInt(participant.getPlaceOnGrid()));
         participantBean.setParticipe(participant.getParticipe());
         participantBean.setEpreuveBean(EpreuveConverter.convertEpreuveToEpreuveBean(participant.getEpreuve()));

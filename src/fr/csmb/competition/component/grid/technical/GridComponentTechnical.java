@@ -68,26 +68,32 @@ public class GridComponentTechnical extends GridComponent {
 
     private void createTableView() {
         //Create a customer cell factory so that cells can support editing.
-        Callback<TableColumn, TableCell> cellFactory = new Callback<TableColumn, TableCell>() {
+        Callback<TableColumn, TableCell> cellFactoryInteger = new Callback<TableColumn, TableCell>() {
             @Override
             public TableCell call(TableColumn p) {
-                return new EditingCell();
+                return new EditingIntegerCell();
+            }
+        };
+        Callback<TableColumn, TableCell> cellFactoryDouble = new Callback<TableColumn, TableCell>() {
+            @Override
+            public TableCell call(TableColumn p) {
+                return new EditingDoubleCell();
             }
         };
 
         TableColumn columnClassement = new TableColumn("Classement");
         TableColumn columnClassementAuto = new TableColumn("Auto");
         columnClassementAuto.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("classementAuto"));
-        columnClassementAuto.setCellFactory(cellFactory);
+        columnClassementAuto.setCellFactory(cellFactoryInteger);
         columnClassementAuto.setEditable(false);
         columnClassementAuto.setMinWidth(minWidthColumnNote);
         TableColumn columnClassementManuel = new TableColumn("Manuel");
         columnClassementManuel.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("classementManuel"));
-        columnClassementManuel.setCellFactory(cellFactory);
+        columnClassementManuel.setCellFactory(cellFactoryInteger);
         columnClassementManuel.setMinWidth(minWidthColumnNote);
         TableColumn columnClassementFinal = new TableColumn("Final");
         columnClassementFinal.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("classementFinal"));
-        columnClassementFinal.setCellFactory(cellFactory);
+        columnClassementFinal.setCellFactory(cellFactoryInteger);
         columnClassementFinal.setEditable(false);
         columnClassementFinal.setMinWidth(minWidthColumnNote);
         columnClassement.getColumns().addAll(columnClassementAuto, columnClassementManuel, columnClassementFinal);
@@ -105,69 +111,69 @@ public class GridComponentTechnical extends GridComponent {
 
         TableColumn columnNotesJuge = new TableColumn("Notes Juge");
         TableColumn columnNotesJuge1 = new TableColumn("Juge 1");
-        columnNotesJuge1.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note1"));
-        columnNotesJuge1.setCellFactory(cellFactory);
+        columnNotesJuge1.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("note1"));
+        columnNotesJuge1.setCellFactory(cellFactoryDouble);
         columnNotesJuge1.setMinWidth(minWidthColumnNote);
         TableColumn columnNotesJuge2 = new TableColumn("Juge 2");
-        columnNotesJuge2.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note2"));
-        columnNotesJuge2.setCellFactory(cellFactory);
+        columnNotesJuge2.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("note2"));
+        columnNotesJuge2.setCellFactory(cellFactoryDouble);
         columnNotesJuge2.setMinWidth(minWidthColumnNote);
         TableColumn columnNotesJuge3 = new TableColumn("Juge 3");
-        columnNotesJuge3.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note3"));
-        columnNotesJuge3.setCellFactory(cellFactory);
+        columnNotesJuge3.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("note3"));
+        columnNotesJuge3.setCellFactory(cellFactoryDouble);
         columnNotesJuge3.setMinWidth(minWidthColumnNote);
         TableColumn columnNotesJuge4 = new TableColumn("Juge 4");
-        columnNotesJuge4.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note4"));
-        columnNotesJuge4.setCellFactory(cellFactory);
+        columnNotesJuge4.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("note4"));
+        columnNotesJuge4.setCellFactory(cellFactoryDouble);
         columnNotesJuge4.setMinWidth(minWidthColumnNote);
         TableColumn columnNotesJuge5 = new TableColumn("Juge 5");
-        columnNotesJuge5.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("note5"));
-        columnNotesJuge5.setCellFactory(cellFactory);
+        columnNotesJuge5.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("note5"));
+        columnNotesJuge5.setCellFactory(cellFactoryDouble);
         columnNotesJuge5.setMinWidth(minWidthColumnNote);
         TableColumn columnNotesTotal = new TableColumn("Total");
-        columnNotesTotal.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Integer>("noteTotal"));
+        columnNotesTotal.setCellValueFactory(new PropertyValueFactory<ParticipantBean, Double>("noteTotal"));
         columnNotesTotal.setMinWidth(minWidthColumnNote);
-        columnNotesTotal.setCellFactory(cellFactory);
+        columnNotesTotal.setCellFactory(cellFactoryDouble);
         columnNotesTotal.setEditable(false);
         columnNotesJuge.getColumns().addAll(columnNotesJuge1, columnNotesJuge2, columnNotesJuge3, columnNotesJuge4,
                 columnNotesJuge5, columnNotesTotal);
 
-        columnNotesJuge1.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Integer>>() {
+        columnNotesJuge1.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Double>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ParticipantBean, Integer> cellEditEvent) {
+            public void handle(TableColumn.CellEditEvent<ParticipantBean, Double> cellEditEvent) {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setNote1(cellEditEvent.getNewValue());
                 computeClassementAuto();
             }
         });
-        columnNotesJuge2.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Integer>>() {
+        columnNotesJuge2.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Double>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ParticipantBean, Integer> cellEditEvent) {
+            public void handle(TableColumn.CellEditEvent<ParticipantBean, Double> cellEditEvent) {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setNote2(cellEditEvent.getNewValue());
                 computeClassementAuto();
             }
         });
-        columnNotesJuge3.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Integer>>() {
+        columnNotesJuge3.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Double>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ParticipantBean, Integer> cellEditEvent) {
+            public void handle(TableColumn.CellEditEvent<ParticipantBean, Double> cellEditEvent) {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setNote3(cellEditEvent.getNewValue());
                 computeClassementAuto();
 
             }
         });
-        columnNotesJuge4.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Integer>>() {
+        columnNotesJuge4.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Double>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ParticipantBean, Integer> cellEditEvent) {
+            public void handle(TableColumn.CellEditEvent<ParticipantBean, Double> cellEditEvent) {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setNote4(cellEditEvent.getNewValue());
                 computeClassementAuto();
             }
         });
-        columnNotesJuge5.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Integer>>() {
+        columnNotesJuge5.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ParticipantBean, Double>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ParticipantBean, Integer> cellEditEvent) {
+            public void handle(TableColumn.CellEditEvent<ParticipantBean, Double> cellEditEvent) {
                 ParticipantBean participant = cellEditEvent.getRowValue();
                 participant.setNote5(cellEditEvent.getNewValue());
                 computeClassementAuto();

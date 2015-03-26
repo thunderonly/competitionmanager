@@ -232,7 +232,7 @@ public class ClassementClubController {
 
     private Integer pointForParticipant(ParticipantBean participantBean) {
         Integer points = 0;
-        switch (participantBean.getClassementFinal()) {
+        switch (participantBean.getClassementFinal().intValue()) {
             case 1:
                 points+=pointForFirstPlace;
                 break;
