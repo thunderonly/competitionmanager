@@ -5,6 +5,8 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 
 <BorderPane fx:controller="fr.csmb.competition.controller.DetailCategorieController"
             xmlns:fx="http://javafx.com/fxml/1"  xmlns="http://javafx.com/javafx/8" prefHeight="400.0" prefWidth="800.0" >
@@ -20,4 +22,11 @@
             </columnResizePolicy>
         </TableView>
     </center>
+
+    <bottom>
+        <HBox spacing="10">
+            <Button fx:id="addPartButton" text="Ajout Part." onAction="#addPart" styleClass="buttonCompetition"/>
+            <Button fx:id="deletePartButton" text="Supp Part." onAction="#delPart" styleClass="buttonCompetition"/>
+        </HBox>
+    </bottom>
 </BorderPane>

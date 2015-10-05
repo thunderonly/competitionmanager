@@ -45,7 +45,6 @@ public class AddParticipantController {
 
     @FXML
     private void validate() {
-        ObservableList<ParticipantBean> participantBeans = competitionBean.getParticipantByEpreuve(epreuveBean);
         EleveBean eleveBean = eleveComboBox.getValue();
         ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
         participantBean.setEpreuveBean(epreuveBean);

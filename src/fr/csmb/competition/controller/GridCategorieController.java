@@ -219,6 +219,13 @@ public class GridCategorieController {
         }
     }
 
+    @FXML
+    private void delPart() {
+        ParticipantBean participantBean = ((GridComponentTechnical) gridComponent).getSelectedParticipant();
+        ((GridComponentTechnical) gridComponent).delParticipant(participantBean);
+        competitionBean.getParticipants().remove(participantBean);
+    }
+
     private void saveCompetitionToXmlFileTmp() {
         try {
             Preferences pref = Preferences.userNodeForPackage(Main.class);

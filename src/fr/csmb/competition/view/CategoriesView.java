@@ -73,7 +73,7 @@ public class CategoriesView {
         root.setBottom(null);
         splitPane.setDividerPosition(0, 0.2);
         createTreeView(splitPane);
-        createTableView(stackPane);
+        createTableView(stackPane, null);
         splitPane.getItems().add(stackPane);
 //        stage.setTitle("Détail compétition : " + competition.getNom());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
@@ -215,7 +215,7 @@ public class CategoriesView {
                         }
                         stackPane.getChildren().add(epreuveBorderPane);
                     } else {
-                        createTableView(stackPane);
+                        createTableView(stackPane, epreuveBean);
                         if (epreuveBean != null) {
                             updateList(epreuveBean);
                         }
@@ -283,18 +283,20 @@ public class CategoriesView {
 
     public void handleCancelEpreuve(EpreuveBean epreuveBean) {
         stackPane.getChildren().clear();
-        createTableView(stackPane);
+        createTableView(stackPane, epreuveBean);
         if (borderPaneMap.containsKey(epreuveBean)) {
             borderPaneMap.remove(epreuveBean);
         }
     }
 
-    private void createTableView(StackPane stackPane) {
+    private void createTableView(StackPane stackPane, EpreuveBean epreuveBean) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("fxml/categorieDetailView.fxml"));
             BorderPane borderPane = (BorderPane) loader.load();
             DetailCategorieController detailCategorieController = loader.getController();
+            detailCategorieController.setCompetitionBean(competitionBean);
+            detailCategorieController.setEpreuveBean(epreuveBean);
             participantBeans = detailCategorieController.getTableParticipant().getItems();
 
             stackPane.getChildren().add(borderPane);

@@ -66,6 +66,14 @@ public class GridComponentTechnical extends GridComponent {
         table.getItems().add(participantBean);
     }
 
+    public ParticipantBean getSelectedParticipant() {
+        return (ParticipantBean)table.getSelectionModel().getSelectedItem();
+    }
+
+    public void delParticipant(ParticipantBean participantBean) {
+        table.getItems().remove(participantBean);
+    }
+
     private void createTableView() {
         //Create a customer cell factory so that cells can support editing.
         Callback<TableColumn, TableCell> cellFactoryInteger = new Callback<TableColumn, TableCell>() {

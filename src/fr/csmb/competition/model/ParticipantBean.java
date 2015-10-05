@@ -277,6 +277,7 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
 
         if (!nom.get().equals(that.nom.get())) return false;
         if (!prenom.get().equals(that.prenom.get())) return false;
+        if (!epreuveBean.equals(that.epreuveBean)) return false;
 
         return true;
     }

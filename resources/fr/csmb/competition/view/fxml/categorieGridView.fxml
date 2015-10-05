@@ -107,6 +107,7 @@
             <Button fx:id="validateButton" text="Terminer" onAction="#validate" styleClass="buttonCompetition"/>
             <Button fx:id="cancelButton" text="Annuler" onAction="#cancel" styleClass="buttonCompetition"/>
             <Button fx:id="addPartButton" text="Ajout Part." onAction="#addPart" styleClass="buttonCompetition"/>
+            <Button fx:id="deletePartButton" text="Supp Part." onAction="#delPart" styleClass="buttonCompetition"/>
         </HBox>
     </bottom>
     <stylesheets>
