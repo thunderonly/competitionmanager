@@ -2,6 +2,7 @@ package fr.csmb.competition.manager;
 
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.model.*;
+import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.ss.usermodel.*;
@@ -10,11 +11,7 @@ import org.apache.poi.xssf.usermodel.*;
 
 import java.awt.Color;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -131,7 +128,7 @@ public class InscriptionsManager {
                         epreuve = getCellValue(row, 20);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
 
-                            eleve.getEpreuves().add(extractCategorieCombat(eleve, competition));
+                            eleve.getEpreuves().add(extractCategorieCombat2(eleve, competition));
                         }
 
                         if (!eleve.getNom().equals("")) {
@@ -333,7 +330,48 @@ public class InscriptionsManager {
         return "";
     }
 
+    private String extractCategorieCombat2(EleveBean eleve, CompetitionBean competition) {
+        String categorieEleve = eleve.getCategorie();
+        String sexeEleve = eleve.getSexe();
+        String poidsEleveStr = eleve.getPoids();
+        Integer poidsEleve = new Integer(0);
+        if (poidsEleveStr != null && !poidsEleveStr.isEmpty()) {
+            poidsEleve = Integer.parseInt(poidsEleveStr);
+        }
 
+        Map<Integer, EpreuveBean> mapEpreuves = new HashMap<Integer, EpreuveBean>();
+        EpreuveCombatComparator comparator = new EpreuveCombatComparator(mapEpreuves);
+        TreeMap<Integer, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Integer, EpreuveBean>(comparator);
+
+        //recup tous les poids de la categorie de l eleve
+        for (EpreuveBean epreuveBean : competition.getEpreuves()) {
+            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuveBean.getDiscipline().getType())) {
+                if (epreuveBean.getCategorie().getNom().equals(categorieEleve) &&
+                        epreuveBean.getCategorie().getType().equals(sexeEleve)) {
+                    Integer poidsEpreuve = Integer.parseInt(epreuveBean.getDiscipline().getNom());
+                    mapEpreuves.put(poidsEpreuve, epreuveBean);
+                }
+            }
+        }
+        //tri par poids
+        epreuveBeanTreeMap.putAll(mapEpreuves);
+
+        //comparaison poids eleve avec valeur abs du poids de l epreuve
+        Iterator<Integer> iterator = epreuveBeanTreeMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            Integer poidsEpreuve = iterator.next();
+            if (poidsEleve <= Math.abs(poidsEpreuve)) {
+                return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
+            } else {
+                if (!iterator.hasNext()) {
+                    //c'est le dernier donc plus lourd
+                    return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
+                }
+            }
+        }
+
+        return "";
+    }
 
     private Row getRow(XSSFSheet sheet, int rowCount) {
         Row row = sheet.getRow(rowCount);

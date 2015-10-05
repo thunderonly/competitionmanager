@@ -1,13 +1,13 @@
 package fr.csmb.competition.controller;
 
 import fr.csmb.competition.model.*;
+import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.Epreuve;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrateur on 11/11/14.
@@ -47,7 +47,7 @@ public class EditEleveController {
         eleveBean.setCategorie(extractCategorie(age));
         for (String epreuve : epreuves) {
             if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-                eleveBean.getEpreuves().add(extractCategorieCombat(eleveBean, competitionBean));
+                eleveBean.getEpreuves().add(extractCategorieCombat2(eleveBean, competitionBean));
             } else {
                 eleveBean.getEpreuves().add(epreuve);
             }
@@ -96,6 +96,50 @@ public class EditEleveController {
                 }
             }
         }
+        return "";
+    }
+
+
+    private String extractCategorieCombat2(EleveBean eleve, CompetitionBean competition) {
+        String categorieEleve = eleve.getCategorie();
+        String sexeEleve = eleve.getSexe();
+        String poidsEleveStr = eleve.getPoids();
+        Integer poidsEleve = new Integer(0);
+        if (poidsEleveStr != null && !poidsEleveStr.isEmpty()) {
+            poidsEleve = Integer.parseInt(poidsEleveStr);
+        }
+
+        Map<Integer, EpreuveBean> mapEpreuves = new HashMap<Integer, EpreuveBean>();
+        EpreuveCombatComparator comparator = new EpreuveCombatComparator(mapEpreuves);
+        TreeMap<Integer, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Integer, EpreuveBean>(comparator);
+
+        //recup tous les poids de la categorie de l eleve
+        for (EpreuveBean epreuveBean : competition.getEpreuves()) {
+            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuveBean.getDiscipline().getType())) {
+                if (epreuveBean.getCategorie().getNom().equals(categorieEleve) &&
+                        epreuveBean.getCategorie().getType().equals(sexeEleve)) {
+                    Integer poidsEpreuve = Integer.parseInt(epreuveBean.getDiscipline().getNom());
+                    mapEpreuves.put(poidsEpreuve, epreuveBean);
+                }
+            }
+        }
+        //tri par poids
+        epreuveBeanTreeMap.putAll(mapEpreuves);
+
+        //comparaison poids eleve avec valeur abs du poids de l epreuve
+        Iterator<Integer> iterator = epreuveBeanTreeMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            Integer poidsEpreuve = iterator.next();
+            if (poidsEleve <= Math.abs(poidsEpreuve)) {
+                return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
+            } else {
+                if (!iterator.hasNext()) {
+                    //c'est le dernier donc plus lourd
+                    return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
+                }
+            }
+        }
+
         return "";
     }
 

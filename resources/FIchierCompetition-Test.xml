@@ -22,6 +22,234 @@
     <discipline id="Technique-Song Luyen Armes" nom="Song Luyen Armes" type="Technique"/>
     <discipline id="Technique-Doi Luyen Main Nue" nom="Doi Luyen Main Nue" type="Technique"/>
     <discipline id="Technique-Doi Luyen Armes" nom="Doi Luyen Armes" type="Technique"/>
+    <discipline id="Combat--25" nom="-25" type="Combat"/>
+    <discipline id="Combat--30" nom="-30" type="Combat"/>
+    <discipline id="Combat--35" nom="-35" type="Combat"/>
+    <discipline id="Combat--40" nom="-40" type="Combat"/>
+    <discipline id="Combat--45" nom="-45" type="Combat"/>
+    <discipline id="Combat--50" nom="-50" type="Combat"/>
+    <discipline id="Combat--55" nom="-55" type="Combat"/>
+    <discipline id="Combat--60" nom="-60" type="Combat"/>
+    <discipline id="Combat--65" nom="-65" type="Combat"/>
+    <discipline id="Combat--70" nom="-70" type="Combat"/>
+    <discipline id="Combat--75" nom="-75" type="Combat"/>
+    <discipline id="Combat--80" nom="-80" type="Combat"/>
+    <discipline id="Combat--85" nom="-85" type="Combat"/>
+    <discipline id="Combat-+50" nom="+50" type="Combat"/>
+    <discipline id="Combat-+55" nom="+55" type="Combat"/>
+    <discipline id="Combat-+60" nom="+60" type="Combat"/>
+    <discipline id="Combat-+65" nom="+65" type="Combat"/>
+    <discipline id="Combat-+70" nom="+70" type="Combat"/>
+    <discipline id="Combat-+75" nom="+75" type="Combat"/>
+    <discipline id="Combat-+80" nom="+80" type="Combat"/>
+    <discipline id="Combat-+85" nom="+85" type="Combat"/>
+    <epreuve id="Benjamin-MasculinCombat--30" discipline="Combat--30" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat--35" discipline="Combat--35" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat--40" discipline="Combat--40" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat--45" discipline="Combat--45" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat--50" discipline="Combat--50" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat--55" discipline="Combat--55" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-MasculinCombat-+55" discipline="Combat-+55" categorie="Benjamin-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--25" discipline="Combat--25" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--30" discipline="Combat--30" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--35" discipline="Combat--35" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--40" discipline="Combat--40" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--45" discipline="Combat--45" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat--50" discipline="Combat--50" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Benjamin-FémininCombat-+50" discipline="Combat-+50" categorie="Benjamin-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--40" discipline="Combat--40" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--45" discipline="Combat--45" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--50" discipline="Combat--50" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--55" discipline="Combat--55" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--60" discipline="Combat--60" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat--65" discipline="Combat--65" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-MasculinCombat-+65" discipline="Combat-+65" categorie="Minime-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--35" discipline="Combat--35" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--40" discipline="Combat--40" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--45" discipline="Combat--45" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--50" discipline="Combat--50" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--55" discipline="Combat--55" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat--60" discipline="Combat--60" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Minime-FémininCombat-+60" discipline="Combat-+60" categorie="Minime-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--50" discipline="Combat--50" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--55" discipline="Combat--55" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--60" discipline="Combat--60" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--65" discipline="Combat--65" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--70" discipline="Combat--70" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat--75" discipline="Combat--75" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-MasculinCombat-+75" discipline="Combat-+75" categorie="Cadet-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--45" discipline="Combat--45" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--50" discipline="Combat--50" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--55" discipline="Combat--55" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--60" discipline="Combat--60" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--65" discipline="Combat--65" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat--70" discipline="Combat--70" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Cadet-FémininCombat-+70" discipline="Combat-+70" categorie="Cadet-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--55" discipline="Combat--55" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--60" discipline="Combat--60" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--65" discipline="Combat--65" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--70" discipline="Combat--70" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--75" discipline="Combat--75" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat--80" discipline="Combat--80" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-MasculinCombat-+80" discipline="Combat-+80" categorie="Junior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--50" discipline="Combat--50" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--55" discipline="Combat--55" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--60" discipline="Combat--60" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--65" discipline="Combat--65" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--70" discipline="Combat--70" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat--75" discipline="Combat--75" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--60" discipline="Combat--60" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--65" discipline="Combat--65" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--70" discipline="Combat--70" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--75" discipline="Combat--75" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--80" discipline="Combat--80" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat--85" discipline="Combat--85" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-MasculinCombat-+85" discipline="Combat-+85" categorie="Sénior-Masculin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--55" discipline="Combat--55" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--60" discipline="Combat--60" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--65" discipline="Combat--65" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--70" discipline="Combat--70" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--75" discipline="Combat--75" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Sénior-FémininCombat--80" discipline="Combat--80" categorie="Sénior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
+    <epreuve id="Junior-FémininCombat-+80" discipline="Combat-+80" categorie="Junior-Féminin">
+        <detailEpreuve/>
+    </epreuve>
     <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Benjamin-Masculin">
         <detailEpreuve/>
     </epreuve>
@@ -382,78 +610,6 @@
     <epreuve id="Vétéran-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Vétéran-Féminin">
         <detailEpreuve/>
     </epreuve>
-    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
-    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Longues">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
-    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
-    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Longues">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Junior-MasculinTechnique-Quy Dinh Main Nue">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Junior-MasculinTechnique-Quy Dinh Armes Longues">
-        <classementAuto>0</classementAuto>
-        <classementManuel>0</classementManuel>
-        <classementFinal>0</classementFinal>
-        <note1>0</note1>
-        <note2>0</note2>
-        <note3>0</note3>
-        <note4>0</note4>
-        <note5>0</note5>
-        <placeOnGrid>0</placeOnGrid>
-        <participe>true</participe>
-    </participant>
     <clubs>
         <club nomClub="CSMB" identifiant="13001" responsable="Gael">
             <eleves>
@@ -465,7 +621,7 @@
                     <categorieEleve>Sénior</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve></poidsEleve>
-                    <presenceEleve>true</presenceEleve>
+                    <presenceEleve>false</presenceEleve>
                     <epreuvesEleve>
                         <epreuveEleve>Quy Dinh Main Nue</epreuveEleve>
                         <epreuveEleve>Quy Dinh Armes Longues</epreuveEleve>
@@ -479,7 +635,7 @@
                     <categorieEleve>Sénior</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve></poidsEleve>
-                    <presenceEleve>true</presenceEleve>
+                    <presenceEleve>false</presenceEleve>
                     <epreuvesEleve>
                         <epreuveEleve>Quy Dinh Main Nue</epreuveEleve>
                         <epreuveEleve>Quy Dinh Armes Longues</epreuveEleve>
@@ -493,10 +649,90 @@
                     <categorieEleve>Junior</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve></poidsEleve>
-                    <presenceEleve>true</presenceEleve>
+                    <presenceEleve>false</presenceEleve>
                     <epreuvesEleve>
                         <epreuveEleve>Quy Dinh Main Nue</epreuveEleve>
                         <epreuveEleve>Quy Dinh Armes Longues</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300104</licenceEleve>
+                    <nomEleve>BRUNET</nomEleve>
+                    <prenomEleve>Lisa</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Quy Dinh Armes Courtes</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300105</licenceEleve>
+                    <nomEleve>HUYNH</nomEleve>
+                    <prenomEleve>Marie-Elisabeth</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Junior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Quy Dinh Armes Courtes</epreuveEleve>
+                        <epreuveEleve>Quy Dinh Armes Longues</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300106</licenceEleve>
+                    <nomEleve>MINASYAN</nomEleve>
+                    <prenomEleve>Julia</prenomEleve>
+                    <ageEleve>15</ageEleve>
+                    <categorieEleve>Cadet</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <poidsEleve></poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Quy Dinh Main Nue</epreuveEleve>
+                        <epreuveEleve>Quy Dinh Armes Courtes</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300107</licenceEleve>
+                    <nomEleve>Test</nomEleve>
+                    <prenomEleve>Test</prenomEleve>
+                    <ageEleve>36683</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>28</poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>-30</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300108</licenceEleve>
+                    <nomEleve>Test2</nomEleve>
+                    <prenomEleve>Test2</prenomEleve>
+                    <ageEleve>36683</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>32</poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>-35</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>1300109</licenceEleve>
+                    <nomEleve>Test3</nomEleve>
+                    <prenomEleve>Test3</prenomEleve>
+                    <ageEleve>36683</ageEleve>
+                    <categorieEleve>Benjamin</categorieEleve>
+                    <sexeEleve>Masculin</sexeEleve>
+                    <poidsEleve>60</poidsEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>+55</epreuveEleve>
                     </epreuvesEleve>
                 </eleve>
                 <eleve>
@@ -504,11 +740,23 @@
                     <nomEleve>HENRY/HUYNH/BRUNET</nomEleve>
                     <prenomEleve>Gael/David/Antoine</prenomEleve>
                     <ageEleve>31</ageEleve>
-                    <categorieEleve>Senior</categorieEleve>
+                    <categorieEleve>Sénior</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
-                    <presenceEleve>true</presenceEleve>
+                    <presenceEleve>false</presenceEleve>
                     <epreuvesEleve>
-                        <epreuveEleve>Doi Luyen</epreuveEleve>
+                        <epreuveEleve>Doi Luyen Main Nue</epreuveEleve>
+                    </epreuvesEleve>
+                </eleve>
+                <eleve>
+                    <licenceEleve>13001-Équipe 1</licenceEleve>
+                    <nomEleve>BRUNET/HUYNH/MINASYAN</nomEleve>
+                    <prenomEleve>Lisa/Marie-Elisabeth/Julia</prenomEleve>
+                    <ageEleve>17</ageEleve>
+                    <categorieEleve>Sénior</categorieEleve>
+                    <sexeEleve>Féminin</sexeEleve>
+                    <presenceEleve>false</presenceEleve>
+                    <epreuvesEleve>
+                        <epreuveEleve>Quy Dinh Synchro Armes Courtes</epreuveEleve>
                     </epreuvesEleve>
                 </eleve>
             </eleves>

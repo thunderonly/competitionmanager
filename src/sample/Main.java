@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import fr.csmb.competition.component.grid.bean.ParticipantBean;
 import fr.csmb.competition.component.grid.fight.GridComponentFight2;
+import fr.csmb.competition.model.ParticipantBean;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
