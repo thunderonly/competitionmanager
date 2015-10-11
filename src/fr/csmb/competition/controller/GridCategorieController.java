@@ -106,7 +106,7 @@ public class GridCategorieController {
         this.epreuveBean = null;
         ObservableList<ParticipantBean> participants = FXCollections.observableArrayList();
         if (categorieBean != null) {
-            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
             if (epreuveBean != null) {
                 for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean))
                     participants.add(participantBean);
@@ -114,7 +114,7 @@ public class GridCategorieController {
         }
 
         categorieTf.setText(categorieBean.getNom().concat(" ").concat(categorieBean.getType()));
-        epreuveTf.setText(disciplineBean.getNom());
+        epreuveTf.setText(epreuveBean.getLabel());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String heure = simpleDateFormat.format(new Date(System.currentTimeMillis()));

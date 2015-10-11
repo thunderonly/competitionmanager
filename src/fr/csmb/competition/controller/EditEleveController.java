@@ -1,5 +1,6 @@
 package fr.csmb.competition.controller;
 
+import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.network.sender.NetworkSender;

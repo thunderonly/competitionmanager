@@ -109,6 +109,18 @@ public class ContextableTreeCell extends TreeCell<String> {
             }
         });
 
+        MenuItem renameMenuItem = new MenuItem("Renommer");
+        addMenu.getItems().add(renameMenuItem);
+        renameMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
+                String categorie = getTreeItem().getParent().getParent().getValue();
+                String epreuve = getItem();
+                categoriesView.renameEpreuve(typeCategorie, categorie, epreuve);
+            }
+        });
+
     }
 
     @Override
@@ -239,7 +251,7 @@ public class ContextableTreeCell extends TreeCell<String> {
                     CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
                     DisciplineBean disciplineBean = competitionBean.getDiscipline(typeEpreuve, getItem());
                     if (categorieBean != null) {
-                        EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+                        EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, getItem());
                         if (epreuveBean != null) {
                             if (EtatEpreuve.VALIDE.getValue().equals(epreuveBean.getEtat())) {
                                 setTextFill(Color.GREEN);

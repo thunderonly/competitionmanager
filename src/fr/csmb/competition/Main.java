@@ -1,6 +1,7 @@
 package fr.csmb.competition;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
+import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.controller.ClubController;
 import fr.csmb.competition.controller.Controller;
@@ -14,8 +15,6 @@ import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.view.ResultatsView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;

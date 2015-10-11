@@ -95,7 +95,7 @@ public class GlobalVisionView {
         DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
         EpreuveBean epreuveBean = null;
         if (categorieBean != null && disciplineBean != null) {
-            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
         }
         return epreuveBean;
     }

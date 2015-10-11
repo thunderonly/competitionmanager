@@ -1,6 +1,7 @@
 package fr.csmb.competition.manager;
 
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
+import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.type.TypeEpreuve;

@@ -6,6 +6,7 @@ import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.controller.GridCategorieController;
 import fr.csmb.competition.listener.EtatPropertyEpreuveChangeListener;
+import fr.csmb.competition.listener.LabelPropertyEpreuveChangeListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
@@ -109,7 +110,7 @@ public class CategoriesView {
                 if (competitionBean.getParticipantByEpreuve(epreuve).isEmpty()) {
                     continue;
                 }
-                final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getDiscipline().getNom());
+                final TreeItem<String> itemEpreuve = new TreeItem<String>(epreuve.getLabel());
                 isEpreuveCreated = true;
                 if (TypeEpreuve.TECHNIQUE.getValue().equalsIgnoreCase(epreuve.getDiscipline().getType())) {
                     if (!isTechniqueCreated) {
@@ -128,6 +129,7 @@ public class CategoriesView {
                 }
 
                 epreuve.etatProperty().addListener(new EtatPropertyEpreuveChangeListener(itemEpreuve, notificationView));
+                epreuve.labelProperty().addListener(new LabelPropertyEpreuveChangeListener(itemEpreuve));
             }
 
             if (isEpreuveCreated) {
@@ -306,6 +308,10 @@ public class CategoriesView {
         }
     }
 
+    public void renameEpreuve(String typeCategorie, String categorie, String epreuve) {
+        int result = this.categorieViewController.renameEpreuve(typeCategorie, categorie, epreuve);
+    }
+
     public void invalidateEpreuve(String typeCategorie, String categorie, String epreuve) {
         int result = this.categorieViewController.invalidateEpreuve(typeCategorie, categorie, epreuve);
         switch (result) {
@@ -371,6 +377,9 @@ public class CategoriesView {
         EpreuveBean epreuveBean = null;
         if (categorieBean != null && disciplineBean != null) {
             epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+        }
+        if (disciplineBean == null) {
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
         }
         return epreuveBean;
     }

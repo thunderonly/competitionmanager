@@ -21,14 +21,12 @@ public class EpreuveBean {
     private CategorieBean categorie;
     private DetailEpreuveBean detailEpreuve;
     private SimpleStringProperty etat;
-//    private SimpleListProperty<ParticipantBean> participants;
+    private SimpleStringProperty label;
 
     public EpreuveBean() {
         this.id = new SimpleStringProperty();
         this.etat = new SimpleStringProperty();
-//        this.participants = new SimpleListProperty<ParticipantBean>();
-//        ObservableList<ParticipantBean> participantBeans = FXCollections.observableArrayList();
-//        this.participants.set(participantBeans);
+        this.label = new SimpleStringProperty();
     }
 
     public String getId() {
@@ -79,17 +77,17 @@ public class EpreuveBean {
         this.etat.set(etat);
     }
 
-//    public ObservableList<ParticipantBean> getParticipants() {
-//        return participants.get();
-//    }
-//
-//    public SimpleListProperty<ParticipantBean> participantsProperty() {
-//        return participants;
-//    }
-//
-//    public void setParticipants(ObservableList<ParticipantBean> participants) {
-//        this.participants.set(participants);
-//    }
+    public String getLabel() {
+        return label.get();
+    }
+
+    public SimpleStringProperty labelProperty() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label.set(label);
+    }
 
     @Override
     public boolean equals(Object o) {

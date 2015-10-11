@@ -55,7 +55,7 @@ public class AddParticipantController {
         competitionBean.getParticipants().add(participantBean);
         this.participantBean = participantBean;
 
-        this.actionListener.actionPerformed(new ActionEvent(this, 0, ""));
+        this.actionListener.actionPerformed(new ActionEvent(this, 0, "validate"));
     }
 
     @FXML

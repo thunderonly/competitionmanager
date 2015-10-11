@@ -22,9 +22,8 @@ public class Epreuve implements Serializable {
     private String etatEpreuve;
     @XmlElement
     private DetailEpreuve detailEpreuve;
-//    @XmlElementWrapper(name="participants")
-//    @XmlElement(name="participant")
-//    private List<Participant> participants;
+    @XmlElement(name="labelEpreuve")
+    private String labelEpreuve;
 
     public Epreuve(Categorie categorie, Discipline discipline) {
         if (categorie != null && discipline != null) {
@@ -82,20 +81,14 @@ public class Epreuve implements Serializable {
         this.detailEpreuve = detailEpreuve;
     }
 
-//    public List<Participant> getParticipants() {
-//        return participants;
-//    }
-//
-//    public void setParticipants(List<Participant> participants) {
-//        this.participants = participants;
-//    }
+    public String getLabelEpreuve() {
+        if (labelEpreuve == null || labelEpreuve.isEmpty()) {
+            labelEpreuve = discipline.getNom();
+        }
+        return labelEpreuve;
+    }
 
-//    public Participant getParticipantByNomPrenom(String nom, String prenom) {
-//        for (Participant participant : getParticipants()) {
-//            if (participant.getNomParticipant().equals(nom) && participant.getPrenomParticipant().equals(prenom)) {
-//                return participant;
-//            }
-//        }
-//        return null;
-//    }
+    public void setLabelEpreuve(String labelEpreuve) {
+        this.labelEpreuve = labelEpreuve;
+    }
 }

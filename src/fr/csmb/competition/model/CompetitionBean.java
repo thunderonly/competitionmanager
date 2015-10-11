@@ -171,6 +171,17 @@ public class CompetitionBean {
         return null;
     }
 
+    public EpreuveBean getEpreuve(CategorieBean categorieBean, DisciplineBean disciplineBean, String label) {
+        for (EpreuveBean epreuveBean : getEpreuves()) {
+            if (epreuveBean.getCategorie().equals(categorieBean)) {
+                if (epreuveBean.getDiscipline().equals(disciplineBean) || epreuveBean.getLabel().equals(label)) {
+                    return epreuveBean;
+                }
+            }
+        }
+        return null;
+    }
+
     public ObservableList<EpreuveBean> getEpreuveByDiscipline(DisciplineBean disciplineBean) {
         ObservableList<EpreuveBean> epreuveBeans = FXCollections.observableArrayList();
         for (EpreuveBean epreuveBean : getEpreuves()) {
