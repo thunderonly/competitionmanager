@@ -5,6 +5,7 @@ import fr.csmb.competition.component.treeview.ContextableTreeCell;
 import fr.csmb.competition.controller.CategorieViewController;
 import fr.csmb.competition.controller.DetailCategorieController;
 import fr.csmb.competition.controller.GridCategorieController;
+import fr.csmb.competition.listener.EtatPropertyEpreuveChangeListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
@@ -64,7 +65,9 @@ public class CategoriesView {
         Preferences pref = Preferences.userNodeForPackage(Main.class);
         String fileName = pref.get("filePath", null);
         fileTmp = new File(fileName);
-        this.categorieViewController = new CategorieViewController(competition, mainStage);
+
+        notificationView = new NotificationView(mainStage);
+        this.categorieViewController = new CategorieViewController(competition, mainStage, notificationView);
 
         this.competitionBean = competition;
         BorderPane root = (BorderPane)mainStage.getScene().getRoot();
@@ -80,7 +83,6 @@ public class CategoriesView {
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
 //        stage.setScene(scene);
         currentStage = mainStage;
-        notificationView = new NotificationView(mainStage);
     }
 
     private void createTreeView(final SplitPane splitPane) {
@@ -125,48 +127,7 @@ public class CategoriesView {
                     itemEpreuveTypeCombat.getChildren().add(itemEpreuve);
                 }
 
-                epreuve.etatProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                        TreeItem<String> parent = itemEpreuve.getParent();
-                        TreeItem<String> categorie = parent.getParent();
-                        TreeItem<String> sexe = categorie.getParent();
-                        TreeItem<String> root = sexe.getParent();
-                        if (EtatEpreuve.SUPPRIME.getValue().equals(s2)) {
-                            parent.getChildren().remove(itemEpreuve);
-                            if (parent.getChildren().isEmpty()) {
-                                categorie.getChildren().remove(parent);
-                                if (categorie.getChildren().isEmpty()) {
-                                    sexe.getChildren().remove(categorie);
-                                    if (sexe.getChildren().isEmpty()) {
-                                        root.getChildren().remove(sexe);
-                                    }
-                                }
-                            }
-                        } else {
-                            int index = parent.getChildren().indexOf(itemEpreuve);
-                            parent.getChildren().remove(itemEpreuve);
-                            parent.getChildren().add(index, itemEpreuve);
-                        }
-                        if (EtatEpreuve.VALIDE.getValue().equals(s2)) {
-                            notificationView.notify(NotificationView.Level.INFO, "Information",
-                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
-                                            .concat(itemEpreuve.getValue()) + " a été validée");
-                        } else if (EtatEpreuve.DEMARRE.getValue().equals(s2)) {
-                            notificationView.notify(NotificationView.Level.INFO, "Information",
-                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
-                                            .concat(itemEpreuve.getValue()) + " a été démarrée");
-                        } else if (EtatEpreuve.TERMINE.getValue().equals(s2)) {
-                            notificationView.notify(NotificationView.Level.INFO, "Information",
-                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
-                                            .concat(itemEpreuve.getValue()) + " a été terminée");
-                        } else if (EtatEpreuve.SUPPRIME.getValue().equals(s2)) {
-                            notificationView.notify(NotificationView.Level.INFO, "Information",
-                                    "L'épreuve " + categorie.getValue().concat(" ").concat(sexe.getValue()).concat(" - ")
-                                            .concat(itemEpreuve.getValue()) + " a été supprimée");
-                        }
-                    }
-                });
+                epreuve.etatProperty().addListener(new EtatPropertyEpreuveChangeListener(itemEpreuve, notificationView));
             }
 
             if (isEpreuveCreated) {
@@ -205,6 +166,7 @@ public class CategoriesView {
                     String typeCategorie = new_val.getParent().getParent().getParent().getValue();
                     String categorie = new_val.getParent().getParent().getValue();
                     String epreuve = new_val.getValue();
+                    String typeEpreuve = new_val.getParent().getValue();
                     EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
                     stackPane.getChildren().clear();
                     if (epreuveBean != null && epreuveBean.getEtat() != null &&
@@ -212,6 +174,12 @@ public class CategoriesView {
                             epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue()))) {
                         if (borderPaneMap.containsKey(epreuveBean)) {
                             epreuveBorderPane = borderPaneMap.get(epreuveBean);
+                        } else {
+                            //Epreuve is Beginned or terminated but not exist
+                            createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
+                            if (epreuveBean != null) {
+                                updateList(epreuveBean);
+                            }
                         }
                         stackPane.getChildren().add(epreuveBorderPane);
                     } else {
@@ -234,9 +202,6 @@ public class CategoriesView {
     public void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
 
         epreuveBorderPane = new BorderPane();
-
-        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
         EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
         if (epreuveBean!= null) {
 
@@ -257,8 +222,14 @@ public class CategoriesView {
                         "Impossible de démarrer une épreuve déjà démarrée");
                 return;
             }
-
+            createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
         }
+    }
+
+    public void createGridComponentView(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
+        EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
+
+        epreuveBorderPane = new BorderPane();
 
         GridCategorieController gridCategorieController = null;
         if (borderPaneMap.containsKey(epreuveBean)) {

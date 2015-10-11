@@ -293,4 +293,26 @@ public class ParticipantBean implements Comparable<ParticipantBean> {
     public String toString() {
         return nom.get().toUpperCase() + " " + prenom.get();
     }
+
+    public ParticipantBean copy() {
+        ParticipantBean copy = new ParticipantBean();
+        copy.setNom(this.getNom());
+        copy.setPrenom(this.getPrenom());
+        copy.setClassementAuto(this.getClassementAuto());
+        copy.setClassementManuel(this.getClassementManuel());
+        copy.setClassementFinal(this.getClassementFinal());
+        copy.setEpreuveBean(this.getEpreuveBean());
+        copy.setParticipe(this.getParticipe());
+        copy.setClub(this.getClub());
+        copy.setPlaceOnGrid(this.getPlaceOnGrid());
+        copy.setPoids(this.getPoids());
+        copy.setNote1(this.getNote1());
+        copy.setNote2(this.getNote2());
+        copy.setNote3(this.getNote3());
+        copy.setNote4(this.getNote4());
+        copy.setNote5(this.getNote5());
+        copy.setNoteTotal(this.getNoteTotal());
+
+        return copy;
+    }
 }

@@ -1,6 +1,14 @@
 Réparer diffusion LAN
-Gestion des élèves :
-Enlever un élève d'une épreuve (fusionnée ou non)
-Permettre ajout et suppression de participant par le tableau d'une catégorie
 
-Reprendre état des catégories "démarré" et "terminée" (les vues) après redemarrage.
+Gestion des élèves :
+Enlever un élève d'une épreuve (fusionnée ou non) [OK]
+Permettre ajout et suppression de participant par le tableau d'une catégorie [OK]
+Ajout et suppression de participant par évènement LAN
+
+Réouverture après redémarrage des catégories "démarrée" et "terminée" (les vues) :
+Technique [OK]
+Combat
+
+Gestion de la fusion [OK]
+
+Renommer une épreuve

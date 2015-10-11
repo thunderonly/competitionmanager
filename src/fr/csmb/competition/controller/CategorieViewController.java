@@ -13,6 +13,7 @@ import javax.xml.bind.Marshaller;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
 import fr.csmb.competition.Main;
+import fr.csmb.competition.listener.EtatPropertyEpreuveChangeListener;
 import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.network.sender.NetworkSender;
@@ -21,6 +22,7 @@ import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.ConfigureFightView;
+import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,12 +40,14 @@ import javafx.stage.Stage;
 public class CategorieViewController {
 
     private CompetitionBean competitionBean;
+    private NotificationView notificationView;
     private NetworkSender sender;
     private Stage currentStage;
     private File fileTmp;
 
-    public CategorieViewController (final CompetitionBean competitionBean, final Stage currentStage) {
+    public CategorieViewController (final CompetitionBean competitionBean, final Stage currentStage, final NotificationView notificationView) {
         this.competitionBean = competitionBean;
+        this.notificationView = notificationView;
         this.currentStage = currentStage;
         Preferences pref = Preferences.userNodeForPackage(Main.class);
         String fileName = pref.get("filePath", null);
@@ -257,11 +261,15 @@ public class CategorieViewController {
             competitionBean.getEpreuves().add(epreuveFusion);
 
             for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean1)) {
-                participantBean.setEpreuveBean(epreuveFusion);
+                ParticipantBean newParticipant = participantBean.copy();
+                newParticipant.setEpreuveBean(epreuveFusion);
+                competitionBean.getParticipants().add(newParticipant);
             }
 
             for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean2)) {
-                participantBean.setEpreuveBean(epreuveFusion);
+                ParticipantBean newParticipant = participantBean.copy();
+                newParticipant.setEpreuveBean(epreuveFusion);
+                competitionBean.getParticipants().add(newParticipant);
             }
 
 
@@ -299,6 +307,8 @@ public class CategorieViewController {
                                     itemTypeEpreuve.getChildren().add(treeItemEpreuve);
                                     epreuveAdded = true;
                                     typeEpreuveExist = true;
+
+                                    epreuveFusion.etatProperty().addListener(new EtatPropertyEpreuveChangeListener(treeItemEpreuve,notificationView));
                                 }
                             }
                             if (!typeEpreuveExist) {
