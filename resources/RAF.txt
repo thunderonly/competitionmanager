@@ -1,9 +1,12 @@
 Réparer diffusion LAN
 
+Ajout et suppression de participant par évènement LAN
+
 Gestion des élèves :
 Enlever un élève d'une épreuve (fusionnée ou non) [OK]
-Permettre ajout et suppression de participant par le tableau d'une catégorie [OK]
-Ajout et suppression de participant par évènement LAN
+Permettre ajout et suppression de participant par le tableau d'une catégorie :
+Technique [OK]
+Combat
 
 Réouverture après redémarrage des catégories "démarrée" et "terminée" (les vues) :
 Technique [OK]
@@ -11,4 +14,9 @@ Combat
 
 Gestion de la fusion [OK]
 
-Renommer une épreuve
+Renommer une épreuve [OK]
+
+Reparer edition élève pour :
+Combat
+Technique
+

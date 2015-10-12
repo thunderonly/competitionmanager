@@ -48,7 +48,7 @@ public class EditEleveController {
         eleveBean.setCategorie(extractCategorie(age));
         for (String epreuve : epreuves) {
             if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-                eleveBean.getEpreuves().add(extractCategorieCombat2(eleveBean, competitionBean));
+                eleveBean.getEpreuves().add(extractCategorieCombat(eleveBean, competitionBean));
             } else {
                 eleveBean.getEpreuves().add(epreuve);
             }

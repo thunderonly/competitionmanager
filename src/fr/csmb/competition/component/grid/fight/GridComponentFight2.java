@@ -140,10 +140,10 @@ public class GridComponentFight2 extends GridComponent {
         while (i < nbMatchBeforeMaxi) {
 
             Match match = new Match();
-            match.setJoueur1(sortedJoueurs.get(placeOfJoueur));
             placeOfJoueur++;
-            match.setJoueur2(sortedJoueurs.get(placeOfJoueur));
+            match.setJoueur1(this.getByNumPlace(placeOfJoueur));
             placeOfJoueur++;
+            match.setJoueur2(this.getByNumPlace(placeOfJoueur));
 
             TextBox[] textBoxForMatch = drawMatchFirstRound(10, 10, this, match, i + 1);
             result[index] = textBoxForMatch[0];
@@ -171,21 +171,35 @@ public class GridComponentFight2 extends GridComponent {
             i++;
         }
         TextBox[] resultatsDemi1 = drawMatch(result[0], result[1], this, 1, Phase.DEMI_FINALE);
+
         TextBox[] resultatsDemi2 =  null;
         if (nbJoueur == 3) {
             resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE, false);
-            resultatsDemi2[0].setParticipant(sortedJoueurs.get(2));
             resultatsDemi2[0].setNumPlace(3);
+            resultatsDemi2[0].setParticipant(this.getByNumPlace(3));
+
+            resultatsDemi1[0].setNumPlace(4);
+            resultatsDemi1[0].setParticipant(this.getByNumPlace(4));
+            resultatsDemi1[1].setNumPlace(5);
+            resultatsDemi1[1].setParticipant(this.getByNumPlace(5));
             if (forConfigure) {
                 return new TextBox[]{result[0], result[1], resultatsDemi2[0]};
             }
         } else {
             resultatsDemi2 =  drawMatch(result[2], result[3], this, 2, Phase.DEMI_FINALE);
+            resultatsDemi1[0].setNumPlace(5);
+            resultatsDemi1[0].setParticipant(this.getByNumPlace(5));
+            resultatsDemi1[1].setNumPlace(6);
+            resultatsDemi1[1].setParticipant(this.getByNumPlace(6));
+
+            resultatsDemi2[0].setNumPlace(7);
+            resultatsDemi2[0].setParticipant(this.getByNumPlace(7));
+            resultatsDemi2[1].setNumPlace(8);
+            resultatsDemi2[1].setParticipant(this.getByNumPlace(8));
         }
         TextBox[] resultatsFinale = drawMatch(resultatsDemi1[0], resultatsDemi2[0], this, 2, Phase.FINALE);
         TextBox[] resultatsPetiteFinale = drawMatch(resultatsDemi1[1], resultatsDemi2[1], this, 2, Phase.PETITE_FINALE);
         if (nbJoueur == 3) {
-            resultatsDemi1[1].getText().setText("3eme");
             resultatsDemi1[1].enableListForFight3Fighters(resultatsPetiteFinale[0]);
         }
 
@@ -443,7 +457,6 @@ public class GridComponentFight2 extends GridComponent {
         if (phase.ordinal() == Phase.FINALE.ordinal() || phase.ordinal() == Phase.PETITE_FINALE.ordinal()) {
             victoryBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(1.0, 1.0, 0.0, 0.5));
             defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, Color.color(0.0, 1.0, 1.0, 0.5));
-
             //Create a TextBoxListner to prepare resultat
             TextBoxListner listner = new TextBoxListner(boxBlue, boxRed, victoryBox, defaitBox, phase);
             boxBlue.setListner(listner);
@@ -481,7 +494,6 @@ public class GridComponentFight2 extends GridComponent {
         } else if (phase.ordinal() == Phase.DEMI_FINALE.ordinal()) {
             victoryBox = drawMatch(boxBlue, boxRed, group, level, drawLine);
 
-
             defaitBox = createTextBox(new ParticipantBean("", ""), widthRectangle, heightRectangle, colorResultat);
 
             //Create a TextBoxListner to prepare resultat
@@ -517,5 +529,14 @@ public class GridComponentFight2 extends GridComponent {
 
     public void setParticipantClassementFinalListener(ParticipantClassementFinalListener participantClassementFinalListener) {
         this.participantClassementFinalListener = participantClassementFinalListener;
+    }
+
+    public ParticipantBean getByNumPlace(int numPlace) {
+        for (ParticipantBean participantBean : this.sortedJoueurs) {
+            if (participantBean.getPlaceOnGrid().equals(numPlace)) {
+                return participantBean;
+            }
+        }
+        return new ParticipantBean("", "");
     }
 }
