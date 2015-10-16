@@ -58,7 +58,9 @@ public class ConfigureFightView {
         validButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                if (epreuveBean.getEtat() == null) {
+                    epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
+                }
                 resultatList = gridComponentFight.getResultatsList();
                 for (ParticipantBean participantBean : resultatList) {
                     System.out.println("Place on Grid : " + participantBean.getPlaceOnGrid() + " " + participantBean.toString());
