@@ -67,6 +67,52 @@ public class GridComponentFight2 extends GridComponent {
     public void addParticipant(ParticipantBean participantBean) {
         ObservableList newList = FXCollections.observableArrayList(this.joueurs);
         this.joueurs = newList;
+        //Replace last fighter on last place
+        List<ParticipantBean> participantsToForward = new ArrayList<ParticipantBean>();
+        List<ParticipantBean> participantsToReward = new ArrayList<ParticipantBean>();
+        switch (this.joueurs.size()) {
+            case 4:
+            case 8:
+            case 16:
+            case 32:
+                for (int i=3; i <= this.joueurs.size(); i++) {
+                    ParticipantBean participantBean1 = getByNumPlace(i);
+                    participantsToForward.add(participantBean1);
+                }
+                for (ParticipantBean participantToForward : participantsToForward) {
+                    participantToForward.setPlaceOnGrid(participantToForward.getPlaceOnGrid()+1);
+                }
+                break;
+            default:
+                int nbEmptyPlace = 0;
+                int nbReviewPlace = 2;
+                for (int i=1; i < this.joueurs.size()*2; i++) {
+                    ParticipantBean participantBean1 = getByNumPlace(i);
+                    if (participantBean1.getNom().equals("") && participantsToReward.size() == 0) {
+                        nbEmptyPlace++;
+                    } else {
+                        //manage participant to reward place.
+                        //If nbEmptyPlace > 0, then all empty place are past;
+                        // else if list of participant to reward place is not empty, then all participant to reward are past
+                        if (nbEmptyPlace > 0 && nbReviewPlace > 0) {
+                            participantsToReward.add(participantBean1);
+                            nbReviewPlace--;
+                        } else if (participantsToReward.size() > 0) {
+                            participantsToForward.add(participantBean1);
+                        }
+                    }
+                }
+                for (ParticipantBean participantToReward : participantsToReward) {
+                    participantToReward.setPlaceOnGrid(participantToReward.getPlaceOnGrid()-nbEmptyPlace);
+                }
+                for (ParticipantBean participantToForward : participantsToForward) {
+                    participantToForward.setPlaceOnGrid(participantToForward.getPlaceOnGrid()+1);
+                }
+
+                break;
+        }
+
+
         this.joueurs.add(participantBean);
         this.getChildren().clear();
     }
@@ -154,15 +200,15 @@ public class GridComponentFight2 extends GridComponent {
         TextBox[] firstMatchOfDemiFinale = new TextBox[]{result[0], result[1]};
         TextBox[] secondMatchOfDemiFinale = new TextBox[]{result[2], result[3]};
 
-        TextBox[] textBoxesDemiFinale = buildDemiFinale(firstMatchOfDemiFinale, secondMatchOfDemiFinale, false, 5);
+        TextBox[] textBoxesDemiFinale = buildDemiFinale(firstMatchOfDemiFinale, secondMatchOfDemiFinale, false, 3);
 
-        if (forConfigure) {
-            return new TextBox[]{result[0], result[1], textBoxesDemiFinale[2]};
-        }
         TextBox[] resultatsFinale = drawMatch(textBoxesDemiFinale[0], textBoxesDemiFinale[2], this, 2, Phase.FINALE);
         TextBox[] resultatsPetiteFinale = drawMatch(textBoxesDemiFinale[1], textBoxesDemiFinale[3], this, 2, Phase.PETITE_FINALE);
         textBoxesDemiFinale[1].enableListForFight3Fighters(resultatsPetiteFinale[0]);
 
+        if (forConfigure) {
+            return new TextBox[]{result[0], result[1], textBoxesDemiFinale[2]};
+        }
         return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
@@ -175,9 +221,6 @@ public class GridComponentFight2 extends GridComponent {
     private TextBox[] computeFor4Fighter(int nbJoueur, boolean forConfigure) {
         int nbMatchMaxi = 4/2;
         TextBox[] result = buildFirstRound(nbMatchMaxi, nbJoueur);
-        if (forConfigure) {
-            return result;
-        }
 
         TextBox[] firstMatchOfDemiFinale = new TextBox[]{result[0], result[1]};
         TextBox[] secondMatchOfDemiFinale = new TextBox[]{result[2], result[3]};
@@ -185,7 +228,9 @@ public class GridComponentFight2 extends GridComponent {
 
         TextBox[] resultatsFinale = drawMatch(textBoxesDemiFinale[0], textBoxesDemiFinale[2], this, 2, Phase.FINALE);
         TextBox[] resultatsPetiteFinale = drawMatch(textBoxesDemiFinale[1], textBoxesDemiFinale[3], this, 2, Phase.PETITE_FINALE);
-
+        if (forConfigure) {
+            return result;
+        }
         return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
@@ -259,23 +304,6 @@ public class GridComponentFight2 extends GridComponent {
             nbMatchBuilt = resultOtherRound.length;
         }
 
-//        int nbMatchOtherRound = resultOtherRound.length / 2;
-//        while (nbMatchBuilt >= 4) {
-//            TextBox[] resultCurrentRound = new TextBox[nbMatchOtherRound];
-//            int index = 0;
-//            int indexLastRound = 0;
-//            while (index < nbMatchOtherRound) {
-//                TextBox blue = result[indexLastRound];
-//                indexLastRound++;
-//                TextBox red = result[indexLastRound];
-//                indexLastRound++;
-//                resultCurrentRound[index] = drawMatch(blue, red, this, index + 1);
-//                index++;
-//            }
-//            result = resultCurrentRound;
-//            nbMatchOtherRound = result.length / 2;
-//        }
-
         TextBox[] firstMatchOfDemiFinale = new TextBox[]{resultOtherRound[0], resultOtherRound[1]};
         TextBox[] secondMatchOfDemiFinale = new TextBox[]{resultOtherRound[2], resultOtherRound[3]};
         TextBox[] textBoxesDemiFinale = buildDemiFinale(firstMatchOfDemiFinale, secondMatchOfDemiFinale, true, placeOfJoueur);
@@ -286,7 +314,7 @@ public class GridComponentFight2 extends GridComponent {
         if (forConfigure) {
             return resultForConfigure;
         }
-        
+
         return new TextBox[]{resultatsFinale[0], resultatsFinale[1], resultatsPetiteFinale[0], resultatsPetiteFinale[1]};
     }
 
@@ -322,7 +350,7 @@ public class GridComponentFight2 extends GridComponent {
         }
 
         double rest = nbMatchBeforeMaxi % 2;
-        if (rest > 0) {
+//        if (rest > 0) {
             while (nbMatchBeforeMaxi < nbMatchMaxi) {
                 Match match = new Match();
                 match.setJoueur1(new ParticipantBean());
@@ -335,7 +363,7 @@ public class GridComponentFight2 extends GridComponent {
                 i++;
                 nbMatchBeforeMaxi++;
             }
-        }
+//        }
 
         return result;
     }
@@ -599,12 +627,12 @@ public class GridComponentFight2 extends GridComponent {
         TextBox[] resultatsDemi1 = drawMatch(firstMatch[0], firstMatch[1], this, 1, Phase.DEMI_FINALE);
         resultatsDemi1[0].setNumPlace(firstPlace);
         resultatsDemi1[0].setParticipant(this.getByNumPlace(firstPlace));
-        resultatsDemi1[1].setNumPlace(firstPlace+1);
-        resultatsDemi1[1].setParticipant(this.getByNumPlace(firstPlace+1));
+        resultatsDemi1[1].setNumPlace(firstPlace+2);
+        resultatsDemi1[1].setParticipant(this.getByNumPlace(firstPlace+2));
 
         TextBox[] resultatsDemi2 = drawMatch(secondMatch[0], secondMatch[1], this, 2, Phase.DEMI_FINALE, drawLastLines);
-        resultatsDemi2[0].setNumPlace(firstPlace+2);
-        resultatsDemi2[0].setParticipant(this.getByNumPlace(firstPlace+2));
+        resultatsDemi2[0].setNumPlace(firstPlace+1);
+        resultatsDemi2[0].setParticipant(this.getByNumPlace(firstPlace+1));
         resultatsDemi2[1].setNumPlace(firstPlace+3);
         resultatsDemi2[1].setParticipant(this.getByNumPlace(firstPlace+3));
         return new TextBox[] {resultatsDemi1[0], resultatsDemi1[1], resultatsDemi2[0], resultatsDemi2[1]};
