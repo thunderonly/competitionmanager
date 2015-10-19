@@ -27,4 +27,5 @@ public abstract class GridComponent extends Group {
 
     public abstract void addParticipant(ParticipantBean participantBean);
 
+    public abstract void delParticipant(ParticipantBean participantBean);
 }

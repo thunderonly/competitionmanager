@@ -221,9 +221,40 @@ public class GridCategorieController {
 
     @FXML
     private void delPart() {
-        ParticipantBean participantBean = ((GridComponentTechnical) gridComponent).getSelectedParticipant();
-        ((GridComponentTechnical) gridComponent).delParticipant(participantBean);
-        competitionBean.getParticipants().remove(participantBean);
+        ParticipantBean participantBean = null;
+        if (gridComponent instanceof GridComponentTechnical) {
+            participantBean = ((GridComponentTechnical) gridComponent).getSelectedParticipant();
+            gridComponent.delParticipant(participantBean);
+            competitionBean.getParticipants().remove(participantBean);
+        } else {
+            try {
+                final Stage newStage = new Stage();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("../view/fxml/delPartView.fxml"));
+                BorderPane pane = (BorderPane) loader.load();
+                final DelParticipantController participantController = loader.getController();
+                participantController.initComponent(competitionBean, epreuveBean);
+                newStage.setScene(new Scene(pane));
+                newStage.show();
+
+                participantController.setActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        gridComponent.delParticipant(participantController.getParticipantBean());
+                        if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                            ConfigureFightView configureFightView = new ConfigureFightView();
+//                        newStage.close();
+                            configureFightView.showView(newStage, competitionBean, epreuveBean);
+                            gridComponent.drawGrid();
+                        }
+                    }
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void saveCompetitionToXmlFileTmp() {

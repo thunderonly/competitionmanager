@@ -44,6 +44,10 @@ public class GridComponentFight extends GridComponent {
         resultatsList = new ArrayList<ParticipantBean>();
     }
 
+    public void delParticipant(ParticipantBean participantBean) {
+
+    }
+
     public void addParticipant(ParticipantBean participantBean) {
 
     }

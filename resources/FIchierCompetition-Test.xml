@@ -23,7 +23,7 @@
     <discipline id="Technique-Doi Luyen Main Nue" nom="Doi Luyen Main Nue" type="Technique"/>
     <discipline id="Technique-Doi Luyen Armes" nom="Doi Luyen Armes" type="Technique"/>
     <discipline id="Combat-45-65" nom="45-65" type="Combat"/>
-    <epreuve id="Sénior-MasculinCombat-45-65" discipline="Combat-45-65" categorie="Sénior-Masculin" etatEpreuve="Valide">
+    <epreuve id="Sénior-MasculinCombat-45-65" discipline="Combat-45-65" categorie="Sénior-Masculin" etatEpreuve="Demarre">
         <detailEpreuve/>
         <labelEpreuve>45-65</labelEpreuve>
     </epreuve>
@@ -636,7 +636,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>4</placeOnGrid>
+        <placeOnGrid>3</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
@@ -672,7 +672,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>5</placeOnGrid>
+        <placeOnGrid>4</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="test2" prenomParticipant="test2" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
@@ -684,7 +684,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>6</placeOnGrid>
+        <placeOnGrid>5</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="test3" prenomParticipant="test3" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
@@ -696,7 +696,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>7</placeOnGrid>
+        <placeOnGrid>6</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="test4" prenomParticipant="test4" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
@@ -708,7 +708,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>8</placeOnGrid>
+        <placeOnGrid>10</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="test5" prenomParticipant="test5" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
@@ -720,7 +720,7 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>9</placeOnGrid>
+        <placeOnGrid>11</placeOnGrid>
         <participe>true</participe>
     </participant>
     <participant nomParticipant="test6" prenomParticipant="test6" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
@@ -732,7 +732,31 @@
         <note3>0.0</note3>
         <note4>0.0</note4>
         <note5>0.0</note5>
-        <placeOnGrid>10</placeOnGrid>
+        <placeOnGrid>12</placeOnGrid>
+        <participe>true</participe>
+    </participant>
+    <participant nomParticipant="test7" prenomParticipant="test7" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+        <classementAuto>0</classementAuto>
+        <classementManuel>0</classementManuel>
+        <classementFinal>0</classementFinal>
+        <note1>0.0</note1>
+        <note2>0.0</note2>
+        <note3>0.0</note3>
+        <note4>0.0</note4>
+        <note5>0.0</note5>
+        <placeOnGrid>13</placeOnGrid>
+        <participe>true</participe>
+    </participant>
+    <participant nomParticipant="test8" prenomParticipant="test8" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+        <classementAuto>0</classementAuto>
+        <classementManuel>0</classementManuel>
+        <classementFinal>0</classementFinal>
+        <note1>0.0</note1>
+        <note2>0.0</note2>
+        <note3>0.0</note3>
+        <note4>0.0</note4>
+        <note5>0.0</note5>
+        <placeOnGrid>14</placeOnGrid>
         <participe>true</participe>
     </participant>
     <clubs>

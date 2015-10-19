@@ -70,26 +70,62 @@ public class GridComponentFight2 extends GridComponent {
         //Replace last fighter on last place
         List<ParticipantBean> participantsToForward = new ArrayList<ParticipantBean>();
         List<ParticipantBean> participantsToReward = new ArrayList<ParticipantBean>();
+        int nbEmptyPlace = 0;
+        int indexOfLastParticipant = 0;
         switch (this.joueurs.size()) {
             case 4:
+                for (int i = 1; i <= this.joueurs.size(); i++) {
+                    ParticipantBean participantBean1 = this.getByNumPlace(i);
+                    participantsToForward.add(participantBean1);
+                }
+                indexOfLastParticipant = participantsToForward.size() - 1;
+                if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant) {
+                    participantsToForward.get(indexOfLastParticipant - 1).setPlaceOnGrid(
+                            participantsToForward.get(indexOfLastParticipant).getPlaceOnGrid());
+                } else if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant - 1) {
+                    //nothing to do
+                } else {
+                    int indexOfParticipant = participantsToForward.indexOf(participantBean);
+                    for (int i = indexOfParticipant + 1; i < indexOfLastParticipant; i++) {
+                        participantsToForward.get(i).setPlaceOnGrid(
+                                participantsToForward.get(i).getPlaceOnGrid() - 1);
+                    }
+                }
+                break;
             case 8:
             case 16:
             case 32:
+                nbEmptyPlace = this.joueurs.size() / 2;
+                for (int i = 1; i <= this.joueurs.size(); i++) {
+                    ParticipantBean participantBean1 = this.getByNumPlace(i);
+                    participantsToForward.add(participantBean1);
+                }
+                indexOfLastParticipant = participantsToForward.size() - 1;
+                if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant) {
+                    participantsToForward.get(indexOfLastParticipant - 1).setPlaceOnGrid(
+                            participantsToForward.get(indexOfLastParticipant).getPlaceOnGrid() + nbEmptyPlace - 2);
+                } else if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant - 1) {
+                    participantsToForward.get(indexOfLastParticipant).setPlaceOnGrid(
+                            participantsToForward.get(indexOfLastParticipant).getPlaceOnGrid() + nbEmptyPlace - 2);
+                } else {
+                    participantsToForward.get(indexOfLastParticipant).setPlaceOnGrid(
+                            participantsToForward.get(indexOfLastParticipant).getPlaceOnGrid() + nbEmptyPlace - 2);
+                    int indexOfParticipant = participantsToForward.indexOf(participantBean);
+                    for (int i = indexOfParticipant + 1; i < indexOfLastParticipant; i++) {
+                        participantsToForward.get(i).setPlaceOnGrid(
+                                participantsToForward.get(i).getPlaceOnGrid() - 1);
+                    }
+                }
                 break;
             default:
-                boolean isReward = false;
-                int nbEmptyPlace = 0;
                 for (int i = 1; i < this.joueurs.size() * 2; i++) {
                     ParticipantBean participantBean1 = this.getByNumPlace(i);
                     if (participantBean1.getNom().equals("")) {
-                        nbEmptyPlace++;
+                        if (participantsToReward.isEmpty()) {
+                            nbEmptyPlace++;
+                        }
                     } else {
                         if (nbEmptyPlace != 0) {
-//                            int indexOfForward = nbEmptyPlace;
-//                            int numPlace = i - nbEmptyPlace - 2;
-//                            participantsToForward.add(this.getByNumPlace(numPlace));
-//                            numPlace = i - nbEmptyPlace - 1;
-//                            participantsToForward.add(this.getByNumPlace(numPlace));
                             participantsToReward.add(participantBean1);
                         } else  {
                             participantsToForward.add(participantBean1);
@@ -102,11 +138,12 @@ public class GridComponentFight2 extends GridComponent {
                     for (ParticipantBean part : participantsToReward) {
                         if (part.equals(participantBean)) {
                             afterPartDel = true;
-                        }
-                        if (afterPartDel) {
-                            part.setPlaceOnGrid(part.getPlaceOnGrid() - 2);
                         } else {
-                            part.setPlaceOnGrid(part.getPlaceOnGrid() - 1);
+                            if (afterPartDel) {
+                                part.setPlaceOnGrid(part.getPlaceOnGrid() - 2);
+                            } else {
+                                part.setPlaceOnGrid(part.getPlaceOnGrid() - 1);
+                            }
                         }
                     }
                     //get 2 last part of forward;
@@ -115,12 +152,31 @@ public class GridComponentFight2 extends GridComponent {
                     part1.setPlaceOnGrid(part1.getPlaceOnGrid() + nbEmptyPlace - 1);
                     part2.setPlaceOnGrid(part2.getPlaceOnGrid() + nbEmptyPlace - 1);
                 } else if (participantsToForward.contains(participantBean)) {
-                    for (ParticipantBean part : participantsToForward) {
-                        part.setPlaceOnGrid(part.getPlaceOnGrid() + nbEmptyPlace - 1);
+                    for (ParticipantBean partToReward : participantsToReward) {
+                        partToReward.setPlaceOnGrid(partToReward.getPlaceOnGrid() - 2);
+                    }
+
+                    indexOfLastParticipant = participantsToForward.size() - 1;
+                    if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant) {
+                        participantsToForward.get(indexOfLastParticipant - 1).setPlaceOnGrid(
+                                participantsToReward.get(0).getPlaceOnGrid() - 1);
+                    } else if (participantsToForward.lastIndexOf(participantBean) == indexOfLastParticipant - 1) {
+                        participantsToForward.get(indexOfLastParticipant).setPlaceOnGrid(
+                                participantsToReward.get(0).getPlaceOnGrid() - 1);
+                    } else {
+                        participantsToForward.get(indexOfLastParticipant).setPlaceOnGrid(
+                                participantsToReward.get(0).getPlaceOnGrid() - 1);
+                        int indexOfParticipant = participantsToForward.indexOf(participantBean);
+                        for (int i = indexOfParticipant + 1; i < indexOfLastParticipant; i++) {
+                            participantsToForward.get(i).setPlaceOnGrid(
+                                    participantsToForward.get(i).getPlaceOnGrid() - 1);
+                        }
                     }
                 }
                 break;
         }
+        this.joueurs.remove(participantBean);
+        this.getChildren().clear();
 
     }
 
@@ -131,6 +187,9 @@ public class GridComponentFight2 extends GridComponent {
         List<ParticipantBean> participantsToForward = new ArrayList<ParticipantBean>();
         List<ParticipantBean> participantsToReward = new ArrayList<ParticipantBean>();
         switch (this.joueurs.size()) {
+            case 3:
+                this.getByNumPlace(4).setPlaceOnGrid(3);
+                break;
             case 4:
             case 8:
             case 16:
