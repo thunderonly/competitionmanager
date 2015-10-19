@@ -64,6 +64,66 @@ public class GridComponentFight2 extends GridComponent {
         return this.sortedJoueurs;
     }
 
+    public void delParticipant(ParticipantBean participantBean) {
+        ObservableList newList = FXCollections.observableArrayList(this.joueurs);
+        this.joueurs = newList;
+        //Replace last fighter on last place
+        List<ParticipantBean> participantsToForward = new ArrayList<ParticipantBean>();
+        List<ParticipantBean> participantsToReward = new ArrayList<ParticipantBean>();
+        switch (this.joueurs.size()) {
+            case 4:
+            case 8:
+            case 16:
+            case 32:
+                break;
+            default:
+                boolean isReward = false;
+                int nbEmptyPlace = 0;
+                for (int i = 1; i < this.joueurs.size() * 2; i++) {
+                    ParticipantBean participantBean1 = this.getByNumPlace(i);
+                    if (participantBean1.getNom().equals("")) {
+                        nbEmptyPlace++;
+                    } else {
+                        if (nbEmptyPlace != 0) {
+//                            int indexOfForward = nbEmptyPlace;
+//                            int numPlace = i - nbEmptyPlace - 2;
+//                            participantsToForward.add(this.getByNumPlace(numPlace));
+//                            numPlace = i - nbEmptyPlace - 1;
+//                            participantsToForward.add(this.getByNumPlace(numPlace));
+                            participantsToReward.add(participantBean1);
+                        } else  {
+                            participantsToForward.add(participantBean1);
+                        }
+                    }
+                }
+                // if participant is in reward, -2 on all part in reward
+                if (participantsToReward.contains(participantBean)) {
+                    boolean afterPartDel = false;
+                    for (ParticipantBean part : participantsToReward) {
+                        if (part.equals(participantBean)) {
+                            afterPartDel = true;
+                        }
+                        if (afterPartDel) {
+                            part.setPlaceOnGrid(part.getPlaceOnGrid() - 2);
+                        } else {
+                            part.setPlaceOnGrid(part.getPlaceOnGrid() - 1);
+                        }
+                    }
+                    //get 2 last part of forward;
+                    ParticipantBean part1 = participantsToForward.get(participantsToForward.size()-1);
+                    ParticipantBean part2 = participantsToForward.get(participantsToForward.size()-2);
+                    part1.setPlaceOnGrid(part1.getPlaceOnGrid() + nbEmptyPlace - 1);
+                    part2.setPlaceOnGrid(part2.getPlaceOnGrid() + nbEmptyPlace - 1);
+                } else if (participantsToForward.contains(participantBean)) {
+                    for (ParticipantBean part : participantsToForward) {
+                        part.setPlaceOnGrid(part.getPlaceOnGrid() + nbEmptyPlace - 1);
+                    }
+                }
+                break;
+        }
+
+    }
+
     public void addParticipant(ParticipantBean participantBean) {
         ObservableList newList = FXCollections.observableArrayList(this.joueurs);
         this.joueurs = newList;
