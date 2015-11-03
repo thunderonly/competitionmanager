@@ -87,6 +87,7 @@ public class CategorieViewController {
                     //Configure order of fighter
                     ConfigureFightView configureFightView = new ConfigureFightView();
                     configureFightView.showView(currentStage, competitionBean, epreuveBean);
+                    epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                 } else {
                     epreuveBean.setEtat(EtatEpreuve.VALIDE.getValue());
                 }
@@ -152,6 +153,9 @@ public class CategorieViewController {
             } else {
 //                    epreuveBean.getParticipants().clear();
                 epreuveBean.setEtat("");
+                for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
+                    participantBean.setPlaceOnGrid(0);
+                }
 
                 saveCompetitionToXmlFileTmp();
                 sender.send(competitionBean, epreuveBean);

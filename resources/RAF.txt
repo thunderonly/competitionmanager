@@ -6,7 +6,7 @@ Gestion des élèves :
 Enlever un élève d'une épreuve (fusionnée ou non) [OK]
 Permettre ajout et suppression de participant par le tableau d'une catégorie :
 Technique [OK]
-Combat
+Combat [reste à gérer passage de 3 à 4 et de 4 à 3]
 
 Réouverture après redémarrage des catégories "démarrée" et "terminée" (les vues) :
 Technique [OK]

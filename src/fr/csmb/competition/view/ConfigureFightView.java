@@ -14,6 +14,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
@@ -88,14 +90,20 @@ public class ConfigureFightView {
 
         HBox hBox1 = new HBox();
         hBox1.setSpacing(10);
-        borderPane.setCenter(hBox1);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(hBox1);
+//        borderPane.setCenter(scrollPane);
 
-        createView(hBox1, competitionBean, epreuveBean);
+        SplitPane splitPane = new SplitPane();
+        borderPane.setCenter(splitPane);
+        splitPane.setDividerPosition(0, 0.2);
+
+        createView(splitPane, competitionBean, epreuveBean);
 
         currentStage.showAndWait();
     }
 
-    private void createView(HBox hBox, CompetitionBean competitionBean, EpreuveBean epreuveBean) {
+    private void createView(SplitPane hBox, CompetitionBean competitionBean, EpreuveBean epreuveBean) {
 
         participantBeanListView.getItems().addAll(competitionBean.getParticipantByEpreuve(epreuveBean));
         initializeListener(participantBeanListView);
@@ -120,7 +128,11 @@ public class ConfigureFightView {
         gridComponentFight = new GridComponentFight2(participantBeans);
         gridComponentFight.drawGrid(true);
 
-        hBox.getChildren().addAll(participantBeanListView, gridComponentFight);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(gridComponentFight);
+
+        hBox.getItems().add(participantBeanListView);
+        hBox.getItems().add(scrollPane);
     }
 
     private void initializeListener(final ListView<ParticipantBean> participantBeanListView) {
