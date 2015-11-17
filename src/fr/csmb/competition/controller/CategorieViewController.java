@@ -27,6 +27,7 @@ import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.ConfigureFightView;
 import fr.csmb.competition.view.NotificationView;
+import fr.csmb.competition.view.RenameEpreuveView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,6 +61,34 @@ public class CategorieViewController {
         String fileName = pref.get("filePath", null);
         fileTmp = new File(fileName);
         this.sender = NetworkSender.getINSTANCE();
+    }
+
+    public int startEpreuve(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+        EpreuveBean epreuveBean = null;
+        if (categorieBean != null && disciplineBean != null) {
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+        } else if (disciplineBean == null) {
+            //In case of rename of epreuve
+            epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
+        }
+
+        if (epreuveBean != null) {
+            if (epreuveBean.getEtat() == null || "".equals(epreuveBean.getEtat())) {
+                return 1;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue())) {
+                return 2;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue())) {
+                return 3;
+            } else if (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue())) {
+                return 4;
+            }
+            epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
+            sender.send(competitionBean, epreuveBean);
+            return 0;
+        }
+        return 1;
     }
 
     public int validateEpreuve(String typeCategorie, String categorie, String epreuve) {
@@ -101,38 +130,16 @@ public class CategorieViewController {
     }
 
     public int renameEpreuve(String typeCategorie, String categorie, String epreuve) {
-
-        try {
-            CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
-            DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
-            final EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
-            final Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/fxml/renameEpreuveView.fxml"));
-            BorderPane pane = (BorderPane) loader.load();
-            final RenameEpreuveController renameEpreuveController = loader.getController();
-            renameEpreuveController.initComponent(epreuveBean);
-            newStage.setScene(new Scene(pane));
-            newStage.show();
-
-            final StringBuilder result = new StringBuilder();
-            renameEpreuveController.setActionListener(new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (e.getActionCommand().equals("validate")) {
-                        saveCompetitionToXmlFileTmp();
-                        sender.send(competitionBean, epreuveBean);
-                        newStage.close();
-                    } else {
-                        result.append(0);
-                    }
-                }
-            });
-            return -1;
-        } catch (IOException e) {
-            e.printStackTrace();
+        CategorieBean categorieBean = competitionBean.getCategorie(typeCategorie, categorie);
+        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+        final EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean, epreuve);
+        RenameEpreuveView renameEpreuveView = new RenameEpreuveView();
+        int result = renameEpreuveView.showView(competitionBean, epreuveBean);
+        if (result == 1) {
+            saveCompetitionToXmlFileTmp();
+            sender.send(competitionBean, epreuveBean);
         }
-        return -1;
+        return result;
     }
 
     public int invalidateEpreuve(String typeCategorie, String categorie, String epreuve) {
@@ -310,7 +317,9 @@ public class CategorieViewController {
             epreuveFusion.setId(categorieFusion.getNom().concat("-").concat(categorieFusion.getType()).concat(
                     disciplineFusion.getType()).concat("-").concat(disciplineFusion.getNom()));
             epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
+            sender.send(competitionBean, epreuveBean1);
             epreuveBean2.setEtat(EtatEpreuve.FUSION.getValue());
+            sender.send(competitionBean, epreuveBean2);
             epreuveFusion.setEtat(EtatEpreuve.REGROUPE.getValue());
             epreuveFusion.setLabel(disciplineFusion.getNom());
             competitionBean.getEpreuves().add(epreuveFusion);
@@ -329,7 +338,7 @@ public class CategorieViewController {
 
 
             saveCompetitionToXmlFileTmp();
-//            sender.send(competitionBean, epreuveBean);
+            sender.send(competitionBean, epreuveFusion);
 
             ImageView imageMixte = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/mixte.png")));
             imageMixte.setFitHeight(25);

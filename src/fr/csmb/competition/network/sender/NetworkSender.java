@@ -4,6 +4,7 @@
  */
 package fr.csmb.competition.network.sender;
 
+import fr.csmb.competition.Helper.DetailEpreuveConverter;
 import fr.csmb.competition.Helper.EleveConverter;
 import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.model.ParticipantBean;
@@ -11,13 +12,7 @@ import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
-import fr.csmb.competition.xml.model.Categorie;
-import fr.csmb.competition.xml.model.Club;
-import fr.csmb.competition.xml.model.Competition;
-import fr.csmb.competition.xml.model.Discipline;
-import fr.csmb.competition.xml.model.Eleve;
-import fr.csmb.competition.xml.model.Epreuve;
-import fr.csmb.competition.xml.model.Participant;
+import fr.csmb.competition.xml.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -125,27 +120,69 @@ public class NetworkSender {
         DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address, port));
         int byteCount = packet.getLength();
         ds.send(packet);
-        LOGGER.info("Data sent on address %s and port %s", address, port);
-        Thread.sleep(500);
+        LOGGER.info("Data sent on address %s and port %s. Length %s", address, port, byteCount);
+        Thread.sleep(1000);
     }
 
+    private byte[] buildPacketEpreuve(CompetitionBean competitionBean, EpreuveBean epreuveBean) throws IOException {
+        Competition competition = new Competition(competitionBean.getNom());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        competition.getCategories().add(categorie);
+        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
+        competition.getDiscipline().add(discipline);
+
+        Epreuve epreuve = new Epreuve();
+        epreuve.setCategorie(categorie);
+        epreuve.setDiscipline(discipline);
+        DetailEpreuve detailEpreuve = DetailEpreuveConverter.convertDetailEpreuveBeanToDetailEpreuve(epreuveBean.getDetailEpreuve());
+        epreuve.setDetailEpreuve(detailEpreuve);
+        epreuve.setEtatEpreuve(epreuveBean.getEtat());
+        epreuve.setLabelEpreuve(epreuveBean.getLabel());
+        competition.getEpreuve().add(epreuve);
+
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(2500);
+        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+        os.flush();
+        os.writeObject(competition);
+        os.flush();
+        //retrieves byte array
+        byte[] sendBuf = byteStream.toByteArray();
+        return sendBuf;
+    }
+
+    private byte[] buildPacketParticipants(CompetitionBean competitionBean, List<Participant> participants) throws IOException {
+        Competition competition = new Competition(competitionBean.getNom());
+        competition.setParticipant(participants);
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(2500);
+        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+        os.flush();
+        os.writeObject(competition);
+        os.flush();
+        //retrieves byte array
+        byte[] sendBuf = byteStream.toByteArray();
+        return sendBuf;
+    }
 
     private byte[] buildPacket(CompetitionBean competitionBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
             throws IOException{
         Competition competition = new Competition(competitionBean.getNom());
         Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
-        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
         competition.getCategories().add(categorie);
+        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
+        competition.getDiscipline().add(discipline);
+
         Epreuve epreuve = new Epreuve();
         epreuve.setCategorie(categorie);
         epreuve.setDiscipline(discipline);
         if (nbSend >= nbParticipants) {
+            DetailEpreuve detailEpreuve = DetailEpreuveConverter.convertDetailEpreuveBeanToDetailEpreuve(epreuveBean.getDetailEpreuve());
+            epreuve.setDetailEpreuve(detailEpreuve);
             epreuve.setEtatEpreuve(epreuveBean.getEtat());
         }
-        competition.getEpreuve().add(epreuve);
+//        competition.getEpreuve().add(epreuve);
         LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
 
-        competition.setParticipant(participants);
+//        competition.setParticipant(participants);
 
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
@@ -195,7 +232,7 @@ public class NetworkSender {
                         if (address != null && !"".equals(address.getHostAddress())) {
                             String addressStr = address.getHostAddress();
                             String[] ip = addressStr.split("\\.");
-                            multicast = "224." + ip[1] + "." + ip[2] + ".1";
+                            multicast = "224." + "0" + "." + "0" + ".1";
                             return multicast;
                         }
                     }
@@ -287,27 +324,31 @@ public class NetworkSender {
         @Override
         public void run() {
             try {
+                byte[] sendBuf = buildPacketEpreuve(competitionBean, epreuveBean);
+                sendPacket(sendBuf);
+
                 int nbParticipants = competitionBean.getParticipantByEpreuve(epreuveBean).size();
                 int nbSend = 0;
                 List<Participant> participants = new ArrayList<Participant>(4);
-                boolean isSend = false;
                 for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                     participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
                     nbSend++;
                     if (nbSend % 2 == 0 || nbSend == nbParticipants) {
 
                         //retrieves byte array
-                        byte[] sendBuf = buildPacket(competitionBean, epreuveBean, nbSend, nbParticipants, participants);
+                        sendBuf = buildPacketParticipants(competitionBean, participants);
                         sendPacket(sendBuf);
+                        for (Participant participant : participants) {
+                            LOGGER.info("Send participant %s %s", participant.getNomParticipant(), participant.getPrenomParticipant());
+                        }
                         participants.clear();
-                        isSend = true;
                     }
                 }
-                if (!isSend) {
-                    //retrieves byte array
-                    byte[] sendBuf = buildPacket(competitionBean, epreuveBean, 0, 0, participants);
-                    sendPacket(sendBuf);
-                }
+//                if (!isSend) {
+//                    //retrieves byte array
+//                    byte[] sendBuf = buildPacket(competitionBean, epreuveBean, 0, 0, participants);
+//                    sendPacket(sendBuf);
+//                }
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 LOGGER.error("Error when send data ", e);

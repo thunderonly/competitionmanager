@@ -8,6 +8,7 @@ import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.xml.model.Club;
 import fr.csmb.competition.xml.model.Competition;
 import fr.csmb.competition.xml.model.Participant;
+import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,7 +81,7 @@ public class NetworkReceiver extends Thread {
 
                 try {
 
-                    byte[] data = new byte[5000];
+                    byte[] data = new byte[2500];
                     dp = new DatagramPacket(data, data.length);
                     ds.receive(dp);
                     LOGGER.info("DataSource receive datagram packet from address %s. Length %s", dp.getAddress(), dp.getLength());
@@ -157,7 +158,7 @@ public class NetworkReceiver extends Thread {
                         if (address != null && !"".equals(address.getHostAddress())) {
                             String addressStr = address.getHostAddress();
                             String[] ip = addressStr.split("\\.");
-                            multicast = "224." + ip[1] + "." + ip[2] + ".1";
+                            multicast = "224." + "0" + "." + "0" + ".1";
                             return multicast;
                         }
                     }
@@ -173,10 +174,15 @@ public class NetworkReceiver extends Thread {
     /**
      * Fire all listener
      */
-    private void fireReceive(Competition competition) {
-        for (final DatagramListener datagramListener : listDatagramListener) {
-            datagramListener.receive(competition);
-        }
+    private void fireReceive(final Competition competition) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (final DatagramListener datagramListener : listDatagramListener) {
+                    datagramListener.receive(competition);
+                }
+            }
+        });
     }
 
     /**

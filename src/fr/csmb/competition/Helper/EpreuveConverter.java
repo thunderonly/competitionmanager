@@ -18,6 +18,11 @@ public class EpreuveConverter {
 
     public static EpreuveBean convertEpreuveToEpreuveBean(Epreuve epreuve) {
         EpreuveBean epreuveBean = new EpreuveBean();
+        convertEpreuveToEpreuveBean(epreuve, epreuveBean);
+        return epreuveBean;
+    }
+
+    public static void convertEpreuveToEpreuveBean(Epreuve epreuve, EpreuveBean epreuveBean) {
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
 
         CategorieBean categorieBean = new CategorieBean(epreuve.getCategorie().getNomCategorie());
@@ -33,8 +38,6 @@ public class EpreuveConverter {
         epreuveBean.setId(epreuve.getId());
 
         epreuveBean.setLabel(epreuve.getLabelEpreuve());
-
-        return epreuveBean;
     }
 
     public static Epreuve convertEpreuveBeanToEpreuve(EpreuveBean epreuveBean) {

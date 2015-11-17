@@ -52,7 +52,6 @@ public class AddParticipantController {
             participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
         }
         participantBean.setClub(competitionBean.getClubByEleve(eleveBean).getIdentifiant());
-        competitionBean.getParticipants().add(participantBean);
         this.participantBean = participantBean;
 
         this.actionListener.actionPerformed(new ActionEvent(this, 0, "validate"));

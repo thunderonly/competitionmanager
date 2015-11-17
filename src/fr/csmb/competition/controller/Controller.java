@@ -246,6 +246,48 @@ public class Controller {
         }
     }
 
+    public void generateFicheCompetition() {
+        FileChooser fileChooser = new FileChooser();
+
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(main.getMainStage());
+
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xlsx")) {
+                file = new File(file.getPath() + ".xlsx");
+            }
+
+            List<GlobalVision> visionsCombat = new ArrayList<GlobalVision>();
+            List<GlobalVision> visionsTechnique = new ArrayList<GlobalVision>();
+            for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.COMBAT.getValue()).values()) {
+                visionsCombat.add(globalVision);
+            }
+            for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
+                visionsTechnique.add(globalVision);
+            }
+            Map<TypeEpreuve, List<GlobalVision>> visions = new HashMap<TypeEpreuve, List<GlobalVision>>();
+            visions.put(TypeEpreuve.COMBAT, visionsCombat);
+            visions.put(TypeEpreuve.TECHNIQUE, visionsTechnique);
+            InscriptionsManager inscriptionsManager = new InscriptionsManager();
+            boolean isSaved = inscriptionsManager.saveFicheCompetition(file, competitionBean);
+            if (isSaved) {
+                NotificationView notificationView = new NotificationView(main.getMainStage());
+                notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                        "Le fichier de résultat : " + file.getName() + " a été correctement généré.");
+            } else {
+                NotificationView notificationView = new NotificationView(main.getMainStage());
+                notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
+                        "Erreur lors de la génération du fichier de résultat : " + file.getName() + ".");
+            }
+        }
+    }
+
     private Map<String, Map<String, GlobalVision>> computeStructure() {
         Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
         mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());

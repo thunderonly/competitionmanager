@@ -17,8 +17,10 @@ import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.CategoriesView;
 import fr.csmb.competition.view.ConfigureFightView;
+import fr.csmb.competition.view.GridCategorieView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -94,6 +96,7 @@ public class GridCategorieController {
     private GridComponent gridComponent;
     private NetworkSender sender;
     private CategoriesView categorieView;
+    private GridCategorieView gridCategorieView;
 
     @FXML
     private void initialize(){}
@@ -135,8 +138,31 @@ public class GridCategorieController {
         scrollPane.setContent(gridComponent);
         borderPane.setCenter(scrollPane);
 
-        epreuveBean.setEtat(EtatEpreuve.DEMARRE.getValue());
-        sender.send(competitionBean, epreuveBean);
+        gridCategorieView = new GridCategorieView();
+        gridCategorieView.initView(competitionBean, epreuveBean);
+
+        competitionBean.getParticipants().addListener(new ListChangeListener<ParticipantBean>() {
+            @Override
+            public void onChanged(Change<? extends ParticipantBean> c) {
+                while (c.next()) {
+                    if (c.wasPermutated()) {
+                        for (int i = c.getFrom(); i < c.getTo(); ++i) {
+                            //permutate
+                        }
+                    } else if (c.wasUpdated()) {
+                        //update item
+                    } else {
+                        for (ParticipantBean remitem : c.getRemoved()) {
+                            gridComponent.drawGrid();
+                        }
+                        for (ParticipantBean additem : c.getAddedSubList()) {
+                            gridComponent.addParticipant(additem);
+                            gridComponent.drawGrid();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @FXML
@@ -191,32 +217,26 @@ public class GridCategorieController {
 
     @FXML
     private void addPart() {
-        try {
-            final Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/fxml/addPartView.fxml"));
-            BorderPane pane = (BorderPane) loader.load();
-            final AddParticipantController participantController = loader.getController();
-            participantController.initComponent(competitionBean, epreuveBean);
-            newStage.setScene(new Scene(pane));
-            newStage.show();
-
-            participantController.setActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    gridComponent.addParticipant(participantController.getParticipantBean());
-                    if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                        ConfigureFightView configureFightView = new ConfigureFightView();
-//                        newStage.close();
-                        configureFightView.showView(newStage, competitionBean, epreuveBean);
-                        gridComponent.drawGrid();
-                    }
+        final Stage newStage = new Stage();
+        final AddParticipantController participantController = this.gridCategorieView.initAddPartView(newStage);
+        participantController.setActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                gridComponent.addParticipant(participantController.getParticipantBean());
+                //When update partipants of competition, call listener and redraw component. (for network receive)
+                competitionBean.getParticipants().add(participantController.getParticipantBean());
+                if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                    ConfigureFightView configureFightView = new ConfigureFightView();
+                    configureFightView.showView(newStage, competitionBean, epreuveBean);
+                    gridComponent.drawGrid();
                 }
-            });
+                newStage.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                sender.send(competitionBean, epreuveBean);
+            }
+        });
+        newStage.show();
+
     }
 
     @FXML
@@ -227,32 +247,24 @@ public class GridCategorieController {
             gridComponent.delParticipant(participantBean);
             competitionBean.getParticipants().remove(participantBean);
         } else {
-            try {
-                final Stage newStage = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("../view/fxml/delPartView.fxml"));
-                BorderPane pane = (BorderPane) loader.load();
-                final DelParticipantController participantController = loader.getController();
-                participantController.initComponent(competitionBean, epreuveBean);
-                newStage.setScene(new Scene(pane));
-                newStage.show();
+            final Stage newStage = new Stage();
+            final DelParticipantController participantController = gridCategorieView.initDelPartView(newStage);
+            newStage.show();
 
-                participantController.setActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        gridComponent.delParticipant(participantController.getParticipantBean());
-                        if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
-                            ConfigureFightView configureFightView = new ConfigureFightView();
-//                        newStage.close();
-                            configureFightView.showView(newStage, competitionBean, epreuveBean);
-                            gridComponent.drawGrid();
-                        }
+            participantController.setActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    gridComponent.delParticipant(participantController.getParticipantBean());
+                    if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                        ConfigureFightView configureFightView = new ConfigureFightView();
+                        newStage.close();
+                        configureFightView.showView(newStage, competitionBean, epreuveBean);
+                        gridComponent.drawGrid();
                     }
-                });
+                    sender.send(competitionBean, epreuveBean);
+                }
+            });
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
     }

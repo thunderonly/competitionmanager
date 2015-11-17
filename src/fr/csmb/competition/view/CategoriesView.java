@@ -14,6 +14,7 @@ import fr.csmb.competition.type.TypeEpreuve;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -201,30 +202,33 @@ public class CategoriesView {
 
     }
 
-    public void createComponentGrid(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
-
+    public void startEpreuve(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {
         epreuveBorderPane = new BorderPane();
-        EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
-        if (epreuveBean!= null) {
+        int result = this.categorieViewController.startEpreuve(typeCategorie, typeEpreuve, categorie, epreuve);
 
-            if (epreuveBean.getEtat() == null || "".equals(epreuveBean.getEtat())) {
+        switch (result) {
+
+            case 1:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de démarrer une épreuve non validée");
-                return;
-            } else if (epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue())) {
+                break;
+            case 2:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de démarrer une épreuve terminée");
-                return;
-            } else if (epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue())) {
+                break;
+            case 3:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de démarrer une épreuve fusionnée");
-                return;
-            } else if (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue())) {
+                break;
+            case 4:
                 notificationView.notify(NotificationView.Level.ERROR, "Erreur",
                         "Impossible de démarrer une épreuve déjà démarrée");
-                return;
-            }
-            createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
+                break;
+            case 0:
+                createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
+                break;
+            default:
+                break;
         }
     }
 
@@ -248,6 +252,28 @@ public class CategoriesView {
             }
             gridCategorieController.setCategorieView(this);
             gridCategorieController.initGrid(competitionBean, typeCategorie, categorie, typeEpreuve, epreuve);
+
+//            competitionBean.getParticipants().addListener(new ListChangeListener<ParticipantBean>() {
+//                @Override
+//                public void onChanged(Change<? extends ParticipantBean> c) {
+//                    while (c.next()) {
+//                        if (c.wasPermutated()) {
+//                            for (int i = c.getFrom(); i < c.getTo(); ++i) {
+//                                //permutate
+//                            }
+//                        } else if (c.wasUpdated()) {
+//                            //update item
+//                        } else {
+//                            for (ParticipantBean remitem : c.getRemoved()) {
+//                                updateList(remitem.getEpreuveBean());
+//                            }
+//                            for (ParticipantBean additem : c.getAddedSubList()) {
+//                                updateList(additem.getEpreuveBean());
+//                            }
+//                        }
+//                    }
+//                }
+//            });
         }
 
         stackPane.getChildren().clear();
@@ -310,6 +336,14 @@ public class CategoriesView {
 
     public void renameEpreuve(String typeCategorie, String categorie, String epreuve) {
         int result = this.categorieViewController.renameEpreuve(typeCategorie, categorie, epreuve);
+        switch (result) {
+            case 1:
+                notificationView.notify(NotificationView.Level.INFO, "Information",
+                        "Epreuve renommée");
+                break;
+            default:
+                break;
+        }
     }
 
     public void invalidateEpreuve(String typeCategorie, String categorie, String epreuve) {

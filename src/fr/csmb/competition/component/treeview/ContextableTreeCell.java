@@ -49,7 +49,7 @@ public class ContextableTreeCell extends TreeCell<String> {
                 String categorie = getTreeItem().getParent().getParent().getValue();
                 String typeEpreuve = getTreeItem().getParent().getValue();
                 String epreuve = getItem();
-                categoriesView.createComponentGrid(typeCategorie, typeEpreuve, categorie, epreuve);
+                categoriesView.startEpreuve(typeCategorie, typeEpreuve, categorie, epreuve);
             }
         });
         MenuItem validMenuItem = new MenuItem("Valider");

@@ -441,6 +441,71 @@ public class InscriptionsManager {
         }
     }
 
+    public boolean saveFicheCompetition(File file, CompetitionBean competitionBean) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        XSSFFont fontCellGeneral= workbook.createFont();
+        fontCellGeneral.setFontHeightInPoints((short) 12);
+        fontCellGeneral.setFontName("Arial");
+        fontCellGeneral.setColor(IndexedColors.BLACK.getIndex());
+        fontCellGeneral.setBold(false);
+        fontCellGeneral.setItalic(false);
+
+        XSSFCellStyle styleCellEpreuve = setStyleEpreuveForGlobalVision(workbook);
+        XSSFCellStyle styleCellTitle = setStyleTitleForGlobalVision(workbook);
+        XSSFCellStyle styleCellCategorie = setStyleCategorieForGlobalVision(workbook, fontCellGeneral);
+        XSSFCellStyle styleCellSexe = setStyleSexeForGlobalVision(workbook, fontCellGeneral);
+        XSSFCellStyle styleCellTotal = setStyleTotalForGlobalVision(workbook);
+        XSSFCellStyle styleCellTotal1 = setStyleTotal1ForGlobalVision(workbook, fontCellGeneral);
+        for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
+            if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals("") &&
+                    competitionBean.getParticipantByEpreuve(epreuveBean).size() > 0) {
+                String categorieSheet = epreuveBean.getCategorie().getNom().substring(0, 1);
+                String categorie = epreuveBean.getCategorie().getNom();
+                String sexeSheet = epreuveBean.getCategorie().getType().substring(0, 1);
+                String sexe = epreuveBean.getCategorie().getType();
+                String discipline = epreuveBean.getDiscipline().getNom();
+                String titleSheet = categorieSheet.concat(sexeSheet).concat("-").concat(discipline.trim());
+                XSSFSheet sheet = workbook.createSheet(titleSheet);
+
+                int colCount = 0;
+                int rowCount = 0;
+                Row rowTitle = getRow(sheet, 0);
+                Cell cellEpreuve = rowTitle.createCell(colCount);
+                cellEpreuve.setCellValue(categorie.concat("-").concat(sexe));
+                cellEpreuve.setCellStyle(styleCellEpreuve);
+                for (int i = colCount + 1; i <= colCount + 4; i++) {
+                    Cell cellEpreuveEmpty = rowTitle.createCell(i);
+                    cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+                }
+                sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 4));
+                rowCount++;
+
+                rowTitle = getRow(sheet, rowCount);
+                cellEpreuve = rowTitle.createCell(colCount);
+                cellEpreuve.setCellValue(discipline);
+                cellEpreuve.setCellStyle(styleCellEpreuve);
+                for (int i = colCount + 1; i <= colCount + 4; i++) {
+                    Cell cellEpreuveEmpty = rowTitle.createCell(i);
+                    cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+                }
+                sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 4));
+                rowCount++;
+
+                Row rowHeader = getRow(sheet, rowCount);
+            }
+        }
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private void createHeader(Row row, int colCount, XSSFCellStyle styleCellTitle) {
         Cell cellHeaderCat = row.createCell(colCount);
         cellHeaderCat.setCellValue("Cat.");

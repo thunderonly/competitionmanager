@@ -21,12 +21,7 @@ import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.view.NotificationView;
-import fr.csmb.competition.xml.model.Categorie;
-import fr.csmb.competition.xml.model.Club;
-import fr.csmb.competition.xml.model.Competition;
-import fr.csmb.competition.xml.model.Eleve;
-import fr.csmb.competition.xml.model.Epreuve;
-import fr.csmb.competition.xml.model.Participant;
+import fr.csmb.competition.xml.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,46 +48,66 @@ public class CompetitionReceiverListner implements DatagramListener {
     public void receive(Competition competition) {
 
         //Update Competition in competition bean
-        Categorie categorie = competition.getCategories().get(0);
-        CategorieBean categorieBean = competitionBean.getCategorie(
-                categorie.getTypeCategorie(),
-                categorie.getNomCategorie());
-        if (categorieBean == null) {
-            categorieBean = new CategorieBean(categorie.getNomCategorie());
-            categorieBean.setType(categorie.getTypeCategorie());
-            competitionBean.getCategories().add(categorieBean);
-        }
-        Epreuve epreuve = competition.getEpreuve().get(0);
-        EpreuveBean epreuveBean = EpreuveConverter.convertEpreuveToEpreuveBean(epreuve);
-        if (EtatEpreuve.SUPPRIME.getValue().equals(epreuve.getEtatEpreuve())) {
-            if (epreuveBean != null) {
-                LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-                competitionBean.getEpreuves().remove(epreuveBean);
+        CategorieBean categorieBean = null;
+        if (competition.getCategories() != null && competition.getCategories().size() > 0) {
+            Categorie categorie = competition.getCategories().get(0);
+            categorieBean = competitionBean.getCategorie(
+                    categorie.getTypeCategorie(),
+                    categorie.getNomCategorie());
+            if (categorieBean == null) {
+                categorieBean = new CategorieBean(categorie.getNomCategorie());
+                categorieBean.setType(categorie.getTypeCategorie());
+                competitionBean.getCategories().add(categorieBean);
             }
-        } else {
+            LOGGER.info("Receive catégorie %s ", categorieBean.getNom());
+        }
+
+        DisciplineBean disciplineBean = null;
+        if (competition.getDiscipline() != null && competition.getDiscipline().size() > 0) {
+            Discipline discipline = competition.getDiscipline().get(0);
+            disciplineBean = competitionBean.getDiscipline(discipline.getType(), discipline.getNom());
+            if (disciplineBean == null) {
+                disciplineBean = new DisciplineBean(discipline.getNom(), discipline.getType());
+                competitionBean.getDisciplines().add(disciplineBean);
+            }
+            LOGGER.info("Receive discipline %s ", disciplineBean.getNom());
+        }
+
+        if (competition.getEpreuve() != null && competition.getEpreuve().size() > 0 ) {
+            Epreuve epreuve = competition.getEpreuve().get(0);
+            EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
             if (epreuveBean == null) {
-                epreuveBean = new EpreuveBean();
+                // May be a new Epreuve
+                epreuveBean = EpreuveConverter.convertEpreuveToEpreuveBean(epreuve);
                 competitionBean.getEpreuves().add(epreuveBean);
             }
+            if (EtatEpreuve.SUPPRIME.getValue().equals(epreuve.getEtatEpreuve())) {
+                if (epreuveBean != null) {
+                    LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
+                    competitionBean.getEpreuves().remove(epreuveBean);
+                }
+            } else {
+                LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
+                EpreuveConverter.convertEpreuveToEpreuveBean(epreuve, epreuveBean);
+            }
+        }
 
-            LOGGER.info("Receive epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-            epreuveBean.setDiscipline(new DisciplineBean(epreuve.getDiscipline().getNom(), epreuve.getDiscipline().getType()));
-
+        if (competition.getParticipant() != null && competition.getParticipant().size() > 0) {
             for (Participant participant : competition.getParticipant()) {
                 EpreuveBean epreuveBeanPart = EpreuveConverter.convertEpreuveToEpreuveBean(participant.getEpreuve());
                 ParticipantBean participantBean = competitionBean.getParticipantByNomPrenomEpreuve(
                         participant.getNomParticipant(), participant.getPrenomParticipant(), epreuveBeanPart);
                 if (participantBean == null) {
                     participantBean = ParticipantConverter.convertParticipantToParticipantBean(participant);
+
                     competitionBean.getParticipants().add(participantBean);
                 } else {
                     ParticipantConverter.convertParticipantToParticipantBean(participant, participantBean);
                 }
-
+                LOGGER.info("Receive participant %s %s", participant.getNomParticipant(), participant.getPrenomParticipant());
             }
         }
 
-        epreuveBean.setEtat(epreuve.getEtatEpreuve());
         saveCompetitionToXmlFileTmp();
     }
 

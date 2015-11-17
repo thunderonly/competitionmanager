@@ -4,8 +4,10 @@ import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.model.ParticipantBean;
+import fr.csmb.competition.network.sender.NetworkSender;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.ConfigureFightView;
+import fr.csmb.competition.view.GridCategorieView;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,7 @@ public class DetailCategorieController {
 
     private CompetitionBean competitionBean;
     private EpreuveBean epreuveBean;
+    private GridCategorieView gridCategorieView;
 
     @FXML
     private void initialize() {
@@ -60,26 +63,21 @@ public class DetailCategorieController {
 
     @FXML
     private void addPart() {
-        try {
-            final Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/fxml/addPartView.fxml"));
-            BorderPane pane = (BorderPane) loader.load();
-            final AddParticipantController participantController = loader.getController();
-            participantController.initComponent(competitionBean, epreuveBean);
-            newStage.setScene(new Scene(pane));
-            newStage.show();
-
-            participantController.setActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    tableParticipant.getItems().add(participantController.getParticipantBean());
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (gridCategorieView == null) {
+            gridCategorieView = new GridCategorieView();
+            gridCategorieView.initView(competitionBean, epreuveBean);
         }
+        final Stage newStage = new Stage();
+        final AddParticipantController participantController = this.gridCategorieView.initAddPartView(newStage);
+        participantController.setActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newStage.close();
+                tableParticipant.getItems().add(participantController.getParticipantBean());
+                NetworkSender.getINSTANCE().send(competitionBean, epreuveBean);
+            }
+        });
+        newStage.show();
     }
 
     @FXML
@@ -87,6 +85,7 @@ public class DetailCategorieController {
         ParticipantBean participantBean = tableParticipant.getSelectionModel().getSelectedItem();
         tableParticipant.getItems().remove(participantBean);
         competitionBean.getParticipants().remove(participantBean);
+        NetworkSender.getINSTANCE().send(competitionBean, epreuveBean);
     }
 
     public void setCompetitionBean(CompetitionBean competitionBean) {

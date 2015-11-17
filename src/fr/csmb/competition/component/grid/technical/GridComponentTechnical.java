@@ -64,6 +64,8 @@ public class GridComponentTechnical extends GridComponent {
 
     public void addParticipant(ParticipantBean participantBean) {
         table.getItems().add(participantBean);
+        table.getColumns().clear();
+        this.getChildren().clear();
     }
 
     public ParticipantBean getSelectedParticipant() {

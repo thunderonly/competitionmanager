@@ -26,6 +26,7 @@ public class DetailEpreuveConverter {
         detailEpreuveBean.setJuge3(detailEpreuve.getJuge3());
         detailEpreuveBean.setJuge4(detailEpreuve.getJuge4());
         detailEpreuveBean.setJuge5(detailEpreuve.getJuge5());
+        detailEpreuveBean.setTapis(detailEpreuve.getTapis());
 
         return detailEpreuveBean;
     }
