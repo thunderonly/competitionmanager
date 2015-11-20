@@ -34,7 +34,8 @@
                         <MenuItem mnemonicParsing="false" text="Résultats" onAction="#generateResultat"/>
                         <MenuItem mnemonicParsing="false" text="Vision Globale initiale" onAction="#generateGlobalVision"/>
                         <MenuItem mnemonicParsing="false" text="Vision Globale regroupement" onAction="#generateGlobalVisionCurrent"/>
-                        <MenuItem mnemonicParsing="false" text="Fiches compétition" onAction="#generateFicheCompetition"/>
+                        <MenuItem mnemonicParsing="false" text="Fiches compétition Technique" onAction="#generateFicheCompetitionTechnique"/>
+                        <MenuItem mnemonicParsing="false" text="Fiches compétition Combat" onAction="#generateFicheCompetitionCombat"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

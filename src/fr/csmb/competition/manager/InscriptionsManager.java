@@ -385,19 +385,12 @@ public class InscriptionsManager {
     public boolean saveGlobalVisionFile(File file, Map<TypeEpreuve, List<GlobalVision>> testStructures) {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
-        XSSFFont fontCellGeneral= workbook.createFont();
-        fontCellGeneral.setFontHeightInPoints((short) 12);
-        fontCellGeneral.setFontName("Arial");
-        fontCellGeneral.setColor(IndexedColors.BLACK.getIndex());
-        fontCellGeneral.setBold(false);
-        fontCellGeneral.setItalic(false);
-
         XSSFCellStyle styleCellEpreuve = setStyleEpreuveForGlobalVision(workbook);
         XSSFCellStyle styleCellTitle = setStyleTitleForGlobalVision(workbook);
-        XSSFCellStyle styleCellCategorie = setStyleCategorieForGlobalVision(workbook, fontCellGeneral);
-        XSSFCellStyle styleCellSexe = setStyleSexeForGlobalVision(workbook, fontCellGeneral);
+        XSSFCellStyle styleCellCategorie = setStyleCategorieForGlobalVision(workbook);
+        XSSFCellStyle styleCellSexe = setStyleSexeForGlobalVision(workbook);
         XSSFCellStyle styleCellTotal = setStyleTotalForGlobalVision(workbook);
-        XSSFCellStyle styleCellTotal1 = setStyleTotal1ForGlobalVision(workbook, fontCellGeneral);
+        XSSFCellStyle styleCellTotal1 = setStyleTotal1ForGlobalVision(workbook);
         for (TypeEpreuve typeEpreuve :testStructures.keySet()) {
 
             List<GlobalVision> visions = testStructures.get(typeEpreuve);
@@ -441,22 +434,10 @@ public class InscriptionsManager {
         }
     }
 
-    public boolean saveFicheCompetition(File file, CompetitionBean competitionBean) {
+    public boolean saveFicheCompetition(File file, CompetitionBean competitionBean, TypeEpreuve typeEpreuve) {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
-        XSSFFont fontCellGeneral= workbook.createFont();
-        fontCellGeneral.setFontHeightInPoints((short) 12);
-        fontCellGeneral.setFontName("Arial");
-        fontCellGeneral.setColor(IndexedColors.BLACK.getIndex());
-        fontCellGeneral.setBold(false);
-        fontCellGeneral.setItalic(false);
 
-        XSSFCellStyle styleCellEpreuve = setStyleEpreuveForGlobalVision(workbook);
-        XSSFCellStyle styleCellTitle = setStyleTitleForGlobalVision(workbook);
-        XSSFCellStyle styleCellCategorie = setStyleCategorieForGlobalVision(workbook, fontCellGeneral);
-        XSSFCellStyle styleCellSexe = setStyleSexeForGlobalVision(workbook, fontCellGeneral);
-        XSSFCellStyle styleCellTotal = setStyleTotalForGlobalVision(workbook);
-        XSSFCellStyle styleCellTotal1 = setStyleTotal1ForGlobalVision(workbook, fontCellGeneral);
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
             if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals("") &&
                     competitionBean.getParticipantByEpreuve(epreuveBean).size() > 0) {
@@ -465,34 +446,14 @@ public class InscriptionsManager {
                 String sexeSheet = epreuveBean.getCategorie().getType().substring(0, 1);
                 String sexe = epreuveBean.getCategorie().getType();
                 String discipline = epreuveBean.getDiscipline().getNom();
-                String titleSheet = categorieSheet.concat(sexeSheet).concat("-").concat(discipline.trim());
-                XSSFSheet sheet = workbook.createSheet(titleSheet);
+                String title2 = epreuveBean.getLabel();
 
-                int colCount = 0;
-                int rowCount = 0;
-                Row rowTitle = getRow(sheet, 0);
-                Cell cellEpreuve = rowTitle.createCell(colCount);
-                cellEpreuve.setCellValue(categorie.concat("-").concat(sexe));
-                cellEpreuve.setCellStyle(styleCellEpreuve);
-                for (int i = colCount + 1; i <= colCount + 4; i++) {
-                    Cell cellEpreuveEmpty = rowTitle.createCell(i);
-                    cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+                if (epreuveBean.getDiscipline().getType().equals(typeEpreuve.getValue())) {
+                    String sheetName = categorieSheet.concat(sexeSheet).concat("-").concat(discipline.trim());
+                    String title1 = categorie.concat("-").concat(sexe);
+
+                    fillCompetitionFiche(workbook, sheetName, title1, title2, competitionBean, epreuveBean);
                 }
-                sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 4));
-                rowCount++;
-
-                rowTitle = getRow(sheet, rowCount);
-                cellEpreuve = rowTitle.createCell(colCount);
-                cellEpreuve.setCellValue(discipline);
-                cellEpreuve.setCellStyle(styleCellEpreuve);
-                for (int i = colCount + 1; i <= colCount + 4; i++) {
-                    Cell cellEpreuveEmpty = rowTitle.createCell(i);
-                    cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
-                }
-                sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 4));
-                rowCount++;
-
-                Row rowHeader = getRow(sheet, rowCount);
             }
         }
         try {
@@ -504,6 +465,77 @@ public class InscriptionsManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void fillCompetitionFiche(XSSFWorkbook workbook, String sheetName, String title1, String title2,
+                                      CompetitionBean competitionBean, EpreuveBean epreuveBean) {
+        XSSFCellStyle styleCellEpreuve = setStyleEpreuveForGlobalVision(workbook);
+        XSSFCellStyle styleCellTitle = setStyleTitleForGlobalVision(workbook);
+        XSSFCellStyle styleCellPairLine = setStylePairLineForCompetitionFiche(workbook);
+        XSSFCellStyle styleCellImpairLine = setStyleImpairLineForCompetitionFiche(workbook);
+
+        XSSFSheet sheet = workbook.createSheet(sheetName);
+
+        int colCount = 0;
+        int rowCount = 0;
+        Row rowTitle = getRow(sheet, 0);
+        Cell cellEpreuve = rowTitle.createCell(colCount);
+        cellEpreuve.setCellValue(title1);
+        cellEpreuve.setCellStyle(styleCellEpreuve);
+        for (int i = colCount + 1; i <= colCount + 2; i++) {
+            Cell cellEpreuveEmpty = rowTitle.createCell(i);
+            cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 2));
+        rowCount++;
+
+        rowTitle = getRow(sheet, rowCount);
+        cellEpreuve = rowTitle.createCell(colCount);
+        cellEpreuve.setCellValue(title2);
+        cellEpreuve.setCellStyle(styleCellEpreuve);
+        for (int i = colCount + 1; i <= colCount + 2; i++) {
+            Cell cellEpreuveEmpty = rowTitle.createCell(i);
+            cellEpreuveEmpty.setCellStyle(styleCellEpreuve);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(rowTitle.getRowNum(), rowTitle.getRowNum(), colCount, colCount + 2));
+        rowCount++;
+
+        Row rowHeader = getRow(sheet, rowCount);
+        Cell cellHeaderNomPrenom = rowHeader.createCell(colCount);
+        cellHeaderNomPrenom.setCellValue("Nom Prénom");
+        cellHeaderNomPrenom.setCellStyle(styleCellTitle);
+        Cell cellHeaderClub = rowHeader.createCell(colCount + 1);
+        cellHeaderClub.setCellValue("Club");
+        cellHeaderClub.setCellStyle(styleCellTitle);
+        Cell cellHeaderTotal = rowHeader.createCell(colCount + 2);
+        cellHeaderTotal.setCellValue("Poids");
+        cellHeaderTotal.setCellStyle(styleCellTitle);
+
+        rowCount++;
+        //Body
+        for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
+            XSSFCellStyle currentCellStyle = styleCellImpairLine;
+            if (rowCount%2 == 0) {
+                currentCellStyle = styleCellPairLine;
+            }
+            Row rowPart = getRow(sheet, rowCount);
+            Cell cellPartNomPrenom = rowPart.createCell(colCount);
+            cellPartNomPrenom.setCellValue(participantBean.getNom().concat(" ").concat(participantBean.getPrenom()));
+            cellPartNomPrenom.setCellStyle(currentCellStyle);
+            Cell cellPartClub = rowPart.createCell(colCount + 1);
+            String nomClub = competitionBean.getClubByIdentifiant(participantBean.getClub()).getNom();
+            cellPartClub.setCellValue(nomClub);
+            cellPartClub.setCellStyle(currentCellStyle);
+            Cell cellPartPoids = rowPart.createCell(colCount + 2);
+            cellPartPoids.setCellValue(participantBean.getPoids());
+            cellPartPoids.setCellStyle(currentCellStyle);
+            rowCount++;
+        }
+
+        sheet.getPrintSetup().setLandscape(true);
+        sheet.setColumnWidth(0,10000);
+        sheet.setColumnWidth(1,10000);
+        sheet.setColumnWidth(2,5000);
     }
 
     private void createHeader(Row row, int colCount, XSSFCellStyle styleCellTitle) {
@@ -624,99 +656,42 @@ public class InscriptionsManager {
     }
 
     private XSSFCellStyle setStyleEpreuveForGlobalVision(XSSFWorkbook workbook) {
-        XSSFFont fontCellEpreuve= workbook.createFont();
-        fontCellEpreuve.setFontHeightInPoints((short) 20);
-        fontCellEpreuve.setFontName("Arial");
-        fontCellEpreuve.setColor(IndexedColors.BLACK.getIndex());
-        fontCellEpreuve.setBold(true);
-        fontCellEpreuve.setItalic(false);
-
-        XSSFCellStyle styleCellEpreuve = workbook.createCellStyle();
-        styleCellEpreuve.setFont(fontCellEpreuve);
-        styleCellEpreuve.setFillForegroundColor(new XSSFColor(new Color(255, 255, 255)));
-        styleCellEpreuve.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        styleCellEpreuve.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellEpreuve.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        styleCellEpreuve.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        styleCellEpreuve.setBorderRight(CellStyle.BORDER_MEDIUM);
-        styleCellEpreuve.setBorderTop(CellStyle.BORDER_MEDIUM);
+        XSSFCellStyle styleCellEpreuve = ExcelHelperStyle.getStyleCellEpreuve(workbook);
         return styleCellEpreuve;
     }
 
     private XSSFCellStyle setStyleTitleForGlobalVision(XSSFWorkbook workbook) {
-        XSSFFont fontCellTitle= workbook.createFont();
-        fontCellTitle.setFontHeightInPoints((short) 12);
-        fontCellTitle.setFontName("Arial");
-        fontCellTitle.setColor(IndexedColors.WHITE.getIndex());
-        fontCellTitle.setBold(true);
-        fontCellTitle.setItalic(false);
-
-        XSSFCellStyle styleCellTitle = workbook.createCellStyle();
-        styleCellTitle.setFont(fontCellTitle);
-        styleCellTitle.setFillForegroundColor(new XSSFColor(new Color(226, 107, 10)));
-        styleCellTitle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        styleCellTitle.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellTitle.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        styleCellTitle.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        styleCellTitle.setBorderRight(CellStyle.BORDER_MEDIUM);
-        styleCellTitle.setBorderTop(CellStyle.BORDER_MEDIUM);
+        XSSFCellStyle styleCellTitle = ExcelHelperStyle.getStyleCellHeaderRow(workbook);
         return styleCellTitle;
     }
 
-    private XSSFCellStyle setStyleCategorieForGlobalVision(XSSFWorkbook workbook, XSSFFont font) {
-        XSSFCellStyle styleCellCategorie = workbook.createCellStyle();
-        styleCellCategorie.setFont(font);
-        styleCellCategorie.setFillForegroundColor(new XSSFColor(new Color(255, 191, 143)));
-        styleCellCategorie.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        styleCellCategorie.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellCategorie.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-        styleCellCategorie.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        styleCellCategorie.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        styleCellCategorie.setBorderRight(CellStyle.BORDER_MEDIUM);
-        styleCellCategorie.setBorderTop(CellStyle.BORDER_MEDIUM);
+    private XSSFCellStyle setStylePairLineForCompetitionFiche(XSSFWorkbook workbook) {
+        XSSFCellStyle styleCellTitle = ExcelHelperStyle.getStyleCellPairLine(workbook);
+        return styleCellTitle;
+    }
+
+    private XSSFCellStyle setStyleImpairLineForCompetitionFiche(XSSFWorkbook workbook) {
+        XSSFCellStyle styleCellTitle = ExcelHelperStyle.getStyleCellImpairLine(workbook);
+        return styleCellTitle;
+    }
+
+    private XSSFCellStyle setStyleCategorieForGlobalVision(XSSFWorkbook workbook) {
+        XSSFCellStyle styleCellCategorie = ExcelHelperStyle.getStyleCellCategorie(workbook);
         return styleCellCategorie;
     }
 
-    private XSSFCellStyle setStyleSexeForGlobalVision(XSSFWorkbook workbook, XSSFFont font) {
-        XSSFCellStyle styleCellSexe = workbook.createCellStyle();
-        styleCellSexe.setFont(font);
-        styleCellSexe.setFillForegroundColor(new XSSFColor(new Color(253, 233, 217)));
-        styleCellSexe.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        styleCellSexe.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellSexe.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-        styleCellSexe.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        styleCellSexe.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        styleCellSexe.setBorderRight(CellStyle.BORDER_MEDIUM);
-        styleCellSexe.setBorderTop(CellStyle.BORDER_MEDIUM);
+    private XSSFCellStyle setStyleSexeForGlobalVision(XSSFWorkbook workbook) {
+        XSSFCellStyle styleCellSexe = ExcelHelperStyle.getStyleCellSexe(workbook);
         return styleCellSexe;
     }
 
     private XSSFCellStyle setStyleTotalForGlobalVision(XSSFWorkbook workbook) {
-        XSSFFont fontCellTotal= workbook.createFont();
-        fontCellTotal.setFontHeightInPoints((short) 12);
-        fontCellTotal.setFontName("Arial");
-        fontCellTotal.setColor(IndexedColors.BLACK.getIndex());
-        fontCellTotal.setBold(true);
-        fontCellTotal.setItalic(false);
-
-        XSSFCellStyle styleCellTotal = workbook.createCellStyle();
-        styleCellTotal.setFont(fontCellTotal);
-        styleCellTotal.setFillForegroundColor(new XSSFColor(new Color(217, 217, 217)));
-        styleCellTotal.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        styleCellTotal.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellTotal.setBorderBottom(CellStyle.BORDER_MEDIUM);
-        styleCellTotal.setBorderLeft(CellStyle.BORDER_MEDIUM);
-        styleCellTotal.setBorderRight(CellStyle.BORDER_MEDIUM);
-        styleCellTotal.setBorderTop(CellStyle.BORDER_MEDIUM);
+        XSSFCellStyle styleCellTotal = ExcelHelperStyle.getStyleCellTotal(workbook);
         return styleCellTotal;
     }
 
-    private XSSFCellStyle setStyleTotal1ForGlobalVision(XSSFWorkbook workbook, XSSFFont font) {
-
-        XSSFCellStyle styleCellTotal = workbook.createCellStyle();
-        styleCellTotal.setFont(font);
-        styleCellTotal.setAlignment(CellStyle.ALIGN_CENTER);
-        styleCellTotal.setBorderRight(CellStyle.BORDER_MEDIUM);
+    private XSSFCellStyle setStyleTotal1ForGlobalVision(XSSFWorkbook workbook) {
+        XSSFCellStyle styleCellTotal = ExcelHelperStyle.getStyleCellTotal1(workbook);
         return styleCellTotal;
     }
 }

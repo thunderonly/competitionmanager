@@ -1,6 +1,8 @@
-Réparer diffusion LAN
+Réparer diffusion LAN [OK]
 
 Ajout et suppression de participant par évènement LAN
+Technique [OK]
+Combat[A faire]
 
 Gestion des élèves :
 Enlever un élève d'une épreuve (fusionnée ou non) [OK]
@@ -10,7 +12,7 @@ Combat [reste à gérer passage de 3 à 4 et de 4 à 3]
 
 Réouverture après redémarrage des catégories "démarrée" et "terminée" (les vues) :
 Technique [OK]
-Combat
+Combat [OK]
 
 Gestion de la fusion [OK]
 
@@ -19,4 +21,14 @@ Renommer une épreuve [OK]
 Reparer edition élève pour :
 Combat
 Technique
+
+Permettre un export des fiche compétitions pour imprimer et afficher en début de compétition
+Technique [OK]
+Combat [OK]
+
+Améliorer l'interface saisie des notes combat
+Permettre un écran déporté pour permettre au publique la visualisation des points combat
+Pettre un écran déporté pour permettre au publique de visualiser en direct le classement d'une catégorie :
+Technique => Renvoyer la grille et mettre à jour automatiquement
+Combat => Renvoyer la grille combat qui se met à jour après le combat
 

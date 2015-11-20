@@ -246,7 +246,17 @@ public class Controller {
         }
     }
 
-    public void generateFicheCompetition() {
+    @FXML
+    public void generateFicheCompetitionTechnique() {
+        generateFicheCompetition(TypeEpreuve.TECHNIQUE);
+    }
+
+    @FXML
+    public void generateFicheCompetitionCombat() {
+        generateFicheCompetition(TypeEpreuve.COMBAT);
+    }
+
+    private void generateFicheCompetition(TypeEpreuve typeEpreuve) {
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter
@@ -275,7 +285,7 @@ public class Controller {
             visions.put(TypeEpreuve.COMBAT, visionsCombat);
             visions.put(TypeEpreuve.TECHNIQUE, visionsTechnique);
             InscriptionsManager inscriptionsManager = new InscriptionsManager();
-            boolean isSaved = inscriptionsManager.saveFicheCompetition(file, competitionBean);
+            boolean isSaved = inscriptionsManager.saveFicheCompetition(file, competitionBean, typeEpreuve);
             if (isSaved) {
                 NotificationView notificationView = new NotificationView(main.getMainStage());
                 notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
@@ -295,11 +305,11 @@ public class Controller {
         for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
             for (EpreuveBean epreuveBean : competitionBean.getEpreuveByDiscipline(disciplineBean)) {
                 GlobalVision testStructure = null;
-                if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getDiscipline().getNom())) {
-                    testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getDiscipline().getNom());
+                if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
+                    testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
                 } else {
-                    testStructure = new GlobalVision(epreuveBean.getDiscipline().getNom());
-                    mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getDiscipline().getNom(), testStructure);
+                    testStructure = new GlobalVision(epreuveBean.getLabel());
+                    mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
                 }
 
                 Map<String, List<Participant>> map1 = null;
@@ -337,11 +347,11 @@ public class Controller {
             for (EpreuveBean epreuveBean : competitionBean.getEpreuveByDiscipline(disciplineBean)) {
                 if (!EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                     GlobalVision testStructure = null;
-                    if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getDiscipline().getNom())) {
-                        testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getDiscipline().getNom());
+                    if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
+                        testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
                     } else {
-                        testStructure = new GlobalVision(epreuveBean.getDiscipline().getNom());
-                        mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getDiscipline().getNom(), testStructure);
+                        testStructure = new GlobalVision(epreuveBean.getLabel());
+                        mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
                     }
 
                     Map<String, List<Participant>> map1 = null;
