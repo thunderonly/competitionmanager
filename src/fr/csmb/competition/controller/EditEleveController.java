@@ -110,16 +110,16 @@ public class EditEleveController {
             poidsEleve = Integer.parseInt(poidsEleveStr);
         }
 
-        Map<Integer, EpreuveBean> mapEpreuves = new HashMap<Integer, EpreuveBean>();
+        Map<Double, EpreuveBean> mapEpreuves = new HashMap<Double, EpreuveBean>();
         EpreuveCombatComparator comparator = new EpreuveCombatComparator(mapEpreuves);
-        TreeMap<Integer, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Integer, EpreuveBean>(comparator);
+        TreeMap<Double, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Double, EpreuveBean>(comparator);
 
         //recup tous les poids de la categorie de l eleve
         for (EpreuveBean epreuveBean : competition.getEpreuves()) {
             if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuveBean.getDiscipline().getType())) {
                 if (epreuveBean.getCategorie().getNom().equals(categorieEleve) &&
                         epreuveBean.getCategorie().getType().equals(sexeEleve)) {
-                    Integer poidsEpreuve = Integer.parseInt(epreuveBean.getDiscipline().getNom());
+                    Double poidsEpreuve = Double.parseDouble(epreuveBean.getDiscipline().getNom());
                     mapEpreuves.put(poidsEpreuve, epreuveBean);
                 }
             }
@@ -128,9 +128,9 @@ public class EditEleveController {
         epreuveBeanTreeMap.putAll(mapEpreuves);
 
         //comparaison poids eleve avec valeur abs du poids de l epreuve
-        Iterator<Integer> iterator = epreuveBeanTreeMap.keySet().iterator();
+        Iterator<Double> iterator = epreuveBeanTreeMap.keySet().iterator();
         while (iterator.hasNext()) {
-            Integer poidsEpreuve = iterator.next();
+            Double poidsEpreuve = iterator.next();
             if (poidsEleve <= Math.abs(poidsEpreuve)) {
                 return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
             } else {

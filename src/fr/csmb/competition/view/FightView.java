@@ -4,11 +4,14 @@ import fr.csmb.competition.component.grid.bean.Phase;
 import fr.csmb.competition.component.textbox.NumberTextField;
 import fr.csmb.competition.component.textbox.TextBox;
 import fr.csmb.competition.model.ParticipantBean;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -73,6 +76,8 @@ public class FightView {
         int newY = 10 + heightRectangle + spaceBetweenJoueur + heightRectangle;
         this.boxRed.setLayoutY(newY);
 
+        SplitPane splitPane  = new SplitPane();
+
         setPart1();
         setPart2();
         this.initializeListner();
@@ -133,9 +138,16 @@ public class FightView {
             }
         });
 
-        group.getChildren().addAll(this.boxBlue, this.boxRed, this.noteJuge1Part1, this.noteJuge2Part1, this.nbPenaltyPart1, resultatPart1,
-                this.noteJuge1Part2, this.noteJuge2Part2, this.nbPenaltyPart2, resultatPart2);
-        borderPane.setCenter(group);
+        Group groupBlue = new Group();
+        groupBlue.getStyleClass().add("tfBlue");
+        groupBlue.getChildren().addAll(this.boxBlue, this.noteJuge1Part1, this.noteJuge2Part1, this.nbPenaltyPart1, resultatPart1);
+        Group groupRed = new Group();
+        groupRed.getStyleClass().add("tfRed");
+        groupRed.getChildren().addAll(this.boxRed, this.noteJuge1Part2, this.noteJuge2Part2, this.nbPenaltyPart2, resultatPart2);
+        splitPane.getItems().addAll(groupBlue, groupRed);
+
+        group.getChildren().addAll(splitPane);
+        borderPane.setCenter(splitPane);
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         hBox.getChildren().addAll(valide, annule);
@@ -224,54 +236,55 @@ public class FightView {
     }
 
     private void initializeListner() {
-        this.noteJuge1Part1.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        EventHandler keyPressedPart1 = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER) {
                     resultatPart1.setText(String.valueOf(computeResultat(noteJuge1Part1, noteJuge2Part1, nbPenaltyPart1)));
                 }
             }
-        });
-        this.noteJuge2Part1.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        };
+
+        ChangeListener focusListenerPart1 = new ChangeListener<Boolean>() {
             @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER) {
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (oldValue) {
                     resultatPart1.setText(String.valueOf(computeResultat(noteJuge1Part1, noteJuge2Part1, nbPenaltyPart1)));
                 }
             }
-        });
-        this.nbPenaltyPart1.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER) {
-                    resultatPart1.setText(String.valueOf(computeResultat(noteJuge1Part1, noteJuge2Part1, nbPenaltyPart1)));
-                }
-            }
-        });
-        this.noteJuge1Part2.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER) {
-                    resultatPart2.setText(String.valueOf(computeResultat(noteJuge1Part2, noteJuge2Part2, nbPenaltyPart2)));
-                }
-            }
-        });
-        this.noteJuge2Part2.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        };
+
+        this.noteJuge1Part1.setOnKeyReleased(keyPressedPart1);
+        this.noteJuge1Part1.focusedProperty().addListener(focusListenerPart1);
+        this.noteJuge2Part1.setOnKeyReleased(keyPressedPart1);
+        this.noteJuge2Part1.focusedProperty().addListener(focusListenerPart1);
+        this.nbPenaltyPart1.setOnKeyReleased(keyPressedPart1);
+        this.nbPenaltyPart1.focusedProperty().addListener(focusListenerPart1);
+
+        EventHandler keyPressedPart2 = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER) {
                     resultatPart2.setText(String.valueOf(computeResultat(noteJuge1Part2, noteJuge2Part2, nbPenaltyPart2)));
                 }
             }
-        });
-        this.nbPenaltyPart2.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        };
+
+        ChangeListener focusListenerPart2 = new ChangeListener<Boolean>() {
             @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER) {
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (oldValue) {
                     resultatPart2.setText(String.valueOf(computeResultat(noteJuge1Part2, noteJuge2Part2, nbPenaltyPart2)));
                 }
             }
-        });
+        };
+
+        this.noteJuge1Part2.setOnKeyReleased(keyPressedPart2);
+        this.noteJuge1Part2.focusedProperty().addListener(focusListenerPart2);
+        this.noteJuge2Part2.setOnKeyReleased(keyPressedPart2);
+        this.noteJuge2Part2.focusedProperty().addListener(focusListenerPart2);
+        this.nbPenaltyPart2.setOnKeyReleased(keyPressedPart2);
+        this.nbPenaltyPart2.focusedProperty().addListener(focusListenerPart2);
     }
 
     private Integer computeResultat(TextField juge1, TextField juge2, TextField pen) {

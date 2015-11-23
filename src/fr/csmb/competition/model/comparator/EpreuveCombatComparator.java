@@ -8,13 +8,13 @@ import java.util.Map;
 /**
  * Created by Administrateur on 04/04/15.
  */
-public class EpreuveCombatComparator implements Comparator<Integer> {
-    Map<Integer, EpreuveBean> base;
-    public EpreuveCombatComparator(Map<Integer, EpreuveBean> baseMap) {
+public class EpreuveCombatComparator implements Comparator<Double> {
+    Map<Double, EpreuveBean> base;
+    public EpreuveCombatComparator(Map<Double, EpreuveBean> baseMap) {
         base = baseMap;
     }
 
-    public int compare(Integer a, Integer b) {
+    public int compare(Double a, Double b) {
 
         if (a > 0) {
             return 1;
