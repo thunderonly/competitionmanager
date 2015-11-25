@@ -121,7 +121,7 @@ public class ResultatsManager {
                 for (EpreuveBean epreuveBean : competitionBean.getEpreuveByCategorie(categorieBean)) {
                     if (epreuveBean.getDiscipline().getType().equals(typeEpreuve) && EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                         if (!isSheetCreated) {
-                            sheet = workbook.createSheet(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
+                            sheet = workbook.createSheet(categorieBean.getSexe().concat(" - ").concat(categorieBean.getNom()));
                             isSheetCreated = true;
                         }
                         //Create Header for Type Epreuve

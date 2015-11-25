@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <competition nom="Metz2015">
-    <categories id="Benjamin-Masculin" nomCategorie="Benjamin" typeCategorie="Masculin"/>
-    <categories id="Benjamin-Féminin" nomCategorie="Benjamin" typeCategorie="Féminin"/>
-    <categories id="Minime-Masculin" nomCategorie="Minime" typeCategorie="Masculin"/>
-    <categories id="Minime-Féminin" nomCategorie="Minime" typeCategorie="Féminin"/>
-    <categories id="Cadet-Masculin" nomCategorie="Cadet" typeCategorie="Masculin"/>
-    <categories id="Cadet-Féminin" nomCategorie="Cadet" typeCategorie="Féminin"/>
-    <categories id="Junior-Masculin" nomCategorie="Junior" typeCategorie="Masculin"/>
-    <categories id="Junior-Féminin" nomCategorie="Junior" typeCategorie="Féminin"/>
-    <categories id="Sénior-Masculin" nomCategorie="Sénior" typeCategorie="Masculin"/>
-    <categories id="Sénior-Féminin" nomCategorie="Sénior" typeCategorie="Féminin"/>
-    <categories id="Vétéran-Masculin" nomCategorie="Vétéran" typeCategorie="Masculin"/>
-    <categories id="Vétéran-Féminin" nomCategorie="Vétéran" typeCategorie="Féminin"/>
+    <categories id="Benjamins-Masculin" nomCategorie="Benjamins" typeCategorie="Masculin"/>
+    <categories id="Benjamins-Féminin" nomCategorie="Benjamins" typeCategorie="Féminin"/>
+    <categories id="Minimes-Masculin" nomCategorie="Minimes" typeCategorie="Masculin"/>
+    <categories id="Minimes-Féminin" nomCategorie="Minimes" typeCategorie="Féminin"/>
+    <categories id="Cadets-Masculin" nomCategorie="Cadets" typeCategorie="Masculin"/>
+    <categories id="Cadets-Féminin" nomCategorie="Cadets" typeCategorie="Féminin"/>
+    <categories id="Juniors-Masculin" nomCategorie="Juniors" typeCategorie="Masculin"/>
+    <categories id="Juniors-Féminin" nomCategorie="Juniors" typeCategorie="Féminin"/>
+    <categories id="Séniors-Masculin" nomCategorie="Séniors" typeCategorie="Masculin"/>
+    <categories id="Séniors-Féminin" nomCategorie="Séniors" typeCategorie="Féminin"/>
+    <categories id="Vétérans-Masculin" nomCategorie="Vétérans" typeCategorie="Masculin"/>
+    <categories id="Vétérans-Féminin" nomCategorie="Vétérans" typeCategorie="Féminin"/>
     <discipline id="Technique-Quy Dinh Main Nue" nom="Quy Dinh Main Nue" type="Technique"/>
     <discipline id="Technique-Quy Dinh Armes Courtes" nom="Quy Dinh Armes Courtes" type="Technique"/>
     <discipline id="Technique-Quy Dinh Armes Longues" nom="Quy Dinh Armes Longues" type="Technique"/>
@@ -23,491 +23,491 @@
     <discipline id="Technique-Doi Luyen Main Nue" nom="Doi Luyen Main Nue" type="Technique"/>
     <discipline id="Technique-Doi Luyen Armes" nom="Doi Luyen Armes" type="Technique"/>
     <discipline id="Combat-45-65" nom="45-65" type="Combat"/>
-    <epreuve id="Sénior-MasculinCombat-45-65" discipline="Combat-45-65" categorie="Sénior-Masculin" etatEpreuve="Demarre">
+    <epreuve id="Séniors-MasculinCombat-45-65" discipline="Combat-45-65" categorie="Séniors-Masculin" etatEpreuve="Demarre">
         <detailEpreuve/>
         <labelEpreuve>45-65</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Main Nue" discipline="Technique-Quy Dinh Main Nue" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Armes Courtes" discipline="Technique-Quy Dinh Armes Courtes" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Armes Longues" discipline="Technique-Quy Dinh Armes Longues" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Song Luyen Main Nue" discipline="Technique-Song Luyen Main Nue" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Song Luyen Armes" discipline="Technique-Song Luyen Armes" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Song Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Doi Luyen Main Nue" discipline="Technique-Doi Luyen Main Nue" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Doi Luyen Armes" discipline="Technique-Doi Luyen Armes" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Doi Luyen Armes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Synchro Main Nue" discipline="Technique-Quy Dinh Synchro Main Nue" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Main Nue</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Synchro Armes Courtes" discipline="Technique-Quy Dinh Synchro Armes Courtes" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Courtes</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Benjamin-Masculin">
+    <epreuve id="Benjamins-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Benjamins-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Benjamin-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Benjamin-Féminin">
+    <epreuve id="Benjamins-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Benjamins-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Minime-Masculin">
+    <epreuve id="Minimes-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Minimes-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Minime-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Minime-Féminin">
+    <epreuve id="Minimes-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Minimes-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Cadet-Masculin">
+    <epreuve id="Cadets-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Cadets-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Cadet-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Cadet-Féminin">
+    <epreuve id="Cadets-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Cadets-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Junior-Masculin">
+    <epreuve id="Juniors-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Juniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Junior-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Junior-Féminin">
+    <epreuve id="Juniors-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Juniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Sénior-Masculin">
+    <epreuve id="Séniors-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Séniors-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Sénior-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Sénior-Féminin">
+    <epreuve id="Séniors-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Séniors-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Vétéran-Masculin">
+    <epreuve id="Vétérans-MasculinTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Vétérans-Masculin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <epreuve id="Vétéran-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Vétéran-Féminin">
+    <epreuve id="Vétérans-FémininTechnique-Quy Dinh Synchro Armes Longues" discipline="Technique-Quy Dinh Synchro Armes Longues" categorie="Vétérans-Féminin">
         <detailEpreuve/>
         <labelEpreuve>Quy Dinh Synchro Armes Longues</labelEpreuve>
     </epreuve>
-    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
+    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Séniors-MasculinTechnique-Quy Dinh Main Nue">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -519,7 +519,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Longues">
+    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="0" epreuve="Séniors-MasculinTechnique-Quy Dinh Armes Longues">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -531,7 +531,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
+    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Séniors-MasculinTechnique-Quy Dinh Main Nue">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -543,7 +543,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Longues">
+    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="0" epreuve="Séniors-MasculinTechnique-Quy Dinh Armes Longues">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -555,7 +555,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Junior-MasculinTechnique-Quy Dinh Main Nue">
+    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Juniors-MasculinTechnique-Quy Dinh Main Nue">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -567,7 +567,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Junior-MasculinTechnique-Quy Dinh Armes Longues">
+    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="0" epreuve="Juniors-MasculinTechnique-Quy Dinh Armes Longues">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -579,7 +579,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
+    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinTechnique-Quy Dinh Main Nue">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -591,7 +591,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Courtes">
+    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinTechnique-Quy Dinh Armes Courtes">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -603,7 +603,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="55" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="HENRY" prenomParticipant="Gael" clubParticipant="13001" poidsParticipant="55" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -615,7 +615,7 @@
         <placeOnGrid>1</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="55" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="HUYNH" prenomParticipant="David" clubParticipant="13001" poidsParticipant="55" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -627,7 +627,7 @@
         <placeOnGrid>2</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test" prenomParticipant="test" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -639,7 +639,7 @@
         <placeOnGrid>3</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinTechnique-Quy Dinh Main Nue">
+    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinTechnique-Quy Dinh Main Nue">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -651,7 +651,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinTechnique-Quy Dinh Armes Longues">
+    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinTechnique-Quy Dinh Armes Longues">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -663,7 +663,7 @@
         <placeOnGrid>0</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="BRUNET" prenomParticipant="Antoine" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -675,7 +675,7 @@
         <placeOnGrid>4</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test2" prenomParticipant="test2" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test2" prenomParticipant="test2" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -687,7 +687,7 @@
         <placeOnGrid>5</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test3" prenomParticipant="test3" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test3" prenomParticipant="test3" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -699,7 +699,7 @@
         <placeOnGrid>6</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test4" prenomParticipant="test4" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test4" prenomParticipant="test4" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -711,7 +711,7 @@
         <placeOnGrid>10</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test5" prenomParticipant="test5" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test5" prenomParticipant="test5" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -723,7 +723,7 @@
         <placeOnGrid>11</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test6" prenomParticipant="test6" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test6" prenomParticipant="test6" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -735,7 +735,7 @@
         <placeOnGrid>12</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test7" prenomParticipant="test7" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test7" prenomParticipant="test7" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -747,7 +747,7 @@
         <placeOnGrid>13</placeOnGrid>
         <participe>true</participe>
     </participant>
-    <participant nomParticipant="test8" prenomParticipant="test8" clubParticipant="13001" poidsParticipant="60" epreuve="Sénior-MasculinCombat-45-65">
+    <participant nomParticipant="test8" prenomParticipant="test8" clubParticipant="13001" poidsParticipant="60" epreuve="Séniors-MasculinCombat-45-65">
         <classementAuto>0</classementAuto>
         <classementManuel>0</classementManuel>
         <classementFinal>0</classementFinal>
@@ -767,7 +767,7 @@
                     <nomEleve>HENRY</nomEleve>
                     <prenomEleve>Gael</prenomEleve>
                     <ageEleve>31</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>55</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -782,7 +782,7 @@
                     <nomEleve>HUYNH</nomEleve>
                     <prenomEleve>David</prenomEleve>
                     <ageEleve>18</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>55</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -797,7 +797,7 @@
                     <nomEleve>BRUNET</nomEleve>
                     <prenomEleve>Antoine</prenomEleve>
                     <ageEleve>18</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -826,7 +826,7 @@
                     <nomEleve>test</nomEleve>
                     <prenomEleve>test</prenomEleve>
                     <ageEleve>18</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -844,7 +844,7 @@
                     <nomEleve>test2</nomEleve>
                     <prenomEleve>test2</prenomEleve>
                     <ageEleve>18</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -855,7 +855,7 @@
                     <nomEleve>test3</nomEleve>
                     <prenomEleve>test3</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -866,7 +866,7 @@
                     <nomEleve>test4</nomEleve>
                     <prenomEleve>test4</prenomEleve>
                     <ageEleve>18</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -877,7 +877,7 @@
                     <nomEleve>test5</nomEleve>
                     <prenomEleve>test5</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -888,7 +888,7 @@
                     <nomEleve>test6</nomEleve>
                     <prenomEleve>test6</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -899,7 +899,7 @@
                     <nomEleve>test7</nomEleve>
                     <prenomEleve>test7</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -910,7 +910,7 @@
                     <nomEleve>test8</nomEleve>
                     <prenomEleve>test8</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -921,7 +921,7 @@
                     <nomEleve>test9</nomEleve>
                     <prenomEleve>test9</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -932,7 +932,7 @@
                     <nomEleve>test10</nomEleve>
                     <prenomEleve>test10</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -943,7 +943,7 @@
                     <nomEleve>test11</nomEleve>
                     <prenomEleve>test11</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -954,7 +954,7 @@
                     <nomEleve>test12</nomEleve>
                     <prenomEleve>test12</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -965,7 +965,7 @@
                     <nomEleve>test13</nomEleve>
                     <prenomEleve>test13</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>
@@ -976,7 +976,7 @@
                     <nomEleve>test14</nomEleve>
                     <prenomEleve>test14</prenomEleve>
                     <ageEleve>19</ageEleve>
-                    <categorieEleve>Sénior</categorieEleve>
+                    <categorieEleve>Séniors</categorieEleve>
                     <sexeEleve>Masculin</sexeEleve>
                     <poidsEleve>60</poidsEleve>
                     <presenceEleve>true</presenceEleve>

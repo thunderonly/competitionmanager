@@ -47,7 +47,7 @@ public class ResultatsView {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
             boolean isTabCreated = false;
-            Tab categorieTab = new Tab(categorieBean.getType().concat(" - ").concat(categorieBean.getNom()));
+            Tab categorieTab = new Tab(categorieBean.getSexe().concat(" - ").concat(categorieBean.getNom()));
             GridPane gridPane = new GridPane();
             int row = 0;
             int col = 0;

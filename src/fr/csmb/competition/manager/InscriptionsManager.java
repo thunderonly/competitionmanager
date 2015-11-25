@@ -1,9 +1,10 @@
 package fr.csmb.competition.manager;
 
+import fr.csmb.competition.Helper.CategorieHelper;
+import fr.csmb.competition.Helper.ExcelHelperStyle;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
-import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -13,9 +14,7 @@ import org.apache.poi.xssf.usermodel.*;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 
-import java.awt.Color;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -71,14 +70,14 @@ public class InscriptionsManager {
                         String age = calculateAge(getCellValue(row, 6));
                         eleve.setAge(age);
 
-                        eleve.setCategorie(getCategorieFromAge(age));
-                        eleve.setSexe(getCellValue(row, 7));
-                        eleve.setPoids(getCellValue(row, 8));
-                        String epreuve = getCellValue(row, 9);
+                        eleve.setCategorie(CategorieHelper.getCategorieFromAge(age));
+                        eleve.setSexe(getCellValue(row, 9));
+                        eleve.setPoids(getCellValue(row, 10));
+                        String epreuve = getCellValue(row, 11);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
                             eleve.getEpreuves().add("Quyens Main Nue");
                         }
-                        epreuve = getCellValue(row, 10);
+                        epreuve = getCellValue(row, 12);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
                             eleve.getEpreuves().add("Quyens Arme");
                         }
@@ -97,8 +96,8 @@ public class InscriptionsManager {
 //                            }
 //                            teamSongLuyenArmes.get(epreuve).add(eleve);
 //                        }
-                        epreuve = getCellValue(row, 11);
-                        if (epreuve.contains("Équipe")) {
+                        epreuve = getCellValue(row, 13);
+                        if (epreuve.contains("Equipe")) {
                             if (teamDoiLuyenMainNue.get(epreuve) == null) {
                                 teamDoiLuyenMainNue.put(epreuve, new ArrayList<EleveBean>());
                             }
@@ -111,8 +110,8 @@ public class InscriptionsManager {
 //                            }
 //                            teamDoiLuyenArmes.get(epreuve).add(eleve);
 //                        }
-                        epreuve = getCellValue(row, 12);
-                        if (epreuve.contains("Équipe")) {
+                        epreuve = getCellValue(row, 14);
+                        if (epreuve.contains("Equipe")) {
                             if (teamSynchroMainNue.get(epreuve) == null) {
                                 teamSynchroMainNue.put(epreuve, new ArrayList<EleveBean>());
                             }
@@ -132,15 +131,16 @@ public class InscriptionsManager {
 //                            }
 //                            teamSynchroArmesLongues.get(epreuve).add(eleve);
 //                        }
-                        epreuve = getCellValue(row, 13);
+                        epreuve = getCellValue(row, 15);
                         if ("Oui".equalsIgnoreCase(epreuve)) {
 
-                            eleve.getEpreuves().add(extractCategorieCombat2(eleve, competition));
+                            eleve.getEpreuves().add(CategorieHelper.extractCategorieCombat(eleve, competition));
                         }
 
                         if (!eleve.getNom().equals("")) {
                             clubBean.getEleves().add(eleve);
                             initializeListener(competition, eleve, clubBean);
+                            eleve.setPresence(Boolean.TRUE);
                         }
                     }
 //                    for (String equipe : teamSongLuyenMainNue.keySet()) {
@@ -160,6 +160,7 @@ public class InscriptionsManager {
                                 clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe), "Doi Luyen");
                         initializeListener(competition, newEleveBean, clubBean);
                         clubBean.getEleves().add(newEleveBean);
+                        newEleveBean.setPresence(Boolean.TRUE);
                     }
 //                    for (String equipe : teamDoiLuyenArmes.keySet()) {
 //                        EleveBean newEleveBean = extractEleveFromTeam(
@@ -172,6 +173,7 @@ public class InscriptionsManager {
                                 clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe), "Synchronisé");
                         initializeListener(competition, newEleveBean, clubBean);
                         clubBean.getEleves().add(newEleveBean);
+                        newEleveBean.setPresence(Boolean.TRUE);
                     }
 //                    for (String equipe : teamSynchroArmesCourtes.keySet()) {
 //                        EleveBean newEleveBean = extractEleveFromTeam(
@@ -212,7 +214,7 @@ public class InscriptionsManager {
             currentYear--;
         }
         //get Begin date of season
-        LocalDate seasonBeginDate = new LocalDate(currentYear, DateTimeConstants.SEPTEMBER, 1);
+        LocalDate seasonBeginDate = new LocalDate(currentYear, DateTimeConstants.DECEMBER, 31);
         Period agePeriod = new Period(birthDayDate, seasonBeginDate, PeriodType.years());
 
         return String.valueOf(agePeriod.getYears());
@@ -268,67 +270,20 @@ public class InscriptionsManager {
             }
             //Categorie
             String currentCategorie;
-            if (eleve.getCategorie().equals("Benjamin") || eleve.getCategorie().equals("Minime") || eleve.getCategorie().equals("Cadet")) {
-                currentCategorie = "Cadet";
+            if (eleve.getCategorie().equals("Benjamins") || eleve.getCategorie().equals("Minimes") || eleve.getCategorie().equals("Cadets")) {
+                currentCategorie = "Cadets";
             } else {
-                currentCategorie = "Sénior";
+                currentCategorie = "Séniors";
             }
             if (newEleve.getCategorie() == null) {
                newEleve.setCategorie(currentCategorie);
             } else {
-                if (newEleve.getCategorie().equals("Cadet") && currentCategorie.equals("Sénior")) {
+                if (newEleve.getCategorie().equals("Cadets") && currentCategorie.equals("Séniors")) {
                     newEleve.setCategorie(currentCategorie);
                 }
             }
         }
         return newEleve;
-    }
-
-    private String convertCategorie(String categorie) {
-        if ("P".equalsIgnoreCase(categorie)) {
-            return "Pupille";
-        } else if ("B".equalsIgnoreCase(categorie)) {
-            return "Benjamin";
-        } else if ("M".equalsIgnoreCase(categorie)) {
-            return "Minime";
-        } else if ("C".equalsIgnoreCase(categorie)) {
-            return "Cadet";
-        } else if ("J".equalsIgnoreCase(categorie)) {
-            return "Junior";
-        } else if ("S".equalsIgnoreCase(categorie)) {
-            return "Sénior";
-        } else if ("V".equalsIgnoreCase(categorie)) {
-            return "Vétéran";
-        }
-        return "";
-    }
-
-    private String getCategorieFromAge(String ageString) {
-        Integer age = Integer.parseInt(ageString);
-        switch (age) {
-            case 8:
-            case 9:
-                return "Pupilles";
-            case 10:
-            case 11:
-                return "Benjamins";
-            case 12:
-            case 13:
-                return "Minimes";
-            case 14:
-            case 15:
-                return "Cadets";
-            case 16:
-            case 17:
-                return "Juniors";
-            default:
-            if (age >= 18 && age < 35) {
-                return "Séniors";
-            } else if (age >=35) {
-                return "Vétérans";
-            }
-        }
-        return "";
     }
 
     private String getCellValue(Row row, int cellId) {
@@ -376,56 +331,13 @@ public class InscriptionsManager {
                 int intMinPoids = Integer.parseInt(minPoids);
                 int intMaxPoids = Integer.parseInt(maxPoids);
 
-                if (epreuve.getCategorie().getNom().equals(eleve.getCategorie()) && epreuve.getCategorie().getType().equals(eleve.getSexe())) {
+                if (epreuve.getCategorie().getNom().equals(eleve.getCategorie()) && epreuve.getCategorie().getSexe().equals(eleve.getSexe())) {
                     if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
                         return nomEpreuve;
                     }
                 }
             }
         }
-        return "";
-    }
-
-    private String extractCategorieCombat2(EleveBean eleve, CompetitionBean competition) {
-        String categorieEleve = eleve.getCategorie();
-        String sexeEleve = eleve.getSexe();
-        String poidsEleveStr = eleve.getPoids();
-        Double poidsEleve = new Double(0);
-        if (poidsEleveStr != null && !poidsEleveStr.isEmpty()) {
-            poidsEleve = Double.parseDouble(poidsEleveStr);
-        }
-
-        Map<Double, EpreuveBean> mapEpreuves = new HashMap<Double, EpreuveBean>();
-        EpreuveCombatComparator comparator = new EpreuveCombatComparator(mapEpreuves);
-        TreeMap<Double, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Double, EpreuveBean>(comparator);
-
-        //recup tous les poids de la categorie de l eleve
-        for (EpreuveBean epreuveBean : competition.getEpreuves()) {
-            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuveBean.getDiscipline().getType())) {
-                if (epreuveBean.getCategorie().getNom().equals(categorieEleve) &&
-                        epreuveBean.getCategorie().getType().equals(sexeEleve)) {
-                    Double poidsEpreuve = Double.parseDouble(epreuveBean.getDiscipline().getNom());
-                    mapEpreuves.put(poidsEpreuve, epreuveBean);
-                }
-            }
-        }
-        //tri par poids
-        epreuveBeanTreeMap.putAll(mapEpreuves);
-
-        //comparaison poids eleve avec valeur abs du poids de l epreuve
-        Iterator<Double> iterator = epreuveBeanTreeMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            Double poidsEpreuve = iterator.next();
-            if (poidsEleve <= Math.abs(poidsEpreuve)) {
-                return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
-            } else {
-                if (!iterator.hasNext()) {
-                    //c'est le dernier donc plus lourd
-                    return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
-                }
-            }
-        }
-
         return "";
     }
 
@@ -452,11 +364,12 @@ public class InscriptionsManager {
             XSSFSheet sheet = workbook.createSheet(typeEpreuve.getValue());
             int colCount = 0;
             for (GlobalVision globalVision : visions) {
+                globalVision.sortTypeCategories();
                 if (haveParticipantForEpreuve(globalVision)) {
                     int rowCount = 0;
                     Row rowEpreuve = getRow(sheet, 0);
                     Cell cellEpreuve = rowEpreuve.createCell(colCount);
-                    cellEpreuve.setCellValue(globalVision.getNomCategorie());
+                    cellEpreuve.setCellValue(globalVision.getDisciplineName());
                     cellEpreuve.setCellStyle(styleCellEpreuve);
                     for (int i = colCount + 1; i <= colCount + 4; i++) {
                         Cell cellEpreuveEmpty = rowEpreuve.createCell(i);
@@ -492,14 +405,13 @@ public class InscriptionsManager {
     public boolean saveFicheCompetition(File file, CompetitionBean competitionBean, TypeEpreuve typeEpreuve) {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
-
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
             if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals("") &&
                     competitionBean.getParticipantByEpreuve(epreuveBean).size() > 0) {
                 String categorieSheet = epreuveBean.getCategorie().getNom().substring(0, 1);
                 String categorie = epreuveBean.getCategorie().getNom();
-                String sexeSheet = epreuveBean.getCategorie().getType().substring(0, 1);
-                String sexe = epreuveBean.getCategorie().getType();
+                String sexeSheet = epreuveBean.getCategorie().getSexe().substring(0, 1);
+                String sexe = epreuveBean.getCategorie().getSexe();
                 String discipline = epreuveBean.getDiscipline().getNom();
                 String title2 = epreuveBean.getLabel();
 
@@ -688,13 +600,22 @@ public class InscriptionsManager {
 
     private boolean haveParticipantForEpreuve(GlobalVision structure) {
         boolean result = false;
-        for (String keyCategorie : structure.getTypeCategories().keySet()) {
+        Iterator<String> iterator = structure.getTypeCategories().keySet().iterator();
+        while (iterator.hasNext()) {
+            String keyCategorie = iterator.next();
             for (String key : structure.getTypeCategories().get(keyCategorie).keySet()) {
                 if (structure.getTypeCategories().get(keyCategorie).get(key).size() > 0) {
                     return true;
                 }
             }
         }
+//        for (String keyCategorie : structure.getTypeCategories().keySet()) {
+//            for (String key : structure.getTypeCategories().get(keyCategorie).keySet()) {
+//                if (structure.getTypeCategories().get(keyCategorie).get(key).size() > 0) {
+//                    return true;
+//                }
+//            }
+//        }
 
         return result;
     }

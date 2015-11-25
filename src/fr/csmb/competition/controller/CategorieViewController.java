@@ -4,12 +4,9 @@
  */
 package fr.csmb.competition.controller;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import javax.swing.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -31,13 +28,10 @@ import fr.csmb.competition.view.RenameEpreuveView;
 import fr.csmb.competition.xml.model.Competition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -197,7 +191,7 @@ public class CategorieViewController {
 
                 TreeItem<String> itemTypeCategorieToRemove = null;
                 for (TreeItem<String> itemTypeCategorie : treeView.getRoot().getChildren()) {
-                    if (itemTypeCategorie.getValue().equals(categorieBean.getType())) {
+                    if (itemTypeCategorie.getValue().equals(categorieBean.getSexe())) {
                         TreeItem<String> itemCategorieToRemove = null;
                         for (TreeItem<String> itemCategorie : itemTypeCategorie.getChildren()) {
                             if (itemCategorie.getValue().equals(categorieBean.getNom())) {
@@ -279,14 +273,14 @@ public class CategorieViewController {
                     if (categorieBean1.getNom().equals(categorieBean2.getNom())) {
                         newCategorieName = categorieBean1.getNom();
                     }
-                    if (categorieBean1.getType().equals(categorieBean2.getType())) {
-                        newTypeCategorie = categorieBean1.getType();
+                    if (categorieBean1.getSexe().equals(categorieBean2.getSexe())) {
+                        newTypeCategorie = categorieBean1.getSexe();
                     }
                     //Create or uupdate current categorie
                     categorieFusion = competitionBean.getCategorie(newTypeCategorie, newCategorieName);
                     if (categorieFusion == null) {
                         categorieFusion = new CategorieBean(newCategorieName);
-                        categorieFusion.setType(newTypeCategorie);
+                        categorieFusion.setSexe(newTypeCategorie);
                         competitionBean.getCategories().add(categorieFusion);
                     }
                 }
@@ -314,7 +308,7 @@ public class CategorieViewController {
             epreuveFusion.setCategorie(categorieFusion);
             epreuveFusion.setDiscipline(disciplineFusion);
             epreuveFusion.setDetailEpreuve(new DetailEpreuveBean());
-            epreuveFusion.setId(categorieFusion.getNom().concat("-").concat(categorieFusion.getType()).concat(
+            epreuveFusion.setId(categorieFusion.getNom().concat("-").concat(categorieFusion.getSexe()).concat(
                     disciplineFusion.getType()).concat("-").concat(disciplineFusion.getNom()));
             epreuveBean1.setEtat(EtatEpreuve.FUSION.getValue());
             sender.send(competitionBean, epreuveBean1);
@@ -343,7 +337,7 @@ public class CategorieViewController {
             ImageView imageMixte = new ImageView(new Image(CategoriesView.class.getResourceAsStream("images/mixte.png")));
             imageMixte.setFitHeight(25);
             imageMixte.setFitWidth(25);
-            TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieFusion.getType());
+            TreeItem<String> treeItemTypeCategorie = new TreeItem(categorieFusion.getSexe());
             TreeItem<String> treeItemCategorie = new TreeItem(categorieFusion.getNom());
             ImageView imageTypeEpreve = null;
             if (epreuveFusion.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {
@@ -363,7 +357,7 @@ public class CategorieViewController {
             boolean typeCategorieExist = false;
             boolean typeEpreuveExist = false;
             for (TreeItem<String> treeItem : treeView.getRoot().getChildren()) {
-                if (treeItem.getValue().equals(categorieFusion.getType())) {
+                if (treeItem.getValue().equals(categorieFusion.getSexe())) {
                     for (TreeItem<String> itemCategorie : treeItem.getChildren()) {
                         if (itemCategorie.getValue().equals(categorieFusion.getNom())) {
                             for (TreeItem<String> itemTypeEpreuve : itemCategorie.getChildren()) {

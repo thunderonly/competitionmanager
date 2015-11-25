@@ -74,6 +74,8 @@ public class GridComponentTechnical extends GridComponent {
 
     public void delParticipant(ParticipantBean participantBean) {
         table.getItems().remove(participantBean);
+        table.getColumns().clear();
+        this.getChildren().clear();
     }
 
     private void createTableView() {

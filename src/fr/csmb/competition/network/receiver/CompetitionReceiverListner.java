@@ -56,7 +56,7 @@ public class CompetitionReceiverListner implements DatagramListener {
                     categorie.getNomCategorie());
             if (categorieBean == null) {
                 categorieBean = new CategorieBean(categorie.getNomCategorie());
-                categorieBean.setType(categorie.getTypeCategorie());
+                categorieBean.setSexe(categorie.getTypeCategorie());
                 competitionBean.getCategories().add(categorieBean);
             }
             LOGGER.info("Receive catégorie %s ", categorieBean.getNom());

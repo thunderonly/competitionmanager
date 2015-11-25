@@ -8,38 +8,22 @@ import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
-import fr.csmb.competition.xml.model.Categorie;
-import fr.csmb.competition.xml.model.Competition;
-import fr.csmb.competition.xml.model.Epreuve;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 /**
  * Created by Administrateur on 22/10/14.
@@ -133,13 +117,13 @@ public class CreateCompetitionView {
             public void handle(ActionEvent actionEvent) {
                 if (masculin.isSelected()) {
                     CategorieBean categorie = new CategorieBean(nomCategorieTF.getText());
-                    categorie.setType(TypeCategorie.MASCULIN.getValue());
+                    categorie.setSexe(TypeCategorie.MASCULIN.getValue());
                     categorieListDispo.getItems().add(categorie);
                 }
 
                 if (feminin.isSelected()) {
                     CategorieBean categorie = new CategorieBean(nomCategorieTF.getText());
-                    categorie.setType(TypeCategorie.FEMININ.getValue());
+                    categorie.setSexe(TypeCategorie.FEMININ.getValue());
                     categorieListDispo.getItems().add(categorie);
                 }
             }

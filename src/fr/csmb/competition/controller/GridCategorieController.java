@@ -23,8 +23,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -37,7 +35,6 @@ import javax.xml.bind.Marshaller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -116,7 +113,7 @@ public class GridCategorieController {
             }
         }
 
-        categorieTf.setText(categorieBean.getNom().concat(" ").concat(categorieBean.getType()));
+        categorieTf.setText(categorieBean.getNom().concat(" ").concat(categorieBean.getSexe()));
         epreuveTf.setText(epreuveBean.getLabel());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -153,11 +150,18 @@ public class GridCategorieController {
                         //update item
                     } else {
                         for (ParticipantBean remitem : c.getRemoved()) {
-                            gridComponent.drawGrid();
+                            EpreuveBean epreuveBeanRemovePart = remitem.getEpreuveBean();
+                            if (epreuveBean.equals(epreuveBeanRemovePart)) {
+                                gridComponent.delParticipant(remitem);
+                                gridComponent.drawGrid();
+                            }
                         }
                         for (ParticipantBean additem : c.getAddedSubList()) {
-                            gridComponent.addParticipant(additem);
-                            gridComponent.drawGrid();
+                            EpreuveBean epreuveBeanAddPart = additem.getEpreuveBean();
+                            if (epreuveBean.equals(epreuveBeanAddPart)) {
+                                gridComponent.addParticipant(additem);
+                                gridComponent.drawGrid();
+                            }
                         }
                     }
                 }

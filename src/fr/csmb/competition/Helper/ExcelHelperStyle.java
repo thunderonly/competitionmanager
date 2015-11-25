@@ -1,4 +1,4 @@
-package fr.csmb.competition.manager;
+package fr.csmb.competition.Helper;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;

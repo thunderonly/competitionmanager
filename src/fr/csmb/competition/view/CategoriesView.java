@@ -14,7 +14,6 @@ import fr.csmb.competition.type.TypeEpreuve;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -134,11 +133,11 @@ public class CategoriesView {
             }
 
             if (isEpreuveCreated) {
-                if (categorie.getType().equals(TypeCategorie.FEMININ.getValue())) {
+                if (categorie.getSexe().equals(TypeCategorie.FEMININ.getValue())) {
                     itemTypeCategorieFeminin.getChildren().add(itemCategorie);
-                } else if (categorie.getType().equals(TypeCategorie.MASCULIN.getValue())) {
+                } else if (categorie.getSexe().equals(TypeCategorie.MASCULIN.getValue())) {
                     itemTypeCategorieMasculin.getChildren().add(itemCategorie);
-                } else if (categorie.getType().equals(TypeCategorie.MIXTE.getValue())) {
+                } else if (categorie.getSexe().equals(TypeCategorie.MIXTE.getValue())) {
                     if (itemTypeCategorieMixte == null) {
                         itemTypeCategorieMixte = new TreeItem<String>(TypeCategorie.MIXTE.getValue());
                         treeItem.getChildren().add(itemTypeCategorieMixte);

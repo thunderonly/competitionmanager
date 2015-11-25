@@ -4,10 +4,6 @@
  */
 package fr.csmb.competition.model;
 
-import java.util.List;
-import java.util.Observable;
-
-import fr.csmb.competition.xml.model.Participant;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -137,7 +133,7 @@ public class CompetitionBean {
 
     public CategorieBean getCategorie(String type, String name) {
         for (CategorieBean categorieBean : getCategories()) {
-            if (name.equals(categorieBean.getNom()) && type.equals(categorieBean.getType())) {
+            if (name.equals(categorieBean.getNom()) && type.equals(categorieBean.getSexe())) {
                 return categorieBean;
             }
         }

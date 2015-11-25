@@ -1,12 +1,17 @@
 package fr.csmb.competition.controller;
 
+import fr.csmb.competition.Helper.CategorieHelper;
+import fr.csmb.competition.Helper.ParticipantHelper;
 import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.model.comparator.EpreuveCombatComparator;
 import fr.csmb.competition.network.sender.NetworkSender;
+import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeCategorie;
 import fr.csmb.competition.type.TypeEpreuve;
+import fr.csmb.competition.view.ConfigureFightView;
 import fr.csmb.competition.xml.model.Epreuve;
+import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -35,6 +40,7 @@ public class EditEleveController {
 
     public void updateEleve(EleveBean eleveBean, String licence, String nom, String prenom, String age, String poids, TypeCategorie sexe, List<String> epreuves) {
         setEleve(eleveBean, licence, nom, prenom, age, poids, sexe, epreuves);
+        //Call PresenceListener
         NetworkSender.getINSTANCE().sendClub(clubBean);
     }
 
@@ -45,103 +51,34 @@ public class EditEleveController {
         eleveBean.setAge(age);
         eleveBean.setPoids(poids);
         eleveBean.setSexe(sexe.getValue());
-        eleveBean.setCategorie(extractCategorie(age));
-        for (String epreuve : epreuves) {
-            if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
-                eleveBean.getEpreuves().add(extractCategorieCombat(eleveBean, competitionBean));
-            } else {
-                eleveBean.getEpreuves().add(epreuve);
-            }
-
-        }
-    }
-
-    private String extractCategorie(String age) {
-        Integer ageInt = Integer.parseInt(age);
-        if (ageInt >= 8 && ageInt < 10) {
-            return "Pupille";
-        } else if (ageInt >= 10 && ageInt < 12) {
-            return "Benjamin";
-        } else if (ageInt >=12 && ageInt < 14) {
-            return "Minime";
-        } else if (ageInt >= 14 && ageInt < 16) {
-            return "Cadet";
-        } else if (ageInt >= 16 && ageInt < 18) {
-            return "Junior";
-        } else if (ageInt >= 18 && ageInt < 35) {
-            return "Sénior";
-        } else if (ageInt >= 35 && ageInt < 50) {
-            return "Vétérant";
-        }
-        return "";
-    }
-
-
-    private String extractCategorieCombat(EleveBean eleve, CompetitionBean competition) {
-        String poids = eleve.getPoids();
-        int poidsEleveInt = Integer.parseInt(poids);
-        List<Epreuve> epreuvesCombat = new ArrayList<Epreuve>();
-        for (EpreuveBean epreuve : competition.getEpreuves()) {
-            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuve.getDiscipline().getType())) {
-                String nomEpreuve = epreuve.getDiscipline().getNom();
-                String newNomEpreuve = nomEpreuve.trim();
-                String minPoids = newNomEpreuve.substring(0, newNomEpreuve.indexOf("-"));
-                String maxPoids = newNomEpreuve.substring(newNomEpreuve.indexOf("-") + 1);
-                int intMinPoids = Integer.parseInt(minPoids);
-                int intMaxPoids = Integer.parseInt(maxPoids);
-
-                if (epreuve.getCategorie().getNom().equals(eleve.getCategorie()) && epreuve.getCategorie().getType().equals(eleve.getSexe())) {
-                    if (poidsEleveInt >=intMinPoids && poidsEleveInt < intMaxPoids ) {
-                        return nomEpreuve;
-                    }
+        eleveBean.setCategorie(CategorieHelper.getCategorieFromAge(age));
+        //Find epreuve to be remove
+        CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
+        if (categorieBean != null) {
+            List<String> epreuvesToBeRemove = new ArrayList<String>();
+            for (String epreuve : eleveBean.getEpreuves()) {
+                if (!epreuves.contains(epreuve)) {
+                    epreuvesToBeRemove.add(epreuve);
                 }
             }
-        }
-        return "";
-    }
 
+            List<String> epreuvesToBeAdd = new ArrayList<String>();
+            for (String epreuve : epreuves) {
+                String newEpreuve = epreuve;
+                if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
+                    newEpreuve = CategorieHelper.extractCategorieCombat(eleveBean, competitionBean);
+                }
 
-    private String extractCategorieCombat2(EleveBean eleve, CompetitionBean competition) {
-        String categorieEleve = eleve.getCategorie();
-        String sexeEleve = eleve.getSexe();
-        String poidsEleveStr = eleve.getPoids();
-        Integer poidsEleve = new Integer(0);
-        if (poidsEleveStr != null && !poidsEleveStr.isEmpty()) {
-            poidsEleve = Integer.parseInt(poidsEleveStr);
-        }
-
-        Map<Double, EpreuveBean> mapEpreuves = new HashMap<Double, EpreuveBean>();
-        EpreuveCombatComparator comparator = new EpreuveCombatComparator(mapEpreuves);
-        TreeMap<Double, EpreuveBean> epreuveBeanTreeMap = new TreeMap<Double, EpreuveBean>(comparator);
-
-        //recup tous les poids de la categorie de l eleve
-        for (EpreuveBean epreuveBean : competition.getEpreuves()) {
-            if (TypeEpreuve.COMBAT.getValue().equalsIgnoreCase(epreuveBean.getDiscipline().getType())) {
-                if (epreuveBean.getCategorie().getNom().equals(categorieEleve) &&
-                        epreuveBean.getCategorie().getType().equals(sexeEleve)) {
-                    Double poidsEpreuve = Double.parseDouble(epreuveBean.getDiscipline().getNom());
-                    mapEpreuves.put(poidsEpreuve, epreuveBean);
+                if (!eleveBean.getEpreuves().contains(newEpreuve)) {
+                    epreuvesToBeAdd.add(newEpreuve);
                 }
             }
-        }
-        //tri par poids
-        epreuveBeanTreeMap.putAll(mapEpreuves);
 
-        //comparaison poids eleve avec valeur abs du poids de l epreuve
-        Iterator<Double> iterator = epreuveBeanTreeMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            Double poidsEpreuve = iterator.next();
-            if (poidsEleve <= Math.abs(poidsEpreuve)) {
-                return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
-            } else {
-                if (!iterator.hasNext()) {
-                    //c'est le dernier donc plus lourd
-                    return mapEpreuves.get(poidsEpreuve).getDiscipline().getNom();
-                }
-            }
-        }
+            removeEpreuves(epreuvesToBeRemove, categorieBean, eleveBean);
+            addEpreuves(epreuvesToBeAdd, categorieBean, eleveBean);
 
-        return "";
+
+        }
     }
 
     public void setCompetitionBean(CompetitionBean competitionBean) {
@@ -150,5 +87,62 @@ public class EditEleveController {
 
     public void setClubBean(ClubBean clubBean) {
         this.clubBean = clubBean;
+    }
+
+    private void addEpreuves(List<String> epreuvesToBeAdd, CategorieBean categorieBean, EleveBean eleveBean) {
+        for (String epreuve : epreuvesToBeAdd) {
+            String newEpreuve = epreuve;
+            if (epreuve.equals(TypeEpreuve.COMBAT.getValue())) {
+                newEpreuve = CategorieHelper.extractCategorieCombat(eleveBean, competitionBean);
+            }
+
+            if (!eleveBean.getEpreuves().contains(newEpreuve)) {
+                eleveBean.getEpreuves().add(newEpreuve);
+                DisciplineBean disciplineBean = competitionBean.getDiscipline(newEpreuve);
+                if (categorieBean != null) {
+                    ParticipantHelper.createParticipantFromEleveBeanCategorie(
+                            competitionBean, eleveBean, clubBean, categorieBean, newEpreuve);
+
+                    EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+                    if (disciplineBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                        if (epreuveBean.getEtat() != null &&
+                                (epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue()) ||
+                                        epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue()))) {
+                            final Stage newStage = new Stage();
+                            ConfigureFightView configureFightView = new ConfigureFightView();
+                            configureFightView.showView(newStage, competitionBean, epreuveBean);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void removeEpreuves(List<String> epreuvesToBeRemove, CategorieBean categorieBean, EleveBean eleveBean) {
+        for (String epreuve : epreuvesToBeRemove) {
+            DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
+            EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
+            ParticipantBean participantBeanToBeRemove = null;
+            eleveBean.getEpreuves().remove(epreuve);
+            for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(
+                    epreuveBean)) {
+                if (participantBean.getNom().equals(eleveBean.getNom()) &&
+                        participantBean.getPrenom().equals(eleveBean.getPrenom())) {
+                    participantBeanToBeRemove = participantBean;
+                }
+            }
+            if (participantBeanToBeRemove != null) {
+                competitionBean.getParticipants().remove(participantBeanToBeRemove);
+            }
+            if (disciplineBean.getType().equals(TypeEpreuve.COMBAT.getValue())) {
+                if (epreuveBean.getEtat() != null &&
+                        (epreuveBean.getEtat().equals(EtatEpreuve.VALIDE.getValue()) ||
+                        epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue()))) {
+                    final Stage newStage = new Stage();
+                    ConfigureFightView configureFightView = new ConfigureFightView();
+                    configureFightView.showView(newStage, competitionBean, epreuveBean);
+                }
+            }
+        }
     }
 }

@@ -6,26 +6,20 @@ import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.manager.InscriptionsManager;
 import fr.csmb.competition.manager.ResultatsManager;
-import fr.csmb.competition.model.ClubBean;
 import fr.csmb.competition.model.CompetitionBean;
 import fr.csmb.competition.model.DisciplineBean;
-import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
+import fr.csmb.competition.model.comparator.DisciplineCombatComparator;
 import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.Participant;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrateur on 13/10/14.
@@ -183,6 +177,9 @@ public class Controller {
             for (GlobalVision globalVision : computeStructure().get(TypeEpreuve.COMBAT.getValue()).values()) {
                 visionsCombat.add(globalVision);
             }
+            //Organize categorie combat by weight
+            Collections.sort(visionsCombat, new DisciplineCombatComparator());
+
             for (GlobalVision globalVision : computeStructure().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
                 visionsTechnique.add(globalVision);
             }
@@ -226,6 +223,8 @@ public class Controller {
             for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.COMBAT.getValue()).values()) {
                 visionsCombat.add(globalVision);
             }
+            //Organize categorie combat by weight
+            Collections.sort(visionsCombat, new DisciplineCombatComparator());
             for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
                 visionsTechnique.add(globalVision);
             }
@@ -278,6 +277,9 @@ public class Controller {
             for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.COMBAT.getValue()).values()) {
                 visionsCombat.add(globalVision);
             }
+            //Organize categorie combat by weight
+            Collections.sort(visionsCombat, new DisciplineCombatComparator());
+
             for (GlobalVision globalVision : computeStructureCurrent().get(TypeEpreuve.TECHNIQUE.getValue()).values()) {
                 visionsTechnique.add(globalVision);
             }
@@ -299,17 +301,17 @@ public class Controller {
     }
 
     private Map<String, Map<String, GlobalVision>> computeStructure() {
-        Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
-        mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
-        mapSexe.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
+        Map<String, Map<String, GlobalVision>> mapCbtTech = new HashMap<String, Map<String, GlobalVision>>();
+        mapCbtTech.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
+        mapCbtTech.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
         for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
             for (EpreuveBean epreuveBean : competitionBean.getEpreuveByDiscipline(disciplineBean)) {
                 GlobalVision testStructure = null;
-                if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
-                    testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
+                if (mapCbtTech.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
+                    testStructure = mapCbtTech.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
                 } else {
                     testStructure = new GlobalVision(epreuveBean.getLabel());
-                    mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
+                    mapCbtTech.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
                 }
 
                 Map<String, List<Participant>> map1 = null;
@@ -321,11 +323,11 @@ public class Controller {
                 }
 
                 List<Participant> participants = null;
-                if (map1.containsKey(epreuveBean.getCategorie().getType())) {
-                    participants = map1.get(epreuveBean.getCategorie().getType());
+                if (map1.containsKey(epreuveBean.getCategorie().getSexe())) {
+                    participants = map1.get(epreuveBean.getCategorie().getSexe());
                 } else {
                     participants = new ArrayList<Participant>();
-                    map1.put(epreuveBean.getCategorie().getType(), participants);
+                    map1.put(epreuveBean.getCategorie().getSexe(), participants);
                 }
 
                 for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
@@ -336,22 +338,22 @@ public class Controller {
             }
         }
 
-        return mapSexe;
+        return mapCbtTech;
     }
 
     private Map<String, Map<String, GlobalVision>> computeStructureCurrent() {
-        Map<String, Map<String, GlobalVision>> mapSexe = new HashMap<String, Map<String, GlobalVision>>();
-        mapSexe.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
-        mapSexe.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
+        Map<String, Map<String, GlobalVision>> mapCbtTech = new HashMap<String, Map<String, GlobalVision>>();
+        mapCbtTech.put(TypeEpreuve.COMBAT.getValue(), new HashMap<String, GlobalVision>());
+        mapCbtTech.put(TypeEpreuve.TECHNIQUE.getValue(), new HashMap<String, GlobalVision>());
         for (DisciplineBean disciplineBean : competitionBean.getDisciplines()) {
             for (EpreuveBean epreuveBean : competitionBean.getEpreuveByDiscipline(disciplineBean)) {
                 if (!EtatEpreuve.FUSION.getValue().equals(epreuveBean.getEtat())) {
                     GlobalVision testStructure = null;
-                    if (mapSexe.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
-                        testStructure = mapSexe.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
+                    if (mapCbtTech.get(epreuveBean.getDiscipline().getType()).containsKey(epreuveBean.getLabel())) {
+                        testStructure = mapCbtTech.get(epreuveBean.getDiscipline().getType()).get(epreuveBean.getLabel());
                     } else {
                         testStructure = new GlobalVision(epreuveBean.getLabel());
-                        mapSexe.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
+                        mapCbtTech.get(epreuveBean.getDiscipline().getType()).put(epreuveBean.getLabel(), testStructure);
                     }
 
                     Map<String, List<Participant>> map1 = null;
@@ -363,11 +365,11 @@ public class Controller {
                     }
 
                     List<Participant> participants = null;
-                    if (map1.containsKey(epreuveBean.getCategorie().getType())) {
-                        participants = map1.get(epreuveBean.getCategorie().getType());
+                    if (map1.containsKey(epreuveBean.getCategorie().getSexe())) {
+                        participants = map1.get(epreuveBean.getCategorie().getSexe());
                     } else {
                         participants = new ArrayList<Participant>();
-                        map1.put(epreuveBean.getCategorie().getType(), participants);
+                        map1.put(epreuveBean.getCategorie().getSexe(), participants);
                     }
 
                     for (ParticipantBean participantBean : competitionBean.getParticipantPresentByEpreuve(epreuveBean)) {
@@ -378,7 +380,7 @@ public class Controller {
             }
         }
 
-        return mapSexe;
+        return mapCbtTech;
     }
 
     @FXML

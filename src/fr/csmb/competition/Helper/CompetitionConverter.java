@@ -21,7 +21,7 @@ public class CompetitionConverter {
         ObservableList<CategorieBean> categorieBeans = FXCollections.observableArrayList();
         for (Categorie categorie : competition.getCategories()) {
             CategorieBean categorieBean = new CategorieBean(categorie.getNomCategorie());
-            categorieBean.setType(categorie.getTypeCategorie());
+            categorieBean.setSexe(categorie.getTypeCategorie());
             categorieBeans.add(categorieBean);
         }
         competitionBean.setCategories(categorieBeans);
@@ -61,7 +61,7 @@ public class CompetitionConverter {
     public static Competition convertCompetitionBeanToCompetition(CompetitionBean competitionBean) {
         Competition competition = new Competition(competitionBean.getNom());
         for (CategorieBean categorieBean : competitionBean.getCategories()) {
-            Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getType());
+            Categorie categorie = new Categorie(categorieBean.getNom(), categorieBean.getSexe());
             competition.getCategories().add(categorie);
         }
 

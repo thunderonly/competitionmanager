@@ -73,6 +73,7 @@ public class DetailCategorieController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 newStage.close();
+                competitionBean.getParticipants().add(participantController.getParticipantBean());
                 tableParticipant.getItems().add(participantController.getParticipantBean());
                 NetworkSender.getINSTANCE().send(competitionBean, epreuveBean);
             }

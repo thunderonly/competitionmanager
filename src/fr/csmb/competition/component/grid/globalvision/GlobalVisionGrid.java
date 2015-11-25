@@ -4,7 +4,6 @@
  */
 package fr.csmb.competition.component.grid.globalvision;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class GlobalVisionGrid {
             if (haveParticipant(structure)) {
                 VBox title = new VBox();
                 title.setAlignment(Pos.CENTER);
-                Label categorieTitle = new Label(structure.getNomCategorie());
+                Label categorieTitle = new Label(structure.getDisciplineName());
                 categorieTitle.getStyleClass().add("biglabelGridPane");
                 title.getChildren().add(categorieTitle);
                 gridPane.add(title, startColumn, 0, 5, 1);

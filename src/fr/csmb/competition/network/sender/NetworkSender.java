@@ -126,7 +126,7 @@ public class NetworkSender {
 
     private byte[] buildPacketEpreuve(CompetitionBean competitionBean, EpreuveBean epreuveBean) throws IOException {
         Competition competition = new Competition(competitionBean.getNom());
-        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getSexe());
         competition.getCategories().add(categorie);
         Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
         competition.getDiscipline().add(discipline);
@@ -166,7 +166,7 @@ public class NetworkSender {
     private byte[] buildPacket(CompetitionBean competitionBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
             throws IOException{
         Competition competition = new Competition(competitionBean.getNom());
-        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getSexe());
         competition.getCategories().add(categorie);
         Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
         competition.getDiscipline().add(discipline);

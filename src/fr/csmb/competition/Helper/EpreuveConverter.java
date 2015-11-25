@@ -1,15 +1,11 @@
 package fr.csmb.competition.Helper;
 
-import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.xml.model.Categorie;
 import fr.csmb.competition.xml.model.Discipline;
 import fr.csmb.competition.xml.model.Epreuve;
-import fr.csmb.competition.xml.model.Participant;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * Created by Administrateur on 25/11/14.
@@ -26,7 +22,7 @@ public class EpreuveConverter {
         epreuveBean.setEtat(epreuve.getEtatEpreuve());
 
         CategorieBean categorieBean = new CategorieBean(epreuve.getCategorie().getNomCategorie());
-        categorieBean.setType(epreuve.getCategorie().getTypeCategorie());
+        categorieBean.setSexe(epreuve.getCategorie().getTypeCategorie());
         epreuveBean.setCategorie(categorieBean);
 
         DisciplineBean disciplineBean = new DisciplineBean(epreuve.getDiscipline().getNom(), epreuve.getDiscipline().getType());
@@ -42,7 +38,7 @@ public class EpreuveConverter {
 
     public static Epreuve convertEpreuveBeanToEpreuve(EpreuveBean epreuveBean) {
         Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
-        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getType());
+        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getSexe());
         Epreuve epreuve = new Epreuve(categorie, discipline);
         epreuve.setEtatEpreuve(epreuveBean.getEtat());
         epreuve.setLabelEpreuve(epreuveBean.getLabel());

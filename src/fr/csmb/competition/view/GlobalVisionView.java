@@ -13,7 +13,6 @@ import fr.csmb.competition.Helper.ParticipantConverter;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.component.grid.globalvision.GlobalVisionGrid;
-import fr.csmb.competition.xml.model.Epreuve;
 import fr.csmb.competition.xml.model.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,14 +71,14 @@ public class GlobalVisionView {
             }
 
             List<Participant> participants = null;
-            if (map1.containsKey(epreuveBean.getCategorie().getType())) {
-                participants = map1.get(epreuveBean.getCategorie().getType());
+            if (map1.containsKey(epreuveBean.getCategorie().getSexe())) {
+                participants = map1.get(epreuveBean.getCategorie().getSexe());
             } else {
                 participants = new ArrayList<Participant>();
-                map1.put(epreuveBean.getCategorie().getType(), participants);
+                map1.put(epreuveBean.getCategorie().getSexe(), participants);
             }
 
-            ObservableList<ParticipantBean> participantBeans = extractParticipants(epreuveBean.getCategorie().getType(), epreuveBean.getCategorie().getNom(), epreuveBean.getDiscipline().getNom());
+            ObservableList<ParticipantBean> participantBeans = extractParticipants(epreuveBean.getCategorie().getSexe(), epreuveBean.getCategorie().getNom(), epreuveBean.getDiscipline().getNom());
             for (ParticipantBean participantBean : participantBeans) {
                 Participant participant = ParticipantConverter.convertParticipantBeanToParticipant(participantBean);
                 participants.add(participant);

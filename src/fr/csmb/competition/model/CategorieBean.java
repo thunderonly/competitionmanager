@@ -4,24 +4,21 @@
  */
 package fr.csmb.competition.model;
 
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
- * [Enter type description here].
+ * [Enter sexe description here].
  *
  * @author Bull SAS
  */
 public class CategorieBean implements Cloneable {
 
     private SimpleStringProperty nom;
-    private SimpleStringProperty type;
+    private SimpleStringProperty sexe;
 
     public CategorieBean(String nom) {
         this.nom = new SimpleStringProperty(nom);
-        this.type = new SimpleStringProperty();
+        this.sexe = new SimpleStringProperty();
     }
 
     public String getNom() {
@@ -32,20 +29,20 @@ public class CategorieBean implements Cloneable {
         this.nom.set(nom);
     }
 
-    public String getType() {
-        return this.type.get();
+    public String getSexe() {
+        return this.sexe.get();
     }
 
-    public void setType(String type) {
-        this.type.set(type);
+    public void setSexe(String sexe) {
+        this.sexe.set(sexe);
     }
 
     public SimpleStringProperty nomProperty() {
         return nom;
     }
 
-    public SimpleStringProperty typeProperty() {
-        return type;
+    public SimpleStringProperty sexeProperty() {
+        return sexe;
     }
 
     @Override
@@ -56,7 +53,7 @@ public class CategorieBean implements Cloneable {
         CategorieBean that = (CategorieBean) o;
 
         if (!nom.get().equals(that.nom.get())) return false;
-        if (!type.get().equals(that.type.get())) return false;
+        if (!sexe.get().equals(that.sexe.get())) return false;
 
         return true;
     }
@@ -69,8 +66,8 @@ public class CategorieBean implements Cloneable {
     @Override
     public String toString() {
         String toString = "";
-        if (type.get()!= null && nom.get() != null) {
-            toString = type.get().concat(" - ").concat(nom.get());
+        if (sexe.get()!= null && nom.get() != null) {
+            toString = sexe.get().concat(" - ").concat(nom.get());
         }
         return toString;
     }

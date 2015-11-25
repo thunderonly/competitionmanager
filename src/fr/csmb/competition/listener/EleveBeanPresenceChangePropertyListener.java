@@ -1,5 +1,6 @@
 package fr.csmb.competition.listener;
 
+import fr.csmb.competition.Helper.ParticipantHelper;
 import fr.csmb.competition.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,33 +17,7 @@ public class EleveBeanPresenceChangePropertyListener implements ChangeListener<B
     @Override
     public void changed(ObservableValue<? extends java.lang.Boolean> observableValue, Boolean o, Boolean t1) {
         if (t1) {
-            //Check if participant exist for epreuve of eleve
-            CategorieBean categorieBean = competitionBean.getCategorie(eleveBean.getSexe(), eleveBean.getCategorie());
-            if (categorieBean != null) {
-                for (String epreuve : eleveBean.getEpreuves()) {
-                    if (!"".equals(epreuve)) {
-                        DisciplineBean disciplineBean = competitionBean.getDiscipline(epreuve);
-                        EpreuveBean epreuveBean = competitionBean.getEpreuve(categorieBean, disciplineBean);
-                        boolean participantExist = false;
-                        for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(
-                                epreuveBean)) {
-                            if (participantBean.getNom().equals(eleveBean.getNom()) &&
-                                    participantBean.getPrenom().equals(eleveBean.getPrenom())) {
-                                participantExist = true;
-                            }
-                        }
-                        if (!participantExist) {
-                            ParticipantBean participantBean = new ParticipantBean(eleveBean.getNom(), eleveBean.getPrenom());
-                            participantBean.setEpreuveBean(epreuveBean);
-                            if (eleveBean.getPoids() != null && !eleveBean.getPoids().trim().equals("")) {
-                                participantBean.setPoids(Integer.parseInt(eleveBean.getPoids()));
-                            }
-                            participantBean.setClub(clubBean.getIdentifiant());
-                            competitionBean.getParticipants().add(participantBean);
-                        }
-                    }
-                }
-            }
+            ParticipantHelper.createParticipantsFromEleveBean(competitionBean, eleveBean, clubBean);
             for (ParticipantBean participantBean : competitionBean.getParticipantByNomPrenom(
                     eleveBean.getNom(), eleveBean.getPrenom())) {
                 participantBean.setParticipe(true);
