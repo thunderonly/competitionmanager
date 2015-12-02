@@ -40,9 +40,6 @@ public class EditingDoubleCell extends EditingCell<Double> {
                     setStyle("");
                 }
             }
-            if (getTableView().getItems().size() > getIndex()) {
-                System.out.println(getTableView().getItems().get(getIndex()).getNom());
-            }
         }
     }
     protected void createTextField() {

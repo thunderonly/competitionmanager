@@ -171,24 +171,30 @@ public class CategoriesView {
                     String typeEpreuve = new_val.getParent().getValue();
                     EpreuveBean epreuveBean = getEpreuveBean(typeCategorie, categorie, epreuve);
                     stackPane.getChildren().clear();
-                    if (epreuveBean != null && epreuveBean.getEtat() != null &&
-                            (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue()) ||
-                            epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue()))) {
-                        if (borderPaneMap.containsKey(epreuveBean)) {
-                            epreuveBorderPane = borderPaneMap.get(epreuveBean);
+                    try {
+                        if (epreuveBean != null && epreuveBean.getEtat() != null &&
+                                (epreuveBean.getEtat().equals(EtatEpreuve.DEMARRE.getValue()) ||
+                                        epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue()))) {
+                            if (borderPaneMap.containsKey(epreuveBean)) {
+                                epreuveBorderPane = borderPaneMap.get(epreuveBean);
+                            } else {
+                                //Epreuve is Beginned or terminated but not exist
+                                createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
+                                if (epreuveBean != null) {
+                                    updateList(epreuveBean);
+                                }
+                            }
+                            stackPane.getChildren().add(epreuveBorderPane);
                         } else {
-                            //Epreuve is Beginned or terminated but not exist
-                            createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
+                            createTableView(stackPane, epreuveBean);
                             if (epreuveBean != null) {
                                 updateList(epreuveBean);
                             }
                         }
-                        stackPane.getChildren().add(epreuveBorderPane);
-                    } else {
-                        createTableView(stackPane, epreuveBean);
-                        if (epreuveBean != null) {
-                            updateList(epreuveBean);
-                        }
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

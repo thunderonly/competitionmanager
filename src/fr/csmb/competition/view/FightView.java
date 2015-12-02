@@ -11,7 +11,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -76,8 +75,6 @@ public class FightView {
         int newY = 10 + heightRectangle + spaceBetweenJoueur + heightRectangle;
         this.boxRed.setLayoutY(newY);
 
-        SplitPane splitPane  = new SplitPane();
-
         setPart1();
         setPart2();
         this.initializeListner();
@@ -138,16 +135,9 @@ public class FightView {
             }
         });
 
-        Group groupBlue = new Group();
-        groupBlue.getStyleClass().add("tfBlue");
-        groupBlue.getChildren().addAll(this.boxBlue, this.noteJuge1Part1, this.noteJuge2Part1, this.nbPenaltyPart1, resultatPart1);
-        Group groupRed = new Group();
-        groupRed.getStyleClass().add("tfRed");
-        groupRed.getChildren().addAll(this.boxRed, this.noteJuge1Part2, this.noteJuge2Part2, this.nbPenaltyPart2, resultatPart2);
-        splitPane.getItems().addAll(groupBlue, groupRed);
-
-        group.getChildren().addAll(splitPane);
-        borderPane.setCenter(splitPane);
+        group.getChildren().addAll(this.boxBlue, this.boxRed, this.noteJuge1Part1, this.noteJuge2Part1, this.nbPenaltyPart1, resultatPart1,
+                this.noteJuge1Part2, this.noteJuge2Part2, this.nbPenaltyPart2, resultatPart2);
+        borderPane.setCenter(group);
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         hBox.getChildren().addAll(valide, annule);

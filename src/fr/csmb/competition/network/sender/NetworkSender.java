@@ -37,14 +37,10 @@ public class NetworkSender {
     private static NetworkSender INSTANCE;
 
     private static final Logger LOGGER = LogManager.getFormatterLogger(NetworkSender.class);
+    ExecutorService executorService = null;
 
     private MulticastSocket ds ;
 
-    /**
-     * Nmea Sentences Separator
-     * *
-     */
-    private static final char NMEA_SEP = '\n';
 
     /**
      * Port
@@ -89,42 +85,20 @@ public class NetworkSender {
 
     }
 
-    public void sendClub(ClubBean clubBean) {
-        if (createDatagramSocket()) {
-
-            if (address == null || address.equals("")) {
-                address = getMulticastIp();
-            }
+    public void sendClub(CompetitionBean competitionBean, ClubBean clubBean) {
             LOGGER.info("Send club data on address %s and port %s", address, port);
             ExecutorService executorService = Executors.newSingleThreadExecutor();
-            executorService.execute(new ClubSender(clubBean));
-            executorService.shutdown();
-        }
+            executorService.execute(new ClubSender(competitionBean, clubBean));
     }
 
     public void send(CompetitionBean competitionBean, EpreuveBean epreuveBean) {
 
-        if (createDatagramSocket()) {
-
-            if (address == null || address.equals("")) {
-                address = getMulticastIp();
-            }
             LOGGER.info("Send competition data on address %s and port %s", address, port);
-            ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.execute(new CompetitionSender(competitionBean, epreuveBean));
-            executorService.shutdown();
-        }
     }
 
-    private void sendPacket(byte[] sendBuf) throws IOException, InterruptedException {
-        DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, new InetSocketAddress(address, port));
-        int byteCount = packet.getLength();
-        ds.send(packet);
-        LOGGER.info("Data sent on address %s and port %s. Length %s", address, port, byteCount);
-        Thread.sleep(1000);
-    }
-
-    private byte[] buildPacketEpreuve(CompetitionBean competitionBean, EpreuveBean epreuveBean) throws IOException {
+    private byte[] buildPacketEpreuve(CompetitionBean competitionBean, EpreuveBean epreuveBean, List<Participant> participants) throws IOException {
         Competition competition = new Competition(competitionBean.getNom());
         Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getSexe());
         competition.getCategories().add(categorie);
@@ -140,49 +114,7 @@ public class NetworkSender {
         epreuve.setLabelEpreuve(epreuveBean.getLabel());
         competition.getEpreuve().add(epreuve);
 
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(2500);
-        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-        os.flush();
-        os.writeObject(competition);
-        os.flush();
-        //retrieves byte array
-        byte[] sendBuf = byteStream.toByteArray();
-        return sendBuf;
-    }
-
-    private byte[] buildPacketParticipants(CompetitionBean competitionBean, List<Participant> participants) throws IOException {
-        Competition competition = new Competition(competitionBean.getNom());
         competition.setParticipant(participants);
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(2500);
-        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-        os.flush();
-        os.writeObject(competition);
-        os.flush();
-        //retrieves byte array
-        byte[] sendBuf = byteStream.toByteArray();
-        return sendBuf;
-    }
-
-    private byte[] buildPacket(CompetitionBean competitionBean, EpreuveBean epreuveBean, int nbSend, int nbParticipants, List<Participant> participants)
-            throws IOException{
-        Competition competition = new Competition(competitionBean.getNom());
-        Categorie categorie = new Categorie(epreuveBean.getCategorie().getNom(), epreuveBean.getCategorie().getSexe());
-        competition.getCategories().add(categorie);
-        Discipline discipline = new Discipline(epreuveBean.getDiscipline().getNom(), epreuveBean.getDiscipline().getType());
-        competition.getDiscipline().add(discipline);
-
-        Epreuve epreuve = new Epreuve();
-        epreuve.setCategorie(categorie);
-        epreuve.setDiscipline(discipline);
-        if (nbSend >= nbParticipants) {
-            DetailEpreuve detailEpreuve = DetailEpreuveConverter.convertDetailEpreuveBeanToDetailEpreuve(epreuveBean.getDetailEpreuve());
-            epreuve.setDetailEpreuve(detailEpreuve);
-            epreuve.setEtatEpreuve(epreuveBean.getEtat());
-        }
-//        competition.getEpreuve().add(epreuve);
-        LOGGER.info("Send epreuve %s with etat %s", epreuveBean.toString(), epreuveBean.getEtat());
-
-//        competition.setParticipant(participants);
 
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
@@ -194,117 +126,53 @@ public class NetworkSender {
         return sendBuf;
     }
 
+    private byte[] buildPacketClub(CompetitionBean competitionBean, ClubBean clubBean, List<Eleve> eleves) throws IOException {
+        Competition competition = new Competition(competitionBean.getNom());
+        Club club = new Club(clubBean.getIdentifiant(), clubBean.getNom());
+        club.setEleves(eleves);
+        List<Club> clubs = new ArrayList<Club>(1);
+        clubs.add(club);
+        competition.setClubs(clubs);
 
-    private boolean createDatagramSocket() {
-        boolean open = true;
-        try {
-            if (ds == null) {
-                ds = new MulticastSocket();
-                ds.setTimeToLive(5);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            open = false;
-        }
-        return open;
-    }
-
-    public int getTtl() {
-        return ttl;
-    }
-
-    public void setTtl(int ttl) {
-        this.ttl = ttl;
-    }
-
-    private String getMulticastIp(){
-        Enumeration<NetworkInterface> list;
-        String multicast = null;
-        try {
-            list = NetworkInterface.getNetworkInterfaces();
-            while(list.hasMoreElements()) {
-                NetworkInterface iface = (NetworkInterface) list.nextElement();
-                if(iface != null && !iface.isLoopback() && iface.isUp() && !iface.isVirtual()) {
-                    Enumeration<InetAddress> iadds = iface.getInetAddresses();
-                    while (iadds.hasMoreElements()) {
-                        InetAddress address = iadds.nextElement();
-                        if (address != null && !"".equals(address.getHostAddress())) {
-                            String addressStr = address.getHostAddress();
-                            String[] ip = addressStr.split("\\.");
-                            multicast = "224." + "0" + "." + "0" + ".1";
-                            return multicast;
-                        }
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-
-
-
-    /**
-     * Check if there is lan connection
-     *
-     * @return true if lan is connected otherwise false.
-     */
-    protected boolean isLanConnected() {
-        try {
-            final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                final NetworkInterface interf = interfaces.nextElement();
-                if (interf.isUp() && !interf.isLoopback()) {
-                    return true;
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return false;
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
+        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+        os.flush();
+        os.writeObject(competition);
+        os.flush();
+        //retrieves byte array
+        byte[] sendBuf = byteStream.toByteArray();
+        return sendBuf;
     }
 
     private class ClubSender implements Runnable {
 
         private ClubBean clubBean;
+        private CompetitionBean competitionBean;
 
-        public ClubSender(ClubBean clubBean) {
+        public ClubSender(CompetitionBean competitionBean, ClubBean clubBean) {
+            this.competitionBean = competitionBean;
             this.clubBean = clubBean;
         }
 
         @Override
         public void run() {
             try {
-                int nbEleves = clubBean.getEleves().size();
-                int nbSend = 0;
                 List<Eleve> eleves = new ArrayList<Eleve>(2);
                 for (EleveBean eleveBean : clubBean.getEleves()) {
                     eleves.add(EleveConverter.convertEleveBeanToEleve(eleveBean));
-                    nbSend++;
-                    if (nbSend % 4 == 0 || nbSend == nbEleves) {
-                        Club club = new Club(clubBean.getIdentifiant(), clubBean.getNom());
-                        club.setEleves(eleves);
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(5000);
-                        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-                        os.flush();
-                        os.writeObject(club);
-                        os.flush();
-                        //retrieves byte array
-                        byte[] sendBuf = byteStream.toByteArray();
-                        sendPacket(sendBuf);
-                        eleves.clear();
-                    }
                 }
+                MulticastSocket socket = new MulticastSocket();
+                byte[] buf = buildPacketClub(competitionBean, clubBean, eleves);
+                InetAddress group = InetAddress.getByName("224.192.168.1");
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 4446);
+                socket.send(packet);
+                executorService.shutdown();
+                socket.close();
+
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 LOGGER.error("Error when send data ", e);
             } catch (IOException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (InterruptedException e) {
                 e.printStackTrace();
                 LOGGER.error("Error when send data ", e);
             }
@@ -324,38 +192,22 @@ public class NetworkSender {
         @Override
         public void run() {
             try {
-                byte[] sendBuf = buildPacketEpreuve(competitionBean, epreuveBean);
-                sendPacket(sendBuf);
 
-                int nbParticipants = competitionBean.getParticipantByEpreuve(epreuveBean).size();
-                int nbSend = 0;
                 List<Participant> participants = new ArrayList<Participant>(4);
                 for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
                     participants.add(ParticipantConverter.convertParticipantBeanToParticipant(participantBean));
-                    nbSend++;
-                    if (nbSend % 2 == 0 || nbSend == nbParticipants) {
-
-                        //retrieves byte array
-                        sendBuf = buildPacketParticipants(competitionBean, participants);
-                        sendPacket(sendBuf);
-                        for (Participant participant : participants) {
-                            LOGGER.info("Send participant %s %s", participant.getNomParticipant(), participant.getPrenomParticipant());
-                        }
-                        participants.clear();
-                    }
                 }
-//                if (!isSend) {
-//                    //retrieves byte array
-//                    byte[] sendBuf = buildPacket(competitionBean, epreuveBean, 0, 0, participants);
-//                    sendPacket(sendBuf);
-//                }
+                MulticastSocket socket = new MulticastSocket();
+                byte[] buf = buildPacketEpreuve(competitionBean, epreuveBean, participants);
+                InetAddress group = InetAddress.getByName("224.192.168.1");
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 4446);
+                socket.send(packet);
+                executorService.shutdown();
+                socket.close();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 LOGGER.error("Error when send data ", e);
             } catch (IOException e) {
-                e.printStackTrace();
-                LOGGER.error("Error when send data ", e);
-            } catch (InterruptedException e) {
                 e.printStackTrace();
                 LOGGER.error("Error when send data ", e);
             }

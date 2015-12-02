@@ -1,17 +1,17 @@
 package fr.csmb.competition.network.receiver;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import fr.csmb.competition.Helper.CompetitionConverter;
-import fr.csmb.competition.Helper.EleveConverter;
-import fr.csmb.competition.Helper.EpreuveConverter;
-import fr.csmb.competition.Helper.ParticipantConverter;
+import fr.csmb.competition.Helper.*;
 import fr.csmb.competition.Main;
+import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.ParticipantBean;
 import fr.csmb.competition.model.CategorieBean;
 import fr.csmb.competition.model.ClubBean;
@@ -20,8 +20,11 @@ import fr.csmb.competition.model.DisciplineBean;
 import fr.csmb.competition.model.EleveBean;
 import fr.csmb.competition.model.EpreuveBean;
 import fr.csmb.competition.type.EtatEpreuve;
+import fr.csmb.competition.type.TypeEpreuve;
+import fr.csmb.competition.view.ConfigureFightView;
 import fr.csmb.competition.view.NotificationView;
 import fr.csmb.competition.xml.model.*;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,8 +111,61 @@ public class CompetitionReceiverListner implements DatagramListener {
             }
         }
 
+        if (competition.getClubs() != null && competition.getClubs().size() > 0) {
+            for (Club club : competition.getClubs()) {
+                ClubBean clubBean = competitionBean.getClubByIdentifiant(club.getIdentifiant());
+                if (clubBean != null) {
+                    //update club
+                    manageEleveForClub(club, clubBean);
+                } else {
+                    //Create club
+                    clubBean = new ClubBean();
+                    clubBean.setNom(club.getNomClub());
+                    clubBean.setIdentifiant(club.getIdentifiant());
+                    manageEleveForClub(club, clubBean);
+                    competitionBean.getClubs().add(clubBean);
+                }
+            }
+        }
+
         saveCompetitionToXmlFileTmp();
     }
+
+    private void manageEleveForClub(Club club, ClubBean clubBean) {
+        if (club.getEleves() != null && club.getEleves().size() > 0) {
+            for (Eleve eleve : club.getEleves()) {
+                EleveBean eleveBean = clubBean.getEleveByLicence(eleve.getLicenceEleve());
+                if (eleveBean != null) {
+                    //Update eleve
+                    updateEleve(clubBean, eleveBean, eleve);
+                } else {
+                    //Create eleve
+                    eleveBean = EleveConverter.converEleveToEleveBean(eleve);
+                    clubBean.getEleves().add(eleveBean);
+                    EleveBeanPresenceChangePropertyListener propertyListener = new EleveBeanPresenceChangePropertyListener();
+                    propertyListener.setCompetitionBean(competitionBean);
+                    propertyListener.setClubBean(clubBean);
+                    propertyListener.setEleveBean(eleveBean);
+                    eleveBean.presenceProperty().addListener(propertyListener);
+                    ParticipantHelper.createParticipantsFromEleveBean(competitionBean, eleveBean, clubBean);
+                }
+                LOGGER.info("Receive eleve %s %s", eleveBean.getNom(), eleveBean.getPrenom());
+            }
+        }
+    }
+
+    private void updateEleve(ClubBean clubBean, EleveBean eleveBean, Eleve eleve) {
+        eleveBean.setLicence(eleve.getLicenceEleve());
+        eleveBean.setNom(eleve.getNomEleve());
+        eleveBean.setPrenom(eleve.getPrenomEleve());
+        eleveBean.setAge(eleve.getAgeEleve());
+        eleveBean.setPoids(eleve.getPoidsEleve());
+        eleveBean.setSexe(eleve.getSexeEleve());
+        eleveBean.setCategorie(CategorieHelper.getCategorieFromAge(eleve.getAgeEleve()));
+        //Find epreuve to be remove
+        EleveHelper.manageEpreuves(competitionBean, clubBean, eleveBean, eleve.getEpreuvesEleves());
+    }
+
 
     @Override
     public void receive(Club club) {

@@ -7,6 +7,8 @@ import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -23,6 +25,7 @@ import java.util.*;
 public class InscriptionsManager {
 
     FormulaEvaluator evaluator;
+    private static final Logger LOGGER = LogManager.getFormatterLogger(InscriptionsManager.class);
 
     public String loadInscription(File file, CompetitionBean competition) {
         try {
@@ -157,7 +160,7 @@ public class InscriptionsManager {
 //                    }
                     for (String equipe : teamDoiLuyenMainNue.keySet()) {
                         EleveBean newEleveBean = extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamDoiLuyenMainNue.get(equipe), "Doi Luyen");
+                                clubBean.getIdentifiant(), equipe.concat("DL"), teamDoiLuyenMainNue.get(equipe), "Doi Luyen");
                         initializeListener(competition, newEleveBean, clubBean);
                         clubBean.getEleves().add(newEleveBean);
                         newEleveBean.setPresence(Boolean.TRUE);
@@ -170,7 +173,7 @@ public class InscriptionsManager {
 //                    }
                     for (String equipe : teamSynchroMainNue.keySet()) {
                         EleveBean newEleveBean = extractEleveFromTeam(
-                                clubBean.getIdentifiant(), equipe, teamSynchroMainNue.get(equipe), "Synchronisé");
+                                clubBean.getIdentifiant(), equipe.concat("Sync"), teamSynchroMainNue.get(equipe), "Synchronisé");
                         initializeListener(competition, newEleveBean, clubBean);
                         clubBean.getEleves().add(newEleveBean);
                         newEleveBean.setPresence(Boolean.TRUE);
@@ -350,6 +353,8 @@ public class InscriptionsManager {
     }
 
     public boolean saveGlobalVisionFile(File file, Map<TypeEpreuve, List<GlobalVision>> testStructures) {
+
+        LOGGER.info("Error when generate global vision.");
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         XSSFCellStyle styleCellEpreuve = setStyleEpreuveForGlobalVision(workbook);
@@ -398,6 +403,7 @@ public class InscriptionsManager {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.error("Error when generate global vision.", e);
             return false;
         }
     }
@@ -526,6 +532,7 @@ public class InscriptionsManager {
     private void createBody(XSSFSheet sheet, XSSFCellStyle styleCellCategorie, XSSFCellStyle styleCellSexe, XSSFCellStyle styleCellTotal, XSSFCellStyle styleCellTotal1, int startCol, int rowStart, Map<String, Map<String, List<Participant>>> datas) {
         int rowStartForCategorie = rowStart;
         for (String keyCategorie : datas.keySet()) {
+
             if (haveParticipantForCategorie(keyCategorie, datas)) {
                 Row rowCategorie = getRow(sheet, rowStartForCategorie);
                 Cell cellCategorie = rowCategorie.createCell(startCol);

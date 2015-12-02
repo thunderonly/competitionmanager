@@ -34,6 +34,12 @@ public class NetworkReceiver extends Thread {
      * Listening port
      */
     int port = 9878;
+
+    /**
+     * Time to live
+     */
+    int ttl = 5;
+
     /**
      * Multicast Address
      */
@@ -61,36 +67,34 @@ public class NetworkReceiver extends Thread {
     public NetworkReceiver(String address, int port) {
         this.address = address;
         this.port = port;
-        this.setName("LocationNMEA-UDP-Thread");
     }
 
     @Override
     public void run() {
         try {
 
-            if (address == null || address.equals("")) {
-                address = getMulticastIp();
-            }
-            ds = new MulticastSocket(port);
-            ds.setTimeToLive(5);
-            ds.joinGroup(InetAddress.getByName(address));
-
+            MulticastSocket socket = new MulticastSocket(4446);
+            InetAddress group = InetAddress.getByName("224.192.168.1");
+            LOGGER.info("Try to join group a the address %s on port %s", address, port);
+            socket.joinGroup(group);
             LOGGER.info("DataSource join the address %s on port %s", address, port);
+
+            DatagramPacket packet;
 
             while (running) {
 
                 try {
-
-                    byte[] data = new byte[2500];
-                    dp = new DatagramPacket(data, data.length);
-                    ds.receive(dp);
-                    LOGGER.info("DataSource receive datagram packet from address %s. Length %s", dp.getAddress(), dp.getLength());
-                    if (!isOwnPacket(dp.getAddress())) {
+                    byte[] data = new byte[5000];
+                    packet = new DatagramPacket(data, data.length);
+                    socket.receive(packet);
+                    LOGGER.info("DataSource receive datagram packet from address %s. Length %s", packet.getAddress(), packet.getLength());
+                    if (!isOwnPacket(packet.getAddress())) {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
                         ObjectInputStream is = new
                                 ObjectInputStream(new BufferedInputStream(byteStream));
                         Object receivedObj = is.readObject();
                         is.close();
+                        byteStream.close();
                         if (receivedObj instanceof Competition) {
                             LOGGER.info("Receive a competition");
                             Competition competition = (Competition)receivedObj;
@@ -143,34 +147,6 @@ public class NetworkReceiver extends Thread {
         }
     }
 
-    private String getMulticastIp() {
-        Enumeration<NetworkInterface> list;
-        String multicast = null;
-        try {
-            list = NetworkInterface.getNetworkInterfaces();
-            while (list.hasMoreElements()) {
-                NetworkInterface iface = (NetworkInterface) list.nextElement();
-                if (iface != null && !iface.isLoopback() && iface.isUp()
-                        && !iface.isVirtual()) {
-                    Enumeration<InetAddress> iadds = iface.getInetAddresses();
-                    while (iadds.hasMoreElements()) {
-                        InetAddress address = iadds.nextElement();
-                        if (address != null && !"".equals(address.getHostAddress())) {
-                            String addressStr = address.getHostAddress();
-                            String[] ip = addressStr.split("\\.");
-                            multicast = "224." + "0" + "." + "0" + ".1";
-                            return multicast;
-                        }
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-
     /**
      * Fire all listener
      */
@@ -194,7 +170,7 @@ public class NetworkReceiver extends Thread {
         }
     }
 
-    public void addNmeaUdpListener(DatagramListener datagramListener) {
+    public void addListener(DatagramListener datagramListener) {
         if (!listDatagramListener.contains(datagramListener)) {
             listDatagramListener.add(datagramListener);
         }

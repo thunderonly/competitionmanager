@@ -17,6 +17,8 @@ import fr.csmb.competition.xml.model.Participant;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.*;
@@ -27,6 +29,7 @@ import java.util.*;
 public class Controller {
 
     private Main main;
+    private static final Logger LOGGER = LogManager.getFormatterLogger(Controller.class);
 
     @FXML
     private MenuItem createCompetition;
@@ -156,6 +159,7 @@ public class Controller {
 
     @FXML
     private void generateGlobalVision() {
+        LOGGER.info("Try to generation global vision : ");
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter
@@ -165,7 +169,7 @@ public class Controller {
 
         // Show save file dialog
         File file = fileChooser.showSaveDialog(main.getMainStage());
-
+        LOGGER.info("Try to generation global vision : " + file);
         if (file != null) {
             // Make sure it has the correct extension
             if (!file.getPath().endsWith(".xlsx")) {
@@ -197,6 +201,7 @@ public class Controller {
                 notificationView.notify(NotificationView.Level.SUCCESS, "Génération",
                         "Erreur lors de la génération du fichier de résultat : " + file.getName() + ".");
             }
+            LOGGER.info("generation global vision : " + file);
         }
     }
 
@@ -212,6 +217,7 @@ public class Controller {
         // Show save file dialog
         File file = fileChooser.showSaveDialog(main.getMainStage());
 
+        LOGGER.info("Error when generate global vision.");
         if (file != null) {
             // Make sure it has the correct extension
             if (!file.getPath().endsWith(".xlsx")) {
@@ -401,6 +407,11 @@ public class Controller {
     @FXML
     private void handleGlobalVision() {
         main.showGlobalVisionView();
+    }
+
+    @FXML
+    private void handleTechniqueGrid() {
+        main.showTechnicalGrid();
     }
 
     public MenuItem getCreateCompetition() {

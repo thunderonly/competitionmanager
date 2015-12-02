@@ -200,13 +200,6 @@ public class GridComponentTechnical extends GridComponent {
                 participantClassementFinalListener.fireUpdateClassementFinal(participant);
             }
         });
-        columnClassementFinal.cellValueFactoryProperty().addListener(new ChangeListener<ParticipantBean>() {
-            @Override
-            public void changed(ObservableValue<? extends ParticipantBean> observableValue, ParticipantBean o,
-                    ParticipantBean o2) {
-                System.out.println("Update data on column final");
-            }
-        });
 
 
         table.setItems(data);
@@ -221,7 +214,7 @@ public class GridComponentTechnical extends GridComponent {
         ParticipantBean previousParticipant = null;
         for (ParticipantBean participant : parts) {
             if (previousParticipant != null) {
-                if (previousParticipant.getNoteTotal() == participant.getNoteTotal()) {
+                if (previousParticipant.getNoteTotal().equals(participant.getNoteTotal())) {
                     data.get(data.indexOf(participant)).setClassementAuto(previousParticipant.getClassementAuto());
                     data.get(data.indexOf(participant)).setClassementFinal(previousParticipant.getClassementFinal());
                     data.get(data.indexOf(participant)).setClassementManuel(0);

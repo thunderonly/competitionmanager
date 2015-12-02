@@ -65,7 +65,6 @@ public class ConfigureFightView {
                 }
                 resultatList = gridComponentFight.getResultatsList();
                 for (ParticipantBean participantBean : resultatList) {
-                    System.out.println("Place on Grid : " + participantBean.getPlaceOnGrid() + " " + participantBean.toString());
                     ParticipantBean epreuveParticipantBean = competitionBean.getParticipantByNomPrenomEpreuve(
                             participantBean.getNom(), participantBean.getPrenom(), epreuveBean);
                     if (epreuveParticipantBean != null) {
@@ -139,8 +138,6 @@ public class ConfigureFightView {
         participantBeanListView.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("setOnDragDetected");
-
                 Dragboard dragBoard = participantBeanListView.startDragAndDrop(TransferMode.MOVE);
 
                 ClipboardContent content = new ClipboardContent();

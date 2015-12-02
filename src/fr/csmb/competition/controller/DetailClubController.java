@@ -179,7 +179,7 @@ public class DetailClubController {
 
     @FXML
     private void validate() {
-        NetworkSender.getINSTANCE().sendClub(clubBean);
+        NetworkSender.getINSTANCE().sendClub(competitionBean, clubBean);
         listEleveDialog.close();
     }
 

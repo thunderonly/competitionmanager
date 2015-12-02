@@ -1,6 +1,7 @@
 package fr.csmb.competition;
 
 import fr.csmb.competition.Helper.CompetitionConverter;
+import fr.csmb.competition.component.grid.technical.GridComponentTechnical;
 import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
 import fr.csmb.competition.controller.ClubController;
@@ -28,6 +29,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 /**
@@ -50,6 +53,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+//        NewSender newSender = new NewSender();
+//        NewReceiver newReceiver = new NewReceiver();
+//        newSender.start();
+//        newReceiver.start();
+
         mainStage = primaryStage;
         notificationView = new NotificationView(mainStage);
         primaryStage.setTitle("Competition Manager");
@@ -69,7 +77,6 @@ public class Main extends Application {
 
     @Override
     public void stop() {
-        receiver.stopSocket();
         receiver.interrupt();
     }
 
@@ -124,7 +131,7 @@ public class Main extends Application {
             pref.put("filePath", fileName);
 
             CompetitionReceiverListner receiverListner = new CompetitionReceiverListner(competitionBean, notificationView);
-            receiver.addNmeaUdpListener(receiverListner);
+            receiver.addListener(receiverListner);
             receiver.start();
 
             showCompetitionView();
@@ -231,5 +238,21 @@ public class Main extends Application {
     public void showGlobalVisionView() {
         GlobalVisionView globalVisionView = new GlobalVisionView();
         globalVisionView.showView(mainStage, competitionBean);
+    }
+
+    public void showTechnicalGrid() {
+
+        Stage newStage = new Stage();
+        BorderPane pane = new BorderPane();
+        List<ParticipantBean> participantBeans = new ArrayList<ParticipantBean>();
+        participantBeans.add(new ParticipantBean("Nom", "Prenom"));
+        participantBeans.add(new ParticipantBean("Nom1", "Prenom1"));
+        participantBeans.add(new ParticipantBean("Nom2", "Prenom2"));
+        GridComponentTechnical gridComponentTechnical = new GridComponentTechnical(participantBeans);
+        gridComponentTechnical.drawGrid();
+        borderPane.setCenter(gridComponentTechnical);
+
+        newStage.setScene(new Scene(pane));
+        newStage.show();
     }
 }

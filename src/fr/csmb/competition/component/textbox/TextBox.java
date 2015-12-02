@@ -109,8 +109,6 @@ public class TextBox extends Group {
         text.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("setOnDragDetected");
-
                 Dragboard dragBoard = text.startDragAndDrop(TransferMode.MOVE);
                 DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
                 ClipboardContent content = new ClipboardContent();

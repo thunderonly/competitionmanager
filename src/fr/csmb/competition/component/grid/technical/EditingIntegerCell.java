@@ -43,9 +43,6 @@ public class EditingIntegerCell extends EditingCell<Integer> {
                     setStyle("");
                 }
             }
-            if (getTableView().getItems().size() > getIndex()) {
-                System.out.println(getTableView().getItems().get(getIndex()).getNom());
-            }
         }
     }
     protected void createTextField() {
