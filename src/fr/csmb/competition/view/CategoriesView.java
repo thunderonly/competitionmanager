@@ -17,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -62,6 +64,8 @@ public class CategoriesView {
     private Map<EpreuveBean, BorderPane> borderPaneMap =
             new HashMap<EpreuveBean, BorderPane>();
 
+    private EtatEpreuve filteredState = EtatEpreuve.UNKNONW;
+
     public void showView(Stage mainStage, CompetitionBean competition) {
         Preferences pref = Preferences.userNodeForPackage(Main.class);
         String fileName = pref.get("filePath", null);
@@ -76,9 +80,12 @@ public class CategoriesView {
         root.setCenter(splitPane);
         root.setBottom(null);
         splitPane.setDividerPosition(0, 0.2);
-        createTreeView(splitPane);
-        createTableView(stackPane, null);
+        BorderPane borderPane = new BorderPane();
+        createFilterState(borderPane);
+        createTreeView(borderPane);
+        splitPane.getItems().add(borderPane);
         splitPane.getItems().add(stackPane);
+        createTableView(stackPane, null);
 //        stage.setTitle("Détail compétition : " + competition.getNom());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
@@ -86,8 +93,64 @@ public class CategoriesView {
         currentStage = mainStage;
     }
 
-    private void createTreeView(final SplitPane splitPane) {
-        StackPane pane = new StackPane();
+    private void createFilterState(final BorderPane borderPane) {
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(5);
+        ToggleGroup toggleGroup = new ToggleGroup();
+
+        Image valImage = new Image(getClass().getResourceAsStream("images/epreuveValide.png"));
+        ToggleButton buttonVal = new ToggleButton();
+        buttonVal.setGraphic(new ImageView(valImage));
+        buttonVal.setUserData("val");
+        buttonVal.setToggleGroup(toggleGroup);
+        buttonBox.getChildren().add(buttonVal);
+
+        Image demImage = new Image(getClass().getResourceAsStream("images/epreuveDemarre.png"));
+        ToggleButton buttonDem = new ToggleButton();
+        buttonDem.setGraphic(new ImageView(demImage));
+        buttonDem.setUserData("dem");
+        buttonDem.setToggleGroup(toggleGroup);
+        buttonBox.getChildren().add(buttonDem);
+
+        Image termImage = new Image(getClass().getResourceAsStream("images/epreuveTermine.png"));
+        ToggleButton buttonTerm = new ToggleButton();
+        buttonTerm.setGraphic(new ImageView(termImage));
+        buttonTerm.setUserData("term");
+        buttonTerm.setToggleGroup(toggleGroup);
+        buttonBox.getChildren().add(buttonTerm);
+
+        Image allImage = new Image(getClass().getResourceAsStream("images/epreuveInconnu.png"));
+        ToggleButton buttonAll = new ToggleButton();
+        buttonAll.setGraphic(new ImageView(allImage));
+        buttonAll.setUserData("all");
+        buttonAll.setToggleGroup(toggleGroup);
+        buttonBox.getChildren().add(buttonAll);
+
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldToggle, Toggle newToggle) {
+                if (newToggle != null) {
+                    String valueToggle = (String)newToggle.getUserData();
+                    if (valueToggle.equals("term")) {
+                        filteredState = EtatEpreuve.TERMINE;
+                        createTreeView(borderPane);
+                    } else if(valueToggle.equals("val")) {
+                        filteredState = EtatEpreuve.VALIDE;
+                        createTreeView(borderPane);
+                    } else if(valueToggle.equals("dem")) {
+                        filteredState = EtatEpreuve.DEMARRE;
+                        createTreeView(borderPane);
+                    } else if(valueToggle.equals("all")) {
+                        filteredState = EtatEpreuve.UNKNONW;
+                        createTreeView(borderPane);
+                    }
+                }
+            }
+        });
+        borderPane.setTop(buttonBox);
+    }
+
+    private void createTreeView(final BorderPane splitPane) {
         TreeItem<String>  treeItem = new TreeItem<String>(competitionBean.getNom());
         treeItem.setExpanded(true);
 
@@ -107,6 +170,11 @@ public class CategoriesView {
             TreeItem<String> itemEpreuveTypeCombat = null;
             for (EpreuveBean epreuve : competitionBean.getEpreuveByCategorie(categorie)) {
 
+                if (filteredState != EtatEpreuve.UNKNONW) {
+                    if (epreuve.getEtat() != null && !epreuve.getEtat().equals(filteredState.getValue())) {
+                        continue;
+                    }
+                }
                 if (competitionBean.getParticipantByEpreuve(epreuve).isEmpty()) {
                     continue;
                 }
@@ -200,11 +268,7 @@ public class CategoriesView {
             }
 
         });
-
-        pane.getChildren().add(treeView);
-
-        splitPane.getItems().add(pane);
-
+        splitPane.setCenter(treeView);
     }
 
     public void startEpreuve(final String typeCategorie, final String typeEpreuve, final String categorie, final String epreuve) {

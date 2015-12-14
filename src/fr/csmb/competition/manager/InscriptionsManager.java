@@ -5,6 +5,7 @@ import fr.csmb.competition.Helper.ExcelHelperStyle;
 import fr.csmb.competition.component.grid.globalvision.GlobalVision;
 import fr.csmb.competition.listener.EleveBeanPresenceChangePropertyListener;
 import fr.csmb.competition.model.*;
+import fr.csmb.competition.type.EtatEpreuve;
 import fr.csmb.competition.type.TypeEpreuve;
 import fr.csmb.competition.xml.model.*;
 import org.apache.logging.log4j.LogManager;
@@ -413,6 +414,7 @@ public class InscriptionsManager {
 
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
             if (epreuveBean.getEtat() != null && !epreuveBean.getEtat().equals("") &&
+                    !epreuveBean.getEtat().equals(EtatEpreuve.FUSION.getValue()) &&
                     competitionBean.getParticipantByEpreuve(epreuveBean).size() > 0) {
                 String categorieSheet = epreuveBean.getCategorie().getNom().substring(0, 1);
                 String categorie = epreuveBean.getCategorie().getNom();
