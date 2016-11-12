@@ -84,7 +84,6 @@ public class GridCategorieView {
                 newStage.show();
 
                 participantController.setActionListener(new ActionListener() {
-                    @Override
                     public void actionPerformed(ActionEvent e) {
                         gridComponent.delParticipant(participantController.getParticipantBean());
                         if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {

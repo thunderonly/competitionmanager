@@ -65,6 +65,10 @@ public class TextBox extends Group {
 
     }
 
+    public void drawFail () {
+        rectangle.setFill(Color.RED);
+    }
+
     public void setClickable(boolean isClickable) {
         if (isClickable) {
             text.setOnMouseClicked(new TextBoxEventHandler(this));
@@ -75,26 +79,22 @@ public class TextBox extends Group {
 
     public void setDragable() {
         text.setOnDragEntered(new EventHandler<DragEvent>() {
-            @Override
             public void handle(DragEvent dragEvent) {
                 text.setBlendMode(BlendMode.DARKEN);
             }
         });
         text.setOnDragExited(new EventHandler<DragEvent>() {
-            @Override
             public void handle(DragEvent dragEvent) {
                 text.setBlendMode(null);
             }
         });
         text.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
             public void handle(DragEvent dragEvent) {
 
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             }
         });
         text.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
             public void handle(DragEvent dragEvent) {
 
                 DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
@@ -107,7 +107,6 @@ public class TextBox extends Group {
         });
 
         text.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
             public void handle(MouseEvent mouseEvent) {
                 Dragboard dragBoard = text.startDragAndDrop(TransferMode.MOVE);
                 DataFormat format = DataFormat.lookupMimeType("fr.csmb.competition.xml.model.Participant");
@@ -123,7 +122,6 @@ public class TextBox extends Group {
     public void enableListForFight3Fighters(final TextBox boxVictory) {
         final TextBox tb = this;
         text.textProperty().addListener(new ChangeListener<String>() {
-            @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 if (listner != null) {
                     boxVictory.setParticipant(participant);
@@ -192,7 +190,6 @@ public class TextBox extends Group {
             this.textBoxSource = textBoxSource;
         }
 
-        @Override
         public void handle(MouseEvent mouseEvent) {
 //            // If participant source have a resultat box, update text with the source participant
 //            if (textBoxSource.getVictoryBox() != null) {

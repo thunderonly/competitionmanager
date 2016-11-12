@@ -37,7 +37,6 @@ public abstract class EditingCell<T> extends TableCell<ParticipantBean, T> {
         setGraphic(textField);
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         Platform.runLater(new Runnable() {
-            @Override
             public void run() {
                 textField.requestFocus();
                 textField.selectAll();
@@ -65,7 +64,6 @@ public abstract class EditingCell<T> extends TableCell<ParticipantBean, T> {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             } else {
                 setText(getString());
-                getStyleClass().add("labelTableViewGridComponent");
                 setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
 

@@ -14,7 +14,6 @@ public class EleveBeanPresenceChangePropertyListener implements ChangeListener<B
     private ClubBean clubBean;
     private EleveBean eleveBean;
 
-    @Override
     public void changed(ObservableValue<? extends java.lang.Boolean> observableValue, Boolean o, Boolean t1) {
         if (t1) {
             ParticipantHelper.createParticipantsFromEleveBean(competitionBean, eleveBean, clubBean);

@@ -46,7 +46,6 @@ public class EditingDoubleCell extends EditingCell<Double> {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
             public void handle(KeyEvent t) {
                 if (t.getCode() == KeyCode.ENTER) {
                     commitEdit(Double.parseDouble(textField.getText()));
@@ -62,7 +61,6 @@ public class EditingDoubleCell extends EditingCell<Double> {
             }
         });
         textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (!newValue && textField != null) {
                     commitEdit(Double.parseDouble(textField.getText()));

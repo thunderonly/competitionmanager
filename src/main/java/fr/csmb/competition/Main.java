@@ -33,11 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Created by Administrateur on 13/10/14.
  */
 public class Main extends Application {
 
+    private static final Logger LOGGER = LogManager.getFormatterLogger(InscriptionsManager.class);
     private Stage mainStage;
     private BorderPane borderPane;
 
@@ -78,6 +82,7 @@ public class Main extends Application {
     @Override
     public void stop() {
         receiver.interrupt();
+
     }
 
     public static void main(String[] args) {
@@ -101,6 +106,7 @@ public class Main extends Application {
             notificationView.notify(NotificationView.Level.SUCCESS, "Sauvegarde", "Compétition sauvegardée avec succès");
 
         } catch (JAXBException e) {
+            LOGGER.error("Error when save competition xml File", e);
             e.printStackTrace();
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur", "Erreur lors de la sauvegarde de la compétition");
         }
@@ -138,6 +144,7 @@ public class Main extends Application {
             notificationView.notify(NotificationView.Level.SUCCESS, "Chargement compétition",
                     "La compétition " + competition.getNom() + " a été chargée avec succès");
         } catch (JAXBException e) {
+
             e.printStackTrace();
             notificationView.notify(NotificationView.Level.SUCCESS, "Erreur",
                     "Erreur lors du chargement de la compétition");
@@ -153,6 +160,8 @@ public class Main extends Application {
                 changeListener.setCompetitionBean(competitionBean);
                 changeListener.setEleveBean(eleveBean);
                 eleveBean.presenceProperty().addListener(changeListener);
+
+
             }
         }
 

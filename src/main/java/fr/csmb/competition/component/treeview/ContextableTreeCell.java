@@ -42,7 +42,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         MenuItem runMenuItem = new MenuItem("Démarrer");
         addMenu.getItems().add(runMenuItem);
         runMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
 
                 String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
@@ -55,7 +54,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         MenuItem validMenuItem = new MenuItem("Valider");
         addMenu.getItems().add(validMenuItem);
         validMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
                 String categorie = getTreeItem().getParent().getParent().getValue();
@@ -68,7 +66,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         invalidMenuItem.setVisible(false);
         addMenu.getItems().add(invalidMenuItem);
         invalidMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
                 String categorie = getTreeItem().getParent().getParent().getValue();
@@ -81,7 +78,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         invalidMenuItem.setVisible(false);
         addMenu.getItems().add(deleteMenuItem);
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
                 String categorie = getTreeItem().getParent().getParent().getValue();
@@ -94,7 +90,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         fusionMenuItem.setVisible(false);
         addMenu.getItems().add(fusionMenuItem);
         fusionMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 if (getTreeView().getSelectionModel().getSelectedItems().size() >= 2) {
                     TreeItem<String> item1 = getTreeView().getSelectionModel().getSelectedItems().get(0);
@@ -112,7 +107,6 @@ public class ContextableTreeCell extends TreeCell<String> {
         MenuItem renameMenuItem = new MenuItem("Renommer");
         addMenu.getItems().add(renameMenuItem);
         renameMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 String typeCategorie = getTreeItem().getParent().getParent().getParent().getValue();
                 String categorie = getTreeItem().getParent().getParent().getValue();

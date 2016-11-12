@@ -63,6 +63,8 @@ public class CategoriesView {
 
     private Map<EpreuveBean, BorderPane> borderPaneMap =
             new HashMap<EpreuveBean, BorderPane>();
+    private Map<EpreuveBean, GridCategorieController> ControllerMap =
+            new HashMap<EpreuveBean, GridCategorieController>();
 
     private EtatEpreuve filteredState = EtatEpreuve.UNKNONW;
 
@@ -86,10 +88,8 @@ public class CategoriesView {
         splitPane.getItems().add(borderPane);
         splitPane.getItems().add(stackPane);
         createTableView(stackPane, null);
-//        stage.setTitle("Détail compétition : " + competition.getNom());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/categoriesView.css").toExternalForm());
         mainStage.getScene().getStylesheets().add(getClass().getResource("css/fightView.css").toExternalForm());
-//        stage.setScene(scene);
         currentStage = mainStage;
     }
 
@@ -242,6 +242,7 @@ public class CategoriesView {
                                         epreuveBean.getEtat().equals(EtatEpreuve.TERMINE.getValue()))) {
                             if (borderPaneMap.containsKey(epreuveBean)) {
                                 epreuveBorderPane = borderPaneMap.get(epreuveBean);
+//                                ControllerMap.get(epreuveBean).getGridComponent().drawGrid();
                             } else {
                                 //Epreuve is Beginned or terminated but not exist
                                 createGridComponentView(typeCategorie, typeEpreuve, categorie, epreuve);
@@ -351,6 +352,7 @@ public class CategoriesView {
         createTableView(stackPane, epreuveBean);
         if (borderPaneMap.containsKey(epreuveBean)) {
             borderPaneMap.remove(epreuveBean);
+            ControllerMap.remove(epreuveBean);
         }
     }
 

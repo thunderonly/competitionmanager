@@ -33,7 +33,7 @@ import javafx.util.Callback;
  */
 public class GridComponentTechnical extends GridComponent {
 
-    private int minWidthColumnNote = 60;
+    private int minWidthColumnNote = 70;
     private int minWidthColumnJoueur = 80;
     private TableView table = new TableView();
     private ObservableList<ParticipantBean> data = FXCollections.observableArrayList();

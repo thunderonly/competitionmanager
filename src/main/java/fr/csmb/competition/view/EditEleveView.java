@@ -94,6 +94,7 @@ public class EditEleveView {
         gridInfoEleve.add(ageEleve, 2, 2);
         gridInfoEleve.add(ageEleveTf, 3, 2);
 
+
         Label sexeEleve = new Label("Sexe");
         ObservableList<TypeCategorie> listSexe = FXCollections.observableArrayList(TypeCategorie.values());
         sexeEleveCb = new ComboBox<TypeCategorie>(listSexe);

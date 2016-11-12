@@ -82,7 +82,6 @@ public class FightView {
         Button valide = new Button("Valider");
         valide.getStyleClass().add("buttonCompetition");
         valide.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 Integer resultat1 = Integer.parseInt(resultatPart1.getText());
                 Integer resultat2 = Integer.parseInt(resultatPart2.getText());
@@ -90,6 +89,7 @@ public class FightView {
                 if (resultat1 > resultat2) {
                     boxVictory.setParticipant(boxBlue.getParticipant());
                     boxFail.setParticipant(boxRed.getParticipant());
+                    boxRedInit.drawFail();
                     switch (phase) {
                         case PETITE_FINALE:
                         case FINALE:
@@ -101,6 +101,7 @@ public class FightView {
                 } else {
                     boxVictory.setParticipant(boxRed.getParticipant());
                     boxFail.setParticipant(boxBlue.getParticipant());
+                    boxBlueInit.drawFail();
                     switch (phase) {
                         case PETITE_FINALE:
                         case FINALE:
@@ -129,7 +130,6 @@ public class FightView {
         Button annule = new Button("Annuler");
         annule.getStyleClass().add("buttonCompetition");
         annule.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
             public void handle(ActionEvent actionEvent) {
                 currentStage.close();
             }
@@ -227,7 +227,6 @@ public class FightView {
 
     private void initializeListner() {
         EventHandler keyPressedPart1 = new EventHandler<KeyEvent>() {
-            @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER) {
                     resultatPart1.setText(String.valueOf(computeResultat(noteJuge1Part1, noteJuge2Part1, nbPenaltyPart1)));
@@ -236,7 +235,6 @@ public class FightView {
         };
 
         ChangeListener focusListenerPart1 = new ChangeListener<Boolean>() {
-            @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (oldValue) {
                     resultatPart1.setText(String.valueOf(computeResultat(noteJuge1Part1, noteJuge2Part1, nbPenaltyPart1)));
@@ -252,7 +250,6 @@ public class FightView {
         this.nbPenaltyPart1.focusedProperty().addListener(focusListenerPart1);
 
         EventHandler keyPressedPart2 = new EventHandler<KeyEvent>() {
-            @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER) {
                     resultatPart2.setText(String.valueOf(computeResultat(noteJuge1Part2, noteJuge2Part2, nbPenaltyPart2)));
@@ -261,7 +258,6 @@ public class FightView {
         };
 
         ChangeListener focusListenerPart2 = new ChangeListener<Boolean>() {
-            @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (oldValue) {
                     resultatPart2.setText(String.valueOf(computeResultat(noteJuge1Part2, noteJuge2Part2, nbPenaltyPart2)));

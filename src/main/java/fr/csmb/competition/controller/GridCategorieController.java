@@ -90,6 +90,11 @@ public class GridCategorieController {
     private CategorieBean categorieBean;
     private DisciplineBean disciplineBean;
     private EpreuveBean epreuveBean;
+
+    public GridComponent getGridComponent() {
+        return gridComponent;
+    }
+
     private GridComponent gridComponent;
     private NetworkSender sender;
     private CategoriesView categorieView;
@@ -139,7 +144,6 @@ public class GridCategorieController {
         gridCategorieView.initView(competitionBean, epreuveBean);
 
         competitionBean.getParticipants().addListener(new ListChangeListener<ParticipantBean>() {
-            @Override
             public void onChanged(Change<? extends ParticipantBean> c) {
                 while (c.next()) {
                     if (c.wasPermutated()) {
@@ -224,7 +228,6 @@ public class GridCategorieController {
         final Stage newStage = new Stage();
         final AddParticipantController participantController = this.gridCategorieView.initAddPartView(newStage);
         participantController.setActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
 //                gridComponent.addParticipant(participantController.getParticipantBean());
                 //When update partipants of competition, call listener and redraw component. (for network receive)
@@ -256,7 +259,6 @@ public class GridCategorieController {
             newStage.show();
 
             participantController.setActionListener(new ActionListener() {
-                @Override
                 public void actionPerformed(ActionEvent e) {
                     gridComponent.delParticipant(participantController.getParticipantBean());
                     if (epreuveBean.getDiscipline().getType().equals(TypeEpreuve.COMBAT.getValue())) {

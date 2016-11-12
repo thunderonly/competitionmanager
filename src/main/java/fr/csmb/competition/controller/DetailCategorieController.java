@@ -41,13 +41,11 @@ public class DetailCategorieController {
     @FXML
     private void initialize() {
         nom.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ParticipantBean, String>, ObservableValue<String>>() {
-            @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ParticipantBean, String> eleveBeanStringCellDataFeatures) {
                 return eleveBeanStringCellDataFeatures.getValue().nomProperty();
             }
         });
         prenom.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ParticipantBean, String>, ObservableValue<String>>() {
-            @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ParticipantBean, String> eleveBeanStringCellDataFeatures) {
                 return eleveBeanStringCellDataFeatures.getValue().prenomProperty();
             }
@@ -70,7 +68,6 @@ public class DetailCategorieController {
         final Stage newStage = new Stage();
         final AddParticipantController participantController = this.gridCategorieView.initAddPartView(newStage);
         participantController.setActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 newStage.close();
                 competitionBean.getParticipants().add(participantController.getParticipantBean());

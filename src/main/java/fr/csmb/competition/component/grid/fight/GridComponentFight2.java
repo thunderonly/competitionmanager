@@ -259,9 +259,7 @@ public class GridComponentFight2 extends GridComponent {
      * @return
      */
     private TextBox[] drawShape(Group group, boolean forConfigure) {
-        this.sortedJoueurs = new SortedList(joueurs);
-        this.sortedJoueurs.setComparator(new ComparatorParticipantPlaceOnGrid());
-        this.sortedJoueurs.sort(new ComparatorParticipantPlaceOnGrid());
+        this.sortedJoueurs = new SortedList(joueurs, new ComparatorParticipantPlaceOnGrid());
         int nbJoueur = sortedJoueurs.size();
         TextBox[] result = null;
         if (nbJoueur > 4) {
@@ -390,7 +388,7 @@ public class GridComponentFight2 extends GridComponent {
             if (nbMatchBuilt < nbMatchBeforeMaxi) {
                 drawLine = true;
             }
-            resultOtherRound[nbMatchBuilt] = drawMatch(firstPart, secondPart, this, nbMatchBuilt, drawLine);
+            resultOtherRound[nbMatchBuilt] = drawMatch(firstPart, secondPart, this, nbMatchBuilt+1, drawLine);
             resultOtherRound[nbMatchBuilt].setNumPlace(placeOfJoueur);
             resultOtherRound[nbMatchBuilt].setParticipant(this.getByNumPlace(placeOfJoueur));
 
@@ -470,6 +468,7 @@ public class GridComponentFight2 extends GridComponent {
 
         double rest = nbMatchBeforeMaxi % 2;
 //        if (rest > 0) {
+        //Match fictifs pour prendre la place sur la grille
             while (nbMatchBeforeMaxi < nbMatchMaxi) {
                 Match match = new Match();
                 match.setJoueur1(new ParticipantBean());
