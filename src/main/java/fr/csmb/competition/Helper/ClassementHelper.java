@@ -58,6 +58,10 @@ public class ClassementHelper {
     }
 
     public static void computeClassementClubs(CompetitionBean competitionBean) {
+        for (ClubBean clubBean : competitionBean.getClubs()) {
+            clubBean.setTotalCombat(0);
+            clubBean.setTotalTechnique(0);
+        }
         for (EpreuveBean epreuveBean : competitionBean.getEpreuves()) {
             if (EtatEpreuve.TERMINE.getValue().equals(epreuveBean.getEtat())) {
                 for (ParticipantBean participantBean : competitionBean.getParticipantByEpreuve(epreuveBean)) {
@@ -144,16 +148,16 @@ public class ClassementHelper {
         Integer points = 0;
         switch (participantBean.getClassementFinal().intValue()) {
             case 1:
-                points+=pointForFirstPlace;
+                points=pointForFirstPlace;
                 break;
             case 2:
-                points+=pointForSecondPlace;
+                points=pointForSecondPlace;
                 break;
             case 3:
-                points+=pointForThirdPlace;
+                points=pointForThirdPlace;
                 break;
             case 4:
-                points+=pointForFourthPlace;
+                points=pointForFourthPlace;
                 break;
             default:
                 break;
